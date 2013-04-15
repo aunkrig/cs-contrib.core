@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE checkstyle-metadata PUBLIC
+"-//eclipse-cs//DTD Check Metadata 1.1//EN"
+"http://eclipse-cs.sourceforge.net/dtds/checkstyle-metadata_1_1.dtd">
+<checkstyle-metadata>
+
+    <!-- InnerAssignment -->
+
+    <rule-group-metadata name="%Coding.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.InnerAssignment"
+            parent="TreeWalker"
+            name="%de.unkrig.cscontrib.checks.InnerAssignment.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.InnerAssignment"/>
+            <description>%de.unkrig.cscontrib.checks.InnerAssignment.desc</description>
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.InnerAssignment"/>
+			<message-key key="Assignments in expressions must be parenthesized"/>
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- Alignment -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.Alignment"
+            parent="TreeWalker"
+            name="%de.unkrig.cscontrib.checks.Alignment.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.Alignment"/>
+            <description>%de.unkrig.cscontrib.checks.Alignment.desc</description>
+			<property-metadata name="applyToFieldName" datatype="Boolean" default-value="true">
+				<description>%de.unkrig.cscontrib.checks.Alignment.applyToFieldName</description>
+			</property-metadata>
+			<property-metadata name="applyToParameterName" datatype="Boolean" default-value="true">
+				<description>%de.unkrig.cscontrib.checks.Alignment.applyToParameterName</description>
+			</property-metadata>
+			<property-metadata name="applyToLocalVariableName" datatype="Boolean" default-value="true">
+				<description>%de.unkrig.cscontrib.checks.Alignment.applyToLocalVariableName</description>
+			</property-metadata>
+			<property-metadata name="applyToInitializer" datatype="Boolean" default-value="true">
+				<description>%de.unkrig.cscontrib.checks.Alignment.applyToInitializer</description>
+			</property-metadata>
+			<message-key key="''{0}'' should be aligned with ''{1}'' in line {2,number,#}"/>
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- FileContentsHolder -->
+
+    <rule-group-metadata name="%Other.group" priority="1">
+        <rule-metadata
+            internal-name="com.puppycrawl.tools.checkstyle.checks.FileContentsHolder"
+            parent="TreeWalker"
+            name="FileContentsHolder"
+        >
+            <alternative-name internal-name="com.puppycrawl.tools.checkstyle.checks.FileContentsHolder"/>
+            <description>FileContentsHolder</description>
+        </rule-metadata>
+    </rule-group-metadata>
+
+	<!-- NameSpelling -->
+
+    <rule-group-metadata name="%Naming.group" priority="999">
+        <rule-metadata
+        	internal-name="de.unkrig.cscontrib.checks.NameSpelling"
+        	parent="TreeWalker"
+        	name="%de.unkrig.cscontrib.checks.NameSpelling.name"
+       	>
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.NameSpelling"/>
+            <description>%de.unkrig.cscontrib.checks.NameSpelling.desc</description>
+            <property-metadata name="elements" datatype="MultiCheck" >
+                <description>%de.unkrig.cscontrib.checks.NameSpelling.elements</description>
+				<enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Elements"/>
+            </property-metadata>
+            <property-metadata name="requiredModifiers" datatype="MultiCheck" >
+                <description>%de.unkrig.cscontrib.checks.NameSpelling.requiredModifiers</description>
+				<enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifiers"/>
+            </property-metadata>
+            <property-metadata name="missingModifiers" datatype="MultiCheck" >
+                <description>%de.unkrig.cscontrib.checks.NameSpelling.missingModifiers</description>
+				<enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifiers"/>
+            </property-metadata>
+			<property-metadata name="option" datatype="SingleSelect" default-value="REQUIRE">
+				<description>%de.unkrig.cscontrib.checks.NameSpelling.option</description>
+				<enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Options"/>
+			</property-metadata>
+			<property-metadata name="format" datatype="Regex" default-value="">
+				<description>%de.unkrig.cscontrib.checks.NameSpelling.format</description>
+			</property-metadata>
+            <message-key key="{0} ''{1}'' does not comply with ''{2}''"/>
+            <message-key key="{0} ''{1}'' must not match ''{2}''"/>
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- ParenPad -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.ParenPad"
+            parent="TreeWalker"
+            name="%de.unkrig.cscontrib.checks.ParenPad.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.ParenPad"/>
+            <description>%de.unkrig.cscontrib.checks.ParenPad.desc</description>
+
+			<property-metadata name="option" datatype="SingleSelect" default-value="nospace">
+				<description>%de.unkrig.cscontrib.checks.ParenPad.option</description>
+				<enumeration option-provider="com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption"/>
+			</property-metadata>
+			<property-metadata
+				name="tokens"
+				datatype="MultiCheck"
+				default-value="CTOR_CALL,LPAREN,METHOD_CALL,RPAREN,SUPER_CTOR_CALL"
+			>
+				<description>%de.unkrig.cscontrib.checks.ParenPad.tokens</description>
+				<enumeration>
+					<property-value-option value="CTOR_CALL"/>
+					<property-value-option value="LPAREN"/>
+					<property-value-option value="METHOD_CALL"/>
+					<property-value-option value="RPAREN"/>
+					<property-value-option value="SUPER_CTOR_CALL"/>
+				</enumeration>
+			</property-metadata>
+			<message-key key="''{0}'' is followed by whitespace"/>
+			<message-key key="''{0}'' is not followed by whitespace"/>
+			<message-key key="ws.preceded"/>
+			<message-key key="ws.notPreceded"/>
+        </rule-metadata>
+    </rule-group-metadata>
+
+	<!-- WhitespaceAround -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+        	internal-name="de.unkrig.cscontrib.checks.WhitespaceAround"
+        	parent="TreeWalker"
+        	name="%de.unkrig.cscontrib.checks.WhitespaceAround.name"
+       	>
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WhitespaceAround"/>
+            <description>%de.unkrig.cscontrib.checks.WhitespaceAround.desc</description>
+            <property-metadata name="tokens" datatype="MultiCheck"
+                default-value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,LITERAL_ASSERT,TYPE_EXTENSION_AND,WILDCARD_TYPE">
+                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.tokens</description>
+                <enumeration>
+                    <property-value-option value="ASSIGN"/>
+                    <property-value-option value="BAND"/>
+                    <property-value-option value="BAND_ASSIGN"/>
+                    <property-value-option value="BOR"/>
+                    <property-value-option value="BOR_ASSIGN"/>
+                    <property-value-option value="BSR"/>
+                    <property-value-option value="BSR_ASSIGN"/>
+                    <property-value-option value="BXOR"/>
+                    <property-value-option value="BXOR_ASSIGN"/>
+                    <property-value-option value="COLON"/>
+                    <property-value-option value="DIV"/>
+                    <property-value-option value="DIV_ASSIGN"/>
+                    <property-value-option value="EQUAL"/>
+                    <property-value-option value="GE"/>
+                    <property-value-option value="GT"/>
+                    <property-value-option value="LAND"/>
+                    <property-value-option value="LCURLY"/>
+                    <property-value-option value="LE"/>
+                    <property-value-option value="LITERAL_ASSERT"/>
+                    <property-value-option value="LITERAL_CATCH"/>
+                    <property-value-option value="LITERAL_DO"/>
+                    <property-value-option value="LITERAL_ELSE"/>
+                    <property-value-option value="LITERAL_FINALLY"/>
+                    <property-value-option value="LITERAL_FOR"/>
+                    <property-value-option value="LITERAL_IF"/>
+                    <property-value-option value="LITERAL_RETURN"/>
+                    <property-value-option value="LITERAL_SYNCHRONIZED"/>
+                    <property-value-option value="LITERAL_TRY"/>
+                    <property-value-option value="LITERAL_WHILE"/>
+                    <property-value-option value="LOR"/>
+                    <property-value-option value="LT"/>
+                    <property-value-option value="MINUS"/>
+                    <property-value-option value="MINUS_ASSIGN"/>
+                    <property-value-option value="MOD"/>
+                    <property-value-option value="MOD_ASSIGN"/>
+                    <property-value-option value="NOT_EQUAL"/>
+                    <property-value-option value="PLUS"/>
+                    <property-value-option value="PLUS_ASSIGN"/>
+                    <property-value-option value="QUESTION"/>
+                    <property-value-option value="RCURLY"/>
+                    <property-value-option value="SL"/>
+                    <property-value-option value="SLIST"/>
+                    <property-value-option value="SL_ASSIGN"/>
+                    <property-value-option value="SR"/>
+                    <property-value-option value="SR_ASSIGN"/>
+                    <property-value-option value="STAR"/>
+                    <property-value-option value="STAR_ASSIGN"/>
+                    <property-value-option value="LITERAL_ASSERT"/>
+                    <property-value-option value="TYPE_EXTENSION_AND"/>
+                    <property-value-option value="WILDCARD_TYPE"/>
+                </enumeration>
+            </property-metadata>
+            <property-metadata name="allowEmptyConstructors" datatype="Boolean" default-value="false">
+                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.allowEmptyConstructors</description>
+            </property-metadata>
+            <property-metadata name="allowEmptyMethods" datatype="Boolean" default-value="false">
+                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.allowEmptyMethods</description>
+            </property-metadata>
+            <property-metadata name="allowEmptyCatches" datatype="Boolean" default-value="false">
+                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.allowEmptyCatches</description>
+            </property-metadata>
+            <property-metadata name="allowEmptyTypes" datatype="Boolean" default-value="false">
+                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.allowEmptyTypes</description>
+            </property-metadata>
+            <message-key key="ws.notPreceded"/>
+            <message-key key="ws.notFollowed"/>
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- ZeroParameterSuperconstructorInvocation -->
+
+    <rule-group-metadata name="%Coding.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation"
+            parent="TreeWalker"
+            name="%de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation"/>
+            <description>%de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation.desc</description>
+			<message-key key="Redundant invocation of zero-parameter superconstructor"/>
+        </rule-metadata>
+    </rule-group-metadata>
+
+	<!-- SuppressionLine -->
+
+    <rule-group-metadata name="%Filters.group" priority="1700">
+        <rule-metadata
+			internal-name="de.unkrig.cscontrib.filters.SuppressionLine"
+			parent="Checker"
+            hasSeverity="false"
+			name="%de.unkrig.cscontrib.filters.SuppressionLine.name"
+		>
+            <alternative-name internal-name="de.unkrig.cscontrib.filters.SuppressionLine"/>
+            <description>%de.unkrig.cscontrib.filters.SuppressionLine.desc</description>
+            <property-metadata name="offCommentFormat" datatype="Regex" override-default-value="CHECKSTYLE ([A-Za-z\\.]+):OFF">
+                <description>%de.unkrig.cscontrib.filters.SuppressionLine.offCommentFormat</description>
+            </property-metadata>
+            <property-metadata name="onCommentFormat" datatype="Regex" override-default-value="CHECKSTYLE ([A-Za-z\\.]+):ON">
+                <description>%de.unkrig.cscontrib.filters.SuppressionLine.onCommentFormat</description>
+            </property-metadata>
+            <property-metadata name="checkFormat" datatype="Regex" override-default-value="$1">
+                <description>%de.unkrig.cscontrib.filters.SuppressionLine.checkFormat</description>
+            </property-metadata>
+            <property-metadata name="messageFormat" datatype="Regex">
+                <description>%de.unkrig.cscontrib.filters.SuppressionLine.messageFormat</description>
+            </property-metadata>
+            <property-metadata name="moduleIdFormat" datatype="Regex">
+                <description>%de.unkrig.cscontrib.filters.SuppressionLine.moduleIdFormat</description>
+            </property-metadata>
+        </rule-metadata>
+    </rule-group-metadata>
+</checkstyle-metadata>
