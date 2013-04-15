@@ -17,9 +17,6 @@ import org.osgi.framework.*;
  */
 public class Activator extends AbstractUIPlugin {
 
-	/** xyz. @copyright abc */
-    enum xFoo { BAR }
-
     public static final String PLUGIN_ID = "de.unkrig.cs-contrib.core";
 
     @Override
