@@ -236,14 +236,14 @@
 		>
             <alternative-name internal-name="de.unkrig.cscontrib.filters.SuppressionLine"/>
             <description>%de.unkrig.cscontrib.filters.SuppressionLine.desc</description>
-            <property-metadata name="offCommentFormat" datatype="Regex" override-default-value="CHECKSTYLE ([A-Za-z\\.]+):OFF">
-                <description>%de.unkrig.cscontrib.filters.SuppressionLine.offCommentFormat</description>
+            <property-metadata name="offFormat" datatype="Regex" override-default-value="CHECKSTYLE ([A-Za-z\\.]+):OFF">
+                <description>%de.unkrig.cscontrib.filters.SuppressionLine.offFormat</description>
             </property-metadata>
-            <property-metadata name="onCommentFormat" datatype="Regex" override-default-value="CHECKSTYLE ([A-Za-z\\.]+):ON">
-                <description>%de.unkrig.cscontrib.filters.SuppressionLine.onCommentFormat</description>
+            <property-metadata name="onFormat" datatype="Regex" override-default-value="CHECKSTYLE ([A-Za-z\\.]+):ON">
+                <description>%de.unkrig.cscontrib.filters.SuppressionLine.onFormat</description>
             </property-metadata>
-            <property-metadata name="checkFormat" datatype="Regex" override-default-value="$1">
-                <description>%de.unkrig.cscontrib.filters.SuppressionLine.checkFormat</description>
+            <property-metadata name="checkNameFormat" datatype="Regex" override-default-value="$1">
+                <description>%de.unkrig.cscontrib.filters.SuppressionLine.checkNameFormat</description>
             </property-metadata>
             <property-metadata name="messageFormat" datatype="Regex">
                 <description>%de.unkrig.cscontrib.filters.SuppressionLine.messageFormat</description>
