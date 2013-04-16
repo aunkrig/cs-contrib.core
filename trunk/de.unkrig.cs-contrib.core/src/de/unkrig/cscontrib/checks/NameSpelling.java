@@ -123,7 +123,7 @@ public class NameSpelling extends AbstractFormatCheck {
 
         // Calculate the minimal set of tokens required to perform the check.
         int[] tokenIds = new int[20];
-        int   idx = 0;
+        int   idx      = 0;
 
         if (elements.contains(Elements.ANNOTATION))       tokenIds[idx++] = ANNOTATION_DEF;
         if (elements.contains(Elements.ANNOTATION_FIELD)) tokenIds[idx++] = ANNOTATION_FIELD_DEF;

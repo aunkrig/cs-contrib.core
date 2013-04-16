@@ -30,7 +30,7 @@ public class InnerAssignment extends Check {
 
     @Override
     public void visitToken(DetailAST ast) {
-        DetailAST parent = ast.getParent();
+        DetailAST parent      = ast.getParent();
         DetailAST grandparent = parent.getParent();
 
         // Field or variable initializer?
