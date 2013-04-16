@@ -1,9 +1,12 @@
 
 package de.unkrig.cscontrib.checks;
 
-import com.puppycrawl.tools.checkstyle.api.*;
-
 import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
+
+import com.puppycrawl.tools.checkstyle.api.Check;
+import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.TokenTypes;
+import com.puppycrawl.tools.checkstyle.api.Utils;
 
 /**
  * Statements must be uniformly wrapped and indented.
@@ -239,7 +242,7 @@ public class WrapAndIndent extends Check {
                 ast,
                 
                 MODIFIERS,
-                LITERAL_CLASS | WRAP,
+                LITERAL_CLASS | MUST_WRAP,
                 IDENT,
 
                 FORK + 5,
@@ -272,21 +275,17 @@ public class WrapAndIndent extends Check {
             checkChildren(
                 ast,
 
-                FORK + 4,
                 MODIFIERS,
                 IDENT | MUST_WRAP,
-                BRANCH + 5,
 
-                IDENT,      // 4
-
-                LPAREN,     // 5
+                LPAREN,
                 PARAMETERS | INDENT_IF_CHILDREN,
                 RPAREN | UNINDENT,
 
-                FORK + 10,
-                LITERAL_THROWS,
+                FORK + 7,
+                LITERAL_THROWS | WRAP,
 
-                SLIST,      // 10
+                SLIST,      // 7
                 END
             );
             break;
@@ -366,6 +365,24 @@ public class WrapAndIndent extends Check {
                 VARIABLE_DEF,
                 COLON | WRAP,
                 EXPR,
+                END
+            );
+            break;
+
+        case INTERFACE_DEF:
+            checkChildren(
+                ast,
+                
+                MODIFIERS,
+                LITERAL_INTERFACE | MUST_WRAP,
+                IDENT,
+                FORK + 5,
+                TYPE_PARAMETERS,
+
+                FORK + 7,            // 5
+                EXTENDS_CLAUSE | WRAP,
+
+                OBJBLOCK,            // 7
                 END
             );
             break;
@@ -1036,9 +1053,13 @@ public class WrapAndIndent extends Check {
                 }
             } else if ((tokenType & MUST_WRAP) != 0) {
                 assert mode == 0;
+                if (previousAst.getType() == MODIFIERS) {
+                    ;
+                } else
                 if (child.getLineNo() == previousAst.getLineNo()) {
                     log(child, "Must wrap line before ''{0}''", child.getText());
-                } else {
+                } else
+                {
                     checkAlignment(child, indentation);
                 }
             } else {
