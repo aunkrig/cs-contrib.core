@@ -16,11 +16,11 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  */
 public class ZeroParameterSuperconstructorInvocation extends Check {
 
-    public int[] getDefaultTokens() {
-        return new int[] { TokenTypes.CTOR_DEF };
-    }
+    public int[]
+    getDefaultTokens() { return new int[] { TokenTypes.CTOR_DEF }; }
 
-    public void visitToken(DetailAST ast) {
+    public void
+    visitToken(DetailAST ast) {
 
         // Find the constructor body.
         DetailAST statementList = ast.findFirstToken(TokenTypes.SLIST);

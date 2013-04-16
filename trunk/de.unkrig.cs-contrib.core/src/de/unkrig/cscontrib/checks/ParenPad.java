@@ -26,8 +26,8 @@ public class ParenPad extends ParenPadCheck {
         + ""       // '(' + line-break
     );
 
-    @Override
-    protected void processLeft(DetailAST ast) {
+    @Override protected void
+    processLeft(DetailAST ast) {
         final String line  = getLines()[ast.getLineNo() - 1];
         final int    after = ast.getColumnNo() + 1;
 

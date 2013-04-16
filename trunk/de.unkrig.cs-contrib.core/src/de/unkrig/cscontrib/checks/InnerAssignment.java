@@ -10,8 +10,8 @@ import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
  */
 public class InnerAssignment extends Check {
 
-    @Override
-    public int[] getDefaultTokens() {
+    @Override public int[]
+    getDefaultTokens() {
         return new int[] {
             ASSIGN,            // "="
             DIV_ASSIGN,        // "/="
@@ -28,8 +28,8 @@ public class InnerAssignment extends Check {
         };
     }
 
-    @Override
-    public void visitToken(DetailAST ast) {
+    @Override public void
+    visitToken(DetailAST ast) {
         DetailAST parent      = ast.getParent();
         DetailAST grandparent = parent.getParent();
 

@@ -15,7 +15,7 @@
             <alternative-name internal-name="de.unkrig.cscontrib.checks.InnerAssignment"/>
             <description>%de.unkrig.cscontrib.checks.InnerAssignment.desc</description>
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.InnerAssignment"/>
-			<message-key key="Assignments in expressions must be parenthesized"/>
+            <message-key key="Assignments in expressions must be parenthesized"/>
         </rule-metadata>
     </rule-group-metadata>
 
@@ -29,19 +29,19 @@
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.Alignment"/>
             <description>%de.unkrig.cscontrib.checks.Alignment.desc</description>
-			<property-metadata name="applyToFieldName" datatype="Boolean" default-value="true">
-				<description>%de.unkrig.cscontrib.checks.Alignment.applyToFieldName</description>
-			</property-metadata>
-			<property-metadata name="applyToParameterName" datatype="Boolean" default-value="true">
-				<description>%de.unkrig.cscontrib.checks.Alignment.applyToParameterName</description>
-			</property-metadata>
-			<property-metadata name="applyToLocalVariableName" datatype="Boolean" default-value="true">
-				<description>%de.unkrig.cscontrib.checks.Alignment.applyToLocalVariableName</description>
-			</property-metadata>
-			<property-metadata name="applyToInitializer" datatype="Boolean" default-value="true">
-				<description>%de.unkrig.cscontrib.checks.Alignment.applyToInitializer</description>
-			</property-metadata>
-			<message-key key="''{0}'' should be aligned with ''{1}'' in line {2,number,#}"/>
+            <property-metadata name="applyToFieldName" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.Alignment.applyToFieldName</description>
+            </property-metadata>
+            <property-metadata name="applyToParameterName" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.Alignment.applyToParameterName</description>
+            </property-metadata>
+            <property-metadata name="applyToLocalVariableName" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.Alignment.applyToLocalVariableName</description>
+            </property-metadata>
+            <property-metadata name="applyToInitializer" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.Alignment.applyToInitializer</description>
+            </property-metadata>
+            <message-key key="''{0}'' should be aligned with ''{1}'' in line {2,number,#}"/>
         </rule-metadata>
     </rule-group-metadata>
 
@@ -58,35 +58,35 @@
         </rule-metadata>
     </rule-group-metadata>
 
-	<!-- NameSpelling -->
+    <!-- NameSpelling -->
 
     <rule-group-metadata name="%Naming.group" priority="999">
         <rule-metadata
-        	internal-name="de.unkrig.cscontrib.checks.NameSpelling"
-        	parent="TreeWalker"
-        	name="%de.unkrig.cscontrib.checks.NameSpelling.name"
-       	>
+            internal-name="de.unkrig.cscontrib.checks.NameSpelling"
+            parent="TreeWalker"
+            name="%de.unkrig.cscontrib.checks.NameSpelling.name"
+           >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.NameSpelling"/>
             <description>%de.unkrig.cscontrib.checks.NameSpelling.desc</description>
             <property-metadata name="elements" datatype="MultiCheck" >
                 <description>%de.unkrig.cscontrib.checks.NameSpelling.elements</description>
-				<enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Elements"/>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Elements"/>
             </property-metadata>
             <property-metadata name="requiredModifiers" datatype="MultiCheck" >
                 <description>%de.unkrig.cscontrib.checks.NameSpelling.requiredModifiers</description>
-				<enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifiers"/>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifiers"/>
             </property-metadata>
             <property-metadata name="missingModifiers" datatype="MultiCheck" >
                 <description>%de.unkrig.cscontrib.checks.NameSpelling.missingModifiers</description>
-				<enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifiers"/>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifiers"/>
             </property-metadata>
-			<property-metadata name="option" datatype="SingleSelect" default-value="REQUIRE">
-				<description>%de.unkrig.cscontrib.checks.NameSpelling.option</description>
-				<enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Options"/>
-			</property-metadata>
-			<property-metadata name="format" datatype="Regex" default-value="">
-				<description>%de.unkrig.cscontrib.checks.NameSpelling.format</description>
-			</property-metadata>
+            <property-metadata name="option" datatype="SingleSelect" default-value="REQUIRE">
+                <description>%de.unkrig.cscontrib.checks.NameSpelling.option</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Options"/>
+            </property-metadata>
+            <property-metadata name="format" datatype="Regex" default-value="">
+                <description>%de.unkrig.cscontrib.checks.NameSpelling.format</description>
+            </property-metadata>
             <message-key key="{0} ''{1}'' does not comply with ''{2}''"/>
             <message-key key="{0} ''{1}'' must not match ''{2}''"/>
         </rule-metadata>
@@ -103,39 +103,39 @@
             <alternative-name internal-name="de.unkrig.cscontrib.checks.ParenPad"/>
             <description>%de.unkrig.cscontrib.checks.ParenPad.desc</description>
 
-			<property-metadata name="option" datatype="SingleSelect" default-value="nospace">
-				<description>%de.unkrig.cscontrib.checks.ParenPad.option</description>
-				<enumeration option-provider="com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption"/>
-			</property-metadata>
-			<property-metadata
-				name="tokens"
-				datatype="MultiCheck"
-				default-value="CTOR_CALL,LPAREN,METHOD_CALL,RPAREN,SUPER_CTOR_CALL"
-			>
-				<description>%de.unkrig.cscontrib.checks.ParenPad.tokens</description>
-				<enumeration>
-					<property-value-option value="CTOR_CALL"/>
-					<property-value-option value="LPAREN"/>
-					<property-value-option value="METHOD_CALL"/>
-					<property-value-option value="RPAREN"/>
-					<property-value-option value="SUPER_CTOR_CALL"/>
-				</enumeration>
-			</property-metadata>
-			<message-key key="''{0}'' is followed by whitespace"/>
-			<message-key key="''{0}'' is not followed by whitespace"/>
-			<message-key key="ws.preceded"/>
-			<message-key key="ws.notPreceded"/>
+            <property-metadata name="option" datatype="SingleSelect" default-value="nospace">
+                <description>%de.unkrig.cscontrib.checks.ParenPad.option</description>
+                <enumeration option-provider="com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption"/>
+            </property-metadata>
+            <property-metadata
+                name="tokens"
+                datatype="MultiCheck"
+                default-value="CTOR_CALL,LPAREN,METHOD_CALL,RPAREN,SUPER_CTOR_CALL"
+            >
+                <description>%de.unkrig.cscontrib.checks.ParenPad.tokens</description>
+                <enumeration>
+                    <property-value-option value="CTOR_CALL"/>
+                    <property-value-option value="LPAREN"/>
+                    <property-value-option value="METHOD_CALL"/>
+                    <property-value-option value="RPAREN"/>
+                    <property-value-option value="SUPER_CTOR_CALL"/>
+                </enumeration>
+            </property-metadata>
+            <message-key key="''{0}'' is followed by whitespace"/>
+            <message-key key="''{0}'' is not followed by whitespace"/>
+            <message-key key="ws.preceded"/>
+            <message-key key="ws.notPreceded"/>
         </rule-metadata>
     </rule-group-metadata>
 
-	<!-- WhitespaceAround -->
+    <!-- WhitespaceAround -->
 
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
-        	internal-name="de.unkrig.cscontrib.checks.WhitespaceAround"
-        	parent="TreeWalker"
-        	name="%de.unkrig.cscontrib.checks.WhitespaceAround.name"
-       	>
+            internal-name="de.unkrig.cscontrib.checks.WhitespaceAround"
+            parent="TreeWalker"
+            name="%de.unkrig.cscontrib.checks.WhitespaceAround.name"
+           >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.WhitespaceAround"/>
             <description>%de.unkrig.cscontrib.checks.WhitespaceAround.desc</description>
             <property-metadata name="tokens" datatype="MultiCheck"
@@ -221,19 +221,38 @@
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation"/>
             <description>%de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation.desc</description>
-			<message-key key="Redundant invocation of zero-parameter superconstructor"/>
+            <message-key key="Redundant invocation of zero-parameter superconstructor"/>
         </rule-metadata>
     </rule-group-metadata>
 
-	<!-- SuppressionLine -->
+    <!-- WrapAndIndent -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapAndIndent"
+            parent="TreeWalker"
+            name="%de.unkrig.cscontrib.checks.WrapAndIndent.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapAndIndent"/>
+            <description>%de.unkrig.cscontrib.checks.WrapAndIndent.desc</description>
+            <property-metadata name="basicOffset" datatype="Integer" default-value="4">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.basicOffset</description>
+            </property-metadata>
+            <message-key key="Must wrap line before ''{0}''"/>
+            <message-key key="''{0}'' must appear on same line as ''{1}''"/>
+            <message-key key="''{0}'' must appear in column {1}, not {2}"/>
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- SuppressionLine -->
 
     <rule-group-metadata name="%Filters.group" priority="1700">
         <rule-metadata
-			internal-name="de.unkrig.cscontrib.filters.SuppressionLine"
-			parent="Checker"
+            internal-name="de.unkrig.cscontrib.filters.SuppressionLine"
+            parent="Checker"
             hasSeverity="false"
-			name="%de.unkrig.cscontrib.filters.SuppressionLine.name"
-		>
+            name="%de.unkrig.cscontrib.filters.SuppressionLine.name"
+        >
             <alternative-name internal-name="de.unkrig.cscontrib.filters.SuppressionLine"/>
             <description>%de.unkrig.cscontrib.filters.SuppressionLine.desc</description>
             <property-metadata name="offFormat" datatype="Regex" override-default-value="CHECKSTYLE ([A-Za-z\\.]+):OFF">

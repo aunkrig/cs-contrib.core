@@ -35,9 +35,8 @@ public class NameSpelling extends AbstractFormatCheck {
      */
     private Options option;
 
-    public NameSpelling() {
-        super("");
-    }
+    public
+    NameSpelling() { super(""); }
 
     /**
      * All elements that can be declared in the JAVA programming language.
@@ -61,17 +60,15 @@ public class NameSpelling extends AbstractFormatCheck {
 
         private final String name;
 
-        private Elements(String name) {
-            this.name = name;
-        }
+        private
+        Elements(String name) { this.name = name; }
 
-        @Override
-        public String toString() {
-            return this.name;
-        }
+        @Override public String
+        toString() { return this.name; }
     }
 
-    public final void setElements(String[] elements) {
+    public final void
+    setElements(String[] elements) {
         for (final String element : elements) {
             this.elements.add(Enum.valueOf(Elements.class, element.toUpperCase()));
         }
@@ -90,13 +87,15 @@ public class NameSpelling extends AbstractFormatCheck {
         STRICTFP;
     }
 
-    public final void setRequiredModifiers(String[] modifiers) {
+    public final void
+    setRequiredModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
             requiredModifiers.add(TokenTypes.getTokenId(modifier.toUpperCase()));
         }
     }
     
-    public final void setMissingModifiers(String[] modifiers) {
+    public final void
+    setMissingModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
             missingModifiers.add(TokenTypes.getTokenId(modifier.toUpperCase()));
         }
@@ -110,7 +109,8 @@ public class NameSpelling extends AbstractFormatCheck {
         FORBID
     }
 
-    public final void setOption(String option) throws ConversionException {
+    public final void
+    setOption(String option) throws ConversionException {
         try {
             this.option = Enum.valueOf(Options.class, option.trim().toUpperCase());
         } catch (IllegalArgumentException iae) {
@@ -118,8 +118,8 @@ public class NameSpelling extends AbstractFormatCheck {
         }
     }
 
-    @Override
-    public int[] getDefaultTokens() {
+    @Override public int[]
+    getDefaultTokens() {
 
         // Calculate the minimal set of tokens required to perform the check.
         int[] tokenIds = new int[20];
@@ -150,8 +150,8 @@ public class NameSpelling extends AbstractFormatCheck {
         return result;
     }
 
-    @Override
-    public void visitToken(DetailAST ast) {
+    @Override public void
+    visitToken(DetailAST ast) {
         try {
 
             // Determine the element type from the given AST.

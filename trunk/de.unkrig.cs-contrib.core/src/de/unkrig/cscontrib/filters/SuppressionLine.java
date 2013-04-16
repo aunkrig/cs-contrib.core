@@ -47,7 +47,8 @@ public class SuppressionLine extends AutomaticBean implements Filter {
          * @throws ConversionException if unable to parse expanded aText.
          * on.
          */
-        public Tag(int aLineNo, String aText, boolean aOn) throws ConversionException {
+        public
+        Tag(int aLineNo, String aText, boolean aOn) throws ConversionException {
             mLineNo = aLineNo;
             mText = aText;
             on = aOn;
@@ -71,23 +72,20 @@ public class SuppressionLine extends AutomaticBean implements Filter {
         }
 
         /** @return the text of the tag. */
-        public String getText() {
-            return mText;
-        }
+        public String
+        getText() { return mText; }
 
         /** @return the line number of the tag in the source file. */
-        public int getLine() {
-            return mLineNo;
-        }
+        public int
+        getLine() { return mLineNo; }
 
         /**
          * Determines whether the suppression turns checkstyle reporting on or
          * off.
          * @return <code>true</code>if the suppression turns reporting on.
          */
-        public boolean isOn() {
-            return on;
-        }
+        public boolean
+        isOn() { return on; }
 
         /**
          * Compares the position of this tag in the file
@@ -98,9 +96,8 @@ public class SuppressionLine extends AutomaticBean implements Filter {
          * tag is after the other tag.
          * @see java.lang.Comparable#compareTo(java.lang.Object)
          */
-        public int compareTo(Tag that) {
-            return mLineNo - that.mLineNo;
-        }
+        public int
+        compareTo(Tag that) { return mLineNo - that.mLineNo; }
 
         /**
          * Determines whether the source of an audit event
@@ -108,7 +105,8 @@ public class SuppressionLine extends AutomaticBean implements Filter {
          * @param aEvent the <code>AuditEvent</code> to check.
          * @return true if the source of aEvent matches the text of this tag.
          */
-        public boolean isMatch(AuditEvent aEvent) {
+        public boolean
+        isMatch(AuditEvent aEvent) {
             if (
                 checkNameRegex != null
                 && checkNameRegex.matcher(aEvent.getSourceName()).find()
@@ -133,11 +131,8 @@ public class SuppressionLine extends AutomaticBean implements Filter {
          *
          * @return the expanded {@code replacement}
          */
-        private String expandFromLine(
-            String  line,
-            String  replacement,
-            Pattern regex
-        ) {
+        private String
+        expandFromLine(String line, String replacement, Pattern regex) {
             final Matcher matcher = regex.matcher(line);
 
             if (!matcher.find()) return replacement;
@@ -150,10 +145,8 @@ public class SuppressionLine extends AutomaticBean implements Filter {
             return result;
         }
 
-        @Override
-        public final String toString() {
-            return "Tag[line=" + getLine() + "; on=" + isOn() + "; text='" + getText() + "']";
-        }
+        @Override public final String
+        toString() { return "Tag[line=" + getLine() + "; on=" + isOn() + "; text='" + getText() + "']"; }
     }
 
     /** Control all checks */
@@ -183,39 +176,42 @@ public class SuppressionLine extends AutomaticBean implements Filter {
      */
     private WeakReference<FileContents> mFileContentsReference = new WeakReference<FileContents>(null);
 
-    public SuppressionLine() {
-    }
+    public
+    SuppressionLine() {}
 
-    public void setOffFormat(String offFormat) throws ConversionException {
+    public void
+    setOffFormat(String offFormat) throws ConversionException {
         try {
-        	this.offRegex = Utils.getPattern(offFormat);
+            this.offRegex = Utils.getPattern(offFormat);
         } catch (final PatternSyntaxException e) {
             throw new ConversionException("unable to parse " + offFormat, e);
         }
     }
 
-    public void setOnFormat(String onFormat) throws ConversionException {
+    public void
+    setOnFormat(String onFormat) throws ConversionException {
         try {
-        	this.onRegex = Utils.getPattern(onFormat);
+            this.onRegex = Utils.getPattern(onFormat);
         } catch (final PatternSyntaxException e) {
             throw new ConversionException("unable to parse " + onFormat, e);
         }
     }
 
     /** @return the FileContents for this filter. */
-    public FileContents getFileContents() {
-        return mFileContentsReference.get();
-    }
+    public FileContents
+    getFileContents() { return mFileContentsReference.get(); }
 
     /**
      * Set the FileContents for this filter.
      * @param aFileContents the FileContents for this filter.
      */
-    public void setFileContents(FileContents aFileContents) {
+    public void
+    setFileContents(FileContents aFileContents) {
         mFileContentsReference = new WeakReference<FileContents>(aFileContents);
     }
 
-    public void setCheckNameFormat(String checkNameFormat) throws ConversionException {
+    public void
+    setCheckNameFormat(String checkNameFormat) throws ConversionException {
         try {
             Utils.getPattern(checkNameFormat);
         } catch (final PatternSyntaxException e) {
@@ -224,7 +220,8 @@ public class SuppressionLine extends AutomaticBean implements Filter {
         this.checkNameFormat = checkNameFormat;
     }
 
-    public void setMessageFormat(String messageFormat) throws ConversionException {
+    public void
+    setMessageFormat(String messageFormat) throws ConversionException {
         // check that aFormat parses
         try {
             Utils.getPattern(messageFormat);
@@ -234,7 +231,8 @@ public class SuppressionLine extends AutomaticBean implements Filter {
         this.messageFormat = messageFormat;
     }
 
-    public void setModuleIdFormat(String moduleIdFormat) throws ConversionException {
+    public void
+    setModuleIdFormat(String moduleIdFormat) throws ConversionException {
         try {
             Utils.getPattern(moduleIdFormat);
         } catch (final PatternSyntaxException e) {
@@ -243,9 +241,10 @@ public class SuppressionLine extends AutomaticBean implements Filter {
         this.moduleIdFormat = moduleIdFormat;
     }
     
-    public boolean accept(AuditEvent event) {
+    public boolean
+    accept(AuditEvent event) {
 
-    	if (event.getLocalizedMessage() == null) return true;        // A special event.
+        if (event.getLocalizedMessage() == null) return true;        // A special event.
 
         // Lazy update. If the first event for the current file, update file
         // contents and tag suppressions
@@ -272,7 +271,8 @@ public class SuppressionLine extends AutomaticBean implements Filter {
      * @param aEvent The <code>AuditEvent</code> to match.
      * @return       The <code>Tag</code> nearest aEvent.
      */
-    private Tag findNearestMatch(AuditEvent aEvent) {
+    private Tag
+    findNearestMatch(AuditEvent aEvent) {
         Tag result = null;
         // TODO: try binary search if sequential search becomes a performance
         // problem.
@@ -286,7 +286,8 @@ public class SuppressionLine extends AutomaticBean implements Filter {
     /**
      * Collects all the suppression tags for all magic lines into a list and sorts the list.
      */
-    private void processMagicLines() {
+    private void
+    processMagicLines() {
         magicLines.clear();
         String[] lines = getFileContents().getLines();
         for (int lineNo = 0; lineNo < lines.length; ++lineNo) {
@@ -300,7 +301,8 @@ public class SuppressionLine extends AutomaticBean implements Filter {
      * @param aText the string to tag.
      * @param aLine the line number of aText.
      */
-    private void checkMagicness(String aText, int aLine) {
+    private void
+    checkMagicness(String aText, int aLine) {
         if (offRegex != null) {
             final Matcher offMatcher = offRegex.matcher(aText);
             if (offMatcher.find()) {
@@ -321,7 +323,8 @@ public class SuppressionLine extends AutomaticBean implements Filter {
      * @param aLine the line number of the tag.
      * @param aOn <code>true</code> if the tag turns checkstyle reporting on.
      */
-    private void addTag(String aText, int aLine, boolean aOn) {
+    private void
+    addTag(String aText, int aLine, boolean aOn) {
         final Tag tag = new Tag(aLine, aText, aOn);
         magicLines.add(tag);
     }

@@ -38,7 +38,7 @@ public class Alignment extends Check {
     }
 
     public int[]
-	getDefaultTokens() {
+    getDefaultTokens() {
         return new int[] { VARIABLE_DEF, PARAMETER_DEF };
     }
 
