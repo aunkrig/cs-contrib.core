@@ -42,8 +42,8 @@ public class Alignment extends Check {
         return new int[] { VARIABLE_DEF, PARAMETER_DEF };
     }
 
-    DetailAST previousFieldDeclaration = null;
-    DetailAST firstFormalParameter = null;
+    DetailAST previousFieldDeclaration    = null;
+    DetailAST firstFormalParameter        = null;
     DetailAST previousVariableDeclaration = null;
 
     public void

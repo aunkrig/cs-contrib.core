@@ -36,8 +36,9 @@ public class InnerAssignment extends AbstractASTResolution {
              * Changes the relation between the {@code oldNode} and its parent to the {@code newNode}.
              */
             private void replace(ASTNode oldNode, ASTNode newNode) {
-                ASTNode parent = oldNode.getParent();
+                ASTNode                      parent   = oldNode.getParent();
                 StructuralPropertyDescriptor location = oldNode.getLocationInParent();
+
                 if (location.isChildProperty()) {
                     parent.setStructuralProperty(location, newNode);
                 } else if (location.isChildListProperty()) {
@@ -52,8 +53,9 @@ public class InnerAssignment extends AbstractASTResolution {
 
             /** @return A parenthesized copy of the {@code expression} */
             private Expression parenthesize(Expression expression) {
-                AST ast = expression.getAST();
-                ParenthesizedExpression pe = ast.newParenthesizedExpression();
+                AST                     ast = expression.getAST();
+                ParenthesizedExpression pe  = ast.newParenthesizedExpression();
+
                 pe.setExpression((Expression) ASTNode.copySubtree(ast, expression));
                 return pe;
             }
