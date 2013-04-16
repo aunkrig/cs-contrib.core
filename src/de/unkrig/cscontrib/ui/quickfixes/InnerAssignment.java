@@ -17,12 +17,13 @@ public class InnerAssignment extends AbstractASTResolution {
     /**
      * {@inheritDoc}
      */
-    protected ASTVisitor handleGetCorrectingASTVisitor(final IRegion lineInfo, final int markerStartOffset) {
+    protected ASTVisitor
+    handleGetCorrectingASTVisitor(final IRegion lineInfo, final int markerStartOffset) {
 
         return new ASTVisitor() {
             
-            @Override
-            public void endVisit(Assignment node) {
+            @Override public void
+            endVisit(Assignment node) {
                 int lhsEnd   = node.getLeftHandSide().getStartPosition() + node.getLeftHandSide().getLength();
                 int rhsStart = node.getRightHandSide().getStartPosition();
                 if (markerStartOffset >= lhsEnd && markerStartOffset < rhsStart) {
@@ -35,7 +36,8 @@ public class InnerAssignment extends AbstractASTResolution {
             /**
              * Changes the relation between the {@code oldNode} and its parent to the {@code newNode}.
              */
-            private void replace(ASTNode oldNode, ASTNode newNode) {
+            private void
+            replace(ASTNode oldNode, ASTNode newNode) {
                 ASTNode                      parent   = oldNode.getParent();
                 StructuralPropertyDescriptor location = oldNode.getLocationInParent();
 
@@ -52,7 +54,8 @@ public class InnerAssignment extends AbstractASTResolution {
             }
 
             /** @return A parenthesized copy of the {@code expression} */
-            private Expression parenthesize(Expression expression) {
+            private Expression
+            parenthesize(Expression expression) {
                 AST                     ast = expression.getAST();
                 ParenthesizedExpression pe  = ast.newParenthesizedExpression();
 
@@ -65,21 +68,18 @@ public class InnerAssignment extends AbstractASTResolution {
     /**
      * {@inheritDoc}
      */
-    public String getDescription() {
-        return Messages.InnerAssignmentQuickfix_description;
-    }
+    public String
+    getDescription() { return Messages.InnerAssignmentQuickfix_description; }
 
     /**
      * {@inheritDoc}
      */
-    public String getLabel() {
-        return Messages.InnerAssignmentQuickfix_label;
-    }
+    public String
+    getLabel() { return Messages.InnerAssignmentQuickfix_label; }
 
     /**
      * {@inheritDoc}
      */
-    public Image getImage() {
-        return PluginImages.getImage(PluginImages.CORRECTION_ADD);
-    }
+    public Image
+    getImage() { return PluginImages.getImage(PluginImages.CORRECTION_ADD); }
 }

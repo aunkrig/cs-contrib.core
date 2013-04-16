@@ -5,7 +5,9 @@ import org.eclipse.osgi.util.NLS;
 
 /** Message bundle for this package. */
 public class Messages extends NLS {
-    private Messages() {}
+
+    private
+    Messages() {}
     
     private static final String BUNDLE_NAME = "de.unkrig.cscontrib.ui.quickfixes.messages"; //$NON-NLS-1$
 

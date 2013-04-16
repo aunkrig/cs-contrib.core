@@ -20,7 +20,8 @@ public class Activator extends AbstractUIPlugin {
     public static final String PLUGIN_ID = "de.unkrig.cs-contrib.core";
 
     @Override
-    public void start(BundleContext context) throws Exception {
+    public void
+    start(BundleContext context) throws Exception {
         super.start(context);
 
         // ECLIPSECS quickfixes are broken, because the 'net.sf.eclipsecs.ui' plugin lacks two specific entries in its
@@ -37,7 +38,8 @@ public class Activator extends AbstractUIPlugin {
         if (headers.get("Export-Package") == null || !"registered".equals(headers.get("Eclipse-BuddyPolicy"))) {
             Display.getDefault().asyncExec(new Runnable() {
                 
-                public void run() {
+                public void
+                run() {
                     MessageDialog.openWarning(
                         PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
                         PLUGIN_ID,

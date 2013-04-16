@@ -12,11 +12,14 @@ public class WhitespaceAround extends WhitespaceAroundCheck {
     private boolean allowEmptyCatches;
     private boolean allowEmptyTypes;
 
-    public void setAllowEmptyCatches(boolean value) { this.allowEmptyCatches = value; }
-    public void setAllowEmptyTypes(boolean value)   { this.allowEmptyTypes = value; }
+    public void
+    setAllowEmptyCatches(boolean value) { this.allowEmptyCatches = value; }
 
-    @Override
-    public void visitToken(DetailAST ast) {
+    public void
+    setAllowEmptyTypes(boolean value) { this.allowEmptyTypes = value; }
+
+    @Override public void
+    visitToken(DetailAST ast) {
         switch (ast.getType()) {
 
         case TokenTypes.LCURLY:
