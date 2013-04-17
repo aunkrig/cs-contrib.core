@@ -8,7 +8,8 @@ import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
 /**
  * Assignments in expressions must be parenthesized, like "a = (b = c)" or "while ((a = b))".
  */
-public class InnerAssignment extends Check {
+public
+class InnerAssignment extends Check {
 
     @Override public int[]
     getDefaultTokens() {

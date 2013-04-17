@@ -14,7 +14,8 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  *     }
  * }</pre> 
  */
-public class ZeroParameterSuperconstructorInvocation extends Check {
+public
+class ZeroParameterSuperconstructorInvocation extends Check {
 
     public int[]
     getDefaultTokens() { return new int[] { TokenTypes.CTOR_DEF }; }

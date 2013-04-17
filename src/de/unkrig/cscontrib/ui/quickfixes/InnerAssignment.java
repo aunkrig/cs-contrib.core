@@ -12,7 +12,8 @@ import org.eclipse.swt.graphics.Image;
 import de.unkrig.cscontrib.ui.PluginImages;
 
 /***/
-public class InnerAssignment extends AbstractASTResolution {
+public
+class InnerAssignment extends AbstractASTResolution {
 
     /**
      * {@inheritDoc}

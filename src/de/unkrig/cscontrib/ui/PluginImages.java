@@ -13,7 +13,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 /**
  * Utility class that manages this plugin's images.
  */
-public abstract class PluginImages {
+public abstract
+class PluginImages {
 
     private
     PluginImages() {}

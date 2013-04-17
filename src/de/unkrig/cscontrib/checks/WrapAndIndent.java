@@ -11,7 +11,8 @@ import com.puppycrawl.tools.checkstyle.api.Utils;
 /**
  * Statements must be uniformly wrapped and indented.
  */
-public class WrapAndIndent extends Check {
+public
+class WrapAndIndent extends Check {
 
     /** How many spaces to use for new indentation level. */
     private int basicOffset = 4;

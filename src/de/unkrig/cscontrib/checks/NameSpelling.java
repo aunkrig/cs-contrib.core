@@ -13,7 +13,8 @@ import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
 /**
  * Checks that particular Java elements are declared with a name that matches or does not match a configurable REGEX.
  */
-public class NameSpelling extends AbstractFormatCheck {
+public
+class NameSpelling extends AbstractFormatCheck {
 
     /**
      * Elements to apply this check to
