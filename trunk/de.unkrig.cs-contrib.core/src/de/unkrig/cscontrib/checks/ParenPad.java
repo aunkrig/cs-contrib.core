@@ -9,7 +9,8 @@ import com.puppycrawl.tools.checkstyle.checks.whitespace.*;
 /**
  * Enhanced version of "ParenPad": NOSPACE now allows '( // ...'.
  */
-public class ParenPad extends ParenPadCheck {
+public
+class ParenPad extends ParenPadCheck {
 
     private static final Pattern NOSPACE_PATTERN = Pattern.compile(
         "[^\\s].*"   // '(' + non-space

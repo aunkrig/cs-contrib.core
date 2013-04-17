@@ -10,7 +10,8 @@ import static de.unkrig.cscontrib.util.AST.*;
 /**
  * Checks that field/parameter/variable names are aligned in one-per-line declarations.
  */
-public class Alignment extends Check {
+public
+class Alignment extends Check {
 
     private boolean applyToFieldName         = true;
     private boolean applyToParameterName     = true;

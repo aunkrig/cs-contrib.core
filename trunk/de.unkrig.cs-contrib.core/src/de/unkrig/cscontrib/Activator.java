@@ -15,7 +15,8 @@ import org.osgi.framework.*;
 /**
  * 'Bundle-Activator' of this plugin.
  */
-public class Activator extends AbstractUIPlugin {
+public
+class Activator extends AbstractUIPlugin {
 
     public static final String PLUGIN_ID = "de.unkrig.cs-contrib.core";
 

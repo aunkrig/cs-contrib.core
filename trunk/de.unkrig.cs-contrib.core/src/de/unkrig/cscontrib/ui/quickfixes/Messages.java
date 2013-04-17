@@ -4,7 +4,8 @@ package de.unkrig.cscontrib.ui.quickfixes;
 import org.eclipse.osgi.util.NLS;
 
 /** Message bundle for this package. */
-public class Messages extends NLS {
+public
+class Messages extends NLS {
 
     private
     Messages() {}

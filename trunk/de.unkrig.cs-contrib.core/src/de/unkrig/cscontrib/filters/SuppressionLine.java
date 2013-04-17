@@ -12,13 +12,15 @@ import com.puppycrawl.tools.checkstyle.api.*;
 import com.puppycrawl.tools.checkstyle.checks.FileContentsHolder;
 
 /***/
-public class SuppressionLine extends AutomaticBean implements Filter {
+public
+class SuppressionLine extends AutomaticBean implements Filter {
 
     /**
      * A Tag holds a magic line and its location, and determines whether the suppression turns CHECKSTYLE reporting on
      * or off.
      */
-    public class Tag implements Comparable<Tag> {
+    public
+    class Tag implements Comparable<Tag> {
 
         /** The text of the tag. */
         private final String mText;

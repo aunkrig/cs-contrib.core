@@ -7,7 +7,8 @@ import com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck;
 import static de.unkrig.cscontrib.util.AST.*;
 
 /***/
-public class WhitespaceAround extends WhitespaceAroundCheck {
+public
+class WhitespaceAround extends WhitespaceAroundCheck {
 
     private boolean allowEmptyCatches;
     private boolean allowEmptyTypes;

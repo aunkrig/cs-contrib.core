@@ -6,7 +6,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 /**
  * Utility methods related to CHECKSTYLE's DetailAST model.
  */
-public class AST {
+public
+class AST {
 
     private
     AST() {}
