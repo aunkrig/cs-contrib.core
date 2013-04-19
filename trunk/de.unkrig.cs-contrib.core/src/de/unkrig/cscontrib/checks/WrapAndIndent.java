@@ -576,9 +576,9 @@ class WrapAndIndent extends Check {
                 ENUM_CONSTANT_DEF | INDENT, // 2
                 FORK + 6,
                 COMMA,
-                BRANCH + 2,
+                FORK + 2,
                 FORK + 8,                   // 6
-                SEMI,
+                SEMI | WRAP,
 
                 FORK + 14,                  // 8
                 VARIABLE_DEF | INDENT,
@@ -651,7 +651,22 @@ class WrapAndIndent extends Check {
                 END
             );
             break;
-            
+
+        case VARIABLE_DEF:
+            checkChildren(
+                ast,
+
+                MODIFIERS,
+                TYPE,
+                IDENT | WRAP,
+                FORK + 5,
+                ASSIGN,
+                FORK + 7, // 5
+                SEMI, // Field declarations DO have a SEMI, local variable declarations DON'T!?
+                END       // 7
+            );
+            break;
+
         default:
             checkChildren(
                 ast,
@@ -865,6 +880,8 @@ class WrapAndIndent extends Check {
             return previous.getNextSibling();
         }
 
+        @SuppressWarnings("unused") Dumper dumper = new Dumper(previous); // For debugging
+
         int       parenthesisCount = 1;
         DetailAST next             = previous.getNextSibling();
         for (;;) {
@@ -876,17 +893,17 @@ class WrapAndIndent extends Check {
             next = next.getNextSibling();
         }
 
-        if (previous.getLineNo() == next.getLineNo()) {
+        if (previous.getLineNo() == getLeftmostDescendant(next).getLineNo()) {
             checkExpression(next, true);
             previous = next;
             next = next.getNextSibling();
-            checkSameLine(previous, next);
+            checkSameLine(getRightmostDescendant(previous), next);
         } else {
             checkIndented(previous, getLeftmostDescendant(next));
             checkExpression(next, false);
             previous = next;
             next = next.getNextSibling();
-            checkUnindented(previous, next);
+            checkUnindented(getRightmostDescendant(previous), next);
         }
 
         previous = next;
@@ -1172,5 +1189,28 @@ class WrapAndIndent extends Check {
             }
         }
         return 0;
+    }
+
+    static class Dumper {
+        private DetailAST ast;
+
+        Dumper(DetailAST ast) {
+            this.ast = ast;
+        }
+
+        @Override public String
+        toString() {
+            StringBuilder sb = new StringBuilder();
+            dumpSiblings("", this.ast, sb);
+            return sb.toString();
+        }
+
+        private static void
+        dumpSiblings(String prefix, DetailAST sibling, StringBuilder sb) {
+            for (; sibling != null; sibling = sibling.getNextSibling()) {
+                sb.append(prefix).append(sibling).append('\n');
+                dumpSiblings(prefix + "  ", sibling.getFirstChild(), sb);
+            }
+        }
     }
 }
