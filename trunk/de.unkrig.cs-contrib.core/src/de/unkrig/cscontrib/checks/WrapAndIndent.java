@@ -204,6 +204,9 @@ class WrapAndIndent extends Check {
 
     public void
     visitToken(DetailAST ast) {
+
+        @SuppressWarnings("unused") ASTDumper dumper = new ASTDumper(ast); // For debugging
+
         switch (ast.getType()) {
 
         case ARRAY_INIT:
@@ -239,6 +242,7 @@ class WrapAndIndent extends Check {
             break;
             
         case CLASS_DEF:
+            if (isSingleLine(ast)) break;
             checkChildren(
                 ast,
                 
@@ -273,6 +277,7 @@ class WrapAndIndent extends Check {
             break;
           
         case CTOR_DEF:
+            if (isSingleLine(ast)) break;
             checkChildren(
                 ast,
 
@@ -371,6 +376,7 @@ class WrapAndIndent extends Check {
             break;
 
         case INTERFACE_DEF:
+            if (isSingleLine(ast)) break;
             checkChildren(
                 ast,
                 
@@ -506,6 +512,7 @@ class WrapAndIndent extends Check {
             break;
 
         case METHOD_DEF:
+            if (isSingleLine(ast)) break;
             checkChildren(
                 ast,
                 
@@ -578,7 +585,7 @@ class WrapAndIndent extends Check {
                 COMMA,
                 FORK + 2,
                 FORK + 8,                   // 6
-                SEMI | WRAP,
+                SEMI | INDENT,
 
                 FORK + 14,                  // 8
                 VARIABLE_DEF | INDENT,
@@ -678,6 +685,11 @@ class WrapAndIndent extends Check {
             );
             break;
         }
+    }
+
+    private boolean
+    isSingleLine(DetailAST ast) {
+        return getLeftmostDescendant(ast).getLineNo() == getRightmostDescendant(ast).getLineNo();
     }
 
     /**
@@ -793,6 +805,14 @@ class WrapAndIndent extends Check {
         case NUM_INT:
         case NUM_LONG:
         case STRING_LITERAL:
+        case LITERAL_BOOLEAN:
+        case LITERAL_BYTE:
+        case LITERAL_SHORT:
+        case LITERAL_INT:
+        case LITERAL_LONG:
+        case LITERAL_CHAR:
+        case LITERAL_FLOAT:
+        case LITERAL_DOUBLE:
             {
                 DetailAST c = expression.getFirstChild();
                 assert c == null : Integer.toString(expression.getChildCount());
@@ -880,7 +900,7 @@ class WrapAndIndent extends Check {
             return previous.getNextSibling();
         }
 
-        @SuppressWarnings("unused") Dumper dumper = new Dumper(previous); // For debugging
+        @SuppressWarnings("unused") ASTDumper dumper = new ASTDumper(previous); // For debugging
 
         int       parenthesisCount = 1;
         DetailAST next             = previous.getNextSibling();
@@ -1030,7 +1050,11 @@ class WrapAndIndent extends Check {
                     {
                         DetailAST l = getLeftmostDescendant(child);
                         if (l.getLineNo() == previousAst.getLineNo()) {
-                            if (ast.getType() == TokenTypes.ARRAY_INIT || ast.getType() == TokenTypes.METHOD_CALL) {
+                            if (
+                                ast.getType() == TokenTypes.ARRAY_INIT
+                                || ast.getType() == TokenTypes.METHOD_CALL
+                                || ast.getParent().getType() == TokenTypes.ENUM_DEF
+                            ) {
 
                                 // Allow multiple children in the same line.
                                 ;
@@ -1189,28 +1213,5 @@ class WrapAndIndent extends Check {
             }
         }
         return 0;
-    }
-
-    static class Dumper {
-        private DetailAST ast;
-
-        Dumper(DetailAST ast) {
-            this.ast = ast;
-        }
-
-        @Override public String
-        toString() {
-            StringBuilder sb = new StringBuilder();
-            dumpSiblings("", this.ast, sb);
-            return sb.toString();
-        }
-
-        private static void
-        dumpSiblings(String prefix, DetailAST sibling, StringBuilder sb) {
-            for (; sibling != null; sibling = sibling.getNextSibling()) {
-                sb.append(prefix).append(sibling).append('\n');
-                dumpSiblings(prefix + "  ", sibling.getFirstChild(), sb);
-            }
-        }
     }
 }
