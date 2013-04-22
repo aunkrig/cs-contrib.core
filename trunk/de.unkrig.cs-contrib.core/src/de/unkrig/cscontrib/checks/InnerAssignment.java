@@ -65,6 +65,9 @@ class InnerAssignment extends Check {
         // Parenthesized assignment?
         if (ast.getPreviousSibling() != null && ast.getPreviousSibling().getType() == LPAREN) return;
 
+        // Annotation member-value pair?
+        if (parent.getType() == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR) return;
+
         log(ast.getLineNo(), ast.getColumnNo(), "Assignments in expressions must be parenthesized");
     }
 }
