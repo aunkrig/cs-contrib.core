@@ -209,6 +209,45 @@ class WrapAndIndent extends Check {
 
         switch (ast.getType()) {
 
+        case ANNOTATION:
+            checkChildren(
+                ast,
+
+                AT,
+                FORK + 4,
+                DOT,
+                BRANCH + 5,
+
+                IDENT,    // 4
+
+                FORK + 7, // 5
+                END,
+
+                LPAREN, // 7
+                BRANCH + 10,
+
+                COMMA, // 9
+
+                FORK + 13, // 10
+                INDENT | ANNOTATION_MEMBER_VALUE_PAIR,
+                BRANCH + 20,
+
+                FORK + 16, // 13
+                ANNOTATION,
+                BRANCH + 20,
+
+                FORK + 19, // 16
+                EXPR,
+                BRANCH + 20,
+
+                ANNOTATION_ARRAY_INIT, // 19
+
+                FORK + 9, // 20
+                UNINDENT | RPAREN,
+                END
+            );
+            break;
+
         case ARRAY_INIT:
             checkChildren(
                 ast,
@@ -617,6 +656,13 @@ class WrapAndIndent extends Check {
             break;
             
         case SLIST:
+            // Single-line case group?
+            if (
+                ast.getParent().getType() == TokenTypes.CASE_GROUP
+                && isSingleLine(ast)
+                && ast.getParent().getLineNo() == ast.getLineNo()
+            ) return;
+
             checkChildren(
                 ast,
                 
