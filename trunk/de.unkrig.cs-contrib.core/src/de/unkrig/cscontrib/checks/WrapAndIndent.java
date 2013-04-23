@@ -248,6 +248,35 @@ class WrapAndIndent extends Check {
             );
             break;
 
+        case ANNOTATION_ARRAY_INIT:
+            checkChildren(
+                ast,
+
+                FORK + 5,
+
+                INDENT | EXPR,     // 1
+                FORK + 5,
+                COMMA,
+                FORK + 1,
+
+                UNINDENT | RCURLY, // 5
+                END
+            );
+            break;
+
+        case ANNOTATION_DEF:
+            checkChildren(
+                ast,
+                
+                MODIFIERS,
+                WRAP | AT,
+                LITERAL_INTERFACE,
+                IDENT,
+                OBJBLOCK,
+                END
+            );
+            break;
+
         case ARRAY_INIT:
             checkChildren(
                 ast,
