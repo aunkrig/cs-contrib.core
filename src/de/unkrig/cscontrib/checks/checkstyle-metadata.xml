@@ -32,20 +32,29 @@
             <property-metadata name="applyToFieldName" datatype="Boolean" default-value="true">
                 <description>%de.unkrig.cscontrib.checks.Alignment.applyToFieldName</description>
             </property-metadata>
-            <property-metadata name="applyToParameterName" datatype="Boolean" default-value="true">
-                <description>%de.unkrig.cscontrib.checks.Alignment.applyToParameterName</description>
+            <property-metadata name="applyToFieldInitializer" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.Alignment.applyToFieldInitializer</description>
             </property-metadata>
             <property-metadata name="applyToLocalVariableName" datatype="Boolean" default-value="true">
                 <description>%de.unkrig.cscontrib.checks.Alignment.applyToLocalVariableName</description>
             </property-metadata>
-            <property-metadata name="applyToInitializer" datatype="Boolean" default-value="true">
-                <description>%de.unkrig.cscontrib.checks.Alignment.applyToInitializer</description>
+            <property-metadata name="applyToLocalVariableInitializer" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.Alignment.applyToLocalVariableInitializer</description>
+            </property-metadata>
+            <property-metadata name="applyToParameterName" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.Alignment.applyToParameterName</description>
             </property-metadata>
             <property-metadata name="applyToMethodName" datatype="Boolean" default-value="true">
                 <description>%de.unkrig.cscontrib.checks.Alignment.applyToMethodName</description>
             </property-metadata>
             <property-metadata name="applyToMethodBody" datatype="Boolean" default-value="true">
                 <description>%de.unkrig.cscontrib.checks.Alignment.applyToMethodBody</description>
+            </property-metadata>
+            <property-metadata name="applyToCaseGroupStatements" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.Alignment.applyToCaseGroupStatements</description>
+            </property-metadata>
+            <property-metadata name="applyToAssignments" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.Alignment.applyToAssignments</description>
             </property-metadata>
             <message-key key="''{0}'' should be aligned with ''{1}'' in line {2,number,#}"/>
         </rule-metadata>
