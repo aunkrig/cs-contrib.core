@@ -985,19 +985,19 @@ class WrapAndIndent extends Check {
             }
             checkSameLine(previous, next);
             previous = next;
-            next = next.getNextSibling();
+            next     = next.getNextSibling();
         }
 
         if (previous.getLineNo() == getLeftmostDescendant(next).getLineNo()) {
             checkExpression(next, true);
             previous = next;
-            next = next.getNextSibling();
+            next     = next.getNextSibling();
             checkSameLine(getRightmostDescendant(previous), next);
         } else {
             checkIndented(previous, getLeftmostDescendant(next));
             checkExpression(next, false);
             previous = next;
-            next = next.getNextSibling();
+            next     = next.getNextSibling();
             checkUnindented(getRightmostDescendant(previous), next);
         }
 
@@ -1046,7 +1046,7 @@ class WrapAndIndent extends Check {
             if ((tokenType & OPTIONAL) != 0) {
                 if (child != null && ((tokenType & MASK) == ANY || child.getType() == (tokenType & MASK))) {
                     previousAst = child;
-                    child = child.getNextSibling();
+                    child       = child.getNextSibling();
                 }
                 continue;
             }
@@ -1183,7 +1183,7 @@ class WrapAndIndent extends Check {
                 checkSameLine(previousAst, getLeftmostDescendant(child));
             }
             previousAst = getRightmostDescendant(child);
-            child = child.getNextSibling();
+            child       = child.getNextSibling();
         }
     }
 
