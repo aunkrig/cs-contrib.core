@@ -267,13 +267,13 @@ class WrapAndIndent extends Check {
                 ast,
 
                 FORK + 6,
-                LITERAL_CASE,
+                LITERAL_CASE,                              // case 1: case 2:
                 FORK + 5,                   // 2
                 LITERAL_CASE | WRAP,
                 BRANCH + 2,
 
                 FORK + 7,                   // 5
-                LITERAL_DEFAULT | WRAP,     // 6
+                LITERAL_DEFAULT | WRAP,     // 6           // default:
 
                 SLIST | INDENT_IF_CHILDREN, // 7
                 END
