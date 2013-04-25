@@ -246,12 +246,12 @@ class NameSpelling extends AbstractFormatCheck {
             case METHOD:
             case TYPE_PARAMETER:
                 modifiersAst = ast.findFirstToken(MODIFIERS);
-                nameAst = ast.findFirstToken(IDENT);
+                nameAst      = ast.findFirstToken(IDENT);
                 break;
 
             case PACKAGE:
                 modifiersAst = null;
-                nameAst = ast.getLastChild().getPreviousSibling();
+                nameAst      = ast.getLastChild().getPreviousSibling();
                 break;
 
             default:

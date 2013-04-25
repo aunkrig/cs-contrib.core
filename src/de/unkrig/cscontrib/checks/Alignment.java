@@ -162,11 +162,11 @@ class Alignment extends Check {
 
     @Override public void
     beginTree(DetailAST aRootAST) {
-        this.previousFieldDeclaration = null;
-        this.previousParameterDeclaration = null;
+        this.previousFieldDeclaration         = null;
+        this.previousParameterDeclaration     = null;
         this.previousLocalVariableDeclaration = null;
-        this.previousMethodDeclaration = null;
-        this.previousCaseGroup = null;
+        this.previousMethodDeclaration        = null;
+        this.previousCaseGroup                = null;
     }
 
     /**

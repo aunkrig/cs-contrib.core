@@ -77,8 +77,8 @@ class SuppressionLine extends AutomaticBean implements Filter {
         public
         Tag(int aLineNo, String aText, boolean aOn) throws ConversionException {
             mLineNo = aLineNo;
-            mText = aText;
-            on = aOn;
+            mText   = aText;
+            on      = aOn;
 
             // Expand regex for check and message
             // Does not intern Patterns with Utils.getPattern()
