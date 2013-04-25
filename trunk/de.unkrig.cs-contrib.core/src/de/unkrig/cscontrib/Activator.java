@@ -45,8 +45,7 @@ class Activator extends AbstractUIPlugin {
 
     public static final String PLUGIN_ID = "de.unkrig.cs-contrib.core";
 
-    @Override
-    public void
+    @Override public void
     start(BundleContext context) throws Exception {
         super.start(context);
 
