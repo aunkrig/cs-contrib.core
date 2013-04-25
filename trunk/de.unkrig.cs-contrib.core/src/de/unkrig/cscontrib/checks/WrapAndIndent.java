@@ -40,7 +40,7 @@ class WrapAndIndent extends Check {
     public int[]
     getDefaultTokens() {
         return new int[] {
-            ABSTRACT,
+//            ABSTRACT,
             ANNOTATION,
             ANNOTATIONS,
             ANNOTATION_ARRAY_INIT,
@@ -50,7 +50,7 @@ class WrapAndIndent extends Check {
             ARRAY_DECLARATOR,
             ARRAY_INIT,
 //            ASSIGN,
-            AT,
+//            AT,
 //            BAND,
 //            BAND_ASSIGN,
 //            BNOT,
@@ -71,11 +71,11 @@ class WrapAndIndent extends Check {
 //            DIV,
 //            DIV_ASSIGN,
 //            DOT,
-            DO_WHILE,
+//            DO_WHILE,
             ELIST,
 //            ELLIPSIS,
-            EMPTY_STAT,
-            ENUM,
+//            EMPTY_STAT,
+//            ENUM,
             ENUM_CONSTANT_DEF,
             ENUM_DEF,
 //            EOF,
@@ -88,19 +88,19 @@ class WrapAndIndent extends Check {
             FOR_INIT,
             FOR_ITERATOR,
 //            GE,
-            GENERIC_END,
-            GENERIC_START,
+//            GENERIC_END,
+//            GENERIC_START,
 //            GT,
 //            IDENT,
             IMPLEMENTS_CLAUSE,
             IMPORT,
 //            INC,
-//            INDEX_OP,
+            INDEX_OP,
             INSTANCE_INIT,
             INTERFACE_DEF,
             LABELED_STAT,
 //            LAND,
-            LCURLY,
+//            LCURLY,
 //            LE,
             LITERAL_ASSERT,
 //            LITERAL_BOOLEAN,
@@ -122,7 +122,7 @@ class WrapAndIndent extends Check {
             LITERAL_IF,
 //            LITERAL_INSTANCEOF,
 //            LITERAL_INT,
-            LITERAL_INTERFACE,
+//            LITERAL_INTERFACE,
 //            LITERAL_LONG,
 //            LITERAL_NATIVE,
             LITERAL_NEW,
@@ -132,11 +132,11 @@ class WrapAndIndent extends Check {
 //            LITERAL_PUBLIC,
             LITERAL_RETURN,
 //            LITERAL_SHORT,
-            LITERAL_STATIC,
+//            LITERAL_STATIC,
 //            LITERAL_SUPER,
             LITERAL_SWITCH,
             LITERAL_SYNCHRONIZED,
-            LITERAL_THIS,
+//            LITERAL_THIS,
             LITERAL_THROW,
             LITERAL_THROWS,
 //            LITERAL_TRANSIENT,
@@ -147,7 +147,7 @@ class WrapAndIndent extends Check {
             LITERAL_WHILE,
 //            LNOT,
 //            LOR,
-            LPAREN,
+//            LPAREN,
 //            LT,
 //            METHOD_CALL,
             METHOD_DEF,
@@ -170,10 +170,10 @@ class WrapAndIndent extends Check {
 //            POST_DEC,
 //            POST_INC,
 //            QUESTION,
-            RBRACK,
-            RCURLY,
+//            RBRACK,
+//            RCURLY,
 //            RPAREN,
-            SEMI,
+//            SEMI,
 //            SL,
             SLIST,
 //            SL_ASSIGN,
@@ -190,7 +190,7 @@ class WrapAndIndent extends Check {
 //            TYPECAST,
             TYPE_ARGUMENT,
             TYPE_ARGUMENTS,
-            TYPE_EXTENSION_AND,
+//            TYPE_EXTENSION_AND,
             TYPE_LOWER_BOUNDS,
             TYPE_PARAMETER,
             TYPE_PARAMETERS,
@@ -198,7 +198,7 @@ class WrapAndIndent extends Check {
 //            UNARY_MINUS,
 //            UNARY_PLUS,
             VARIABLE_DEF,
-            WILDCARD_TYPE,
+//            WILDCARD_TYPE,
         };
     }
 
@@ -269,7 +269,7 @@ class WrapAndIndent extends Check {
                 ast,
                 
                 MODIFIERS,
-                WRAP | AT,
+                MUST_WRAP | AT,
                 LITERAL_INTERFACE,
                 IDENT,
                 OBJBLOCK,
@@ -631,13 +631,11 @@ class WrapAndIndent extends Check {
                 ast,
 
                 FORK + 3,
-                ANNOTATION | WRAP, // 1
+
+                ANY,               // 1
                 FORK + 1,
 
-                FORK + 6,          // 3
-                ANY | WRAP,        // 4
-                FORK + 4,
-                END                // 6
+                END                // 3
             );
             break;
 
@@ -749,7 +747,143 @@ class WrapAndIndent extends Check {
             );
             break;
 
-        default:
+        // Those which were not registered for.
+        case ABSTRACT:
+        case ASSIGN:
+        case AT:
+        case BAND:
+        case BAND_ASSIGN:
+        case BNOT:
+        case BOR:
+        case BOR_ASSIGN:
+        case BSR:
+        case BSR_ASSIGN:
+        case BXOR:
+        case BXOR_ASSIGN:
+        case CHAR_LITERAL:
+        case COLON:
+        case COMMA:
+        case DEC:
+        case DIV:
+        case DIV_ASSIGN:
+        case DO_WHILE: // The 'while' keyword at the end of the DO...WHILE loop.
+        case DOT:
+        case ELLIPSIS:
+        case EMPTY_STAT:
+        case ENUM:
+        case EOF:
+        case EQUAL:
+        case FINAL:
+        case GE:
+        case GENERIC_END:
+        case GENERIC_START:
+        case GT:
+        case IDENT:
+        case INC:
+        case LAND:
+        case LCURLY:
+        case LE:
+        case LITERAL_BOOLEAN:
+        case LITERAL_BYTE:
+        case LITERAL_CHAR:
+        case LITERAL_CLASS:
+        case LITERAL_DEFAULT:
+        case LITERAL_DOUBLE:
+        case LITERAL_ELSE:
+        case LITERAL_FALSE:
+        case LITERAL_FLOAT:
+        case LITERAL_INSTANCEOF:
+        case LITERAL_INT:
+        case LITERAL_INTERFACE:
+        case LITERAL_LONG:
+        case LITERAL_NATIVE:
+        case LITERAL_NULL:
+        case LITERAL_PRIVATE:
+        case LITERAL_PROTECTED:
+        case LITERAL_PUBLIC:
+        case LITERAL_SHORT:
+        case LITERAL_STATIC:
+        case LITERAL_SUPER:
+        case LITERAL_THIS:
+        case LITERAL_TRANSIENT:
+        case LITERAL_TRUE:
+        case LITERAL_VOID:
+        case LITERAL_VOLATILE:
+        case LNOT:
+        case LOR:
+        case LPAREN:
+        case LT:
+        case METHOD_CALL:
+        case MINUS:
+        case MINUS_ASSIGN:
+        case MOD:
+        case MOD_ASSIGN:
+        case NOT_EQUAL:
+        case NUM_DOUBLE:
+        case NUM_FLOAT:
+        case NUM_INT:
+        case NUM_LONG:
+        case PLUS:
+        case PLUS_ASSIGN:
+        case POST_DEC:
+        case POST_INC:
+        case QUESTION:
+        case RBRACK:
+        case RCURLY:
+        case RPAREN:
+        case SEMI:
+        case SL:
+        case SL_ASSIGN:
+        case SR:
+        case SR_ASSIGN:
+        case STAR:
+        case STAR_ASSIGN:
+        case STRICTFP:
+        case STRING_LITERAL:
+        case TYPE:
+        case TYPECAST:
+        case UNARY_MINUS:
+        case UNARY_PLUS:
+        case TYPE_EXTENSION_AND:
+        case WILDCARD_TYPE:
+            throw new AssertionError("Token type '" + ast.getType() + "' was not registered for, was visited though");
+
+        // Other tokens which may have children.
+        case ANNOTATION_FIELD_DEF:
+        case ANNOTATION_MEMBER_VALUE_PAIR:
+        case ANNOTATIONS:
+        case ARRAY_DECLARATOR:
+        case ENUM_CONSTANT_DEF:
+        case ENUM_DEF:
+        case EXTENDS_CLAUSE:
+        case FOR_CONDITION:
+        case FOR_INIT:
+        case FOR_ITERATOR:
+        case IMPLEMENTS_CLAUSE:
+        case IMPORT:
+        case INSTANCE_INIT:
+        case LITERAL_ASSERT:
+        case LITERAL_BREAK:
+        case LITERAL_CASE:
+        case LITERAL_CATCH:
+        case LITERAL_CONTINUE:
+        case LITERAL_FINALLY:
+        case LITERAL_RETURN:
+        case LITERAL_SYNCHRONIZED:
+        case LITERAL_THROW:
+        case LITERAL_THROWS:
+        case LITERAL_TRY:
+        case PACKAGE_DEF:
+        case PARAMETER_DEF:
+        case STATIC_INIT:
+        case STATIC_IMPORT:
+        case TYPE_ARGUMENT:
+        case TYPE_ARGUMENTS:
+        case TYPE_LOWER_BOUNDS:
+        case TYPE_PARAMETER:
+        case TYPE_PARAMETERS:
+        case TYPE_UPPER_BOUNDS:
+            // All children must appear in the same line.
             checkChildren(
                 ast,
 
@@ -759,6 +893,9 @@ class WrapAndIndent extends Check {
                 END         // 3
             );
             break;
+
+        default:
+            throw new AssertionError("Unknown token type '" + ast.getType() + "'");
         }
     }
 
