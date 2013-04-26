@@ -218,31 +218,31 @@ class WrapAndIndent extends Check {
                 DOT,
                 BRANCH + 5,
 
-                IDENT,    // 4
+/* 4 */         IDENT,
 
-                FORK + 7, // 5
+/* 5 */         FORK + 7,
                 END,
 
-                LPAREN, // 7
+/* 7 */         LPAREN,
                 BRANCH + 10,
 
-                COMMA, // 9
+/* 9 */         COMMA,
 
-                FORK + 13, // 10
+/* 10 */        FORK + 13,
                 INDENT | ANNOTATION_MEMBER_VALUE_PAIR,
                 BRANCH + 20,
 
-                FORK + 16, // 13
-                ANNOTATION,
+/* 13 */        FORK + 16,
+                INDENT | ANNOTATION,
                 BRANCH + 20,
 
-                FORK + 19, // 16
-                EXPR,
+/* 16 */        FORK + 19,
+                INDENT | EXPR,
                 BRANCH + 20,
 
-                ANNOTATION_ARRAY_INIT, // 19
+/* 19 */        INDENT | ANNOTATION_ARRAY_INIT,
 
-                FORK + 9, // 20
+/* 20 */        FORK + 9,
                 UNINDENT | RPAREN,
                 END
             );
@@ -254,12 +254,12 @@ class WrapAndIndent extends Check {
 
                 FORK + 5,
 
-                INDENT | EXPR,     // 1
+/* 1 */         INDENT | EXPR,
                 FORK + 5,
                 COMMA,
                 FORK + 1,
 
-                UNINDENT | RCURLY, // 5
+/* 5 */         UNINDENT | RCURLY,
                 END
             );
             break;
@@ -281,12 +281,12 @@ class WrapAndIndent extends Check {
             checkChildren(
                 ast,
                 
-                FORK + 5,          // 0
-                ANY | INDENT,
+/* 0 */         FORK + 5,
+                INDENT | ANY,
                 FORK + 5,
                 COMMA,
                 BRANCH + 0,
-                RCURLY | UNINDENT, // 5
+/* 5 */         UNINDENT | RCURLY,
                 END
             );
             break;
@@ -297,14 +297,14 @@ class WrapAndIndent extends Check {
 
                 FORK + 6,
                 LITERAL_CASE,                              // case 1: case 2:
-                FORK + 5,                   // 2
-                LITERAL_CASE | WRAP,
+/* 2 */         FORK + 5,
+                WRAP | LITERAL_CASE,
                 BRANCH + 2,
 
-                FORK + 7,                   // 5
-                LITERAL_DEFAULT | WRAP,     // 6           // default:
+/* 5 */         FORK + 7,
+/* 6 */         WRAP | LITERAL_DEFAULT,
 
-                SLIST | INDENT_IF_CHILDREN, // 7
+/* 7 */         INDENT_IF_CHILDREN | SLIST,
                 END
             );
             break;
@@ -321,13 +321,13 @@ class WrapAndIndent extends Check {
                 FORK + 5,
                 TYPE_PARAMETERS,
 
-                FORK + 7,            // 5
-                EXTENDS_CLAUSE | WRAP,
+/* 5 */         FORK + 7,
+                WRAP | EXTENDS_CLAUSE,
 
-                FORK + 9,            // 7
-                IMPLEMENTS_CLAUSE | WRAP,
+/* 7 */         FORK + 9,
+                WRAP | IMPLEMENTS_CLAUSE,
 
-                OBJBLOCK,            // 9
+/* 9 */         OBJBLOCK,
                 END
             );
             break;
@@ -337,8 +337,8 @@ class WrapAndIndent extends Check {
                 ast,
 
                 LPAREN,
-                ELIST | INDENT_IF_CHILDREN,
-                RPAREN | UNINDENT,
+                INDENT_IF_CHILDREN | ELIST,
+                UNINDENT | RPAREN,
                 SEMI,
                 END
             );
@@ -353,13 +353,13 @@ class WrapAndIndent extends Check {
                 IDENT | MUST_WRAP,
 
                 LPAREN,
-                PARAMETERS | INDENT_IF_CHILDREN,
-                RPAREN | UNINDENT,
+                INDENT_IF_CHILDREN | PARAMETERS,
+                UNINDENT | RPAREN,
 
                 FORK + 7,
-                LITERAL_THROWS | WRAP,
+                WRAP | LITERAL_THROWS,
 
-                SLIST,      // 7
+/* 7 */         SLIST,
                 END
             );
             break;
@@ -369,11 +369,11 @@ class WrapAndIndent extends Check {
                 ast,
                 
                 FORK + 5,
-                EXPR | INDENT, // 1
+/* 1 */         INDENT | EXPR,
                 FORK + 5,
-                COMMA,         // 3
+/* 3 */         COMMA,
                 BRANCH + 1,
-                END            // 6
+/* 6 */         END
             );
             break;
 
@@ -437,7 +437,7 @@ class WrapAndIndent extends Check {
                 ast,
                 
                 VARIABLE_DEF,
-                COLON | WRAP,
+                WRAP | COLON,
                 EXPR,
                 END
             );
@@ -454,10 +454,10 @@ class WrapAndIndent extends Check {
                 FORK + 5,
                 TYPE_PARAMETERS,
 
-                FORK + 7,            // 5
-                EXTENDS_CLAUSE | WRAP,
+/* 5 */         FORK + 7,
+                WRAP | EXTENDS_CLAUSE,
 
-                OBJBLOCK,            // 7
+/* 7 */         OBJBLOCK,
                 END
             );
             break;
@@ -467,7 +467,7 @@ class WrapAndIndent extends Check {
                 ast,
 
                 IDENT,
-                ANY | WRAP,
+                WRAP | ANY,
                 END
             );
             break;
@@ -477,8 +477,8 @@ class WrapAndIndent extends Check {
                 ast,
 
                 ANY,
-                EXPR | INDENT,
-                RBRACK | UNINDENT,
+                INDENT | EXPR,
+                UNINDENT | RBRACK,
                 END
             );
             break;
@@ -490,8 +490,8 @@ class WrapAndIndent extends Check {
                 SLIST,
                 DO_WHILE,
                 LPAREN,
-                EXPR | INDENT,
-                RPAREN | UNINDENT,
+                INDENT | EXPR,
+                UNINDENT | RPAREN,
                 SEMI,
                 END
             );
@@ -503,22 +503,22 @@ class WrapAndIndent extends Check {
                 
                 LPAREN,
                 FORK + 8,
-                FOR_INIT | INDENT,
+                INDENT | FOR_INIT,
                 SEMI,
-                FOR_CONDITION | INDENT,
+                INDENT | FOR_CONDITION,
                 SEMI,
-                FOR_ITERATOR | INDENT_IF_CHILDREN,
+                INDENT_IF_CHILDREN | FOR_ITERATOR,
                 FORK + 9,
 
-                FOR_EACH_CLAUSE | INDENT, // 8
-                RPAREN | UNINDENT,        // 9
+/* 8 */         INDENT | FOR_EACH_CLAUSE,
+/* 9 */         UNINDENT | RPAREN,
 
                 FORK + 14,
                 EXPR,
                 SEMI,
                 END,
 
-                ANY,                      // 14
+/* 14 */        ANY,
                 END
             );
             break;
@@ -528,18 +528,18 @@ class WrapAndIndent extends Check {
                 ast,
 
                 LPAREN,
-                EXPR | INDENT,
-                RPAREN | UNINDENT,
+                INDENT | EXPR,
+                UNINDENT | RPAREN,
                 FORK + 7,
                 EXPR,
                 SEMI,
                 END,
 
-                ANY,       // 7
+/* 7 */         ANY,
                 FORK + 10,
                 LITERAL_ELSE,
 
-                END        // 10
+/* 10 */        END
             );
             break;
             
@@ -547,17 +547,17 @@ class WrapAndIndent extends Check {
             checkChildren(
                 ast,
 
-                ANY,           // 0  Identifier or primitive
+/* 0 */         ANY,
                 FORK + 3,
                 TYPE_ARGUMENTS,
-                FORK + 8,        // 3
+/* 3 */         FORK + 8,
                 ARRAY_DECLARATOR,
                 FORK + 7,
                 ARRAY_INIT,
-                END,             // 7
-                LPAREN,          // 8
-                ELIST | INDENT_IF_CHILDREN,
-                RPAREN | UNINDENT,
+/* 7 */         END,
+/* 8 */         LPAREN,
+                INDENT_IF_CHILDREN | ELIST,
+                UNINDENT | RPAREN,
                 OBJBLOCK | OPTIONAL,
                 END
             );
@@ -568,13 +568,13 @@ class WrapAndIndent extends Check {
                 ast,
 
                 LPAREN,
-                EXPR | INDENT,
-                RPAREN | UNINDENT,
+                INDENT | EXPR,
+                UNINDENT | RPAREN,
                 LCURLY,
                 FORK + 7,
-                CASE_GROUP | INDENT, // 5
+/* 5 */         INDENT | CASE_GROUP,
                 FORK + 5,
-                RCURLY | UNINDENT,   // 7
+/* 7 */         UNINDENT | RCURLY,
                 END
             );
             break;
@@ -584,26 +584,26 @@ class WrapAndIndent extends Check {
             checkChildren(
                 ast,
                 
-                MODIFIERS,    // 0
+/* 0 */         MODIFIERS,
                 FORK + 3,
                 TYPE_PARAMETERS,
 
-                TYPE,         // 3
+/* 3 */         TYPE,
 
                 IDENT | MUST_WRAP,
 
                 LPAREN,
-                PARAMETERS | INDENT_IF_CHILDREN,
-                RPAREN | UNINDENT,
+                INDENT_IF_CHILDREN | PARAMETERS,
+                UNINDENT | RPAREN,
 
                 FORK + 10,
-                LITERAL_THROWS | WRAP,
+                WRAP | LITERAL_THROWS,
 
-                FORK + 13, // 10
+/* 10 */        FORK + 13,
                 SLIST,
                 END,
 
-                SEMI,     // 13
+/* 13 */        SEMI,
                 END
             );
             break;
@@ -613,15 +613,15 @@ class WrapAndIndent extends Check {
                 ast,
 
                 LPAREN,
-                EXPR | INDENT,
-                RPAREN | UNINDENT,
+                INDENT | EXPR,
+                UNINDENT | RPAREN,
                 FORK + 7,
 
                 EXPR,
                 SEMI,
                 END,
 
-                ANY,       // 7
+/* 7 */         ANY,
                 END
             );
             break;
@@ -632,10 +632,10 @@ class WrapAndIndent extends Check {
 
                 FORK + 3,
 
-                ANY,               // 1
+/* 1 */         ANY,
                 FORK + 1,
 
-                END                // 3
+/* 3 */         END
             );
             break;
 
@@ -643,28 +643,28 @@ class WrapAndIndent extends Check {
             checkChildren(
                 ast,
 
-                LCURLY,                     // 0
+/* 0 */         LCURLY,
 
                 FORK + 8,
-                ENUM_CONSTANT_DEF | INDENT, // 2
+/* 2 */         INDENT | ENUM_CONSTANT_DEF,
                 FORK + 6,
                 COMMA,
                 FORK + 2,
-                FORK + 8,                   // 6
-                SEMI | INDENT,
+/* 6 */         FORK + 8,
+                INDENT | SEMI,
 
-                FORK + 14,                  // 8
-                VARIABLE_DEF | INDENT,
-                FORK + 8,                   // 10
+/* 8 */         FORK + 14,
+                INDENT | VARIABLE_DEF,
+/* 10 */        FORK + 8,
                 COMMA,
                 VARIABLE_DEF,
                 BRANCH + 10,
 
-                FORK + 17,                  // 14
-                RCURLY | UNINDENT,          // 15
+/* 14 */        FORK + 17,
+/* 15 */        UNINDENT | RCURLY,
                 END,
 
-                ANY | INDENT,               // 17
+/* 17 */        INDENT | ANY,
                 BRANCH + 6
             );
             break;
@@ -674,11 +674,11 @@ class WrapAndIndent extends Check {
                 ast,
                 
                 FORK + 5,
-                PARAMETER_DEF | INDENT, // 1
+/* 1 */         INDENT | PARAMETER_DEF,
                 FORK + 5,
-                COMMA,                  // 3
+/* 3 */         COMMA,
                 BRANCH + 1,
-                END                     // 5
+/* 5 */         END
             );
             break;
             
@@ -693,29 +693,29 @@ class WrapAndIndent extends Check {
             checkChildren(
                 ast,
                 
-                FORK + 4,     // 0
-                EXPR | INDENT,
+/* 0 */         FORK + 4,
+                INDENT | EXPR,
                 SEMI,
                 BRANCH + 0,
                 
-                FORK + 12,    // 4
-                VARIABLE_DEF | INDENT,
-                FORK + 10,    // 6
+/* 4 */         FORK + 12,
+                INDENT | VARIABLE_DEF,
+/* 6 */         FORK + 10,
                 COMMA,
                 VARIABLE_DEF,
                 BRANCH + 6,
-                SEMI,         // 10
+/* 10 */        SEMI,
                 BRANCH + 0,
 
                 // SLIST in CASE_GROUP ends _without_ an RCURLY!
-                FORK + 14,    // 12
+/* 12 */        FORK + 14,
                 END,
 
-                FORK + 17,    // 14
-                RCURLY | UNINDENT,
+/* 14 */        FORK + 17,
+                UNINDENT | RCURLY,
                 END,
 
-                ANY | INDENT, // 17
+/* 17 */        INDENT | ANY,
                 BRANCH + 0
             );
             break;
@@ -725,8 +725,8 @@ class WrapAndIndent extends Check {
                 ast,
                 
                 LPAREN,
-                ELIST | INDENT_IF_CHILDREN,
-                RPAREN | UNINDENT,
+                INDENT_IF_CHILDREN | ELIST,
+                UNINDENT | RPAREN,
                 SEMI,
                 END
             );
@@ -738,12 +738,12 @@ class WrapAndIndent extends Check {
 
                 MODIFIERS,
                 TYPE,
-                IDENT | WRAP,
+                WRAP | IDENT,
                 FORK + 5,
                 ASSIGN,
-                FORK + 7, // 5
+/* 5 */         FORK + 7,
                 SEMI, // Field declarations DO have a SEMI, local variable declarations DON'T!?
-                END       // 7
+/* 7 */         END
             );
             break;
 
@@ -888,9 +888,9 @@ class WrapAndIndent extends Check {
                 ast,
 
                 FORK + 3,
-                ANY,        // 1
+/* 1 */         ANY,
                 FORK + 1,
-                END         // 3
+/* 3 */         END
             );
             break;
 
