@@ -17,7 +17,9 @@ Require-Bundle: net.sf.eclipsecs.checkstyle;bundle-version="5.1.0",
  org.eclipse.ui;bundle-version="3.5.0",
  org.eclipse.ui.ide;bundle-version="3.5.0",
  org.eclipse.equinox.common;bundle-version="3.5.0",
- org.eclipse.core.runtime;bundle-version="3.5.0"
+ org.eclipse.core.runtime;bundle-version="3.5.0",
+ org.eclipse.ui.editors;bundle-version="3.8.100",
+ net.sf.eclipsecs.branding;bundle-version="5.6.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Eclipse-RegisterBuddy: net.sf.eclipsecs.core,

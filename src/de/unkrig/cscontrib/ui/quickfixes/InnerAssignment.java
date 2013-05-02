@@ -26,11 +26,14 @@
 
 package de.unkrig.cscontrib.ui.quickfixes;
 
-import java.util.List;
-
 import net.sf.eclipsecs.ui.quickfixes.AbstractASTResolution;
 
-import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.Assignment;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.ParenthesizedExpression;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 
@@ -55,29 +58,29 @@ class InnerAssignment extends AbstractASTResolution {
                 if (markerStartOffset >= lhsEnd && markerStartOffset < rhsStart) {
 
                     // Marker begins BETWEEN the LHS and the RHS... THIS is the assignment to parenthesize!
-                    replace(node, parenthesize(node));
+                    InnerAssignment.this.replace(node, parenthesize(node));
                 }
             }
 
-            /**
-             * Changes the relation between the {@code oldNode} and its parent to the {@code newNode}.
-             */
-            private void
-            replace(ASTNode oldNode, ASTNode newNode) {
-                ASTNode                      parent   = oldNode.getParent();
-                StructuralPropertyDescriptor location = oldNode.getLocationInParent();
-
-                if (location.isChildProperty()) {
-                    parent.setStructuralProperty(location, newNode);
-                } else if (location.isChildListProperty()) {
-                    @SuppressWarnings("unchecked") List<ASTNode> childList = (
-                        (List<ASTNode>) parent.getStructuralProperty(location)
-                    );
-                    childList.set(childList.indexOf(oldNode), newNode);
-                } else {
-                    assert false;
-                }
-            }
+//            /**
+//             * Changes the relation between the {@code oldNode} and its parent to the {@code newNode}.
+//             */
+//            private void
+//            replace(ASTNode oldNode, ASTNode newNode) {
+//                ASTNode                      parent   = oldNode.getParent();
+//                StructuralPropertyDescriptor location = oldNode.getLocationInParent();
+//
+//                if (location.isChildProperty()) {
+//                    parent.setStructuralProperty(location, newNode);
+//                } else if (location.isChildListProperty()) {
+//                    @SuppressWarnings("unchecked") List<ASTNode> childList = (
+//                        (List<ASTNode>) parent.getStructuralProperty(location)
+//                    );
+//                    childList.set(childList.indexOf(oldNode), newNode);
+//                } else {
+//                    assert false;
+//                }
+//            }
 
             /** @return A parenthesized copy of the {@code expression} */
             private Expression

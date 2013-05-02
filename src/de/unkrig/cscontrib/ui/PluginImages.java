@@ -46,13 +46,10 @@ class PluginImages {
 
     private static final Map<ImageDescriptor, Image> CACHED_IMAGES = new HashMap<ImageDescriptor, Image>();
 
-    public static final ImageDescriptor CORRECTION_ADD;
+    public static final ImageDescriptor CORRECTION_ADD    = AbstractUIPlugin.imageDescriptorFromPlugin(CheckstyleUIPlugin.PLUGIN_ID, "icons/add_correction.gif");
+    public static final ImageDescriptor CORRECTION_REMOVE = AbstractUIPlugin.imageDescriptorFromPlugin(CheckstyleUIPlugin.PLUGIN_ID, "icons/remove_correction.gif");
 
     static {
-        CORRECTION_ADD = AbstractUIPlugin.imageDescriptorFromPlugin(
-            CheckstyleUIPlugin.PLUGIN_ID,
-            "icons/add_correction.gif"
-        );
     }
 
     /**

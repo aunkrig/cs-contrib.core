@@ -26,33 +26,29 @@
 
 package de.unkrig.cscontrib.ui.quickfixes;
 
-import org.eclipse.osgi.util.NLS;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
-/** Message bundle for this package. */
+/***/
 public
-class Messages extends NLS {
+class WrapAndIndent3 extends AbstractDocumentResolution {
 
-    private
-    Messages() {}
-    
-    private static final String BUNDLE_NAME = "de.unkrig.cscontrib.ui.quickfixes.messages"; //$NON-NLS-1$
-
-    static {
-        NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+    @Override
+    protected boolean canFixMessageKey(String messageKey) {
+        return "''{0}'' must appear in column {1}, not {2}".equals(messageKey);
     }
 
-// CHECKSTYLE xNameSpelling:OFF
-    public static String InnerAssignmentQuickfix_description;
-    public static String InnerAssignmentQuickfix_label;
+    @Override protected void
+    resolve(String messageKey, IDocument document, int markerStart) {
+        System.currentTimeMillis();
+    }
 
-    public static String WrapAndIndentQuickfix1_description;
-    public static String WrapAndIndentQuickfix1_label;
-    public static String WrapAndIndentQuickfix2_description;
-    public static String WrapAndIndentQuickfix2_label;
-    public static String WrapAndIndentQuickfix3_description;
-    public static String WrapAndIndentQuickfix3_label;
+    public String
+    getDescription() { return Messages.WrapAndIndentQuickfix3_description; }
 
-    public static String ZeroParameterSuperconstructorInvocation_description;
-    public static String ZeroParameterSuperconstructorInvocation_label;
-// CHECKSTYLE NameSpelling:ON
+    public String
+    getLabel() { return Messages.WrapAndIndentQuickfix3_label; }
+
+    public Image
+    getImage() { return /*PluginImages.getImage(PluginImages.CORRECTION_ADD)*/null; }
 }
