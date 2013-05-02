@@ -1,6 +1,6 @@
 //============================================================================
 //
-// Copyright (C) 2002-2012  David Schneider, Lars Ködderitzsch
+// Copyright (C) 2002-2012  David Schneider, Lars Kï¿½dderitzsch
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -138,7 +138,8 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
         IPath path = resource.getLocation(); // compilationUnit.getPath();
 
         try {
-            Map<String, Object> attributes = marker.getAttributes();
+            @SuppressWarnings("unused") Map<String, Object> attributes = marker.getAttributes(); // TODO: DEBUG
+
             IProgressMonitor monitor = new NullProgressMonitor();
 
             // open the file the editor
