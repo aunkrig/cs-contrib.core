@@ -1051,7 +1051,7 @@ class WrapAndIndent extends Check {
                     firstArgument == null
                     || getLeftmostDescendant(firstArgument).getLineNo() == expression.getLineNo()
                 ) {
-                    checkSameLine(getRightmostDescendant(arguments), rparen);
+                    checkSameLine(arguments, rparen);
                 } else {
                     checkAligned(getLeftmostDescendant(expression), rparen);
                 }
@@ -1129,7 +1129,7 @@ class WrapAndIndent extends Check {
             checkExpression(next, true);
             previous = next;
             next     = next.getNextSibling();
-            checkSameLine(getRightmostDescendant(previous), next);
+            checkSameLine(previous, next);
         } else {
             checkIndented(previous, getLeftmostDescendant(next));
             checkExpression(next, false);
@@ -1317,7 +1317,7 @@ class WrapAndIndent extends Check {
                     checkAlignment(child, indentation);
                 }
             } else {
-                checkSameLine(previousAst, getLeftmostDescendant(child));
+                checkSameLine(previousAst, child);
             }
             previousAst = getRightmostDescendant(child);
             child       = child.getNextSibling();
@@ -1364,6 +1364,9 @@ class WrapAndIndent extends Check {
 
     private void
     checkSameLine(DetailAST left, DetailAST right) {
+        left  = getRightmostDescendant(left);
+        right = getLeftmostDescendant(right);
+
         if (left.getLineNo() != right.getLineNo()) {
             log(
                 right,

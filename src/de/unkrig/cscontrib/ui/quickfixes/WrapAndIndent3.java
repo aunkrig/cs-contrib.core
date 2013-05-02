@@ -34,7 +34,8 @@ public
 class WrapAndIndent3 extends AbstractDocumentResolution {
 
     @Override
-    protected boolean canFixMessageKey(String messageKey) {
+    protected boolean
+    canFixMessageKey(String messageKey) {
         return "''{0}'' must appear in column {1}, not {2}".equals(messageKey);
     }
 

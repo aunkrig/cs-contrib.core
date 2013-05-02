@@ -37,8 +37,8 @@ import org.eclipse.swt.graphics.Image;
 public
 class WrapAndIndent1 extends AbstractDocumentResolution {
 
-    @Override
-    protected boolean canFixMessageKey(String messageKey) {
+    @Override protected boolean
+    canFixMessageKey(String messageKey) {
         return "Must wrap line before ''{0}''".equals(messageKey);
     }
 

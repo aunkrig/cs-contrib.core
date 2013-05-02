@@ -30,40 +30,26 @@ import net.sf.eclipsecs.core.util.CheckstyleLog;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 
 /***/
 public
 class WrapAndIndent2 extends AbstractDocumentResolution {
 
-    @Override
-    protected boolean canFixMessageKey(String messageKey) {
+    @Override protected boolean
+    canFixMessageKey(String messageKey) {
         return "''{0}'' must appear on same line as ''{1}''".equals(messageKey);
     }
 
     @Override protected void
     resolve(String messageKey, IDocument document, int markerStart) {
         try {
-            // TODO
-            IRegion lineInfo = document.getLineInformationOfOffset(markerStart);
-            String  line     = document.get(lineInfo.getOffset(), lineInfo.getLength());
-
-            int i;
-            for (i = 0; i < line.length(); i++) {
-                char c = line.charAt(i);
-                if (c != ' ' && c != '\t') break;
+            int from;
+            for (from = markerStart; from > 0; from--) {
+                char c = document.getChar(from - 1);
+                if (!Character.isWhitespace(c)) break;
             }
-            int j;
-            for (j = markerStart - lineInfo.getOffset(); j > 0; j--) {
-                char c = line.charAt(j - 1);
-                if (c != ' ' && c != '\t') break;
-            }
-            document.replace(
-                lineInfo.getOffset() + j,
-                markerStart - lineInfo.getOffset() - j,
-                document.getLineDelimiter(0) + line.substring(0, i)
-            );
+            document.replace(from, markerStart - from, " ");
         } catch (BadLocationException ble) {
             CheckstyleLog.log(ble);
         }
