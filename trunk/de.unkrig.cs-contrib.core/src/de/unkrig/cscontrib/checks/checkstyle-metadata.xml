@@ -236,6 +236,7 @@
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation"/>
             <description>%de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation.desc</description>
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.ZeroParameterSuperconstructorInvocation"/>
             <message-key key="Redundant invocation of zero-parameter superconstructor"/>
         </rule-metadata>
     </rule-group-metadata>
@@ -253,6 +254,9 @@
             <property-metadata name="basicOffset" datatype="Integer" default-value="4">
                 <description>%de.unkrig.cscontrib.checks.WrapAndIndent.basicOffset</description>
             </property-metadata>
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1"/>
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2"/>
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3"/>
             <message-key key="Must wrap line before ''{0}''"/>
             <message-key key="''{0}'' must appear on same line as ''{1}''"/>
             <message-key key="''{0}'' must appear in column {1}, not {2}"/>
