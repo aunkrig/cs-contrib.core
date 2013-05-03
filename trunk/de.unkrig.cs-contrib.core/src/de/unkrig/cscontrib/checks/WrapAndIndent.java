@@ -70,7 +70,7 @@ class WrapAndIndent extends Check {
 //            DEC,
 //            DIV,
 //            DIV_ASSIGN,
-//            DOT,
+            DOT,
 //            DO_WHILE,
             ELIST,
 //            ELLIPSIS,
@@ -767,7 +767,6 @@ class WrapAndIndent extends Check {
         case DIV:
         case DIV_ASSIGN:
         case DO_WHILE: // The 'while' keyword at the end of the DO...WHILE loop.
-        case DOT:
         case ELLIPSIS:
         case EMPTY_STAT:
         case ENUM:
@@ -849,6 +848,8 @@ class WrapAndIndent extends Check {
             throw new AssertionError("Token type '" + ast.getType() + "' was not registered for, was visited though");
 
         // Other tokens which may have children.
+        case DOT:
+            System.currentTimeMillis();
         case ANNOTATION_FIELD_DEF:
         case ANNOTATION_MEMBER_VALUE_PAIR:
         case ANNOTATIONS:
@@ -1051,7 +1052,7 @@ class WrapAndIndent extends Check {
                     firstArgument == null
                     || getLeftmostDescendant(firstArgument).getLineNo() == expression.getLineNo()
                 ) {
-                    checkSameLine(arguments, rparen);
+                    checkSameLine(getRightmostDescendant(arguments), rparen);
                 } else {
                     checkAligned(getLeftmostDescendant(expression), rparen);
                 }
@@ -1129,7 +1130,7 @@ class WrapAndIndent extends Check {
             checkExpression(next, true);
             previous = next;
             next     = next.getNextSibling();
-            checkSameLine(previous, next);
+            checkSameLine(getRightmostDescendant(previous), next);
         } else {
             checkIndented(previous, getLeftmostDescendant(next));
             checkExpression(next, false);
@@ -1160,10 +1161,15 @@ class WrapAndIndent extends Check {
         // Determine the "indentation parent".
         if (ast.getType() == ELIST) {
             ast = ast.getParent();
-        } else if (ast.getType() == SLIST && ast.getParent().getType() == CASE_GROUP) {
+        } else
+        if (ast.getType() == SLIST && ast.getParent().getType() == CASE_GROUP) {
             ast = ast.getParent().getParent();
-        } else if (ast.getType() == PARAMETERS) {
+        } else
+        if (ast.getType() == PARAMETERS) {
             ast = ast.getParent().findFirstToken(IDENT);
+        } else
+        if (ast.getType() == DOT) {
+            ast = getLeftmostDescendant(ast);
         }
 
         DetailAST previousAst = ast;
@@ -1317,7 +1323,7 @@ class WrapAndIndent extends Check {
                     checkAlignment(child, indentation);
                 }
             } else {
-                checkSameLine(previousAst, child);
+                checkSameLine(previousAst, getLeftmostDescendant(child));
             }
             previousAst = getRightmostDescendant(child);
             child       = child.getNextSibling();
@@ -1364,9 +1370,6 @@ class WrapAndIndent extends Check {
 
     private void
     checkSameLine(DetailAST left, DetailAST right) {
-        left  = getRightmostDescendant(left);
-        right = getLeftmostDescendant(right);
-
         if (left.getLineNo() != right.getLineNo()) {
             log(
                 right,

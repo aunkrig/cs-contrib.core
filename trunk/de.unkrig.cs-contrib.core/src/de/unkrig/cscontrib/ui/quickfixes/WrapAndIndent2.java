@@ -44,12 +44,18 @@ class WrapAndIndent2 extends AbstractDocumentResolution {
     @Override protected void
     resolve(String messageKey, IDocument document, int markerStart) {
         try {
-            int from;
+            char c = 0;
+            int  from;
             for (from = markerStart; from > 0; from--) {
-                char c = document.getChar(from - 1);
+                c = document.getChar(from - 1);
                 if (!Character.isWhitespace(c)) break;
             }
-            document.replace(from, markerStart - from, " ");
+            char c2 = document.getChar(markerStart);
+            document.replace(
+                from,
+                markerStart - from,
+                c == '@' || c == '(' || c == '.' || c2 == ')' || c2 == ',' || c2 == ';' ? "" : " "
+            );
         } catch (BadLocationException ble) {
             CheckstyleLog.log(ble);
         }
