@@ -43,7 +43,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.swt.graphics.Image;
@@ -58,11 +57,11 @@ public abstract
 class AbstractDocumentResolution extends WorkbenchMarkerResolution implements ICheckstyleMarkerResolution {
 
     private boolean      autoCommit;
-    private RuleMetadata metaData;
+    private RuleMetadata metadata;
 
     public void
     setRuleMetaData(RuleMetadata metadata) {
-        this.metaData = metadata;
+        this.metadata = metadata;
     }
 
     public void
@@ -77,7 +76,7 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
         try {
             return (
                 CheckstyleMarker.MARKER_ID.equals(marker.getType())
-                && (metaData.getInternalName().equals(moduleName) || metaData.getAlternativeNames().contains(moduleName))
+                && (metadata.getInternalName().equals(moduleName) || metadata.getAlternativeNames().contains(moduleName))
                 && this.canFixMessageKey(marker.getAttribute(CheckstyleMarker.MESSAGE_KEY, null))
             );
         } catch (CoreException e) {
@@ -115,38 +114,22 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
         return candidates.toArray(new IMarker[candidates.size()]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void
     run(IMarker marker) {
 
-        IResource resource = marker.getResource();
-
-        if (!(resource instanceof IFile)) {
-            return;
+        IPath path;
+        {
+            IResource resource = marker.getResource();
+            if (!(resource instanceof IFile)) return;
+            path = resource.getLocation();
         }
 
-//        ICompilationUnit compilationUnit = getCompilationUnit(marker);
-//
-//        if (compilationUnit == null) {
-//            return;
-//        }
-
         ITextFileBufferManager bufferManager = null;
-
-        IPath path = resource.getLocation(); // compilationUnit.getPath();
-
         try {
             @SuppressWarnings("unused") Map<String, Object> attributes = marker.getAttributes(); // TODO: DEBUG
 
             IProgressMonitor monitor = new NullProgressMonitor();
 
-            // open the file the editor
-//            JavaUI.openInEditor(compilationUnit);
-
-            // reimplemented according to this article
-            // http://www.eclipse.org/articles/Article-JavaCodeManipulation_AST/index.html
             bufferManager = FileBuffers.getTextFileBufferManager();
             bufferManager.connect(path, LocationKind.NORMALIZE, null);
 
@@ -157,42 +140,23 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
 
             MarkerAnnotation annotation = getMarkerAnnotation(annotationModel, marker);
 
-            // if the annotation is null it means that is was probably deleted
-            // by a previous quickfix
-            if (annotation == null) {
-                return;
-            }
+            if (annotation == null) return;
 
-            Position pos = annotationModel.getPosition(annotation);
+            // Invoke the quickfix.
+            this.resolve(
+                marker.getAttribute(CheckstyleMarker.MESSAGE_KEY, null),
+                document,
+                annotationModel.getPosition(annotation).getOffset()
+            );
 
-//            IRegion lineInfo    = document.getLineInformationOfOffset(pos.getOffset());
-            int     markerStart = pos.getOffset();
-
-//            ASTParser astParser = ASTParser.newParser(AST.JLS3);
-//            astParser.setKind(ASTParser.K_COMPILATION_UNIT);
-//            astParser.setSource(compilationUnit);
-//
-//            CompilationUnit ast = (CompilationUnit) astParser.createAST(monitor);
-//            ast.recordModifications();
-//
-//            ast.accept(handleGetCorrectingASTVisitor(lineInfo, markerStart));
-//
-//            // rewrite all recorded changes to the document
-//            TextEdit edit = ast.rewrite(document, compilationUnit.getJavaProject().getOptions(true));
-//            edit.apply(document);
-            this.resolve(marker.getAttribute(CheckstyleMarker.MESSAGE_KEY, null), document, markerStart);
-            annotationModel.removeAnnotation(annotation);
+            annotation.markDeleted(true);
 
             // commit changes to underlying file
-            if (autoCommit) {
-                textFileBuffer.commit(monitor, false);
-            }
+            if (this.autoCommit) textFileBuffer.commit(monitor, false);
         } catch (CoreException e) {
             CheckstyleLog.log(e, Messages.AbstractASTResolution_msgErrorQuickfix);
         } catch (MalformedTreeException e) {
             CheckstyleLog.log(e, Messages.AbstractASTResolution_msgErrorQuickfix);
-//        } catch (BadLocationException e) {
-//            CheckstyleLog.log(e, Messages.AbstractASTResolution_msgErrorQuickfix);
         } finally {
 
             if (bufferManager != null) {
@@ -208,121 +172,18 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
     protected abstract void
     resolve(String messageKey, IDocument document, int markerStart);
 
-//    /**
-//     * Template method to be implemented by concrete quickfix implementations. These must provide their fixing
-//     * modification through an AST visitor, more specifically by doing the neccessary modifications directly on the
-//     * visited AST nodes. The AST itself will recored modification.
-//     * 
-//     * @param lineInfo
-//     *            the IRegion for the line containing the marker to fix
-//     * @param markerStartOffset
-//     *            the actual offset where the problem marker starts
-//     * @return the modifying AST visitor
-//     */
-//    protected abstract ASTVisitor handleGetCorrectingASTVisitor(IRegion lineInfo, int markerStartOffset);
-
-//    /**
-//     * Determines if the given position lies within the boundaries of the ASTNode.
-//     * 
-//     * @param node
-//     *            the ASTNode
-//     * @param position
-//     *            the position to check for
-//     * @return <code>true</code> if the position is within the ASTNode
-//     */
-//    protected boolean containsPosition(ASTNode node, int position) {
-//        return node.getStartPosition() <= position && position <= node.getStartPosition() + node.getLength();
-//    }
-
-//    /**
-//     * Determines if the given position lies within the boundaries of the region.
-//     * 
-//     * @param region
-//     *            the region
-//     * @param position
-//     *            the position to check for
-//     * @return <code>true</code> if the position is within the region
-//     */
-//    protected boolean
-//    containsPosition(IRegion region, int position) {
-//        return region.getOffset() <= position && position <= region.getOffset() + region.getLength();
-//    }
-
-//    /**
-//     * Returns a deep copy of the subtree of AST nodes rooted at the given node. The resulting nodes are owned by the
-//     * same AST as the given node. Even if the given node has a parent, the result node will be unparented.
-//     * <p>
-//     * Source range information on the original nodes is automatically copied to the new nodes. Client properties (
-//     * <code>properties</code>) are not carried over.
-//     * </p>
-//     * <p>
-//     * The node's <code>AST</code> and the target <code>AST</code> must support the same API level.
-//     * </p>
-//     * 
-//     * @param node
-//     *            the node to copy, or <code>null</code> if none
-//     * 
-//     * @return the copied node, or <code>null</code> if <code>node</code> is <code>null</code>
-//     */
-//    @SuppressWarnings("unchecked")
-//    protected <T extends ASTNode> T copy(final T node) {
-//        return (T) ASTNode.copySubtree(node.getAST(), node);
-//    }
-
-//    /**
-//     * Replaces a node in an AST with another node. If the replacement is successful the original node is deleted.
-//     * 
-//     * @param node
-//     *            The node to replace.
-//     * @param replacement
-//     *            The replacement node.
-//     * @return <code>true</code> if the node was successfully replaced.
-//     */
-//    protected boolean replace(final ASTNode node, final ASTNode replacement) {
-//        final ASTNode parent = node.getParent();
-//        final StructuralPropertyDescriptor descriptor = node.getLocationInParent();
-//        if (descriptor != null) {
-//            if (descriptor.isChildProperty()) {
-//                parent.setStructuralProperty(descriptor, replacement);
-//                node.delete();
-//                return true;
-//            }
-//            else if (descriptor.isChildListProperty()) {
-//                @SuppressWarnings("unchecked")
-//                final List<ASTNode> children = (List<ASTNode>) parent.getStructuralProperty(descriptor);
-//                children.set(children.indexOf(node), replacement);
-//                node.delete();
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    private ICompilationUnit getCompilationUnit(IMarker marker) {
-//        IResource res = marker.getResource();
-//        if (res instanceof IFile && res.isAccessible()) {
-//            IJavaElement element = JavaCore.create((IFile) res);
-//            if (element instanceof ICompilationUnit) {
-//                return (ICompilationUnit) element;
-//            }
-//        }
-//        return null;
-//    }
-//
     private MarkerAnnotation
     getMarkerAnnotation(IAnnotationModel annotationModel, IMarker marker) {
 
-        @SuppressWarnings("unchecked") Iterator<Annotation> it = annotationModel.getAnnotationIterator();
-        while (it.hasNext()) {
-            Annotation tmp = it.next();
+        for (
+            @SuppressWarnings("unchecked") Iterator<Annotation> it = annotationModel.getAnnotationIterator();
+            it.hasNext();
+        ) {
+            Annotation annotation = it.next();
 
-            if (tmp instanceof MarkerAnnotation) {
-
-                IMarker theMarker = ((MarkerAnnotation) tmp).getMarker();
-
-                if (theMarker.equals(marker)) {
-                    return (MarkerAnnotation) tmp;
-                }
+            if (annotation instanceof MarkerAnnotation) {
+                MarkerAnnotation markerAnnotation = (MarkerAnnotation) annotation;
+                if (markerAnnotation.getMarker().equals(marker)) return markerAnnotation;
             }
         }
         return null;
