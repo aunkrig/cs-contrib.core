@@ -30,7 +30,7 @@ class WhitespaceAround extends WhitespaceAroundCheck {
                 this.allowEmptyTypes
                 && nextSiblingTypeIs(ast, TokenTypes.RCURLY)
                 && parentTypeIs(ast, TokenTypes.OBJBLOCK)
-                && grandparentTypeIs(ast, TokenTypes.CLASS_DEF,  TokenTypes.INTERFACE_DEF)
+                && grandparentTypeIs(ast, TokenTypes.CLASS_DEF, TokenTypes.INTERFACE_DEF, TokenTypes.LITERAL_NEW)
             ) return;
             break;
 
