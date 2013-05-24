@@ -5,10 +5,10 @@ Bundle-SymbolicName: de.unkrig.cs-contrib.core;singleton:=true
 Bundle-Version: 0.0.0
 Bundle-Activator: de.unkrig.cscontrib.Activator
 Bundle-Vendor: Arno Unkrig
-Require-Bundle: net.sf.eclipsecs.checkstyle;bundle-version="5.6.1",
- net.sf.eclipsecs.ui;bundle-version="5.6.1",
- net.sf.eclipsecs.core;bundle-version="5.6.1",
- net.sf.eclipsecs.branding;bundle-version="5.6.1",
+Require-Bundle: net.sf.eclipsecs.checkstyle;bundle-version="5.6.0",
+ net.sf.eclipsecs.ui;bundle-version="5.6.0",
+ net.sf.eclipsecs.core;bundle-version="5.6.0",
+ net.sf.eclipsecs.branding;bundle-version="5.6.0",
  org.eclipse.jdt.core;bundle-version="3.5.0",
  org.eclipse.jface.text;bundle-version="3.5.0",
  org.eclipse.swt;bundle-version="3.5.0",
