@@ -1,4 +1,29 @@
 
+/*
+ * de.unkrig.cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
+ *
+ * Copyright (c) 2013, Arno Unkrig
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met:
+ *
+ *    1. Redistributions of source code must retain the above copyright notice, this list of conditions and the
+ *       following disclaimer.
+ *    2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+ *       following disclaimer in the documentation and/or other materials provided with the distribution.
+ *    3. The name of the author may not be used to endorse or promote products derived from this software without
+ *       specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ * THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package de.unkrig.cscontrib.checks;
 
 import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
@@ -31,13 +56,17 @@ class WrapAndIndent extends Check {
     private static final int BRANCH  = 900;
     private static final int END     = 996;
 
+    // CONFIGURATION SETTERS AND GETTERS -- CHECKSTYLE MethodCheck:OFF
+
     public void
     setBasicOffset(int basicOffset) { this.basicOffset = basicOffset; }
 
     public int
-    getBasicOffset() { return basicOffset; }
+    getBasicOffset() { return this.basicOffset; }
+    
+    // END CONFIGURATION SETTERS AND GETTERS -- CHECKSTYLE MethodCheck:ON
 
-    public int[]
+    @Override public int[]
     getDefaultTokens() {
         return new int[] {
 //            ABSTRACT,
@@ -202,7 +231,7 @@ class WrapAndIndent extends Check {
         };
     }
 
-    public void
+    @Override public void
     visitToken(DetailAST ast) {
 
         @SuppressWarnings("unused") ASTDumper dumper = new ASTDumper(ast); // For debugging
@@ -1045,7 +1074,7 @@ class WrapAndIndent extends Check {
         case METHOD_CALL:
             {
                 DetailAST method = expression.getFirstChild(); // Everything up to and including the method name.
-                checkExpression(method, inline);
+                this.checkExpression(method, inline);
                 checkSameLine(method, expression);
 
                 DetailAST arguments = method.getNextSibling();
@@ -1116,7 +1145,7 @@ class WrapAndIndent extends Check {
     private DetailAST
     checkParenthesizedExpression(DetailAST previous, boolean inline) {
         if (previous.getType() != LPAREN) {
-            checkExpression(previous, inline);
+            this.checkExpression(previous, inline);
             return previous.getNextSibling();
         }
 
@@ -1134,13 +1163,13 @@ class WrapAndIndent extends Check {
         }
 
         if (previous.getLineNo() == getLeftmostDescendant(next).getLineNo()) {
-            checkExpression(next, true);
+            this.checkExpression(next, true);
             previous = next;
             next     = next.getNextSibling();
             checkSameLine(getRightmostDescendant(previous), next);
         } else {
             checkIndented(previous, getLeftmostDescendant(next));
-            checkExpression(next, false);
+            this.checkExpression(next, false);
             previous = next;
             next     = next.getNextSibling();
             checkUnindented(getRightmostDescendant(previous), next);

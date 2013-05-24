@@ -1,6 +1,6 @@
 
 /*
- * cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
+ * de.unkrig.cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
  *
  * Copyright (c) 2013, Arno Unkrig
  * All rights reserved.
@@ -46,10 +46,19 @@ class PluginImages {
 
     private static final Map<ImageDescriptor, Image> CACHED_IMAGES = new HashMap<ImageDescriptor, Image>();
 
-    public static final ImageDescriptor CORRECTION_ADD    = AbstractUIPlugin.imageDescriptorFromPlugin(CheckstyleUIPlugin.PLUGIN_ID, "icons/add_correction.gif");
-    public static final ImageDescriptor CORRECTION_REMOVE = AbstractUIPlugin.imageDescriptorFromPlugin(CheckstyleUIPlugin.PLUGIN_ID, "icons/remove_correction.gif");
+    /**
+     * An icon that visualized the addition of an element.
+     */
+    public static final ImageDescriptor CORRECTION_ADD    = getImageDescriptor("icons/add_correction.gif");
+    
+    /**
+     * An icon that visualized the removal of an element.
+     */
+    public static final ImageDescriptor CORRECTION_REMOVE = getImageDescriptor("icons/remove_correction.gif");
 
-    static {
+    private static ImageDescriptor
+    getImageDescriptor(String name) {
+        return AbstractUIPlugin.imageDescriptorFromPlugin(CheckstyleUIPlugin.PLUGIN_ID, name);
     }
 
     /**

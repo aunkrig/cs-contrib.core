@@ -1,6 +1,6 @@
 
 /*
- * cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
+ * de.unkrig.cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
  *
  * Copyright (c) 2013, Arno Unkrig
  * All rights reserved.
@@ -68,12 +68,12 @@ class WrapAndIndent1 extends AbstractDocumentResolution {
         }
     }
 
-    public String
+    @Override public String
     getDescription() { return Messages.WrapAndIndentQuickfix1_description; }
 
-    public String
+    @Override public String
     getLabel() { return Messages.WrapAndIndentQuickfix1_label; }
 
-    public Image
+    @Override public Image
     getImage() { return /*PluginImages.getImage(PluginImages.CORRECTION_ADD)*/null; }
 }

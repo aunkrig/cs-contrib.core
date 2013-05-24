@@ -1,6 +1,6 @@
 
 /*
- * cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
+ * de.unkrig.cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
  *
  * Copyright (c) 2013, Arno Unkrig
  * All rights reserved.

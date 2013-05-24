@@ -1,4 +1,29 @@
 
+/*
+ * de.unkrig.cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
+ *
+ * Copyright (c) 2013, Arno Unkrig
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met:
+ *
+ *    1. Redistributions of source code must retain the above copyright notice, this list of conditions and the
+ *       following disclaimer.
+ *    2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+ *       following disclaimer in the documentation and/or other materials provided with the distribution.
+ *    3. The name of the author may not be used to endorse or promote products derived from this software without
+ *       specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ * THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package de.unkrig.cscontrib.checks;
 
 import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
@@ -24,6 +49,8 @@ class Alignment extends Check {
     private boolean applyToMethodBody               = true;
     private boolean applyToCaseGroupStatements      = true;
     private boolean applyToAssignments              = true;
+
+    // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
 
     public void
     setApplyToFieldName(boolean applyToFieldName) {
@@ -70,19 +97,21 @@ class Alignment extends Check {
         this.applyToAssignments = applyToAssignments;
     }
 
-    public int[]
+    // END CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:ON
+
+    @Override public int[]
     getDefaultTokens() {
         return new int[] { VARIABLE_DEF, PARAMETER_DEF, METHOD_DEF, CTOR_DEF, CASE_GROUP, EXPR };
     }
 
-    DetailAST previousFieldDeclaration         = null;
-    DetailAST previousParameterDeclaration     = null;
-    DetailAST previousLocalVariableDeclaration = null;
-    DetailAST previousMethodDeclaration        = null;
-    DetailAST previousCaseGroup                = null;
-    DetailAST previousAssignment               = null;
+    private DetailAST previousFieldDeclaration         = null;
+    private DetailAST previousParameterDeclaration     = null;
+    private DetailAST previousLocalVariableDeclaration = null;
+    private DetailAST previousMethodDeclaration        = null;
+    private DetailAST previousCaseGroup                = null;
+    private DetailAST previousAssignment               = null;
 
-    public void
+    @Override public void
     visitToken(DetailAST ast) {
 
         @SuppressWarnings("unused") ASTDumper ad = new ASTDumper(ast);
@@ -96,7 +125,12 @@ class Alignment extends Check {
             ) {
 
                 // First declarator in a field declaration.
-                checkDeclarationAlignment(this.previousFieldDeclaration, ast, this.applyToFieldName, this.applyToFieldInitializer);
+                checkDeclarationAlignment(
+                    this.previousFieldDeclaration,
+                    ast,
+                    this.applyToFieldName,
+                    this.applyToFieldInitializer
+                );
                 this.previousFieldDeclaration = ast;
                 return;
             }
@@ -107,7 +141,12 @@ class Alignment extends Check {
             ) {
 
                 // First declarator in a local variable declaration in block (not in a FOR initializer).
-                checkDeclarationAlignment(this.previousLocalVariableDeclaration, ast, this.applyToLocalVariableName, this.applyToLocalVariableInitializer);
+                checkDeclarationAlignment(
+                    this.previousLocalVariableDeclaration,
+                    ast,
+                    this.applyToLocalVariableName,
+                    this.applyToLocalVariableInitializer
+                );
                 this.previousLocalVariableDeclaration = ast;
                 return;
             }
@@ -137,7 +176,7 @@ class Alignment extends Check {
             if (this.applyToAssignments && ast.getParent().getType() == SLIST) {
                 DetailAST ass = ast.getFirstChild();
                 if (ass.getType() >= ASSIGN && ass.getType() <= BOR_ASSIGN) {
-                    checkTokenAlignment(previousAssignment, ass);
+                    checkTokenAlignment(this.previousAssignment, ass);
                     this.previousAssignment = ass;
                 }
             }
