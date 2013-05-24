@@ -849,7 +849,14 @@ class WrapAndIndent extends Check {
 
         // Other tokens which may have children.
         case DOT:
-            System.currentTimeMillis();
+            // Verify that the dot is used in a PACKAGE declaration or in an IMPORT directive, and not in an
+            // expression.
+            PACKAGE_OR_IMPORT: {
+                for (DetailAST a = ast; a != null; a = a.getParent()) {
+                    if (a.getType() == PACKAGE_DEF || a.getType() == IMPORT) break PACKAGE_OR_IMPORT;
+                }
+                break;
+            }
         case ANNOTATION_FIELD_DEF:
         case ANNOTATION_MEMBER_VALUE_PAIR:
         case ANNOTATIONS:

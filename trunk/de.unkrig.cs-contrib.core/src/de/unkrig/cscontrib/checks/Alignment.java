@@ -167,6 +167,7 @@ class Alignment extends Check {
         this.previousLocalVariableDeclaration = null;
         this.previousMethodDeclaration        = null;
         this.previousCaseGroup                = null;
+        this.previousAssignment               = null;
     }
 
     /**
