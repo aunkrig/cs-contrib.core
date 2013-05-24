@@ -1,6 +1,6 @@
 
 /*
- * cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
+ * de.unkrig.cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
  *
  * Copyright (c) 2013, Arno Unkrig
  * All rights reserved.
@@ -46,7 +46,7 @@ class InnerAssignment extends AbstractASTResolution {
     /**
      * {@inheritDoc}
      */
-    protected ASTVisitor
+    @Override protected ASTVisitor
     handleGetCorrectingASTVisitor(final IRegion lineInfo, final int markerStartOffset) {
 
         return new ASTVisitor() {
@@ -97,18 +97,18 @@ class InnerAssignment extends AbstractASTResolution {
     /**
      * {@inheritDoc}
      */
-    public String
+    @Override public String
     getDescription() { return Messages.InnerAssignmentQuickfix_description; }
 
     /**
      * {@inheritDoc}
      */
-    public String
+    @Override public String
     getLabel() { return Messages.InnerAssignmentQuickfix_label; }
 
     /**
      * {@inheritDoc}
      */
-    public Image
+    @Override public Image
     getImage() { return PluginImages.getImage(PluginImages.CORRECTION_ADD); }
 }

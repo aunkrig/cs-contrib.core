@@ -1,4 +1,29 @@
 
+/*
+ * de.unkrig.cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
+ *
+ * Copyright (c) 2013, Arno Unkrig
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+ * following conditions are met:
+ *
+ *    1. Redistributions of source code must retain the above copyright notice, this list of conditions and the
+ *       following disclaimer.
+ *    2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
+ *       following disclaimer in the documentation and/or other materials provided with the distribution.
+ *    3. The name of the author may not be used to endorse or promote products derived from this software without
+ *       specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+ * THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package de.unkrig.cscontrib.checks;
 
 import java.util.*;
@@ -43,6 +68,7 @@ class NameSpelling extends AbstractFormatCheck {
      * All elements that can be declared in the JAVA programming language.
      */
     public enum Elements {
+        // CHECKSTYLE VariableCheck:OFF
         ANNOTATION("Annotation"),
         ANNOTATION_FIELD("Annotation field"),
         CATCH_PARAMETER("Catch parameter"),
@@ -58,6 +84,7 @@ class NameSpelling extends AbstractFormatCheck {
         METHOD("Method"),
         PACKAGE("Package"),
         TYPE_PARAMETER("Type parameter");
+        // CHECKSTYLE VariableCheck:ON
 
         private final String name;
 
@@ -67,6 +94,8 @@ class NameSpelling extends AbstractFormatCheck {
         @Override public String
         toString() { return this.name; }
     }
+
+    // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
 
     public final void
     setElements(String[] elements) {
@@ -79,26 +108,21 @@ class NameSpelling extends AbstractFormatCheck {
      * All modifiers of the JAVA programming language.
      */
     public enum Modifiers {
-        PUBLIC,
-        PROTECTED,
-        PRIVATE,
-        STATIC,
-        FINAL,
-        VOLATILE,
-        STRICTFP;
+        // SUPPRESS CHECKSTYLE VariableCheck
+        PUBLIC, PROTECTED, PRIVATE, STATIC, FINAL, VOLATILE, STRICTFP
     }
 
     public final void
     setRequiredModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
-            requiredModifiers.add(TokenTypes.getTokenId(modifier.toUpperCase()));
+            this.requiredModifiers.add(TokenTypes.getTokenId(modifier.toUpperCase()));
         }
     }
     
     public final void
     setMissingModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
-            missingModifiers.add(TokenTypes.getTokenId(modifier.toUpperCase()));
+            this.missingModifiers.add(TokenTypes.getTokenId(modifier.toUpperCase()));
         }
     }
 
@@ -106,8 +130,8 @@ class NameSpelling extends AbstractFormatCheck {
      * Whether a name MUST match, or MUST NOT match.
      */
     public enum Options {
-        REQUIRE,
-        FORBID
+        // SUPPRESS CHECKSTYLE VariableCheck
+        REQUIRE, FORBID
     }
 
     public final void
@@ -119,6 +143,8 @@ class NameSpelling extends AbstractFormatCheck {
         }
     }
 
+    // END CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:ON
+
     @Override public int[]
     getDefaultTokens() {
 
@@ -126,24 +152,24 @@ class NameSpelling extends AbstractFormatCheck {
         int[] tokenIds = new int[20];
         int   idx      = 0;
 
-        if (elements.contains(Elements.ANNOTATION))       tokenIds[idx++] = ANNOTATION_DEF;
-        if (elements.contains(Elements.ANNOTATION_FIELD)) tokenIds[idx++] = ANNOTATION_FIELD_DEF;
-        if (elements.contains(Elements.CLASS))            tokenIds[idx++] = CLASS_DEF;
-        if (elements.contains(Elements.ENUM))             tokenIds[idx++] = ENUM_DEF;
-        if (elements.contains(Elements.ENUM_CONSTANT))    tokenIds[idx++] = ENUM_CONSTANT_DEF;
-        if (elements.contains(Elements.INTERFACE))        tokenIds[idx++] = INTERFACE_DEF;
-        if (elements.contains(Elements.METHOD))           tokenIds[idx++] = METHOD_DEF;
-        if (elements.contains(Elements.PACKAGE))          tokenIds[idx++] = PACKAGE_DEF;
-        if (elements.contains(Elements.TYPE_PARAMETER))   tokenIds[idx++] = TYPE_PARAMETER;
+        if (this.elements.contains(Elements.ANNOTATION))       tokenIds[idx++] = ANNOTATION_DEF;
+        if (this.elements.contains(Elements.ANNOTATION_FIELD)) tokenIds[idx++] = ANNOTATION_FIELD_DEF;
+        if (this.elements.contains(Elements.CLASS))            tokenIds[idx++] = CLASS_DEF;
+        if (this.elements.contains(Elements.ENUM))             tokenIds[idx++] = ENUM_DEF;
+        if (this.elements.contains(Elements.ENUM_CONSTANT))    tokenIds[idx++] = ENUM_CONSTANT_DEF;
+        if (this.elements.contains(Elements.INTERFACE))        tokenIds[idx++] = INTERFACE_DEF;
+        if (this.elements.contains(Elements.METHOD))           tokenIds[idx++] = METHOD_DEF;
+        if (this.elements.contains(Elements.PACKAGE))          tokenIds[idx++] = PACKAGE_DEF;
+        if (this.elements.contains(Elements.TYPE_PARAMETER))   tokenIds[idx++] = TYPE_PARAMETER;
         if (
-            elements.contains(Elements.CATCH_PARAMETER)
-            || elements.contains(Elements.FORMAL_PARAMETER)
+            this.elements.contains(Elements.CATCH_PARAMETER)
+            || this.elements.contains(Elements.FORMAL_PARAMETER)
         ) tokenIds[idx++] = PARAMETER_DEF;
         if (
-            elements.contains(Elements.LOCAL_VARIABLE)
-            || elements.contains(Elements.FOR_VARIABLE)
-            || elements.contains(Elements.FOREACH_VARIABLE)
-            || elements.contains(Elements.FIELD)
+            this.elements.contains(Elements.LOCAL_VARIABLE)
+            || this.elements.contains(Elements.FOR_VARIABLE)
+            || this.elements.contains(Elements.FOREACH_VARIABLE)
+            || this.elements.contains(Elements.FIELD)
         ) tokenIds[idx++] = VARIABLE_DEF;
 
         int[] result = new int[idx];
@@ -268,7 +294,7 @@ class NameSpelling extends AbstractFormatCheck {
 
             // Eventually check the element name.
             FullIdent fullName = FullIdent.createFullIdent(nameAst);
-            switch (option) {
+            switch (this.option) {
 
             case REQUIRE:
                 if (!getRegexp().matcher(fullName.getText()).find()) {

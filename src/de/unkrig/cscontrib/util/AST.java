@@ -1,6 +1,6 @@
 
 /*
- * cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
+ * de.unkrig.cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
  *
  * Copyright (c) 2013, Arno Unkrig
  * All rights reserved.
@@ -31,12 +31,15 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 /**
  * Utility methods related to CHECKSTYLE's DetailAST model.
  */
-public
+public final
 class AST {
 
     private
     AST() {}
 
+    /**
+     * @return Whether the {@code ast}'s grandparent's type is one of {@code types}
+     */
     public static boolean
     grandparentTypeIs(DetailAST ast, int... types) {
         int grandparentType = ast.getParent().getParent().getType();
@@ -46,6 +49,9 @@ class AST {
         return false;
     }
 
+    /**
+     * @return Whether the {@code ast}'s parent's type is {@code type}
+     */
     public static boolean
     parentTypeIs(DetailAST ast, int type) {
         DetailAST parent = ast.getParent();
@@ -53,6 +59,9 @@ class AST {
         return parent.getType() == type;
     }
 
+    /**
+     * @return Whether the {@code ast}'s next sibling's type is {@code type}
+     */
     public static boolean
     nextSiblingTypeIs(DetailAST ast, int type) {
         DetailAST nextSibling = ast.getNextSibling();
@@ -60,6 +69,9 @@ class AST {
         return nextSibling != null && nextSibling.getType() == type;
     }
 
+    /**
+     * @return Whether the {@code ast}'s first child's type is {@code type}
+     */
     public static boolean
     firstChildTypeIs(DetailAST ast, int type) {
         DetailAST firstChild = ast.getFirstChild();
@@ -67,6 +79,9 @@ class AST {
         return firstChild != null && firstChild.getType() == type;
     }
 
+    /**
+     * @return Whether the {@code ast}'s previous sibling's type is {@code type}
+     */
     public static boolean
     previousSiblingTypeIs(DetailAST ast, int type) {
         DetailAST previousSibling = ast.getPreviousSibling();

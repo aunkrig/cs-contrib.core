@@ -1,6 +1,6 @@
 
 /*
- * cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
+ * de.unkrig.cs-contrib - Additional checks, filters and quickfixes for CheckStyle and Eclipse-CS
  *
  * Copyright (c) 2013, Arno Unkrig
  * All rights reserved.
@@ -29,7 +29,7 @@ package de.unkrig.cscontrib.ui.quickfixes;
 import org.eclipse.osgi.util.NLS;
 
 /** Message bundle for this package. */
-public
+public final
 class Messages extends NLS {
 
     private
@@ -41,7 +41,8 @@ class Messages extends NLS {
         NLS.initializeMessages(BUNDLE_NAME, Messages.class);
     }
 
-// CHECKSTYLE xNameSpelling:OFF
+    // CHECKSTYLE StaticVariableNameCheck:OFF
+    // CHECKSTYLE VariableCheck:OFF
     public static String InnerAssignmentQuickfix_description;
     public static String InnerAssignmentQuickfix_label;
 
@@ -54,5 +55,6 @@ class Messages extends NLS {
 
     public static String ZeroParameterSuperconstructorInvocation_description;
     public static String ZeroParameterSuperconstructorInvocation_label;
-// CHECKSTYLE NameSpelling:ON
+    // CHECKSTYLE StaticVariableNameCheck:ON
+    // CHECKSTYLE VariableCheck:ON
 }
