@@ -4,21 +4,6 @@
 "http://eclipse-cs.sourceforge.net/dtds/checkstyle-metadata_1_1.dtd">
 <checkstyle-metadata>
 
-    <!-- InnerAssignment -->
-
-    <rule-group-metadata name="%Coding.group" priority="999">
-        <rule-metadata
-            internal-name="de.unkrig.cscontrib.checks.InnerAssignment"
-            parent="TreeWalker"
-            name="%de.unkrig.cscontrib.checks.InnerAssignment.name"
-        >
-            <alternative-name internal-name="de.unkrig.cscontrib.checks.InnerAssignment"/>
-            <description>%de.unkrig.cscontrib.checks.InnerAssignment.desc</description>
-            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.InnerAssignment"/>
-            <message-key key="Assignments in expressions must be parenthesized"/>
-        </rule-metadata>
-    </rule-group-metadata>
-
     <!-- Alignment -->
 
     <rule-group-metadata name="%Whitespace.group" priority="999">
@@ -70,6 +55,21 @@
         >
             <alternative-name internal-name="com.puppycrawl.tools.checkstyle.checks.FileContentsHolder"/>
             <description>FileContentsHolder</description>
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- InnerAssignment -->
+
+    <rule-group-metadata name="%Coding.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.InnerAssignment"
+            parent="TreeWalker"
+            name="%de.unkrig.cscontrib.checks.InnerAssignment.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.InnerAssignment"/>
+            <description>%de.unkrig.cscontrib.checks.InnerAssignment.desc</description>
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.InnerAssignment"/>
+            <message-key key="Assignments in expressions must be parenthesized"/>
         </rule-metadata>
     </rule-group-metadata>
 
@@ -276,19 +276,19 @@
         >
             <alternative-name internal-name="de.unkrig.cscontrib.filters.SuppressionLine"/>
             <description>%de.unkrig.cscontrib.filters.SuppressionLine.desc</description>
-            <property-metadata name="offFormat" datatype="Regex" override-default-value="CHECKSTYLE ([A-Za-z\\.]+):OFF">
+            <property-metadata name="offFormat" datatype="Regex" override-default-value="CHECKSTYLE (.+):OFF">
                 <description>%de.unkrig.cscontrib.filters.SuppressionLine.offFormat</description>
             </property-metadata>
-            <property-metadata name="onFormat" datatype="Regex" override-default-value="CHECKSTYLE ([A-Za-z\\.]+):ON">
+            <property-metadata name="onFormat" datatype="Regex" override-default-value="CHECKSTYLE (.+):ON">
                 <description>%de.unkrig.cscontrib.filters.SuppressionLine.onFormat</description>
             </property-metadata>
             <property-metadata name="checkNameFormat" datatype="Regex" override-default-value="$1">
                 <description>%de.unkrig.cscontrib.filters.SuppressionLine.checkNameFormat</description>
             </property-metadata>
-            <property-metadata name="messageFormat" datatype="Regex">
+            <property-metadata name="messageFormat" datatype="Regex" override-default-value="$1">
                 <description>%de.unkrig.cscontrib.filters.SuppressionLine.messageFormat</description>
             </property-metadata>
-            <property-metadata name="moduleIdFormat" datatype="Regex">
+            <property-metadata name="moduleIdFormat" datatype="Regex" override-default-value="$1">
                 <description>%de.unkrig.cscontrib.filters.SuppressionLine.moduleIdFormat</description>
             </property-metadata>
         </rule-metadata>
