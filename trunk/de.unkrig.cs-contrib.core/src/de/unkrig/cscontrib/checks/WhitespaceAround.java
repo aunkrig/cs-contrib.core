@@ -31,22 +31,19 @@ import com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck;
 
 import static de.unkrig.cscontrib.util.AST.*;
 
-/***/
+/**
+ * An enhanced version of 'WhitespaceAround': Optionally ignores emnpty CATCH clauses and empty types.
+ */
 public
 class WhitespaceAround extends WhitespaceAroundCheck {
 
     private boolean allowEmptyCatches;
     private boolean allowEmptyTypes;
 
-    // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
-
-    public void
-    setAllowEmptyCatches(boolean value) { this.allowEmptyCatches = value; }
-
-    public void
-    setAllowEmptyTypes(boolean value) { this.allowEmptyTypes = value; }
-
-    // END CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:ON
+    // CONFIGURATION SETTERS -- CHECKSTYLE JavadocMethod:OFF
+    public void setAllowEmptyCatches(boolean value) { this.allowEmptyCatches = value; }
+    public void setAllowEmptyTypes(boolean value)   { this.allowEmptyTypes   = value; }
+    // END CONFIGURATION SETTERS -- CHECKSTYLE JavadocMethod:ON
 
     @Override public void
     visitToken(DetailAST ast) {
