@@ -32,6 +32,8 @@ import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
 
 /**
  * Assignments in expressions must be parenthesized, like "a = (b = c)" or "while ((a = b))".
+ *
+ * An enhanced version of 'InnerAssignment': It comes with a quickfix.
  */
 public
 class InnerAssignment extends Check {
