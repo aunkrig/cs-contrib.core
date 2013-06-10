@@ -66,7 +66,7 @@ class Activator extends AbstractUIPlugin {
         if (headers.get("Export-Package") == null || !"registered".equals(headers.get("Eclipse-BuddyPolicy"))) {
             Display.getDefault().asyncExec(new Runnable() {
                 
-                public void
+                @Override public void
                 run() {
                     MessageDialog.openWarning(
                         PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),

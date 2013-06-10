@@ -32,10 +32,10 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
  * Utility methods related to CHECKSTYLE's DetailAST model.
  */
 public final
-class AST {
+class AstUtil {
 
     private
-    AST() {}
+    AstUtil() {}
 
     /**
      * @return Whether the {@code ast}'s grandparent's type is one of {@code types}

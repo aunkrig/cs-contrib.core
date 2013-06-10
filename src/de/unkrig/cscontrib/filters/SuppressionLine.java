@@ -123,7 +123,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
          * tag is after the other tag.
          * @see java.lang.Comparable#compareTo(java.lang.Object)
          */
-        public int
+        @Override public int
         compareTo(Tag that) { return this.lineNo - that.lineNo; }
 
         /**

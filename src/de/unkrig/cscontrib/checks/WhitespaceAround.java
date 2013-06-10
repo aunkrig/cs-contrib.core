@@ -29,7 +29,7 @@ package de.unkrig.cscontrib.checks;
 import com.puppycrawl.tools.checkstyle.api.*;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck;
 
-import static de.unkrig.cscontrib.util.AST.*;
+import static de.unkrig.cscontrib.util.AstUtil.*;
 
 /**
  * An enhanced version of 'WhitespaceAround': Optionally ignores emnpty CATCH clauses and empty types.
