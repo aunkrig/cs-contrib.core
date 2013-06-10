@@ -234,7 +234,7 @@ class WrapAndIndent extends Check {
     @Override public void
     visitToken(DetailAST ast) {
 
-        @SuppressWarnings("unused") ASTDumper dumper = new ASTDumper(ast); // For debugging
+        @SuppressWarnings("unused") AstDumper dumper = new AstDumper(ast); // For debugging
 
         switch (ast.getType()) {
 
@@ -1149,7 +1149,7 @@ class WrapAndIndent extends Check {
             return previous.getNextSibling();
         }
 
-        @SuppressWarnings("unused") ASTDumper dumper = new ASTDumper(previous); // For debugging
+        @SuppressWarnings("unused") AstDumper dumper = new AstDumper(previous); // For debugging
 
         int       parenthesisCount = 1;
         DetailAST next             = previous.getNextSibling();

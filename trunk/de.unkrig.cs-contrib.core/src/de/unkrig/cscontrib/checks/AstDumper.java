@@ -32,10 +32,10 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
  * A helper with a zero-cost constructor for dumping an AST.
  */
 public
-class ASTDumper {
+class AstDumper {
     private DetailAST ast;
 
-    ASTDumper(DetailAST ast) {
+    AstDumper(DetailAST ast) {
         this.ast = ast;
     }
 

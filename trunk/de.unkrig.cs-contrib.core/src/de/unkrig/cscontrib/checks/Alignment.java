@@ -27,9 +27,9 @@
 package de.unkrig.cscontrib.checks;
 
 import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
-import static de.unkrig.cscontrib.util.AST.grandparentTypeIs;
-import static de.unkrig.cscontrib.util.AST.parentTypeIs;
-import static de.unkrig.cscontrib.util.AST.previousSiblingTypeIs;
+import static de.unkrig.cscontrib.util.AstUtil.grandparentTypeIs;
+import static de.unkrig.cscontrib.util.AstUtil.parentTypeIs;
+import static de.unkrig.cscontrib.util.AstUtil.previousSiblingTypeIs;
 
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
@@ -114,7 +114,7 @@ class Alignment extends Check {
     @Override public void
     visitToken(DetailAST ast) {
 
-        @SuppressWarnings("unused") ASTDumper ad = new ASTDumper(ast);
+        @SuppressWarnings("unused") AstDumper ad = new AstDumper(ast);
 
         switch (ast.getType()) {
 
@@ -200,7 +200,7 @@ class Alignment extends Check {
     }
 
     @Override public void
-    beginTree(DetailAST aRootAST) {
+    beginTree(DetailAST aRootAst) {
         this.previousFieldDeclaration         = null;
         this.previousParameterDeclaration     = null;
         this.previousLocalVariableDeclaration = null;
