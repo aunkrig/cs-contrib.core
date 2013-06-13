@@ -65,8 +65,8 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
     private boolean      autoCommit;
     private RuleMetadata metadata;
 
-    /**@Override*/ // ICheckstyleMarkerResolution declares this method AFTER version 5.6.0.
-    public void
+    // ICheckstyleMarkerResolution declares this method AFTER version 5.6.0.
+    @SuppressWarnings("all") /**@Override*/ public void
     setRuleMetaData(RuleMetadata metadata) {
         this.metadata = metadata;
     }
