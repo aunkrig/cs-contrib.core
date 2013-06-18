@@ -79,19 +79,21 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
     @Override public boolean
     canFix(IMarker marker) {
 
-        String moduleName = marker.getAttribute(CheckstyleMarker.MODULE_NAME, null);
         try {
-            return (
-                CheckstyleMarker.MARKER_ID.equals(marker.getType())
-                && (
-                    this.metadata.getInternalName().equals(moduleName)
-                    || this.metadata.getAlternativeNames().contains(moduleName)
-                )
-                && this.canFixMessageKey(marker.getAttribute(CheckstyleMarker.MESSAGE_KEY, null))
-            );
+            if (!CheckstyleMarker.MARKER_ID.equals(marker.getType())) return false;
         } catch (CoreException e) {
             throw new IllegalStateException(e);
         }
+
+        String moduleName = marker.getAttribute(CheckstyleMarker.MODULE_NAME, null);
+        return (
+            (
+                this.metadata == null // Only ECLIPSE-CS > 5.6.0 sets the metadata!
+                || this.metadata.getInternalName().equals(moduleName)
+                || this.metadata.getAlternativeNames().contains(moduleName)
+            )
+            && this.canFixMessageKey(marker.getAttribute(CheckstyleMarker.MESSAGE_KEY, null))
+        );
     }
 
     /**
