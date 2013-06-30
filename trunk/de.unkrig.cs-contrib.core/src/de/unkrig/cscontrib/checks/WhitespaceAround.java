@@ -32,7 +32,7 @@ import com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck;
 import static de.unkrig.cscontrib.util.AstUtil.*;
 
 /**
- * An enhanced version of 'WhitespaceAround': Optionally ignores emnpty CATCH clauses and empty types.
+ * An enhanced version of 'WhitespaceAround': Optionally ignores empty CATCH clauses and empty types.
  */
 public
 class WhitespaceAround extends WhitespaceAroundCheck {
