@@ -221,6 +221,9 @@
             <property-metadata name="allowEmptyTypes" datatype="Boolean" default-value="false">
                 <description>%de.unkrig.cscontrib.checks.WhitespaceAround.allowEmptyTypes</description>
             </property-metadata>
+            <property-metadata name="ignoreEnhancedForColon" datatype="Boolean" default-value="false">
+                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.ignoreEnhancedForColon</description>
+            </property-metadata>
             <message-key key="ws.notPreceded"/>
             <message-key key="ws.notFollowed"/>
         </rule-metadata>
