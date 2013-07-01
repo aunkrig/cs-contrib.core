@@ -49,7 +49,7 @@ class PluginImages {
     /**
      * An icon that visualized the addition of an element.
      */
-    public static final ImageDescriptor CORRECTION_ADD    = getImageDescriptor("icons/add_correction.gif");
+    public static final ImageDescriptor CORRECTION_ADD = getImageDescriptor("icons/add_correction.gif");
     
     /**
      * An icon that visualized the removal of an element.
@@ -58,7 +58,12 @@ class PluginImages {
 
     private static ImageDescriptor
     getImageDescriptor(String name) {
-        return AbstractUIPlugin.imageDescriptorFromPlugin(CheckstyleUIPlugin.PLUGIN_ID, name);
+        ImageDescriptor imageDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin(
+            CheckstyleUIPlugin.PLUGIN_ID,
+            name
+        );
+        assert imageDescriptor != null : "Image '" + name + "' could not be found";
+        return imageDescriptor;
     }
 
     /**
@@ -73,6 +78,7 @@ class PluginImages {
         Image image = CACHED_IMAGES.get(descriptor);
         if (image == null) {
             image = descriptor.createImage();
+            assert image != null : "Image could not be created from descriptor '" + descriptor + "'";
             CACHED_IMAGES.put(descriptor, image);
         }
         return image;

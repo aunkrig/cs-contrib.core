@@ -33,8 +33,11 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 
+import de.unkrig.commons.nullanalysis.NotNull;
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 /***/
-public
+@NotNullByDefault(false) public
 class WrapAndIndent1 extends AbstractDocumentResolution {
 
     @Override protected boolean
@@ -43,7 +46,7 @@ class WrapAndIndent1 extends AbstractDocumentResolution {
     }
 
     @Override protected void
-    resolve(String messageKey, IDocument document, int markerStart) {
+    resolve(String messageKey, @NotNull IDocument document, int markerStart) {
         try {
             IRegion lineInfo = document.getLineInformationOfOffset(markerStart);
             String  line     = document.get(lineInfo.getOffset(), lineInfo.getLength());

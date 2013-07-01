@@ -34,10 +34,12 @@ import static de.unkrig.cscontrib.util.AstUtil.previousSiblingTypeIs;
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 /**
  * Checks that field/parameter/variable names are aligned in one-per-line declarations.
  */
-public
+@NotNullByDefault(false) public
 class Alignment extends Check {
 
     private boolean applyToFieldName                = true;
@@ -113,6 +115,7 @@ class Alignment extends Check {
 
     @Override public void
     visitToken(DetailAST ast) {
+        assert ast != null;
 
         @SuppressWarnings("unused") AstDumper ad = new AstDumper(ast);
 

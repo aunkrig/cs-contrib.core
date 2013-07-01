@@ -32,8 +32,11 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
 
+import de.unkrig.commons.nullanalysis.NotNull;
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 /***/
-public
+@NotNullByDefault(false) public
 class WrapAndIndent2 extends AbstractDocumentResolution {
 
     @Override protected boolean
@@ -42,7 +45,7 @@ class WrapAndIndent2 extends AbstractDocumentResolution {
     }
 
     @Override protected void
-    resolve(String messageKey, IDocument document, int markerStart) {
+    resolve(String messageKey, @NotNull IDocument document, int markerStart) {
         try {
             char c = 0;
             int  from;

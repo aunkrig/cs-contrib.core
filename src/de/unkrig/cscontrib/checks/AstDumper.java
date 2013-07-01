@@ -28,18 +28,22 @@ package de.unkrig.cscontrib.checks;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
+import de.unkrig.commons.nullanalysis.NotNull;
+import de.unkrig.commons.nullanalysis.Nullable;
+
 /**
  * A helper with a zero-cost constructor for dumping an AST.
  */
 public
 class AstDumper {
-    private DetailAST ast;
+
+    @NotNull private DetailAST ast;
 
     AstDumper(DetailAST ast) {
         this.ast = ast;
     }
 
-    @Override public String
+    @Override @Nullable public String
     toString() {
         StringBuilder sb = new StringBuilder();
         dumpSiblings("", this.ast, sb);
@@ -47,7 +51,7 @@ class AstDumper {
     }
 
     private static void
-    dumpSiblings(String prefix, DetailAST sibling, StringBuilder sb) {
+    dumpSiblings(String prefix, @Nullable DetailAST sibling, StringBuilder sb) {
         for (; sibling != null; sibling = sibling.getNextSibling()) {
             sb.append(prefix).append(sibling).append(sibling.getType()).append('\n');
             dumpSiblings(prefix + "  ", sibling.getFirstChild(), sb);
