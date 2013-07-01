@@ -37,10 +37,11 @@ import org.eclipse.jdt.core.dom.ParenthesizedExpression;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.ui.PluginImages;
 
 /***/
-public
+@NotNullByDefault(false) public
 class InnerAssignment extends AbstractASTResolution {
 
     /**

@@ -30,6 +30,8 @@ import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 /**
  * Checks for redundant zero-parameter superconstructor invocations:
  * <pre>
@@ -39,7 +41,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  *     }
  * }</pre> 
  */
-public
+@NotNullByDefault(false) public
 class ZeroParameterSuperconstructorInvocation extends Check {
 
     @Override public int[]

@@ -33,12 +33,14 @@ import org.apache.commons.beanutils.ConversionException;
 import com.puppycrawl.tools.checkstyle.api.*;
 import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
 
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
 
 /**
  * Checks that particular Java elements are declared with a name that matches or does not match a configurable REGEX.
  */
-public
+@NotNullByDefault(false) public
 class NameSpelling extends AbstractFormatCheck {
 
     /**
@@ -285,11 +287,16 @@ class NameSpelling extends AbstractFormatCheck {
             }
 
             // Check if the modifiers match the configuration.
-            for (Integer modifier : this.requiredModifiers) {
-                if (modifiersAst.findFirstToken(modifier) == null) return;
-            }
-            for (Integer modifier : this.missingModifiers) {
-                if (modifiersAst.findFirstToken(modifier) != null) return;
+            if (modifiersAst == null) {
+                assert this.requiredModifiers.isEmpty() : "Must not set 'requiredModifiers' for element 'package'";
+                assert this.missingModifiers.isEmpty() : "Must not set 'missingModifiers' for element 'package'";
+            } else {
+                for (Integer modifier : this.requiredModifiers) {
+                    if (modifiersAst.findFirstToken(modifier) == null) return;
+                }
+                for (Integer modifier : this.missingModifiers) {
+                    if (modifiersAst.findFirstToken(modifier) != null) return;
+                }
             }
 
             // Eventually check the element name.

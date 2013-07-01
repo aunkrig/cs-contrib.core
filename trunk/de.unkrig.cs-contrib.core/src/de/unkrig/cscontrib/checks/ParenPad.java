@@ -31,10 +31,12 @@ import java.util.regex.Pattern;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.*;
 
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 /**
  * Enhanced version of "ParenPad": NOSPACE now allows '( // ...'.
  */
-public
+@NotNullByDefault(false) public
 class ParenPad extends ParenPadCheck {
 
     private static final Pattern NOSPACE_PATTERN = Pattern.compile(

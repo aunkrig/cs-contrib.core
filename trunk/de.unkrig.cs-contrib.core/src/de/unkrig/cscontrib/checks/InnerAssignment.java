@@ -28,6 +28,8 @@ package de.unkrig.cscontrib.checks;
 
 import com.puppycrawl.tools.checkstyle.api.*;
 
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
 
 /**
@@ -35,7 +37,7 @@ import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
  *
  * An enhanced version of 'InnerAssignment': It comes with a quickfix.
  */
-public
+@NotNullByDefault(false) public
 class InnerAssignment extends Check {
 
     @Override public int[]

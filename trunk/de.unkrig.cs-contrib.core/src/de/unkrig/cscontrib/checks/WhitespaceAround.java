@@ -29,12 +29,14 @@ package de.unkrig.cscontrib.checks;
 import com.puppycrawl.tools.checkstyle.api.*;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck;
 
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 import static de.unkrig.cscontrib.util.AstUtil.*;
 
 /**
  * An enhanced version of 'WhitespaceAround': Optionally ignores empty CATCH clauses and empty types.
  */
-public
+@NotNullByDefault(false) public
 class WhitespaceAround extends WhitespaceAroundCheck {
 
     private boolean allowEmptyCatches;

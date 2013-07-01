@@ -37,10 +37,12 @@ import org.eclipse.ui.*;
 import org.eclipse.ui.plugin.*;
 import org.osgi.framework.*;
 
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 /**
  * 'Bundle-Activator' of this plugin.
  */
-public
+@NotNullByDefault(false) public
 class Activator extends AbstractUIPlugin {
 
     /**

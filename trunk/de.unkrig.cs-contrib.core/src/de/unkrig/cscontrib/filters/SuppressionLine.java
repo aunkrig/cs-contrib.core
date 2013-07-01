@@ -36,8 +36,10 @@ import com.google.common.collect.Lists;
 import com.puppycrawl.tools.checkstyle.api.*;
 import com.puppycrawl.tools.checkstyle.checks.FileContentsHolder;
 
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 /***/
-public
+@NotNullByDefault(false) public
 class SuppressionLine extends AutomaticBean implements Filter {
 
     /**

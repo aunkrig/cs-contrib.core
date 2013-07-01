@@ -56,17 +56,20 @@ import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.ui.texteditor.MarkerAnnotation;
 import org.eclipse.ui.views.markers.WorkbenchMarkerResolution;
 
+import de.unkrig.commons.nullanalysis.NotNull;
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 /**
  * Abstract base class for marker resolutions through document modification.
  */
-public abstract
+@NotNullByDefault(false) public abstract
 class AbstractDocumentResolution extends WorkbenchMarkerResolution implements ICheckstyleMarkerResolution {
 
     private boolean      autoCommit;
     private RuleMetadata metadata;
 
     // ICheckstyleMarkerResolution declares this method AFTER version 5.6.0.
-    @SuppressWarnings("all") /**@Override*/ public void
+    @SuppressWarnings("all") /**@Override*/ public void // SUPPRESS CHECKSTYLE JavadocMethod
     setRuleMetaData(RuleMetadata metadata) {
         this.metadata = metadata;
     }
@@ -147,14 +150,16 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
 
             ITextFileBuffer textFileBuffer = bufferManager.getTextFileBuffer(path, LocationKind.NORMALIZE);
 
-            IDocument        document        = textFileBuffer.getDocument();
             IAnnotationModel annotationModel = textFileBuffer.getAnnotationModel();
+            assert annotationModel != null : "Text file buffer is disconnected";
 
             MarkerAnnotation annotation = getMarkerAnnotation(annotationModel, marker);
 
             if (annotation == null) return;
 
             // Invoke the quickfix.
+            IDocument document = textFileBuffer.getDocument();
+            assert document != null;
             this.resolve(
                 marker.getAttribute(CheckstyleMarker.MESSAGE_KEY, null),
                 document,
@@ -185,10 +190,13 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
      * Derived classes must implement this.
      */
     protected abstract void
-    resolve(String messageKey, IDocument document, int markerStart);
+    resolve(String messageKey, @NotNull IDocument document, int markerStart);
 
+    /**
+     * @return The annotation related to the given {@code marker}, or {@code null}
+     */
     private MarkerAnnotation
-    getMarkerAnnotation(IAnnotationModel annotationModel, IMarker marker) {
+    getMarkerAnnotation(@NotNull IAnnotationModel annotationModel, @NotNull IMarker marker) {
 
         for (
             @SuppressWarnings("unchecked") Iterator<Annotation> it = annotationModel.getAnnotationIterator();

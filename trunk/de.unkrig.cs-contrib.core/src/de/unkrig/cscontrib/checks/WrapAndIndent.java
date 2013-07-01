@@ -33,10 +33,12 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.api.Utils;
 
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 /**
  * Statements must be uniformly wrapped and indented.
  */
-public
+@NotNullByDefault(false) public
 class WrapAndIndent extends Check {
 
     /** How many spaces to use for new indentation level. */
@@ -233,6 +235,7 @@ class WrapAndIndent extends Check {
 
     @Override public void
     visitToken(DetailAST ast) {
+        assert ast != null;
 
         @SuppressWarnings("unused") AstDumper dumper = new AstDumper(ast); // For debugging
 
@@ -416,17 +419,20 @@ class WrapAndIndent extends Check {
                     boolean inline;
                     switch (ast.getParent().getType()) {
 
-                    case ANNOTATION:        // @SuppressWarnings(#)
-                    case ASSIGN:            // a = #
-                    case FOR_CONDITION:     // for (; #;)
-                    case FOR_EACH_CLAUSE:   // for (Object o : #)
-                    case LITERAL_ASSERT:    // assert #
-                    case LITERAL_CASE:      // case #:
-                    case LITERAL_ELSE:      // else #;
-                    case LITERAL_FOR:       // for (...; ...; ...) #;
-                    case LITERAL_RETURN:    // return #
-                    case LITERAL_THROW:     // throw #
-                    case SLIST:             // #;
+                    case ANNOTATION:                   // @SuppressWarnings(#)
+                    case ANNOTATION_ARRAY_INIT:        // @SuppressWarnings({ "rawtypes", "unchecked" })
+                    case ANNOTATION_MEMBER_VALUE_PAIR: // @Author(@Name(first = "Joe", last = "Hacker"))
+                    case ASSIGN:                       // a = #
+                    case FOR_CONDITION:                // for (; #;)
+                    case FOR_EACH_CLAUSE:              // for (Object o : #)
+                    case LITERAL_ASSERT:               // assert #
+                    case LITERAL_CASE:                 // case #:
+                    case LITERAL_DEFAULT:              // @interface MyAnnotation { boolean value() default true; }
+                    case LITERAL_ELSE:                 // else #;
+                    case LITERAL_FOR:                  // for (...; ...; ...) #;
+                    case LITERAL_RETURN:               // return #
+                    case LITERAL_THROW:                // throw #
+                    case SLIST:                        // #;
                         inline = true;
                         break;
 
