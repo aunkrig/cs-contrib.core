@@ -143,6 +143,41 @@
         </rule-metadata>
     </rule-group-metadata>
 
+    <!-- Whitespace -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.Whitespace"
+            parent="TreeWalker"
+            name="%de.unkrig.cscontrib.checks.Whitespace.name"
+           >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.Whitespace"/>
+            <description>%de.unkrig.cscontrib.checks.Whitespace.desc</description>
+
+            <property-metadata name="lCurly" datatype="SingleSelect" default-value="before_and_after">
+                <description>%de.unkrig.cscontrib.checks.Whitespace.lCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/>
+            </property-metadata>
+            <property-metadata name="allowEmptyConstructors" datatype="Boolean" default-value="false">
+                <description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyConstructors</description>
+            </property-metadata>
+            <property-metadata name="allowEmptyMethods" datatype="Boolean" default-value="false">
+                <description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyMethods</description>
+            </property-metadata>
+            <property-metadata name="allowEmptyCatches" datatype="Boolean" default-value="false">
+                <description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyCatches</description>
+            </property-metadata>
+            <property-metadata name="allowEmptyTypes" datatype="Boolean" default-value="false">
+                <description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyTypes</description>
+            </property-metadata>
+            <property-metadata name="ignoreEnhancedForColon" datatype="Boolean" default-value="false">
+                <description>%de.unkrig.cscontrib.checks.Whitespace.ignoreEnhancedForColon</description>
+            </property-metadata>
+            <message-key key="ws.notPreceded"/>
+            <message-key key="ws.notFollowed"/>
+        </rule-metadata>
+    </rule-group-metadata>
+
     <!-- WhitespaceAround -->
 
     <rule-group-metadata name="%Whitespace.group" priority="999">
