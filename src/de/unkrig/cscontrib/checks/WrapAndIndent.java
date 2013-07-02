@@ -65,7 +65,7 @@ class WrapAndIndent extends Check {
 
     public int
     getBasicOffset() { return this.basicOffset; }
-    
+
     // END CONFIGURATION SETTERS AND GETTERS -- CHECKSTYLE MethodCheck:ON
 
     @Override public int[]
@@ -299,7 +299,7 @@ class WrapAndIndent extends Check {
         case ANNOTATION_DEF:
             checkChildren(
                 ast,
-                
+
                 MODIFIERS,
                 MUST_WRAP | AT,
                 LITERAL_INTERFACE,
@@ -312,7 +312,7 @@ class WrapAndIndent extends Check {
         case ARRAY_INIT:
             checkChildren(
                 ast,
-                
+
 /* 0 */         FORK + 5,
                 INDENT | ANY,
                 FORK + 5,
@@ -340,12 +340,12 @@ class WrapAndIndent extends Check {
                 END
             );
             break;
-            
+
         case CLASS_DEF:
             if (isSingleLine(ast)) break;
             checkChildren(
                 ast,
-                
+
                 MODIFIERS,
                 LITERAL_CLASS | MUST_WRAP,
                 IDENT,
@@ -375,7 +375,7 @@ class WrapAndIndent extends Check {
                 END
             );
             break;
-          
+
         case CTOR_DEF:
             if (isSingleLine(ast)) break;
             checkChildren(
@@ -399,13 +399,26 @@ class WrapAndIndent extends Check {
         case ELIST:
             checkChildren(
                 ast,
-                
+
                 FORK + 5,
 /* 1 */         INDENT | EXPR,
                 FORK + 5,
 /* 3 */         COMMA,
                 BRANCH + 1,
 /* 6 */         END
+            );
+            break;
+
+        case ENUM_DEF:
+            if (isSingleLine(ast)) break;
+            checkChildren(
+                ast,
+
+                MODIFIERS,
+                ENUM | MUST_WRAP,
+                IDENT,
+                OBJBLOCK,
+                END
             );
             break;
 
@@ -466,11 +479,11 @@ class WrapAndIndent extends Check {
                 }
             }
             break;
-            
+
         case FOR_EACH_CLAUSE:
             checkChildren(
                 ast,
-                
+
                 VARIABLE_DEF,
                 WRAP | COLON,
                 EXPR,
@@ -482,7 +495,7 @@ class WrapAndIndent extends Check {
             if (isSingleLine(ast)) break;
             checkChildren(
                 ast,
-                
+
                 MODIFIERS,
                 LITERAL_INTERFACE | MUST_WRAP,
                 IDENT,
@@ -506,7 +519,7 @@ class WrapAndIndent extends Check {
                 END
             );
             break;
-            
+
         case INDEX_OP:
             checkChildren(
                 ast,
@@ -517,7 +530,7 @@ class WrapAndIndent extends Check {
                 END
             );
             break;
-            
+
         case LITERAL_DO:
             checkChildren(
                 ast,
@@ -531,11 +544,11 @@ class WrapAndIndent extends Check {
                 END
             );
             break;
-            
+
         case LITERAL_FOR:
             checkChildren(
                 ast,
-                
+
                 LPAREN,
                 FORK + 8,
                 INDENT | FOR_INIT,
@@ -577,7 +590,7 @@ class WrapAndIndent extends Check {
 /* 10 */        END
             );
             break;
-            
+
         case LITERAL_NEW:
             checkChildren(
                 ast,
@@ -618,7 +631,7 @@ class WrapAndIndent extends Check {
             if (isSingleLine(ast)) break;
             checkChildren(
                 ast,
-                
+
 /* 0 */         MODIFIERS,
                 FORK + 3,
                 TYPE_PARAMETERS,
@@ -707,7 +720,7 @@ class WrapAndIndent extends Check {
         case PARAMETERS:
             checkChildren(
                 ast,
-                
+
                 FORK + 5,
 /* 1 */         INDENT | PARAMETER_DEF,
                 FORK + 5,
@@ -716,7 +729,7 @@ class WrapAndIndent extends Check {
 /* 5 */         END
             );
             break;
-            
+
         case SLIST:
             // Single-line case group?
             if (
@@ -727,12 +740,12 @@ class WrapAndIndent extends Check {
 
             checkChildren(
                 ast,
-                
+
 /* 0 */         FORK + 4,
                 INDENT | EXPR,
                 SEMI,
                 BRANCH + 0,
-                
+
 /* 4 */         FORK + 12,
                 INDENT | VARIABLE_DEF,
 /* 6 */         FORK + 10,
@@ -758,7 +771,7 @@ class WrapAndIndent extends Check {
         case SUPER_CTOR_CALL:
             checkChildren(
                 ast,
-                
+
                 LPAREN,
                 INDENT_IF_CHILDREN | ELIST,
                 UNINDENT | RPAREN,
@@ -897,7 +910,6 @@ class WrapAndIndent extends Check {
         case ANNOTATIONS:
         case ARRAY_DECLARATOR:
         case ENUM_CONSTANT_DEF:
-        case ENUM_DEF:
         case EXTENDS_CLAUSE:
         case FOR_CONDITION:
         case FOR_INIT:
@@ -1144,7 +1156,7 @@ class WrapAndIndent extends Check {
             ast = tmp;
         }
     }
-    
+
     /**
      * @return The {@link DetailAST} <b>after</b> the parenthesized expression
      */
@@ -1258,7 +1270,7 @@ class WrapAndIndent extends Check {
                 idx = tokenType - BRANCH;
                 continue;
             }
-            
+
             if (child == null) {
                 log(
                     previousAst,
@@ -1397,7 +1409,7 @@ class WrapAndIndent extends Check {
             checkAlignment(next, calculateIndentation(previous) - this.basicOffset);
         }
     }
-    
+
     /**
      * Checks that the line where {@code next} occurs is indented exactly as the line where {@code previous} occurs.
      */
@@ -1421,7 +1433,7 @@ class WrapAndIndent extends Check {
             );
         }
     }
-    
+
     /**
      * Logs a problem iff the given {@code ast} is not vertically positioned at the given {@code targetColumnNo}.
      *
