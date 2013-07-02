@@ -117,14 +117,14 @@ class NameSpelling extends AbstractFormatCheck {
     public final void
     setRequiredModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
-            this.requiredModifiers.add(TokenTypes.getTokenId(modifier.toUpperCase()));
+            this.requiredModifiers.add(TokenTypes.getTokenId("LITERAL_" + modifier.toUpperCase()));
         }
     }
     
     public final void
     setMissingModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
-            this.missingModifiers.add(TokenTypes.getTokenId(modifier.toUpperCase()));
+            this.missingModifiers.add(TokenTypes.getTokenId("LITERAL_" + modifier.toUpperCase()));
         }
     }
 
