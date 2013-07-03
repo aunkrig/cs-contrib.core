@@ -89,11 +89,11 @@
             </property-metadata>
             <property-metadata name="requiredModifiers" datatype="MultiCheck" >
                 <description>%de.unkrig.cscontrib.checks.NameSpelling.requiredModifiers</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifiers"/>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifier"/>
             </property-metadata>
             <property-metadata name="missingModifiers" datatype="MultiCheck" >
                 <description>%de.unkrig.cscontrib.checks.NameSpelling.missingModifiers</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifiers"/>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifier"/>
             </property-metadata>
             <property-metadata name="option" datatype="SingleSelect" default-value="REQUIRE">
                 <description>%de.unkrig.cscontrib.checks.NameSpelling.option</description>
@@ -154,13 +154,29 @@
             <alternative-name internal-name="de.unkrig.cscontrib.checks.Whitespace"/>
             <description>%de.unkrig.cscontrib.checks.Whitespace.desc</description>
 
-            <property-metadata name="lCurly" datatype="SingleSelect" default-value="before_and_after">
-                <description>%de.unkrig.cscontrib.checks.Whitespace.lCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/>
-            </property-metadata>
-            <property-metadata name="allowEmptyConstructors" datatype="Boolean" default-value="false">
-                <description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyConstructors</description>
-            </property-metadata>
+            <property-metadata name="arithmeticOperators" datatype="SingleSelect" default-value="before_and_after"        ><description>%de.unkrig.cscontrib.checks.Whitespace.arithmeticOperators</description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="assignments"         datatype="SingleSelect" default-value="before_and_after"        ><description>%de.unkrig.cscontrib.checks.Whitespace.assignments        </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="at"                  datatype="SingleSelect" default-value="before_but_not_after"    ><description>%de.unkrig.cscontrib.checks.Whitespace.at                 </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="bitwiseOperators"    datatype="SingleSelect" default-value="before_and_after"        ><description>%de.unkrig.cscontrib.checks.Whitespace.bitwiseOperators   </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="bitwiseComplement"   datatype="SingleSelect" default-value="not_after"               ><description>%de.unkrig.cscontrib.checks.Whitespace.bitwiseComplement  </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="colonDefault"        datatype="SingleSelect" default-value="not_before_but_after"    ><description>%de.unkrig.cscontrib.checks.Whitespace.colonDefault       </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="colonCase"           datatype="SingleSelect" default-value="not_before_but_after"    ><description>%de.unkrig.cscontrib.checks.Whitespace.colonCase          </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="colonEnhancedFor"    datatype="SingleSelect" default-value="before_and_after"        ><description>%de.unkrig.cscontrib.checks.Whitespace.colonEnhancedFor   </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="colonTernary"        datatype="SingleSelect" default-value="before_and_after"        ><description>%de.unkrig.cscontrib.checks.Whitespace.colonTernary       </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="comma"               datatype="SingleSelect" default-value="not_before_but_after"    ><description>%de.unkrig.cscontrib.checks.Whitespace.comma              </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="doWhile"             datatype="SingleSelect" default-value="before_and_after"        ><description>%de.unkrig.cscontrib.checks.Whitespace.doWhile            </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="dot"                 datatype="SingleSelect" default-value="not_before_and_not_after"><description>%de.unkrig.cscontrib.checks.Whitespace.dot                </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="emptyStat"           datatype="SingleSelect" default-value="before_and_after"        ><description>%de.unkrig.cscontrib.checks.Whitespace.emptyStat          </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="equalities"          datatype="SingleSelect" default-value="before_and_after"        ><description>%de.unkrig.cscontrib.checks.Whitespace.equalities         </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="genericEnd"          datatype="SingleSelect" default-value="not_before"              ><description>%de.unkrig.cscontrib.checks.Whitespace.genericEnd         </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="genericStart"        datatype="SingleSelect" default-value="not_after"               ><description>%de.unkrig.cscontrib.checks.Whitespace.genericStart       </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="lCurlyAnonClass"     datatype="SingleSelect" default-value="before_and_after"        ><description>%de.unkrig.cscontrib.checks.Whitespace.lCurlyAnonClass    </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="lCurlyArrayInit"     datatype="SingleSelect" default-value="before_and_after"        ><description>%de.unkrig.cscontrib.checks.Whitespace.lCurlyArrayInit    </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+            <property-metadata name="preDec"              datatype="SingleSelect" default-value="not_after"               ><description>%de.unkrig.cscontrib.checks.Whitespace.preDec             </description><enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$WhitespaceOption"/></property-metadata>
+
+            <property-metadata name="allowEmptyAnonClass" datatype="Boolean" default-value="true"><description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyAnonClass</description></property-metadata>
+            <property-metadata name="allowEmptyArrayInit" datatype="Boolean" default-value="true"><description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyArrayInit</description></property-metadata>
+<!--
             <property-metadata name="allowEmptyMethods" datatype="Boolean" default-value="false">
                 <description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyMethods</description>
             </property-metadata>
@@ -173,6 +189,8 @@
             <property-metadata name="ignoreEnhancedForColon" datatype="Boolean" default-value="false">
                 <description>%de.unkrig.cscontrib.checks.Whitespace.ignoreEnhancedForColon</description>
             </property-metadata>
+-->
+
             <message-key key="ws.notPreceded"/>
             <message-key key="ws.notFollowed"/>
         </rule-metadata>

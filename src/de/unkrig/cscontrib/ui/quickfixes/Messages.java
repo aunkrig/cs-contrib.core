@@ -28,8 +28,10 @@ package de.unkrig.cscontrib.ui.quickfixes;
 
 import org.eclipse.osgi.util.NLS;
 
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
 /** Message bundle for this package. */
-public final
+@NotNullByDefault(false) public final
 class Messages extends NLS {
 
     private

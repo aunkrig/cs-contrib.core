@@ -70,15 +70,57 @@ class Whitespace extends Check {
 
     private enum WhitespaceOption2 { MUST, MAY, MUST_NOT }
 
-    private WhitespaceOption lCurly = WhitespaceOption.BEFORE_AND_AFTER;
-    private boolean          allowEmptyCatches;
-    private boolean          allowEmptyTypes;
+    private WhitespaceOption arithmeticOperators = WhitespaceOption.BEFORE_AND_AFTER;
+    private WhitespaceOption assignments         = WhitespaceOption.BEFORE_AND_AFTER;
+    private WhitespaceOption at                  = WhitespaceOption.BEFORE_BUT_NOT_AFTER;
+    private WhitespaceOption bitwiseOperators    = WhitespaceOption.BEFORE_AND_AFTER;
+    private WhitespaceOption bitwiseComplement   = WhitespaceOption.NOT_AFTER;
+    private WhitespaceOption colonDefault        = WhitespaceOption.NOT_BEFORE_BUT_AFTER;
+    private WhitespaceOption colonCase           = WhitespaceOption.NOT_BEFORE_BUT_AFTER;
+    private WhitespaceOption colonEnhancedFor    = WhitespaceOption.BEFORE_AND_AFTER;
+    private WhitespaceOption colonTernary        = WhitespaceOption.BEFORE_AND_AFTER;
+    private WhitespaceOption comma               = WhitespaceOption.NOT_BEFORE_BUT_AFTER;
+    private WhitespaceOption doWhile             = WhitespaceOption.BEFORE_AND_AFTER;
+    private WhitespaceOption dot                 = WhitespaceOption.NOT_BEFORE_AND_NOT_AFTER;
+    private WhitespaceOption emptyStat           = WhitespaceOption.BEFORE_AND_AFTER;
+    private WhitespaceOption equalities          = WhitespaceOption.BEFORE_AND_AFTER;
+    private WhitespaceOption genericEnd          = WhitespaceOption.NOT_BEFORE;
+    private WhitespaceOption genericStart        = WhitespaceOption.NOT_AFTER;
+    private WhitespaceOption lCurlyAnonClass     = WhitespaceOption.BEFORE_AND_AFTER;
+    private WhitespaceOption lCurlyArrayInit     = WhitespaceOption.BEFORE_AND_AFTER;
+    private WhitespaceOption preDec              = WhitespaceOption.NOT_AFTER;
 
-    // CONFIGURATION SETTERS -- CHECKSTYLE JavadocMethod:OFF
-    public void setLCurly(String value)             { this.lCurly            = toEnum(value, WhitespaceOption.class); }
-    public void setAllowEmptyCatches(boolean value) { this.allowEmptyCatches = value; }
-    public void setAllowEmptyTypes(boolean value)   { this.allowEmptyTypes   = value; }
-    // END CONFIGURATION SETTERS -- CHECKSTYLE JavadocMethod:ON
+    private boolean allowEmptyAnonClass = true;
+    private boolean allowEmptyArrayInit = true;
+
+    // BEGIN CONFIGURATION SETTERS
+    // CHECKSTYLE JavadocMethod:OFF
+    // CHECKSTYLE LineLength:OFF
+    public void setArithmeticOperators(String value) { this.arithmeticOperators = toEnum(value, WhitespaceOption.class); }
+    public void setAssignments(String value)         { this.assignments         = toEnum(value, WhitespaceOption.class); }
+    public void setAt(String value)                  { this.at                  = toEnum(value, WhitespaceOption.class); }
+    public void setBitwiseOperators(String value)    { this.bitwiseOperators    = toEnum(value, WhitespaceOption.class); }
+    public void setBitwiseComplement(String value)   { this.bitwiseComplement   = toEnum(value, WhitespaceOption.class); }
+    public void setColonDefault(String value)        { this.colonDefault        = toEnum(value, WhitespaceOption.class); }
+    public void setColonCase(String value)           { this.colonCase           = toEnum(value, WhitespaceOption.class); }
+    public void setColonEnhancedFor(String value)    { this.colonEnhancedFor    = toEnum(value, WhitespaceOption.class); }
+    public void setColonTernary(String value)        { this.colonTernary        = toEnum(value, WhitespaceOption.class); }
+    public void setComma(String value)               { this.comma               = toEnum(value, WhitespaceOption.class); }
+    public void setDoWhile(String value)             { this.doWhile             = toEnum(value, WhitespaceOption.class); }
+    public void setDot(String value)                 { this.dot                 = toEnum(value, WhitespaceOption.class); }
+    public void setEmptyStat(String value)           { this.emptyStat           = toEnum(value, WhitespaceOption.class); }
+    public void setEqualities(String value)          { this.equalities          = toEnum(value, WhitespaceOption.class); }
+    public void setGenericEnd(String value)          { this.genericEnd          = toEnum(value, WhitespaceOption.class); }
+    public void setGenericStart(String value)        { this.genericStart        = toEnum(value, WhitespaceOption.class); }
+    public void setLCurlyAnonClass(String value)     { this.lCurlyAnonClass     = toEnum(value, WhitespaceOption.class); }
+    public void setLCurlyArrayInit(String value)     { this.lCurlyArrayInit     = toEnum(value, WhitespaceOption.class); }
+    public void setPreDec(String value)              { this.preDec              = toEnum(value, WhitespaceOption.class); }
+
+    public void setAllowEmptyAnonClass(boolean value) { this.allowEmptyAnonClass = value; }
+    public void setAllowEmptyArrayInit(boolean value) { this.allowEmptyArrayInit = value; }
+    // CHECKSTYLE LineLength:ON
+    // CHECKSTYLE JavadocMethod:ON
+    // END CONFIGURATION SETTERS
 
     private <E extends Enum<E>> E
     toEnum(String value, Class<E> enumClass) {
@@ -97,7 +139,7 @@ class Whitespace extends Check {
             type = ast.getType();
             DetailAST parent = ast.getParent();
             if (parent == null) {
-                parentType = -1;
+                parentType      = -1;
                 grandparentType = -1;
             } else {
                 parentType = parent.getType();
@@ -108,121 +150,156 @@ class Whitespace extends Check {
 
         WhitespaceOption whitespaceOption = null;
         switch (ast.getType()) {
-//        case TokenTypes.ABSTRACT:
-//        case TokenTypes.ANNOTATION:
-//        case TokenTypes.ANNOTATION_ARRAY_INIT:
-//        case TokenTypes.ANNOTATION_DEF:
-//        case TokenTypes.ANNOTATION_FIELD_DEF:
-//        case TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR:
-//        case TokenTypes.ANNOTATIONS:
-//        case TokenTypes.ARRAY_DECLARATOR:
-//        case TokenTypes.ARRAY_INIT:
+        case TokenTypes.ABSTRACT:
+        case TokenTypes.ANNOTATION:
+        case TokenTypes.ANNOTATION_ARRAY_INIT:
+        case TokenTypes.ANNOTATION_DEF:
+        case TokenTypes.ANNOTATION_FIELD_DEF:
+        case TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR:
+        case TokenTypes.ANNOTATIONS:
+        case TokenTypes.ARRAY_DECLARATOR:
+        case TokenTypes.ARRAY_INIT:
+            break;
         case TokenTypes.ASSIGN:
-            break;
-//        case TokenTypes.AT:
-        case TokenTypes.BAND:
-            break;
         case TokenTypes.BAND_ASSIGN:
-            break;
-//        case TokenTypes.BNOT:
-        case TokenTypes.BOR:
-            break;
         case TokenTypes.BOR_ASSIGN:
-            break;
-        case TokenTypes.BSR:
-            break;
         case TokenTypes.BSR_ASSIGN:
-            break;
-        case TokenTypes.BXOR:
-            break;
         case TokenTypes.BXOR_ASSIGN:
+        case TokenTypes.DIV_ASSIGN:
+        case TokenTypes.MINUS_ASSIGN:
+        case TokenTypes.MOD_ASSIGN:
+        case TokenTypes.PLUS_ASSIGN:
+        case TokenTypes.SL_ASSIGN:
+        case TokenTypes.SR_ASSIGN:
+        case TokenTypes.STAR_ASSIGN:
+            whitespaceOption = this.assignments;
             break;
-//        case TokenTypes.CASE_GROUP:
-//        case TokenTypes.CHAR_LITERAL:
-//        case TokenTypes.CLASS_DEF:
+        case TokenTypes.AT:
+            whitespaceOption = this.at;
+            break;
+        case TokenTypes.BAND:
+        case TokenTypes.BOR:
+        case TokenTypes.BSR:
+        case TokenTypes.BXOR:
+            whitespaceOption = this.bitwiseOperators;
+            break;
+        case TokenTypes.BNOT:
+            whitespaceOption = this.bitwiseComplement;
+            break;
+        case TokenTypes.CASE_GROUP:
+        case TokenTypes.CHAR_LITERAL:
+        case TokenTypes.CLASS_DEF:
+            break;
         case TokenTypes.COLON:
             if (parentType == TokenTypes.LITERAL_DEFAULT) { // 'default:'
-                break;
+                whitespaceOption = this.colonDefault;
             } else
-            if (parentType == TokenTypes.LITERAL_CASE) { // 'case 77:'
-                break;
+            if (parentType == TokenTypes.LITERAL_CASE) {    // 'case 77:'
+                whitespaceOption = this.colonCase;
             } else
             if (parentType == TokenTypes.FOR_EACH_CLAUSE) { // 'for (Object o : list) {'
-                break;
+                whitespaceOption = this.colonEnhancedFor;
             } else
-            { // 'a ? b : c'
-                break;
+            {                                               // 'a ? b : c'
+                whitespaceOption = this.colonTernary;
             }
-//        case TokenTypes.COMMA:
-//        case TokenTypes.CTOR_CALL:
-//        case TokenTypes.CTOR_DEF:
-//        case TokenTypes.DEC:
-        case TokenTypes.DIV:
             break;
-        case TokenTypes.DIV_ASSIGN:
+        case TokenTypes.COMMA:
+            whitespaceOption = this.comma;
             break;
-//        case TokenTypes.DO_WHILE:
-//        case TokenTypes.DOT:
-//        case TokenTypes.ELIST:
-//        case TokenTypes.ELLIPSIS:
-//        case TokenTypes.EMPTY_STAT:
-//        case TokenTypes.ENUM:
-//        case TokenTypes.ENUM_CONSTANT_DEF:
-//        case TokenTypes.ENUM_DEF:
-//        case TokenTypes.EOF:
+        case TokenTypes.CTOR_CALL:
+        case TokenTypes.CTOR_DEF:
+            break;
+        case TokenTypes.DEC:
+            whitespaceOption = this.preDec; // '--x'
+            break;
+        case TokenTypes.DIV:  // 'a / b'
+        case TokenTypes.PLUS: // 'a + b'
+        case TokenTypes.MOD:  // 'a % b'
+            whitespaceOption = this.arithmeticOperators;
+            break;
+        case TokenTypes.DO_WHILE: // '... } while (...);'
+            whitespaceOption = this.doWhile;
+            break;
+        case TokenTypes.DOT: // 'a.b'
+            whitespaceOption = this.dot;
+            break;
+        case TokenTypes.ELIST:
+            break;
+        case TokenTypes.ELLIPSIS: // 'meth(int x, ...) {'
+            break;
+        case TokenTypes.EMPTY_STAT: // ';'
+            whitespaceOption = this.emptyStat;
+            break;
+        case TokenTypes.ENUM:              // 'enum MyEnum {'
+        case TokenTypes.ENUM_CONSTANT_DEF: // 'enum MyEnum { A, B }'
+        case TokenTypes.ENUM_DEF:          // 'enum MyEnum {'
+            break;
+        case TokenTypes.EOF:
+            break;
+        case TokenTypes.LT:
+        case TokenTypes.LE:
         case TokenTypes.EQUAL:
-            break;
-//        case TokenTypes.EXPR:
-//        case TokenTypes.EXTENDS_CLAUSE:
-//        case TokenTypes.FINAL:
-//        case TokenTypes.FOR_CONDITION:
-//        case TokenTypes.FOR_EACH_CLAUSE:
-//        case TokenTypes.FOR_INIT:
-//        case TokenTypes.FOR_ITERATOR:
+        case TokenTypes.NOT_EQUAL:
         case TokenTypes.GE:
-            break;
-//        case TokenTypes.GENERIC_END:
-//        case TokenTypes.GENERIC_START:
         case TokenTypes.GT:
+            whitespaceOption = this.equalities;
             break;
-//        case TokenTypes.IDENT:
-//        case TokenTypes.IMPLEMENTS_CLAUSE:
-//        case TokenTypes.IMPORT:
-//        case TokenTypes.INC:
-//        case TokenTypes.INDEX_OP:
-//        case TokenTypes.INSTANCE_INIT:
-//        case TokenTypes.INTERFACE_DEF:
-//        case TokenTypes.LABELED_STAT:
+        case TokenTypes.EXPR:
+        case TokenTypes.EXTENDS_CLAUSE:
+        case TokenTypes.FINAL:
+        case TokenTypes.FOR_CONDITION:
+        case TokenTypes.FOR_EACH_CLAUSE:
+        case TokenTypes.FOR_INIT:
+        case TokenTypes.FOR_ITERATOR:
+            break;
+        case TokenTypes.GENERIC_END:
+            whitespaceOption = this.genericEnd;
+            break;
+        case TokenTypes.GENERIC_START:
+            whitespaceOption = this.genericStart;
+            break;
+        case TokenTypes.IDENT:
+        case TokenTypes.IMPLEMENTS_CLAUSE:
+        case TokenTypes.IMPORT:
+        case TokenTypes.INC:
+        case TokenTypes.INDEX_OP:
+        case TokenTypes.INSTANCE_INIT:
+        case TokenTypes.INTERFACE_DEF:
+        case TokenTypes.LABELED_STAT:
         case TokenTypes.LAND:
             break;
         case TokenTypes.LCURLY:
-            if ( // 'class MyClass() {...}', 'interface MyInterface() {...}', 'new MyClass() {...}', 'new @MyAnnotation {...}'
-                parentType == TokenTypes.OBJBLOCK
-                && (
-                    grandparentType == TokenTypes.CLASS_DEF
-                    || grandparentType == TokenTypes.INTERFACE_DEF
-                    || grandparentType == TokenTypes.LITERAL_NEW
-                    || grandparentType == TokenTypes.ANNOTATION_DEF
-                )
-            ) {
-    
-                // Conditionally allow empty type body.
-                if (
-                    this.allowEmptyTypes
-                    && nextSiblingTypeIs(ast, TokenTypes.RCURLY)
-                ) return;
-                whitespaceOption = this.lCurly;
-                break;
-            } else
-            if (parentType == TokenTypes.ARRAY_INIT) { // 'int[] ia = {...}', 'new int[] {...}'
-                break;
-            } else
             {
+                boolean allowEmpty;
+                if (parentType == TokenTypes.OBJBLOCK && (
+                    grandparentType == TokenTypes.CLASS_DEF         // 'class MyClass() {...}'
+                    || grandparentType == TokenTypes.INTERFACE_DEF  // 'interface MyInterface() {...}'
+                    || grandparentType == TokenTypes.LITERAL_NEW    // 'new MyClass() {...}'
+                    || grandparentType == TokenTypes.ANNOTATION_DEF // 'new @MyAnnotation {...}'
+                )) {
+                    whitespaceOption = this.lCurlyAnonClass;
+                    allowEmpty       = this.allowEmptyAnonClass;
+                } else
+                if (parentType == TokenTypes.ARRAY_INIT) { // 'int[] ia = {...}', 'new int[] {...}'
+                    whitespaceOption = this.lCurlyArrayInit;
+                    allowEmpty       = this.allowEmptyArrayInit;
+                } else
+                {
+                    break;
+                }
+
+                if (allowEmpty && nextSiblingTypeIs(ast, TokenTypes.RCURLY)) {
+                    switch (whitespaceOption) {
+                    case NOT_BEFORE_BUT_AFTER: whitespaceOption = WhitespaceOption.NOT_BEFORE; break;
+                    case BEFORE_AND_AFTER:     whitespaceOption = WhitespaceOption.BEFORE;     break;
+                    case AFTER:                whitespaceOption = WhitespaceOption.ANY;        break;
+                    default: break;
+                    }
+                }
                 break;
             }
 
-        case TokenTypes.LE:
-            break;
         case TokenTypes.LITERAL_ASSERT:
             break;
 //        case TokenTypes.LITERAL_BOOLEAN:
@@ -286,21 +363,11 @@ class Whitespace extends Check {
         case TokenTypes.LOR:
             break;
 //        case TokenTypes.LPAREN:
-        case TokenTypes.LT:
-            break;
 //        case TokenTypes.METHOD_CALL:
 //        case TokenTypes.METHOD_DEF:
         case TokenTypes.MINUS:
             break;
-        case TokenTypes.MINUS_ASSIGN:
-            break;
-        case TokenTypes.MOD:
-            break;
-        case TokenTypes.MOD_ASSIGN:
-            break;
 //        case TokenTypes.MODIFIERS:
-        case TokenTypes.NOT_EQUAL:
-            break;
 //        case TokenTypes.NUM_DOUBLE:
 //        case TokenTypes.NUM_FLOAT:
 //        case TokenTypes.NUM_INT:
@@ -309,10 +376,6 @@ class Whitespace extends Check {
 //        case TokenTypes.PACKAGE_DEF:
 //        case TokenTypes.PARAMETER_DEF:
 //        case TokenTypes.PARAMETERS:
-        case TokenTypes.PLUS:
-            break;
-        case TokenTypes.PLUS_ASSIGN:
-            break;
 //        case TokenTypes.POST_DEC:
 //        case TokenTypes.POST_INC:
         case TokenTypes.QUESTION:
@@ -373,13 +436,9 @@ class Whitespace extends Check {
 //        case TokenTypes.SEMI:
         case TokenTypes.SL:
             break;
-        case TokenTypes.SL_ASSIGN:
-            break;
         case TokenTypes.SLIST:
             break;
         case TokenTypes.SR:
-            break;
-        case TokenTypes.SR_ASSIGN:
             break;
         case TokenTypes.STAR:
             if (type == TokenTypes.DOT) { // 'import pkg.pkg.*;'
@@ -387,8 +446,6 @@ class Whitespace extends Check {
             } else {
                 break;
             }
-        case TokenTypes.STAR_ASSIGN:
-            break;
 //        case TokenTypes.STATIC_IMPORT:
 //        case TokenTypes.STATIC_INIT:
 //        case TokenTypes.STRICTFP:
@@ -473,10 +530,10 @@ class Whitespace extends Check {
 //            TokenTypes.ARRAY_DECLARATOR,
 //            TokenTypes.ARRAY_INIT,
             TokenTypes.ASSIGN,
-//            TokenTypes.AT,
+            TokenTypes.AT,
             TokenTypes.BAND,
             TokenTypes.BAND_ASSIGN,
-//            TokenTypes.BNOT,
+            TokenTypes.BNOT,
             TokenTypes.BOR,
             TokenTypes.BOR_ASSIGN,
             TokenTypes.BSR,
@@ -487,7 +544,7 @@ class Whitespace extends Check {
 //            TokenTypes.CHAR_LITERAL,
 //            TokenTypes.CLASS_DEF,
             TokenTypes.COLON,
-//            TokenTypes.COMMA,
+            TokenTypes.COMMA,
 //            TokenTypes.CTOR_CALL,
 //            TokenTypes.CTOR_DEF,
 //            TokenTypes.DEC,
