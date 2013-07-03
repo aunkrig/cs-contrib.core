@@ -107,7 +107,7 @@ class WhitespaceAround extends WhitespaceAroundCheck {
             break;
         }
 
-        // None of the exceptions applies; pass control to the "original" WhitespaceAroundCheck.
+        // None of the exceptions apply; pass control to the "original" WhitespaceAroundCheck.
         super.visitToken(ast);
     }
 }
