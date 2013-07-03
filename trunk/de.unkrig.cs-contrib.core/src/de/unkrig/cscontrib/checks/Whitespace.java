@@ -26,8 +26,28 @@
 
 package de.unkrig.cscontrib.checks;
 
-import static de.unkrig.cscontrib.util.AstUtil.nextSiblingTypeIs;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.ARITHMETIC_OPERATORS;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.ASSIGNMENTS;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.AT;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.BITWISE_COMPLEMENT;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.BITWISE_OPERATORS;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.COLON_CASE;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.COLON_DEFAULT;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.COLON_ENHANCED_FOR;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.COLON_TERNARY;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.COMMA;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.DOT;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.DO_WHILE;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.EMPTY_STAT;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.EQUALITIES;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.GENERIC_END;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.GENERIC_START;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.L_CURLY_ANON_CLASS;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.L_CURLY_ARRAY_INIT;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.PRE_DEC;
 import static de.unkrig.cscontrib.util.AstUtil.previousSiblingTypeIs;
+
+import java.util.EnumSet;
 
 import org.apache.commons.beanutils.ConversionException;
 
@@ -47,88 +67,102 @@ class Whitespace extends Check {
      * Whether a token must or must not be followed and/or preceeded by whitespace.
      */
     public
-    enum WhitespaceOption {
-        /** The token must neither be preceeded nor followed by whitespace. */
-        NOT_BEFORE_AND_NOT_AFTER,
-        /** The token must not be preceeded, but followed by whitespace. */
-        NOT_BEFORE_BUT_AFTER,
-        /** The token must not be preceededby whitespace. */
-        NOT_BEFORE,
-        /** The token must be preceeded, but not followed by whitespace. */
-        BEFORE_BUT_NOT_AFTER,
-        /** The token must be preceeded and followed by whitespace. */
-        BEFORE_AND_AFTER,
-        /** The token must be preceeded by whitespace. */
-        BEFORE,
-        /** The token must not be followed by whitespace. */
-        NOT_AFTER,
-        /** The token must be followed by whitespace. */
-        AFTER,
-        /** The token may or may not be preceeded and/or followed by whitespace. */
-        ANY,
+    enum Whitespaceable {
+        ARITHMETIC_OPERATORS,
+        ASSIGNMENTS,
+        AT,
+        BITWISE_OPERATORS,
+        BITWISE_COMPLEMENT,
+        COLON_DEFAULT,
+        COLON_CASE,
+        COLON_ENHANCED_FOR,
+        COLON_TERNARY,
+        COMMA,
+        DO_WHILE,
+        DOT,
+        EMPTY_STAT,
+        EQUALITIES,
+        GENERIC_END,
+        GENERIC_START,
+        L_CURLY_ANON_CLASS,
+        L_CURLY_ARRAY_INIT,
+        PRE_DEC,
     }
 
-    private enum WhitespaceOption2 { MUST, MAY, MUST_NOT }
-
-    private WhitespaceOption arithmeticOperators = WhitespaceOption.BEFORE_AND_AFTER;
-    private WhitespaceOption assignments         = WhitespaceOption.BEFORE_AND_AFTER;
-    private WhitespaceOption at                  = WhitespaceOption.BEFORE_BUT_NOT_AFTER;
-    private WhitespaceOption bitwiseOperators    = WhitespaceOption.BEFORE_AND_AFTER;
-    private WhitespaceOption bitwiseComplement   = WhitespaceOption.NOT_AFTER;
-    private WhitespaceOption colonDefault        = WhitespaceOption.NOT_BEFORE_BUT_AFTER;
-    private WhitespaceOption colonCase           = WhitespaceOption.NOT_BEFORE_BUT_AFTER;
-    private WhitespaceOption colonEnhancedFor    = WhitespaceOption.BEFORE_AND_AFTER;
-    private WhitespaceOption colonTernary        = WhitespaceOption.BEFORE_AND_AFTER;
-    private WhitespaceOption comma               = WhitespaceOption.NOT_BEFORE_BUT_AFTER;
-    private WhitespaceOption doWhile             = WhitespaceOption.BEFORE_AND_AFTER;
-    private WhitespaceOption dot                 = WhitespaceOption.NOT_BEFORE_AND_NOT_AFTER;
-    private WhitespaceOption emptyStat           = WhitespaceOption.BEFORE_AND_AFTER;
-    private WhitespaceOption equalities          = WhitespaceOption.BEFORE_AND_AFTER;
-    private WhitespaceOption genericEnd          = WhitespaceOption.NOT_BEFORE;
-    private WhitespaceOption genericStart        = WhitespaceOption.NOT_AFTER;
-    private WhitespaceOption lCurlyAnonClass     = WhitespaceOption.BEFORE_AND_AFTER;
-    private WhitespaceOption lCurlyArrayInit     = WhitespaceOption.BEFORE_AND_AFTER;
-    private WhitespaceOption preDec              = WhitespaceOption.NOT_AFTER;
+    private EnumSet<Whitespaceable> whitespaceBefore = EnumSet.of(
+        ARITHMETIC_OPERATORS,
+        ASSIGNMENTS,
+        AT,
+        BITWISE_OPERATORS,
+        COLON_ENHANCED_FOR,
+        COLON_TERNARY,
+        DO_WHILE,
+        EMPTY_STAT,
+        EQUALITIES,
+        L_CURLY_ANON_CLASS,
+        L_CURLY_ARRAY_INIT
+    );
+    private EnumSet<Whitespaceable> noWhitespaceBefore = EnumSet.of(
+        COLON_DEFAULT,
+        COLON_CASE,
+        COMMA,
+        DOT,
+        GENERIC_END
+    );
+    private EnumSet<Whitespaceable> whitespaceAfter = EnumSet.of(
+        ARITHMETIC_OPERATORS,
+        ASSIGNMENTS,
+        BITWISE_OPERATORS,
+        COLON_DEFAULT,
+        COLON_CASE,
+        COLON_ENHANCED_FOR,
+        COLON_TERNARY,
+        COMMA,
+        DO_WHILE,
+        EMPTY_STAT,
+        EQUALITIES,
+        L_CURLY_ANON_CLASS,
+        L_CURLY_ARRAY_INIT
+    );
+    private EnumSet<Whitespaceable> noWhitespaceAfter = EnumSet.of(
+        AT,
+        BITWISE_COMPLEMENT,
+        DOT,
+        GENERIC_START,
+        PRE_DEC
+    );
 
     private boolean allowEmptyAnonClass = true;
     private boolean allowEmptyArrayInit = true;
 
     // BEGIN CONFIGURATION SETTERS
+
     // CHECKSTYLE JavadocMethod:OFF
-    // CHECKSTYLE LineLength:OFF
-    public void setArithmeticOperators(String value) { this.arithmeticOperators = toEnum(value, WhitespaceOption.class); }
-    public void setAssignments(String value)         { this.assignments         = toEnum(value, WhitespaceOption.class); }
-    public void setAt(String value)                  { this.at                  = toEnum(value, WhitespaceOption.class); }
-    public void setBitwiseOperators(String value)    { this.bitwiseOperators    = toEnum(value, WhitespaceOption.class); }
-    public void setBitwiseComplement(String value)   { this.bitwiseComplement   = toEnum(value, WhitespaceOption.class); }
-    public void setColonDefault(String value)        { this.colonDefault        = toEnum(value, WhitespaceOption.class); }
-    public void setColonCase(String value)           { this.colonCase           = toEnum(value, WhitespaceOption.class); }
-    public void setColonEnhancedFor(String value)    { this.colonEnhancedFor    = toEnum(value, WhitespaceOption.class); }
-    public void setColonTernary(String value)        { this.colonTernary        = toEnum(value, WhitespaceOption.class); }
-    public void setComma(String value)               { this.comma               = toEnum(value, WhitespaceOption.class); }
-    public void setDoWhile(String value)             { this.doWhile             = toEnum(value, WhitespaceOption.class); }
-    public void setDot(String value)                 { this.dot                 = toEnum(value, WhitespaceOption.class); }
-    public void setEmptyStat(String value)           { this.emptyStat           = toEnum(value, WhitespaceOption.class); }
-    public void setEqualities(String value)          { this.equalities          = toEnum(value, WhitespaceOption.class); }
-    public void setGenericEnd(String value)          { this.genericEnd          = toEnum(value, WhitespaceOption.class); }
-    public void setGenericStart(String value)        { this.genericStart        = toEnum(value, WhitespaceOption.class); }
-    public void setLCurlyAnonClass(String value)     { this.lCurlyAnonClass     = toEnum(value, WhitespaceOption.class); }
-    public void setLCurlyArrayInit(String value)     { this.lCurlyArrayInit     = toEnum(value, WhitespaceOption.class); }
-    public void setPreDec(String value)              { this.preDec              = toEnum(value, WhitespaceOption.class); }
+    public void setWhitespaceBefore(String[] sa)   { this.whitespaceBefore   = toEnumSet(sa, Whitespaceable.class); }
+    public void setNoWhitespaceBefore(String[] sa) { this.noWhitespaceBefore = toEnumSet(sa, Whitespaceable.class); }
+    public void setWhitespaceAfter(String[] sa)    { this.whitespaceAfter    = toEnumSet(sa, Whitespaceable.class); }
+    public void setNoWhitespaceAfter(String[] sa)  { this.noWhitespaceAfter  = toEnumSet(sa, Whitespaceable.class); }
 
     public void setAllowEmptyAnonClass(boolean value) { this.allowEmptyAnonClass = value; }
     public void setAllowEmptyArrayInit(boolean value) { this.allowEmptyArrayInit = value; }
-    // CHECKSTYLE LineLength:ON
     // CHECKSTYLE JavadocMethod:ON
+
     // END CONFIGURATION SETTERS
 
-    private <E extends Enum<E>> E
+    private static <E extends Enum<E>> E
     toEnum(String value, Class<E> enumClass) {
         try {
             return Enum.valueOf(enumClass, value.trim().toUpperCase());
         } catch (IllegalArgumentException iae) {
             throw new ConversionException("Unable to parse " + value, iae);
         }
+    }
+    
+    private static <E extends Enum<E>> EnumSet<E>
+    toEnumSet(String[] values, Class<E> enumClass) {
+        EnumSet<E> result = EnumSet.noneOf(enumClass);
+        for (String value : values) result.add(toEnum(value, enumClass));
+        return result;
     }
 
     @Override public void
@@ -148,8 +182,12 @@ class Whitespace extends Check {
             }
         }
 
-        WhitespaceOption whitespaceOption = null;
+        // Find out how this token is to be checked.
+        Whitespaceable whitespaceable   = null;
+        boolean allowNoWhitespaceBefore = false;
+        boolean allowNoWhitespaceAfter  = false;
         switch (ast.getType()) {
+
         case TokenTypes.ABSTRACT:
         case TokenTypes.ANNOTATION:
         case TokenTypes.ANNOTATION_ARRAY_INIT:
@@ -160,6 +198,7 @@ class Whitespace extends Check {
         case TokenTypes.ARRAY_DECLARATOR:
         case TokenTypes.ARRAY_INIT:
             break;
+
         case TokenTypes.ASSIGN:
         case TokenTypes.BAND_ASSIGN:
         case TokenTypes.BOR_ASSIGN:
@@ -172,79 +211,96 @@ class Whitespace extends Check {
         case TokenTypes.SL_ASSIGN:
         case TokenTypes.SR_ASSIGN:
         case TokenTypes.STAR_ASSIGN:
-            whitespaceOption = this.assignments;
+            whitespaceable = ASSIGNMENTS;
             break;
+
         case TokenTypes.AT:
-            whitespaceOption = this.at;
+            whitespaceable = AT;
             break;
+
         case TokenTypes.BAND:
         case TokenTypes.BOR:
         case TokenTypes.BSR:
         case TokenTypes.BXOR:
-            whitespaceOption = this.bitwiseOperators;
+            whitespaceable = BITWISE_OPERATORS;
             break;
+
         case TokenTypes.BNOT:
-            whitespaceOption = this.bitwiseComplement;
+            whitespaceable = BITWISE_COMPLEMENT;
             break;
+
         case TokenTypes.CASE_GROUP:
         case TokenTypes.CHAR_LITERAL:
         case TokenTypes.CLASS_DEF:
             break;
+
         case TokenTypes.COLON:
             if (parentType == TokenTypes.LITERAL_DEFAULT) { // 'default:'
-                whitespaceOption = this.colonDefault;
+                whitespaceable = COLON_DEFAULT;
             } else
             if (parentType == TokenTypes.LITERAL_CASE) {    // 'case 77:'
-                whitespaceOption = this.colonCase;
+                whitespaceable = COLON_CASE;
             } else
             if (parentType == TokenTypes.FOR_EACH_CLAUSE) { // 'for (Object o : list) {'
-                whitespaceOption = this.colonEnhancedFor;
+                whitespaceable = COLON_ENHANCED_FOR;
             } else
             {                                               // 'a ? b : c'
-                whitespaceOption = this.colonTernary;
+                whitespaceable = COLON_TERNARY;
             }
             break;
+
         case TokenTypes.COMMA:
-            whitespaceOption = this.comma;
+            whitespaceable = COMMA;
             break;
+
         case TokenTypes.CTOR_CALL:
         case TokenTypes.CTOR_DEF:
             break;
+
         case TokenTypes.DEC:
-            whitespaceOption = this.preDec; // '--x'
+            whitespaceable = PRE_DEC; // '--x'
             break;
+
         case TokenTypes.DIV:  // 'a / b'
         case TokenTypes.PLUS: // 'a + b'
         case TokenTypes.MOD:  // 'a % b'
-            whitespaceOption = this.arithmeticOperators;
+            whitespaceable = ARITHMETIC_OPERATORS;
             break;
+
         case TokenTypes.DO_WHILE: // '... } while (...);'
-            whitespaceOption = this.doWhile;
+            whitespaceable = DO_WHILE;
             break;
+
         case TokenTypes.DOT: // 'a.b'
-            whitespaceOption = this.dot;
+            whitespaceable = DOT;
             break;
+
         case TokenTypes.ELIST:
             break;
         case TokenTypes.ELLIPSIS: // 'meth(int x, ...) {'
             break;
+
         case TokenTypes.EMPTY_STAT: // ';'
-            whitespaceOption = this.emptyStat;
+            whitespaceable = EMPTY_STAT;
             break;
+
         case TokenTypes.ENUM:              // 'enum MyEnum {'
         case TokenTypes.ENUM_CONSTANT_DEF: // 'enum MyEnum { A, B }'
         case TokenTypes.ENUM_DEF:          // 'enum MyEnum {'
             break;
+
         case TokenTypes.EOF:
             break;
+
         case TokenTypes.LT:
         case TokenTypes.LE:
         case TokenTypes.EQUAL:
         case TokenTypes.NOT_EQUAL:
         case TokenTypes.GE:
         case TokenTypes.GT:
-            whitespaceOption = this.equalities;
+            whitespaceable = EQUALITIES;
             break;
+
         case TokenTypes.EXPR:
         case TokenTypes.EXTENDS_CLAUSE:
         case TokenTypes.FINAL:
@@ -253,12 +309,15 @@ class Whitespace extends Check {
         case TokenTypes.FOR_INIT:
         case TokenTypes.FOR_ITERATOR:
             break;
+
         case TokenTypes.GENERIC_END:
-            whitespaceOption = this.genericEnd;
+            whitespaceable = GENERIC_END;
             break;
+
         case TokenTypes.GENERIC_START:
-            whitespaceOption = this.genericStart;
+            whitespaceable = GENERIC_START;
             break;
+
         case TokenTypes.IDENT:
         case TokenTypes.IMPLEMENTS_CLAUSE:
         case TokenTypes.IMPORT:
@@ -269,72 +328,56 @@ class Whitespace extends Check {
         case TokenTypes.LABELED_STAT:
         case TokenTypes.LAND:
             break;
-        case TokenTypes.LCURLY:
-            {
-                boolean allowEmpty;
-                if (parentType == TokenTypes.OBJBLOCK && (
-                    grandparentType == TokenTypes.CLASS_DEF         // 'class MyClass() {...}'
-                    || grandparentType == TokenTypes.INTERFACE_DEF  // 'interface MyInterface() {...}'
-                    || grandparentType == TokenTypes.LITERAL_NEW    // 'new MyClass() {...}'
-                    || grandparentType == TokenTypes.ANNOTATION_DEF // 'new @MyAnnotation {...}'
-                )) {
-                    whitespaceOption = this.lCurlyAnonClass;
-                    allowEmpty       = this.allowEmptyAnonClass;
-                } else
-                if (parentType == TokenTypes.ARRAY_INIT) { // 'int[] ia = {...}', 'new int[] {...}'
-                    whitespaceOption = this.lCurlyArrayInit;
-                    allowEmpty       = this.allowEmptyArrayInit;
-                } else
-                {
-                    break;
-                }
 
-                if (allowEmpty && nextSiblingTypeIs(ast, TokenTypes.RCURLY)) {
-                    switch (whitespaceOption) {
-                    case NOT_BEFORE_BUT_AFTER: whitespaceOption = WhitespaceOption.NOT_BEFORE; break;
-                    case BEFORE_AND_AFTER:     whitespaceOption = WhitespaceOption.BEFORE;     break;
-                    case AFTER:                whitespaceOption = WhitespaceOption.ANY;        break;
-                    default: break;
-                    }
-                }
+        case TokenTypes.LCURLY:
+            if (parentType == TokenTypes.OBJBLOCK && (
+                grandparentType == TokenTypes.CLASS_DEF         // 'class MyClass() {...}'
+                || grandparentType == TokenTypes.INTERFACE_DEF  // 'interface MyInterface() {...}'
+                || grandparentType == TokenTypes.LITERAL_NEW    // 'new MyClass() {...}'
+                || grandparentType == TokenTypes.ANNOTATION_DEF // 'new @MyAnnotation {...}'
+            )) {
+                whitespaceable         = L_CURLY_ANON_CLASS;
+                allowNoWhitespaceAfter = this.allowEmptyAnonClass;
+            } else
+            if (parentType == TokenTypes.ARRAY_INIT) { // 'int[] ia = {...}', 'new int[] {...}'
+                whitespaceable         = L_CURLY_ARRAY_INIT;
+                allowNoWhitespaceAfter = this.allowEmptyArrayInit;
+            } else
+            {
                 break;
             }
+            break;
 
         case TokenTypes.LITERAL_ASSERT:
-            break;
-//        case TokenTypes.LITERAL_BOOLEAN:
-//        case TokenTypes.LITERAL_BREAK:
-//        case TokenTypes.LITERAL_BYTE:
-//        case TokenTypes.LITERAL_CASE:
+        case TokenTypes.LITERAL_BOOLEAN:
+        case TokenTypes.LITERAL_BREAK:
+        case TokenTypes.LITERAL_BYTE:
+        case TokenTypes.LITERAL_CASE:
         case TokenTypes.LITERAL_CATCH:
-            break;
-//        case TokenTypes.LITERAL_CHAR:
-//        case TokenTypes.LITERAL_CLASS:
-//        case TokenTypes.LITERAL_CONTINUE:
-//        case TokenTypes.LITERAL_DEFAULT:
+        case TokenTypes.LITERAL_CHAR:
+        case TokenTypes.LITERAL_CLASS:
+        case TokenTypes.LITERAL_CONTINUE:
+        case TokenTypes.LITERAL_DEFAULT:
         case TokenTypes.LITERAL_DO:
-            break;
-//        case TokenTypes.LITERAL_DOUBLE:
+        case TokenTypes.LITERAL_DOUBLE:
         case TokenTypes.LITERAL_ELSE:
-            break;
-//        case TokenTypes.LITERAL_FALSE:
+        case TokenTypes.LITERAL_FALSE:
         case TokenTypes.LITERAL_FINALLY:
-            break;
-//        case TokenTypes.LITERAL_FLOAT:
+        case TokenTypes.LITERAL_FLOAT:
         case TokenTypes.LITERAL_FOR:
-            break;
         case TokenTypes.LITERAL_IF:
+        case TokenTypes.LITERAL_INSTANCEOF:
+        case TokenTypes.LITERAL_INT:
+        case TokenTypes.LITERAL_INTERFACE:
+        case TokenTypes.LITERAL_LONG:
+        case TokenTypes.LITERAL_NATIVE:
+        case TokenTypes.LITERAL_NEW:
+        case TokenTypes.LITERAL_NULL:
+        case TokenTypes.LITERAL_PRIVATE:
+        case TokenTypes.LITERAL_PROTECTED:
+        case TokenTypes.LITERAL_PUBLIC:
             break;
-//        case TokenTypes.LITERAL_INSTANCEOF:
-//        case TokenTypes.LITERAL_INT:
-//        case TokenTypes.LITERAL_INTERFACE:
-//        case TokenTypes.LITERAL_LONG:
-//        case TokenTypes.LITERAL_NATIVE:
-//        case TokenTypes.LITERAL_NEW:
-//        case TokenTypes.LITERAL_NULL:
-//        case TokenTypes.LITERAL_PRIVATE:
-//        case TokenTypes.LITERAL_PROTECTED:
-//        case TokenTypes.LITERAL_PUBLIC:
+
         case TokenTypes.LITERAL_RETURN:
             if (ast.getFirstChild().getType() == TokenTypes.SEMI) { // 'return;'
                 break;
@@ -342,45 +385,41 @@ class Whitespace extends Check {
                 break;
             }
 
-//        case TokenTypes.LITERAL_SHORT:
-//        case TokenTypes.LITERAL_STATIC:
-//        case TokenTypes.LITERAL_SUPER:
-//        case TokenTypes.LITERAL_SWITCH:
+        case TokenTypes.LITERAL_SHORT:
+        case TokenTypes.LITERAL_STATIC:
+        case TokenTypes.LITERAL_SUPER:
+        case TokenTypes.LITERAL_SWITCH:
         case TokenTypes.LITERAL_SYNCHRONIZED:
-            break;
-//        case TokenTypes.LITERAL_THIS:
-//        case TokenTypes.LITERAL_THROW:
-//        case TokenTypes.LITERAL_THROWS:
-//        case TokenTypes.LITERAL_TRANSIENT:
-//        case TokenTypes.LITERAL_TRUE:
+        case TokenTypes.LITERAL_THIS:
+        case TokenTypes.LITERAL_THROW:
+        case TokenTypes.LITERAL_THROWS:
+        case TokenTypes.LITERAL_TRANSIENT:
+        case TokenTypes.LITERAL_TRUE:
         case TokenTypes.LITERAL_TRY:
-            break;
-//        case TokenTypes.LITERAL_VOID:
-//        case TokenTypes.LITERAL_VOLATILE:
+        case TokenTypes.LITERAL_VOID:
+        case TokenTypes.LITERAL_VOLATILE:
         case TokenTypes.LITERAL_WHILE:
-            break;
-//        case TokenTypes.LNOT:
+        case TokenTypes.LNOT:
         case TokenTypes.LOR:
-            break;
-//        case TokenTypes.LPAREN:
-//        case TokenTypes.METHOD_CALL:
-//        case TokenTypes.METHOD_DEF:
+        case TokenTypes.LPAREN:
+        case TokenTypes.METHOD_CALL:
+        case TokenTypes.METHOD_DEF:
         case TokenTypes.MINUS:
-            break;
-//        case TokenTypes.MODIFIERS:
-//        case TokenTypes.NUM_DOUBLE:
-//        case TokenTypes.NUM_FLOAT:
-//        case TokenTypes.NUM_INT:
-//        case TokenTypes.NUM_LONG:
-//        case TokenTypes.OBJBLOCK:
-//        case TokenTypes.PACKAGE_DEF:
-//        case TokenTypes.PARAMETER_DEF:
-//        case TokenTypes.PARAMETERS:
-//        case TokenTypes.POST_DEC:
-//        case TokenTypes.POST_INC:
+        case TokenTypes.MODIFIERS:
+        case TokenTypes.NUM_DOUBLE:
+        case TokenTypes.NUM_FLOAT:
+        case TokenTypes.NUM_INT:
+        case TokenTypes.NUM_LONG:
+        case TokenTypes.OBJBLOCK:
+        case TokenTypes.PACKAGE_DEF:
+        case TokenTypes.PARAMETER_DEF:
+        case TokenTypes.PARAMETERS:
+        case TokenTypes.POST_DEC:
+        case TokenTypes.POST_INC:
         case TokenTypes.QUESTION:
+        case TokenTypes.RBRACK:
             break;
-//        case TokenTypes.RBRACK:
+
         case TokenTypes.RCURLY:
             
             if ( // 'new MyClass() {...}'
@@ -424,89 +463,98 @@ class Whitespace extends Check {
                     break;
                 }
                 break;
-            } else
-                
-            {
-                break;
             }
-//        case TokenTypes.RESOURCE:
-//        case TokenTypes.RESOURCE_SPECIFICATION:
-//        case TokenTypes.RESOURCES:
-//        case TokenTypes.RPAREN:
-//        case TokenTypes.SEMI:
+            break;
+
+        case TokenTypes.RESOURCE:
+        case TokenTypes.RESOURCE_SPECIFICATION:
+        case TokenTypes.RESOURCES:
+        case TokenTypes.RPAREN:
+        case TokenTypes.SEMI:
         case TokenTypes.SL:
-            break;
         case TokenTypes.SLIST:
-            break;
         case TokenTypes.SR:
             break;
+
         case TokenTypes.STAR:
             if (type == TokenTypes.DOT) { // 'import pkg.pkg.*;'
                 break;
             } else {
                 break;
             }
-//        case TokenTypes.STATIC_IMPORT:
-//        case TokenTypes.STATIC_INIT:
-//        case TokenTypes.STRICTFP:
-//        case TokenTypes.STRING_LITERAL:
-//        case TokenTypes.SUPER_CTOR_CALL:
-//        case TokenTypes.TYPE:
-//        case TokenTypes.TYPE_ARGUMENT:
-//        case TokenTypes.TYPE_ARGUMENTS:
+
+        case TokenTypes.STATIC_IMPORT:
+        case TokenTypes.STATIC_INIT:
+        case TokenTypes.STRICTFP:
+        case TokenTypes.STRING_LITERAL:
+        case TokenTypes.SUPER_CTOR_CALL:
+        case TokenTypes.TYPE:
+        case TokenTypes.TYPE_ARGUMENT:
+        case TokenTypes.TYPE_ARGUMENTS:
         case TokenTypes.TYPE_EXTENSION_AND:
+        case TokenTypes.TYPE_LOWER_BOUNDS:
+        case TokenTypes.TYPE_PARAMETER:
+        case TokenTypes.TYPE_PARAMETERS:
+        case TokenTypes.TYPE_UPPER_BOUNDS:
+        case TokenTypes.TYPECAST:
+        case TokenTypes.UNARY_MINUS:
+        case TokenTypes.UNARY_PLUS:
+        case TokenTypes.VARIABLE_DEF:
+        case TokenTypes.WILDCARD_TYPE:
             break;
-//        case TokenTypes.TYPE_LOWER_BOUNDS:
-//        case TokenTypes.TYPE_PARAMETER:
-//        case TokenTypes.TYPE_PARAMETERS:
-//        case TokenTypes.TYPE_UPPER_BOUNDS:
-//        case TokenTypes.TYPECAST:
-//        case TokenTypes.UNARY_MINUS:
-//        case TokenTypes.UNARY_PLUS:
-//        case TokenTypes.VARIABLE_DEF:
-//        case TokenTypes.WILDCARD_TYPE:
 
         default:
             assert false;
         }
 
-        if (whitespaceOption == null) return;
+        if (whitespaceable == null) {
+            return;
+        }
+
+        boolean mustBeWhitespaceBefore    = !allowNoWhitespaceBefore || this.whitespaceBefore.contains(whitespaceable);
+        boolean mustNotBeWhitespaceBefore = this.noWhitespaceBefore.contains(whitespaceable);
+        boolean mustBeWhitespaceAfter     = !allowNoWhitespaceAfter || this.whitespaceAfter.contains(whitespaceable);
+        boolean mustNotBeWhitespaceAfter  = this.noWhitespaceAfter.contains(whitespaceable);
 
         // Short-circuit.
-        if (whitespaceOption == WhitespaceOption.ANY) return; 
+        if (
+            !mustBeWhitespaceBefore
+            && !mustNotBeWhitespaceBefore
+            && !mustBeWhitespaceAfter
+            && !mustNotBeWhitespaceAfter
+        ) return;
 
-        WhitespaceOption2 before, after;
-        switch (whitespaceOption) {
-        case NOT_BEFORE_AND_NOT_AFTER: before = WhitespaceOption2.MUST_NOT; after = WhitespaceOption2.MUST_NOT; break;
-        case NOT_BEFORE_BUT_AFTER:     before = WhitespaceOption2.MUST_NOT; after = WhitespaceOption2.MUST;     break;
-        case NOT_BEFORE:               before = WhitespaceOption2.MUST_NOT; after = WhitespaceOption2.MAY;      break;
-        case BEFORE_BUT_NOT_AFTER:     before = WhitespaceOption2.MUST;     after = WhitespaceOption2.MUST_NOT; break;
-        case BEFORE_AND_AFTER:         before = WhitespaceOption2.MUST;     after = WhitespaceOption2.MUST;     break;
-        case BEFORE:                   before = WhitespaceOption2.MUST;     after = WhitespaceOption2.MAY;      break;
-        case NOT_AFTER:                before = WhitespaceOption2.MAY;      after = WhitespaceOption2.MUST_NOT; break;
-        case AFTER:                    before = WhitespaceOption2.MAY;      after = WhitespaceOption2.MUST;     break;
-        case ANY:                      before = WhitespaceOption2.MAY;      after = WhitespaceOption2.MAY;      break;
-        default: throw new AssertionError();
-        }
-        
         final String[] lines = getLines();
         final String   line  = lines[ast.getLineNo() - 1];
 
-        if (before != WhitespaceOption2.MAY) {
+        // Check whitespace BEFORE token.
+        if (mustBeWhitespaceBefore || mustNotBeWhitespaceBefore) {
             int before2 = ast.getColumnNo() - 1;
-
-            if (
-                before2 >= 0
-                && (Character.isWhitespace(line.charAt(before2)) ^ before == WhitespaceOption2.MUST)
-            ) log(ast.getLineNo(), ast.getColumnNo(), "ws.notPreceded", ast.getText());
+            
+            if (before2 >= 0) {
+                boolean isWhitespace = Character.isWhitespace(line.charAt(before2));
+                if (mustBeWhitespaceBefore && !isWhitespace) {
+                    log(ast.getLineNo(), ast.getColumnNo() + ast.getText().length(), "ws.notPreceded", ast.getText());
+                }
+                if (mustNotBeWhitespaceBefore && isWhitespace) {
+                    log(ast.getLineNo(), ast.getColumnNo() + ast.getText().length(), "ws.preceded", ast.getText());
+                }
+            }
         }
-        if (after != WhitespaceOption2.MAY) {
-            final int after2 = ast.getColumnNo() + ast.getText().length();
 
-            if (
-                after2 < line.length()
-                && (Character.isWhitespace(line.charAt(after2)) ^ after == WhitespaceOption2.MUST)
-            ) log(ast.getLineNo(), ast.getColumnNo() + ast.getText().length(), "ws.notFollowed", ast.getText());
+        // Check whitespace AFTER token.
+        if (mustBeWhitespaceAfter || mustNotBeWhitespaceAfter) {
+            int after2 = ast.getColumnNo() + ast.getText().length();
+
+            if (after2 < line.length()) {
+                boolean isWhitespace = Character.isWhitespace(line.charAt(after2));
+                if (mustBeWhitespaceAfter && !isWhitespace) {
+                    log(ast.getLineNo(), ast.getColumnNo() + ast.getText().length(), "ws.notFollowed", ast.getText());
+                }
+                if (mustNotBeWhitespaceAfter && isWhitespace) {
+                    log(ast.getLineNo(), ast.getColumnNo() + ast.getText().length(), "ws.followed", ast.getText());
+                }
+            }
         }
     }
 
@@ -520,15 +568,15 @@ class Whitespace extends Check {
     @Override public int[]
     getDefaultTokens() {
         return new int[] {
-//            TokenTypes.ABSTRACT,
-//            TokenTypes.ANNOTATION,
-//            TokenTypes.ANNOTATION_ARRAY_INIT,
-//            TokenTypes.ANNOTATION_DEF,
-//            TokenTypes.ANNOTATION_FIELD_DEF,
-//            TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR,
-//            TokenTypes.ANNOTATIONS,
-//            TokenTypes.ARRAY_DECLARATOR,
-//            TokenTypes.ARRAY_INIT,
+            TokenTypes.ABSTRACT,
+            TokenTypes.ANNOTATION,
+            TokenTypes.ANNOTATION_ARRAY_INIT,
+            TokenTypes.ANNOTATION_DEF,
+            TokenTypes.ANNOTATION_FIELD_DEF,
+            TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR,
+            TokenTypes.ANNOTATIONS,
+            TokenTypes.ARRAY_DECLARATOR,
+            TokenTypes.ARRAY_INIT,
             TokenTypes.ASSIGN,
             TokenTypes.AT,
             TokenTypes.BAND,
@@ -540,123 +588,123 @@ class Whitespace extends Check {
             TokenTypes.BSR_ASSIGN,
             TokenTypes.BXOR,
             TokenTypes.BXOR_ASSIGN,
-//            TokenTypes.CASE_GROUP,
-//            TokenTypes.CHAR_LITERAL,
-//            TokenTypes.CLASS_DEF,
+            TokenTypes.CASE_GROUP,
+            TokenTypes.CHAR_LITERAL,
+            TokenTypes.CLASS_DEF,
             TokenTypes.COLON,
             TokenTypes.COMMA,
-//            TokenTypes.CTOR_CALL,
-//            TokenTypes.CTOR_DEF,
-//            TokenTypes.DEC,
+            TokenTypes.CTOR_CALL,
+            TokenTypes.CTOR_DEF,
+            TokenTypes.DEC,
             TokenTypes.DIV,
             TokenTypes.DIV_ASSIGN,
-//            TokenTypes.DO_WHILE,
-//            TokenTypes.DOT,
-//            TokenTypes.ELIST,
-//            TokenTypes.ELLIPSIS,
-//            TokenTypes.EMPTY_STAT,
-//            TokenTypes.ENUM,
-//            TokenTypes.ENUM_CONSTANT_DEF,
-//            TokenTypes.ENUM_DEF,
-//            TokenTypes.EOF,
+            TokenTypes.DO_WHILE,
+            TokenTypes.DOT,
+            TokenTypes.ELIST,
+            TokenTypes.ELLIPSIS,
+            TokenTypes.EMPTY_STAT,
+            TokenTypes.ENUM,
+            TokenTypes.ENUM_CONSTANT_DEF,
+            TokenTypes.ENUM_DEF,
+            TokenTypes.EOF,
             TokenTypes.EQUAL,
-//            TokenTypes.EXPR,
-//            TokenTypes.EXTENDS_CLAUSE,
-//            TokenTypes.FINAL,
-//            TokenTypes.FOR_CONDITION,
-//            TokenTypes.FOR_EACH_CLAUSE,
-//            TokenTypes.FOR_INIT,
-//            TokenTypes.FOR_ITERATOR,
+            TokenTypes.EXPR,
+            TokenTypes.EXTENDS_CLAUSE,
+            TokenTypes.FINAL,
+            TokenTypes.FOR_CONDITION,
+            TokenTypes.FOR_EACH_CLAUSE,
+            TokenTypes.FOR_INIT,
+            TokenTypes.FOR_ITERATOR,
             TokenTypes.GE,
-//            TokenTypes.GENERIC_END,
-//            TokenTypes.GENERIC_START,
+            TokenTypes.GENERIC_END,
+            TokenTypes.GENERIC_START,
             TokenTypes.GT,
-//            TokenTypes.IDENT,
-//            TokenTypes.IMPLEMENTS_CLAUSE,
-//            TokenTypes.IMPORT,
-//            TokenTypes.INC,
-//            TokenTypes.INDEX_OP,
-//            TokenTypes.INSTANCE_INIT,
-//            TokenTypes.INTERFACE_DEF,
-//            TokenTypes.LABELED_STAT,
+            TokenTypes.IDENT,
+            TokenTypes.IMPLEMENTS_CLAUSE,
+            TokenTypes.IMPORT,
+            TokenTypes.INC,
+            TokenTypes.INDEX_OP,
+            TokenTypes.INSTANCE_INIT,
+            TokenTypes.INTERFACE_DEF,
+            TokenTypes.LABELED_STAT,
             TokenTypes.LAND,
             TokenTypes.LCURLY,
             TokenTypes.LE,
             TokenTypes.LITERAL_ASSERT,
-//            TokenTypes.LITERAL_BOOLEAN,
-//            TokenTypes.LITERAL_BREAK,
-//            TokenTypes.LITERAL_BYTE,
-//            TokenTypes.LITERAL_CASE,
+            TokenTypes.LITERAL_BOOLEAN,
+            TokenTypes.LITERAL_BREAK,
+            TokenTypes.LITERAL_BYTE,
+            TokenTypes.LITERAL_CASE,
             TokenTypes.LITERAL_CATCH,
-//            TokenTypes.LITERAL_CHAR,
-//            TokenTypes.LITERAL_CLASS,
-//            TokenTypes.LITERAL_CONTINUE,
-//            TokenTypes.LITERAL_DEFAULT,
+            TokenTypes.LITERAL_CHAR,
+            TokenTypes.LITERAL_CLASS,
+            TokenTypes.LITERAL_CONTINUE,
+            TokenTypes.LITERAL_DEFAULT,
             TokenTypes.LITERAL_DO,
-//            TokenTypes.LITERAL_DOUBLE,
+            TokenTypes.LITERAL_DOUBLE,
             TokenTypes.LITERAL_ELSE,
-//            TokenTypes.LITERAL_FALSE,
+            TokenTypes.LITERAL_FALSE,
             TokenTypes.LITERAL_FINALLY,
-//            TokenTypes.LITERAL_FLOAT,
+            TokenTypes.LITERAL_FLOAT,
             TokenTypes.LITERAL_FOR,
             TokenTypes.LITERAL_IF,
-//            TokenTypes.LITERAL_INSTANCEOF,
-//            TokenTypes.LITERAL_INT,
-//            TokenTypes.LITERAL_INTERFACE,
-//            TokenTypes.LITERAL_LONG,
-//            TokenTypes.LITERAL_NATIVE,
-//            TokenTypes.LITERAL_NEW,
-//            TokenTypes.LITERAL_NULL,
-//            TokenTypes.LITERAL_PRIVATE,
-//            TokenTypes.LITERAL_PROTECTED,
-//            TokenTypes.LITERAL_PUBLIC,
+            TokenTypes.LITERAL_INSTANCEOF,
+            TokenTypes.LITERAL_INT,
+            TokenTypes.LITERAL_INTERFACE,
+            TokenTypes.LITERAL_LONG,
+            TokenTypes.LITERAL_NATIVE,
+            TokenTypes.LITERAL_NEW,
+            TokenTypes.LITERAL_NULL,
+            TokenTypes.LITERAL_PRIVATE,
+            TokenTypes.LITERAL_PROTECTED,
+            TokenTypes.LITERAL_PUBLIC,
             TokenTypes.LITERAL_RETURN,
-//            TokenTypes.LITERAL_SHORT,
-//            TokenTypes.LITERAL_STATIC,
-//            TokenTypes.LITERAL_SUPER,
-//            TokenTypes.LITERAL_SWITCH,
+            TokenTypes.LITERAL_SHORT,
+            TokenTypes.LITERAL_STATIC,
+            TokenTypes.LITERAL_SUPER,
+            TokenTypes.LITERAL_SWITCH,
             TokenTypes.LITERAL_SYNCHRONIZED,
-//            TokenTypes.LITERAL_THIS,
-//            TokenTypes.LITERAL_THROW,
-//            TokenTypes.LITERAL_THROWS,
-//            TokenTypes.LITERAL_TRANSIENT,
-//            TokenTypes.LITERAL_TRUE,
+            TokenTypes.LITERAL_THIS,
+            TokenTypes.LITERAL_THROW,
+            TokenTypes.LITERAL_THROWS,
+            TokenTypes.LITERAL_TRANSIENT,
+            TokenTypes.LITERAL_TRUE,
             TokenTypes.LITERAL_TRY,
-//            TokenTypes.LITERAL_VOID,
-//            TokenTypes.LITERAL_VOLATILE,
+            TokenTypes.LITERAL_VOID,
+            TokenTypes.LITERAL_VOLATILE,
             TokenTypes.LITERAL_WHILE,
-//            TokenTypes.LNOT,
+            TokenTypes.LNOT,
             TokenTypes.LOR,
-//            TokenTypes.LPAREN,
+            TokenTypes.LPAREN,
             TokenTypes.LT,
-//            TokenTypes.METHOD_CALL,
-//            TokenTypes.METHOD_DEF,
+            TokenTypes.METHOD_CALL,
+            TokenTypes.METHOD_DEF,
             TokenTypes.MINUS,
             TokenTypes.MINUS_ASSIGN,
             TokenTypes.MOD,
             TokenTypes.MOD_ASSIGN,
-//            TokenTypes.MODIFIERS,
+            TokenTypes.MODIFIERS,
             TokenTypes.NOT_EQUAL,
-//            TokenTypes.NUM_DOUBLE,
-//            TokenTypes.NUM_FLOAT,
-//            TokenTypes.NUM_INT,
-//            TokenTypes.NUM_LONG,
-//            TokenTypes.OBJBLOCK,
-//            TokenTypes.PACKAGE_DEF,
-//            TokenTypes.PARAMETER_DEF,
-//            TokenTypes.PARAMETERS,
+            TokenTypes.NUM_DOUBLE,
+            TokenTypes.NUM_FLOAT,
+            TokenTypes.NUM_INT,
+            TokenTypes.NUM_LONG,
+            TokenTypes.OBJBLOCK,
+            TokenTypes.PACKAGE_DEF,
+            TokenTypes.PARAMETER_DEF,
+            TokenTypes.PARAMETERS,
             TokenTypes.PLUS,
             TokenTypes.PLUS_ASSIGN,
-//            TokenTypes.POST_DEC,
-//            TokenTypes.POST_INC,
+            TokenTypes.POST_DEC,
+            TokenTypes.POST_INC,
             TokenTypes.QUESTION,
-//            TokenTypes.RBRACK,
+            TokenTypes.RBRACK,
             TokenTypes.RCURLY,
-//            TokenTypes.RESOURCE,
-//            TokenTypes.RESOURCE_SPECIFICATION,
-//            TokenTypes.RESOURCES,
-//            TokenTypes.RPAREN,
-//            TokenTypes.SEMI,
+            TokenTypes.RESOURCE,
+            TokenTypes.RESOURCE_SPECIFICATION,
+            TokenTypes.RESOURCES,
+            TokenTypes.RPAREN,
+            TokenTypes.SEMI,
             TokenTypes.SL,
             TokenTypes.SL_ASSIGN,
             TokenTypes.SLIST,
@@ -664,24 +712,24 @@ class Whitespace extends Check {
             TokenTypes.SR_ASSIGN,
             TokenTypes.STAR,
             TokenTypes.STAR_ASSIGN,
-//            TokenTypes.STATIC_IMPORT,
-//            TokenTypes.STATIC_INIT,
-//            TokenTypes.STRICTFP,
-//            TokenTypes.STRING_LITERAL,
-//            TokenTypes.SUPER_CTOR_CALL,
-//            TokenTypes.TYPE,
-//            TokenTypes.TYPE_ARGUMENT,
-//            TokenTypes.TYPE_ARGUMENTS,
+            TokenTypes.STATIC_IMPORT,
+            TokenTypes.STATIC_INIT,
+            TokenTypes.STRICTFP,
+            TokenTypes.STRING_LITERAL,
+            TokenTypes.SUPER_CTOR_CALL,
+            TokenTypes.TYPE,
+            TokenTypes.TYPE_ARGUMENT,
+            TokenTypes.TYPE_ARGUMENTS,
             TokenTypes.TYPE_EXTENSION_AND,
-//            TokenTypes.TYPE_LOWER_BOUNDS,
-//            TokenTypes.TYPE_PARAMETER,
-//            TokenTypes.TYPE_PARAMETERS,
-//            TokenTypes.TYPE_UPPER_BOUNDS,
-//            TokenTypes.TYPECAST,
-//            TokenTypes.UNARY_MINUS,
-//            TokenTypes.UNARY_PLUS,
-//            TokenTypes.VARIABLE_DEF,
-//            TokenTypes.WILDCARD_TYPE,
+            TokenTypes.TYPE_LOWER_BOUNDS,
+            TokenTypes.TYPE_PARAMETER,
+            TokenTypes.TYPE_PARAMETERS,
+            TokenTypes.TYPE_UPPER_BOUNDS,
+            TokenTypes.TYPECAST,
+            TokenTypes.UNARY_MINUS,
+            TokenTypes.UNARY_PLUS,
+            TokenTypes.VARIABLE_DEF,
+            TokenTypes.WILDCARD_TYPE,
         };
     }
 
