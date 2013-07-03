@@ -107,9 +107,9 @@ class NameSpelling extends AbstractFormatCheck {
     }
 
     /**
-     * All modifiers of the JAVA programming language.
+     * The 'option-provider' for the 'requiredModifiers' and 'missingModifiers' properties.
      */
-    public enum Modifiers {
+    public enum Modifier {
         // SUPPRESS CHECKSTYLE JavadocVariable
         PUBLIC, PROTECTED, PRIVATE, STATIC, FINAL, VOLATILE, STRICTFP
     }
