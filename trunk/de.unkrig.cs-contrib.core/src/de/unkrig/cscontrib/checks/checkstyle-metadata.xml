@@ -157,7 +157,7 @@
             <property-metadata
                 name="whitespaceBefore"
                 datatype="MultiCheck"
-                default-value="arithmetic_operators,assignments,bitwise_operators,colon_enhanced_for,colon_ternary,do_while,empty_stat,equalities,l_curly_array_init,l_curly_method_def,l_curly_static_init,l_curly_type_def,l_paren_do_while,name_variable_def,r_curly_anon_class,r_curly_array_init,r_curly_catch_block,r_curly_method_def,r_curly_static_init,r_curly_type_def"
+                default-value="arithmetic_operators,assignments,bitwise_operators,colon_enhanced_for,colon_ternary,do_while,equalities,l_curly_array_init,l_curly_method_def,l_curly_static_init,l_curly_type_def,l_paren_do_while,name_variable_def,r_curly_anon_class,r_curly_array_init,r_curly_catch_block,r_curly_method_def,r_curly_static_init,r_curly_type_def"
             >
                 <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceBefore</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$Whitespaceable"/>
@@ -166,7 +166,7 @@
             <property-metadata
                 name="noWhitespaceBefore"
                 datatype="MultiCheck"
-                default-value="colon_default,colon_case,comma,dot,generic_end,l_brack_array_decl,l_paren_annotation,l_paren_call,l_paren_parameters,r_brack_array_decl,r_paren_annotation,r_paren_call,r_paren_do_while,r_paren_parameters,semi_abstract_meth_def,semi_for_condition,semi_for_init,semi_package_def,semi_statement"
+                default-value="colon_default,colon_case,comma,dot,empty_stat,generic_end,l_brack_array_decl,l_paren_annotation,l_paren_call,l_paren_parameters,r_brack_array_decl,r_paren_annotation,r_paren_call,r_paren_do_while,r_paren_parameters,semi_abstract_meth_def,semi_for_condition,semi_for_init,semi_package_def,semi_statement"
             >
                 <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceBefore</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$Whitespaceable"/>
