@@ -69,7 +69,9 @@ class NameSpelling extends AbstractFormatCheck {
     /**
      * All elements that can be declared in the JAVA programming language.
      */
-    public enum Elements {
+    public
+    enum Elements {
+
         // CHECKSTYLE VariableCheck:OFF
         ANNOTATION("Annotation"),
         ANNOTATION_FIELD("Annotation field"),
@@ -109,9 +111,9 @@ class NameSpelling extends AbstractFormatCheck {
     /**
      * The 'option-provider' for the 'requiredModifiers' and 'missingModifiers' properties.
      */
-    public enum Modifier {
-        // SUPPRESS CHECKSTYLE JavadocVariable
-        PUBLIC, PROTECTED, PRIVATE, STATIC, FINAL, VOLATILE, STRICTFP
+    public
+    enum Modifier {
+        PUBLIC, PROTECTED, PRIVATE, STATIC, FINAL, VOLATILE, STRICTFP // SUPPRESS CHECKSTYLE JavadocVariable
     }
 
     public final void
@@ -131,10 +133,7 @@ class NameSpelling extends AbstractFormatCheck {
     /**
      * Whether a name MUST match, or MUST NOT match.
      */
-    public enum Options {
-        // SUPPRESS CHECKSTYLE VariableCheck
-        REQUIRE, FORBID
-    }
+    public enum Options { REQUIRE, FORBID } // SUPPRESS CHECKSTYLE JavadocVariable
 
     public final void
     setOption(String option) throws ConversionException {
