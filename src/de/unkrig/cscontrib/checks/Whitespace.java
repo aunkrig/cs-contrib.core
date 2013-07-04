@@ -103,7 +103,6 @@ class Whitespace extends Check {
         COLON_ENHANCED_FOR,
         COLON_TERNARY,
         DO_WHILE,
-        EMPTY_STAT,
         EQUALITIES,
         L_CURLY_ARRAY_INIT,
         L_CURLY_METHOD_DEF,
@@ -123,6 +122,7 @@ class Whitespace extends Check {
         COLON_CASE,
         COMMA,
         DOT,
+        EMPTY_STAT,
         GENERIC_END,
         L_BRACK_ARRAY_DECL,
         L_PAREN_ANNOTATION,
@@ -178,6 +178,7 @@ class Whitespace extends Check {
         L_PAREN_PARAMETERS
     );
 
+    private boolean allowEmptyAnonClass   = true;
     private boolean allowEmptyArrayInit   = true;
     private boolean allowEmptyCatchBlock  = true;
     private boolean allowEmptyInitializer = true;
@@ -192,6 +193,7 @@ class Whitespace extends Check {
     public void setWhitespaceAfter(String[] sa)    { this.whitespaceAfter    = toEnumSet(sa, Whitespaceable.class); }
     public void setNoWhitespaceAfter(String[] sa)  { this.noWhitespaceAfter  = toEnumSet(sa, Whitespaceable.class); }
 
+    public void setAllowEmptyAnonClass(boolean value)   { this.allowEmptyAnonClass   = value; }
     public void setAllowEmptyArrayInit(boolean value)   { this.allowEmptyArrayInit   = value; }
     public void setAllowEmptyCatchBlock(boolean value)  { this.allowEmptyCatchBlock  = value; }
     public void setAllowEmptyInitializer(boolean value) { this.allowEmptyInitializer = value; }
@@ -223,9 +225,8 @@ class Whitespace extends Check {
 
         @SuppressWarnings("unused") AstDumper dumper = new AstDumper(ast); // For debugging
 
-        final int type, parentType, grandparentType;
+        final int parentType, grandparentType, previousSiblingType, nextSiblingType, firstChildType;
         {
-            type = ast.getType();
             DetailAST parent = ast.getParent();
             if (parent == null) {
                 parentType      = -1;
@@ -235,6 +236,15 @@ class Whitespace extends Check {
                 DetailAST grandparent = parent.getParent();
                 grandparentType = grandparent == null ? -1 : grandparent.getType();
             }
+
+            DetailAST previousSibling = ast.getPreviousSibling();
+            previousSiblingType = previousSibling == null ? -1 : previousSibling.getType();
+            
+            DetailAST nextSibling = ast.getNextSibling();
+            nextSiblingType = nextSibling == null ? -1 : nextSibling.getType();
+
+            DetailAST firstChild = ast.getFirstChild();
+            firstChildType = firstChild == null ? -1 : firstChild.getType();
         }
 
         // Find out how this token is to be checked.
@@ -256,7 +266,7 @@ class Whitespace extends Check {
             break;
         case TokenTypes.ARRAY_INIT:
             whitespaceable              = L_CURLY_ARRAY_INIT;
-            allowMissingWhitespaceAfter = ast.getFirstChild().getType() == TokenTypes.RCURLY && this.allowEmptyArrayInit;
+            allowMissingWhitespaceAfter = firstChildType == TokenTypes.RCURLY && this.allowEmptyArrayInit;
             break;
 
         case TokenTypes.ASSIGN:
@@ -402,7 +412,7 @@ class Whitespace extends Check {
                 || grandparentType == TokenTypes.ANNOTATION_DEF // 'new @MyAnnotation {...}'
             )) {
                 whitespaceable              = L_CURLY_TYPE_DEF;
-                allowMissingWhitespaceAfter = ast.getNextSibling().getType() == TokenTypes.RCURLY && this.allowEmptyType;
+                allowMissingWhitespaceAfter = nextSiblingType == TokenTypes.RCURLY && this.allowEmptyType;
             } else
             if (parentType == TokenTypes.ARRAY_INIT) { // 'int[] ia = {...}', 'new int[] {...}'
                 whitespaceable              = L_CURLY_ARRAY_INIT;
@@ -444,7 +454,7 @@ class Whitespace extends Check {
             break;
 
         case TokenTypes.LITERAL_RETURN:
-            if (ast.getFirstChild().getType() == TokenTypes.SEMI) { // 'return;'
+            if (firstChildType == TokenTypes.SEMI) { // 'return;'
                 break;
             } else { // 'return x;'
                 break;
@@ -471,7 +481,7 @@ class Whitespace extends Check {
             if (parentType == TokenTypes.ANNOTATION) {
                 whitespaceable = L_PAREN_ANNOTATION;
             } else
-            if (ast.getNextSibling().getType() == TokenTypes.PARAMETERS) {
+            if (nextSiblingType == TokenTypes.PARAMETERS) {
                 whitespaceable = L_PAREN_PARAMETERS;
             } else
             if (parentType == TokenTypes.SUPER_CTOR_CALL || parentType == TokenTypes.LITERAL_NEW) {
@@ -507,7 +517,8 @@ class Whitespace extends Check {
                 parentType == TokenTypes.OBJBLOCK
                 && grandparentType == TokenTypes.LITERAL_NEW
             ) {
-                whitespaceable = R_CURLY_ANON_CLASS;
+                whitespaceable               = R_CURLY_ANON_CLASS;
+                allowMissingWhitespaceBefore = this.allowEmptyAnonClass && previousSiblingType == TokenTypes.LCURLY;
                 break;
             } else
 
@@ -515,7 +526,7 @@ class Whitespace extends Check {
                 parentType == TokenTypes.SLIST
                 && grandparentType == TokenTypes.LITERAL_CATCH
             ) {
-                whitespaceable = R_CURLY_CATCH_BLOCK;
+                whitespaceable               = R_CURLY_CATCH_BLOCK;
                 allowMissingWhitespaceBefore = this.allowEmptyCatchBlock && ast.getPreviousSibling() == null;
                 break;
             } else
@@ -537,13 +548,13 @@ class Whitespace extends Check {
                 parentType == TokenTypes.SLIST
                 && (grandparentType == TokenTypes.CTOR_DEF || grandparentType == TokenTypes.METHOD_DEF)
             ) {
-                whitespaceable = R_CURLY_METHOD_DEF;
+                whitespaceable               = R_CURLY_METHOD_DEF;
                 allowMissingWhitespaceBefore = this.allowEmptyMethod && ast.getPreviousSibling() == null;
                 break;
             } else
             
             if (parentType == TokenTypes.ARRAY_INIT) { // 'Object[] oa = {...}', 'new Object[] {...}'
-                whitespaceable = R_CURLY_ARRAY_INIT;
+                whitespaceable               = R_CURLY_ARRAY_INIT;
                 allowMissingWhitespaceBefore = this.allowEmptyInitializer && ast.getPreviousSibling() == null;
                 break;
             }
@@ -582,10 +593,10 @@ class Whitespace extends Check {
             if (parentType == TokenTypes.METHOD_DEF) {
                 whitespaceable = SEMI_ABSTRACT_METH_DEF;
             } else
-            if (ast.getPreviousSibling().getType() == TokenTypes.FOR_INIT) {
+            if (previousSiblingType == TokenTypes.FOR_INIT) {
                 whitespaceable = SEMI_FOR_INIT;
             } else
-            if (ast.getPreviousSibling().getType() == TokenTypes.FOR_CONDITION) {
+            if (previousSiblingType == TokenTypes.FOR_CONDITION) {
                 whitespaceable = SEMI_FOR_CONDITION;
             }
             break;
@@ -597,14 +608,14 @@ class Whitespace extends Check {
             } else
             if (parentType == TokenTypes.CTOR_DEF) {
                 whitespaceable = Whitespaceable.L_CURLY_METHOD_DEF;
-                allowMissingWhitespaceAfter = this.allowEmptyMethod && ast.getFirstChild().getType() == TokenTypes.RCURLY;
+                allowMissingWhitespaceAfter = this.allowEmptyMethod && firstChildType == TokenTypes.RCURLY;
             }
             break;
         case TokenTypes.SR:
             break;
 
         case TokenTypes.STAR:
-            if (type == TokenTypes.DOT) { // 'import pkg.pkg.*;'
+            if (parentType == TokenTypes.DOT) { // 'import pkg.pkg.*;'
                 break;
             } else {
                 break;
