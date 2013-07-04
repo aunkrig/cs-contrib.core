@@ -587,7 +587,11 @@ class Whitespace extends Check {
             if (parentType == TokenTypes.PACKAGE_DEF) {
                 whitespaceable = SEMI_PACKAGE_DEF;
             } else
-            if (parentType == TokenTypes.SLIST || parentType == TokenTypes.SUPER_CTOR_CALL || parentType == TokenTypes.LITERAL_DO) {
+            if (
+                parentType == TokenTypes.SLIST
+                || parentType == TokenTypes.SUPER_CTOR_CALL
+                || parentType == TokenTypes.LITERAL_DO
+            ) {
                 whitespaceable = SEMI_STATEMENT;
             } else
             if (parentType == TokenTypes.METHOD_DEF) {
@@ -607,7 +611,7 @@ class Whitespace extends Check {
                 whitespaceable = L_CURLY_STATIC_INIT;
             } else
             if (parentType == TokenTypes.CTOR_DEF) {
-                whitespaceable = Whitespaceable.L_CURLY_METHOD_DEF;
+                whitespaceable              = Whitespaceable.L_CURLY_METHOD_DEF;
                 allowMissingWhitespaceAfter = this.allowEmptyMethod && firstChildType == TokenTypes.RCURLY;
             }
             break;
@@ -651,10 +655,15 @@ class Whitespace extends Check {
             return;
         }
 
-        boolean mustBeWhitespaceBefore    = !allowMissingWhitespaceBefore && this.whitespaceBefore.contains(whitespaceable);
+        boolean mustBeWhitespaceBefore = (
+            !allowMissingWhitespaceBefore && this.whitespaceBefore.contains(whitespaceable)
+        );
         boolean mustNotBeWhitespaceBefore = this.noWhitespaceBefore.contains(whitespaceable);
-        boolean mustBeWhitespaceAfter     = !allowMissingWhitespaceAfter && this.whitespaceAfter.contains(whitespaceable);
-        boolean mustNotBeWhitespaceAfter  = this.noWhitespaceAfter.contains(whitespaceable);
+
+        boolean mustBeWhitespaceAfter = (
+            !allowMissingWhitespaceAfter && this.whitespaceAfter.contains(whitespaceable)
+        );
+        boolean mustNotBeWhitespaceAfter = this.noWhitespaceAfter.contains(whitespaceable);
 
         // Short-circuit.
         if (
