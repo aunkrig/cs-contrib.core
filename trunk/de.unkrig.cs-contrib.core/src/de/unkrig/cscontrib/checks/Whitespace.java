@@ -26,25 +26,7 @@
 
 package de.unkrig.cscontrib.checks;
 
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.ARITHMETIC_OPERATORS;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.ASSIGNMENTS;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.AT;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.BITWISE_COMPLEMENT;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.BITWISE_OPERATORS;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.COLON_CASE;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.COLON_DEFAULT;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.COLON_ENHANCED_FOR;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.COLON_TERNARY;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.COMMA;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.DOT;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.DO_WHILE;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.EMPTY_STAT;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.EQUALITIES;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.GENERIC_END;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.GENERIC_START;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.L_CURLY_ANON_CLASS;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.L_CURLY_ARRAY_INIT;
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.PRE_DEC;
+import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.*;
 import static de.unkrig.cscontrib.util.AstUtil.previousSiblingTypeIs;
 
 import java.util.EnumSet;
@@ -84,9 +66,31 @@ class Whitespace extends Check {
         EQUALITIES,
         GENERIC_END,
         GENERIC_START,
-        L_CURLY_ANON_CLASS,
+        L_BRACK_ARRAY_DECL,
         L_CURLY_ARRAY_INIT,
+        L_CURLY_METHOD_DEF,
+        L_CURLY_STATIC_INIT,
+        L_CURLY_TYPE_DEF,
+        L_PAREN_ANNOTATION,
+        L_PAREN_CALL,
+        L_PAREN_DO_WHILE,
+        L_PAREN_PARAMETERS,
+        NAME_VARIABLE_DEF,
         PRE_DEC,
+        R_BRACK_ARRAY_DECL,
+        R_CURLY_ANON_CLASS,
+        R_CURLY_ARRAY_INIT,
+        R_CURLY_CATCH_BLOCK,
+        R_CURLY_METHOD_DEF,
+        R_CURLY_STATIC_INIT,
+        R_CURLY_TYPE_DEF,
+        R_PAREN_ANNOTATION,
+        R_PAREN_CALL,
+        R_PAREN_DO_WHILE,
+        R_PAREN_PARAMETERS,
+        SEMI_ABSTRACT_METH_DEF,
+        SEMI_PACKAGE_DEF,
+        SEMI_STATEMENT
     }
 
     private EnumSet<Whitespaceable> whitespaceBefore = EnumSet.of(
@@ -99,15 +103,37 @@ class Whitespace extends Check {
         DO_WHILE,
         EMPTY_STAT,
         EQUALITIES,
-        L_CURLY_ANON_CLASS,
-        L_CURLY_ARRAY_INIT
+        L_CURLY_ARRAY_INIT,
+        L_CURLY_METHOD_DEF,
+        L_CURLY_STATIC_INIT,
+        L_CURLY_TYPE_DEF,
+        L_PAREN_DO_WHILE,
+        NAME_VARIABLE_DEF,
+        R_CURLY_ANON_CLASS,
+        R_CURLY_ARRAY_INIT,
+        R_CURLY_CATCH_BLOCK,
+        R_CURLY_METHOD_DEF,
+        R_CURLY_STATIC_INIT,
+        R_CURLY_TYPE_DEF
     );
     private EnumSet<Whitespaceable> noWhitespaceBefore = EnumSet.of(
         COLON_DEFAULT,
         COLON_CASE,
         COMMA,
         DOT,
-        GENERIC_END
+        GENERIC_END,
+        L_BRACK_ARRAY_DECL,
+        L_PAREN_ANNOTATION,
+        L_PAREN_CALL,
+        L_PAREN_PARAMETERS,
+        R_BRACK_ARRAY_DECL,
+        R_PAREN_ANNOTATION,
+        R_PAREN_CALL,
+        R_PAREN_DO_WHILE,
+        R_PAREN_PARAMETERS,
+        SEMI_ABSTRACT_METH_DEF,
+        SEMI_PACKAGE_DEF,
+        SEMI_STATEMENT
     );
     private EnumSet<Whitespaceable> whitespaceAfter = EnumSet.of(
         ARITHMETIC_OPERATORS,
@@ -121,18 +147,32 @@ class Whitespace extends Check {
         DO_WHILE,
         EMPTY_STAT,
         EQUALITIES,
-        L_CURLY_ANON_CLASS,
-        L_CURLY_ARRAY_INIT
+        L_CURLY_ARRAY_INIT,
+        L_CURLY_METHOD_DEF,
+        L_CURLY_STATIC_INIT,
+        L_CURLY_TYPE_DEF,
+        R_CURLY_METHOD_DEF,
+        R_CURLY_STATIC_INIT,
+        R_CURLY_TYPE_DEF,
+        R_PAREN_ANNOTATION,
+        SEMI_ABSTRACT_METH_DEF,
+        SEMI_PACKAGE_DEF,
+        SEMI_STATEMENT
     );
     private EnumSet<Whitespaceable> noWhitespaceAfter = EnumSet.of(
         AT,
         BITWISE_COMPLEMENT,
         DOT,
         GENERIC_START,
-        PRE_DEC
+        PRE_DEC,
+        L_BRACK_ARRAY_DECL,
+        L_PAREN_ANNOTATION,
+        L_PAREN_CALL,
+        L_PAREN_DO_WHILE,
+        L_PAREN_PARAMETERS
     );
 
-    private boolean allowEmptyAnonClass = true;
+    private boolean allowEmptyType      = true;
     private boolean allowEmptyArrayInit = true;
 
     // BEGIN CONFIGURATION SETTERS
@@ -143,7 +183,7 @@ class Whitespace extends Check {
     public void setWhitespaceAfter(String[] sa)    { this.whitespaceAfter    = toEnumSet(sa, Whitespaceable.class); }
     public void setNoWhitespaceAfter(String[] sa)  { this.noWhitespaceAfter  = toEnumSet(sa, Whitespaceable.class); }
 
-    public void setAllowEmptyAnonClass(boolean value) { this.allowEmptyAnonClass = value; }
+    public void setAllowEmptyType(boolean value)      { this.allowEmptyType      = value; }
     public void setAllowEmptyArrayInit(boolean value) { this.allowEmptyArrayInit = value; }
     // CHECKSTYLE JavadocMethod:ON
 
@@ -167,6 +207,9 @@ class Whitespace extends Check {
 
     @Override public void
     visitToken(DetailAST ast) {
+        assert ast != null;
+
+        @SuppressWarnings("unused") AstDumper dumper = new AstDumper(ast); // For debugging
 
         final int type, parentType, grandparentType;
         {
@@ -195,8 +238,13 @@ class Whitespace extends Check {
         case TokenTypes.ANNOTATION_FIELD_DEF:
         case TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR:
         case TokenTypes.ANNOTATIONS:
+            break;
         case TokenTypes.ARRAY_DECLARATOR:
+            whitespaceable = L_BRACK_ARRAY_DECL;
+            break;
         case TokenTypes.ARRAY_INIT:
+            whitespaceable         = L_CURLY_ARRAY_INIT;
+            allowNoWhitespaceAfter = ast.getFirstChild().getType() == TokenTypes.RCURLY && this.allowEmptyArrayInit;
             break;
 
         case TokenTypes.ASSIGN:
@@ -254,6 +302,7 @@ class Whitespace extends Check {
             break;
 
         case TokenTypes.CTOR_CALL:
+            break;
         case TokenTypes.CTOR_DEF:
             break;
 
@@ -319,6 +368,10 @@ class Whitespace extends Check {
             break;
 
         case TokenTypes.IDENT:
+            if (parentType == TokenTypes.VARIABLE_DEF) {
+                whitespaceable = NAME_VARIABLE_DEF;
+            }
+            break;
         case TokenTypes.IMPLEMENTS_CLAUSE:
         case TokenTypes.IMPORT:
         case TokenTypes.INC:
@@ -336,8 +389,8 @@ class Whitespace extends Check {
                 || grandparentType == TokenTypes.LITERAL_NEW    // 'new MyClass() {...}'
                 || grandparentType == TokenTypes.ANNOTATION_DEF // 'new @MyAnnotation {...}'
             )) {
-                whitespaceable         = L_CURLY_ANON_CLASS;
-                allowNoWhitespaceAfter = this.allowEmptyAnonClass;
+                whitespaceable         = L_CURLY_TYPE_DEF;
+                allowNoWhitespaceAfter = ast.getNextSibling().getType() == TokenTypes.RCURLY && this.allowEmptyType;
             } else
             if (parentType == TokenTypes.ARRAY_INIT) { // 'int[] ia = {...}', 'new int[] {...}'
                 whitespaceable         = L_CURLY_ARRAY_INIT;
@@ -401,7 +454,21 @@ class Whitespace extends Check {
         case TokenTypes.LITERAL_WHILE:
         case TokenTypes.LNOT:
         case TokenTypes.LOR:
+            break;
         case TokenTypes.LPAREN:
+            if (parentType == TokenTypes.ANNOTATION) {
+                whitespaceable = L_PAREN_ANNOTATION;
+            } else
+            if (ast.getNextSibling().getType() == TokenTypes.PARAMETERS) {
+                whitespaceable = L_PAREN_PARAMETERS;
+            } else
+            if (parentType == TokenTypes.SUPER_CTOR_CALL || parentType == TokenTypes.LITERAL_NEW) {
+                whitespaceable = L_PAREN_CALL;
+            } else
+            if (parentType == TokenTypes.LITERAL_DO) {
+                whitespaceable = L_PAREN_DO_WHILE;
+            }
+            break;
         case TokenTypes.METHOD_CALL:
         case TokenTypes.METHOD_DEF:
         case TokenTypes.MINUS:
@@ -417,51 +484,63 @@ class Whitespace extends Check {
         case TokenTypes.POST_DEC:
         case TokenTypes.POST_INC:
         case TokenTypes.QUESTION:
+            break;
         case TokenTypes.RBRACK:
+            whitespaceable = R_BRACK_ARRAY_DECL;
             break;
 
         case TokenTypes.RCURLY:
             
             if ( // 'new MyClass() {...}'
-                type == TokenTypes.OBJBLOCK
+                parentType == TokenTypes.OBJBLOCK
                 && grandparentType == TokenTypes.LITERAL_NEW
             ) {
+                whitespaceable = R_CURLY_ANON_CLASS;
                 break;
             } else
 
             if ( // 'catch (Exception e) {...}'
-                type == TokenTypes.SLIST
+                parentType == TokenTypes.SLIST
                 && grandparentType == TokenTypes.LITERAL_CATCH
             ) {
+                whitespaceable = R_CURLY_CATCH_BLOCK;
                 break;
             } else
 
             if ( // 'class MyClass {...}', 'interface MyInterface {...}', '@interface MyAnnotation {...}'
-                type == TokenTypes.OBJBLOCK
+                parentType == TokenTypes.OBJBLOCK
                 && (
                     grandparentType == TokenTypes.CLASS_DEF
                     || grandparentType == TokenTypes.INTERFACE_DEF
                     || grandparentType == TokenTypes.ANNOTATION_DEF
                 )
             ) {
-                if (previousSiblingTypeIs(ast, TokenTypes.LCURLY)) break;
+                whitespaceable = R_CURLY_TYPE_DEF;
+                allowNoWhitespaceBefore = this.allowEmptyType && previousSiblingTypeIs(ast, TokenTypes.LCURLY);
                 break;
             } else
 
             if ( // 'public MyClass(...) {...}', 'public method(...) {...}'
-                type == TokenTypes.SLIST
+                parentType == TokenTypes.SLIST
                 && (grandparentType == TokenTypes.CTOR_DEF || grandparentType == TokenTypes.METHOD_DEF)
             ) {
+                whitespaceable = R_CURLY_METHOD_DEF;
                 if (ast.getPreviousSibling() == null) { // Empty method body
                     break;
                 }
                 break;
             } else
             
-            if (type == TokenTypes.ARRAY_INIT) { // 'Object[] oa = {...}', 'new Object[] {...}'
+            if (parentType == TokenTypes.ARRAY_INIT) { // 'Object[] oa = {...}', 'new Object[] {...}'
+                whitespaceable = R_CURLY_ARRAY_INIT;
                 if (ast.getPreviousSibling() == null) { // Empty initializer
                     break;
                 }
+                break;
+            }
+            
+            if (parentType == TokenTypes.SLIST && grandparentType == TokenTypes.STATIC_INIT) { // 'static { ... }'
+                whitespaceable = R_CURLY_STATIC_INIT;
                 break;
             }
             break;
@@ -469,10 +548,42 @@ class Whitespace extends Check {
         case TokenTypes.RESOURCE:
         case TokenTypes.RESOURCE_SPECIFICATION:
         case TokenTypes.RESOURCES:
+            break;
         case TokenTypes.RPAREN:
+            if (parentType == TokenTypes.ANNOTATION) {
+                whitespaceable = R_PAREN_ANNOTATION;
+            } else
+            if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) {
+                whitespaceable = R_PAREN_PARAMETERS;
+            } else
+            if (parentType == TokenTypes.SUPER_CTOR_CALL || parentType == TokenTypes.LITERAL_NEW) {
+                whitespaceable = R_PAREN_CALL;
+            } else
+            if (parentType == TokenTypes.LITERAL_DO) {
+                whitespaceable = R_PAREN_DO_WHILE;
+            }
+            break;
         case TokenTypes.SEMI:
+            if (parentType == TokenTypes.PACKAGE_DEF) {
+                whitespaceable = SEMI_PACKAGE_DEF;
+            } else
+            if (parentType == TokenTypes.SLIST || parentType == TokenTypes.SUPER_CTOR_CALL || parentType == TokenTypes.LITERAL_DO) {
+                whitespaceable = SEMI_STATEMENT;
+            } else
+            if (parentType == TokenTypes.METHOD_DEF) {
+                whitespaceable = SEMI_ABSTRACT_METH_DEF;
+            }
+            break;
         case TokenTypes.SL:
+            break;
         case TokenTypes.SLIST:
+            if (parentType == TokenTypes.STATIC_INIT) {
+                whitespaceable = L_CURLY_STATIC_INIT;
+            } else
+            if (parentType == TokenTypes.CTOR_DEF) {
+                whitespaceable = Whitespaceable.L_CURLY_METHOD_DEF;
+            }
+            break;
         case TokenTypes.SR:
             break;
 
@@ -499,7 +610,9 @@ class Whitespace extends Check {
         case TokenTypes.TYPECAST:
         case TokenTypes.UNARY_MINUS:
         case TokenTypes.UNARY_PLUS:
+            break;
         case TokenTypes.VARIABLE_DEF:
+            break;
         case TokenTypes.WILDCARD_TYPE:
             break;
 
@@ -511,9 +624,9 @@ class Whitespace extends Check {
             return;
         }
 
-        boolean mustBeWhitespaceBefore    = !allowNoWhitespaceBefore || this.whitespaceBefore.contains(whitespaceable);
+        boolean mustBeWhitespaceBefore    = !allowNoWhitespaceBefore && this.whitespaceBefore.contains(whitespaceable);
         boolean mustNotBeWhitespaceBefore = this.noWhitespaceBefore.contains(whitespaceable);
-        boolean mustBeWhitespaceAfter     = !allowNoWhitespaceAfter || this.whitespaceAfter.contains(whitespaceable);
+        boolean mustBeWhitespaceAfter     = !allowNoWhitespaceAfter && this.whitespaceAfter.contains(whitespaceable);
         boolean mustNotBeWhitespaceAfter  = this.noWhitespaceAfter.contains(whitespaceable);
 
         // Short-circuit.
@@ -534,10 +647,10 @@ class Whitespace extends Check {
             if (before2 >= 0) {
                 boolean isWhitespace = Character.isWhitespace(line.charAt(before2));
                 if (mustBeWhitespaceBefore && !isWhitespace) {
-                    log(ast.getLineNo(), ast.getColumnNo() + ast.getText().length(), "ws.notPreceded", ast.getText());
+                    log(ast.getLineNo(), ast.getColumnNo(), "ws.notPreceded", ast.getText());
                 }
                 if (mustNotBeWhitespaceBefore && isWhitespace) {
-                    log(ast.getLineNo(), ast.getColumnNo() + ast.getText().length(), "ws.preceded", ast.getText());
+                    log(ast.getLineNo(), ast.getColumnNo(), "ws.preceded", ast.getText());
                 }
             }
         }

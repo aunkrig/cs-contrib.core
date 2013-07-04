@@ -157,38 +157,45 @@
             <property-metadata
                 name="whitespaceBefore"
                 datatype="MultiCheck"
-                default-value="arithmetic_operators,assignments,at,bitwise_operators,colon_enhanced_for,colon_ternary,do_while,empty_stat,equalities,l_curly_anon_class,l_curly_array_init"
-               >
-                   <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceBefore</description>
-                   <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$Whitespaceable"/>
+                default-value="arithmetic_operators,assignments,at,bitwise_operators,colon_enhanced_for,colon_ternary,do_while,empty_stat,equalities,l_curly_array_init,l_curly_method_def,l_curly_static_init,l_curly_type_def,l_paren_do_while,name_variable_def,r_curly_anon_class,r_curly_array_init,r_curly_catch_block,r_curly_method_def,r_curly_static_init,r_curly_type_def"
+            >
+                <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceBefore</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$Whitespaceable"/>
             </property-metadata>
+
             <property-metadata
                 name="noWhitespaceBefore"
                 datatype="MultiCheck"
-                default-value="colon_default,colon_case,comma,dot,generic_end"
+                default-value="colon_default,colon_case,comma,dot,generic_end,l_brack_array_decl,l_paren_annotation,l_paren_call,l_paren_parameters,r_brack_array_decl,r_paren_annotation,r_paren_call,r_paren_do_while,r_paren_parameters,semi_abstract_meth_def,semi_package_def,semi_statement"
             >
                 <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceBefore</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$Whitespaceable"/>
-               </property-metadata>
+            </property-metadata>
+
             <property-metadata
                 name="whitespaceAfter"
                 datatype="MultiCheck"
-                default-value="arithmetic_operators,assignments,bitwise_operators,colon_default,colon_case,colon_enhanced_for,colon_ternary,comma,do_while,empty_stat,equalities,l_curly_anon_class,l_curly_array_init"
+                default-value="arithmetic_operators,assignments,bitwise_operators,colon_default,colon_case,colon_enhanced_for,colon_ternary,comma,do_while,empty_stat,equalities,l_curly_array_init,l_curly_method_def,l_curly_static_init,l_curly_type_def,r_curly_method_def,r_curly_static_init,r_curly_type_def,r_paren_annotation,semi_abstract_meth_def,semi_package_def,semi_statement"
             >
-                   <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceAfter</description>
-                   <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$Whitespaceable"/>
-              </property-metadata>
-            <property-metadata
-                name="nohitespaceAfter"
-                datatype="MultiCheck"
-                default-value="at,bitwise_complement,dot,generic_start,pre_dec"
-               >
-                   <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceAfter</description>
-                   <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$Whitespaceable"/>
-              </property-metadata>
+                <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceAfter</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$Whitespaceable"/>
+            </property-metadata>
 
-            <property-metadata name="allowEmptyAnonClass" datatype="Boolean" default-value="true"><description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyAnonClass</description></property-metadata>
-            <property-metadata name="allowEmptyArrayInit" datatype="Boolean" default-value="true"><description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyArrayInit</description></property-metadata>
+            <property-metadata
+                name="noWhitespaceAfter"
+                datatype="MultiCheck"
+                default-value="at,bitwise_complement,dot,generic_start,l_brack_array_decl,l_paren_annotation,l_paren_call,l_paren_do_while,l_paren_parameters,pre_dec"
+            >
+                <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceAfter</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$Whitespaceable"/>
+            </property-metadata>
+
+            <property-metadata name="allowEmptyType" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyType</description>
+            </property-metadata>
+            <property-metadata name="allowEmptyArrayInit" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyArrayInit</description>
+            </property-metadata>
 <!--
             <property-metadata name="allowEmptyMethods" datatype="Boolean" default-value="false">
                 <description>%de.unkrig.cscontrib.checks.Whitespace.allowEmptyMethods</description>
@@ -204,7 +211,9 @@
             </property-metadata>
 -->
 
+            <message-key key="ws.preceded"/>
             <message-key key="ws.notPreceded"/>
+            <message-key key="ws.followed"/>
             <message-key key="ws.notFollowed"/>
         </rule-metadata>
     </rule-group-metadata>
