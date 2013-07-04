@@ -175,7 +175,7 @@
             <property-metadata
                 name="whitespaceAfter"
                 datatype="MultiCheck"
-                default-value="arithmetic_operators,assignments,bitwise_operators,colon_default,colon_case,colon_enhanced_for,colon_ternary,comma,do_while,empty_stat,equalities,l_curly_array_init,l_curly_method_def,l_curly_static_init,l_curly_type_def,r_curly_method_def,r_curly_static_init,r_curly_type_def,r_paren_annotation,semi_abstract_meth_def,semi_for_condition,semi_for_init,semi_package_def,semi_statement"
+                default-value="arithmetic_operators,assignments,bitwise_operators,colon_default,colon_case,colon_enhanced_for,colon_ternary,comma,do_while,empty_stat,equalities,l_curly_array_init,l_curly_method_def,l_curly_static_init,l_curly_type_def,r_curly_method_def,r_curly_static_init,r_curly_type_def,semi_abstract_meth_def,semi_for_condition,semi_for_init,semi_package_def,semi_statement"
             >
                 <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceAfter</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$Whitespaceable"/>

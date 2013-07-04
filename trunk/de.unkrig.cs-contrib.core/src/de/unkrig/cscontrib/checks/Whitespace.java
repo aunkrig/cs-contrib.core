@@ -158,7 +158,6 @@ class Whitespace extends Check {
         R_CURLY_METHOD_DEF,
         R_CURLY_STATIC_INIT,
         R_CURLY_TYPE_DEF,
-        R_PAREN_ANNOTATION,
         SEMI_ABSTRACT_METH_DEF,
         SEMI_FOR_CONDITION,
         SEMI_FOR_INIT,
