@@ -26,8 +26,8 @@
 
 package de.unkrig.cscontrib.checks;
 
+import static de.unkrig.cscontrib.checks.Whitespace.Compactable.*;
 import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.*;
-import static de.unkrig.cscontrib.util.AstUtil.previousSiblingTypeIs;
 
 import java.util.EnumSet;
 import java.util.regex.Pattern;
@@ -75,6 +75,7 @@ class Whitespace extends Check {
         L_PAREN_ANNOTATION,
         L_PAREN_CALL,
         L_PAREN_DO_WHILE,
+        L_PAREN_FOR,
         L_PAREN_PARAMETERS,
         NAME_VARIABLE_DEF,
         PRE_DEC,
@@ -88,6 +89,7 @@ class Whitespace extends Check {
         R_PAREN_ANNOTATION,
         R_PAREN_CALL,
         R_PAREN_DO_WHILE,
+        R_PAREN_FOR,
         R_PAREN_PARAMETERS,
         SEMI_ABSTRACT_METH_DEF,
         SEMI_FOR_CONDITION,
@@ -109,6 +111,7 @@ class Whitespace extends Check {
         L_CURLY_STATIC_INIT,
         L_CURLY_TYPE_DEF,
         L_PAREN_DO_WHILE,
+        L_PAREN_FOR,
         NAME_VARIABLE_DEF,
         R_CURLY_ANON_CLASS,
         R_CURLY_ARRAY_INIT,
@@ -132,6 +135,7 @@ class Whitespace extends Check {
         R_PAREN_ANNOTATION,
         R_PAREN_CALL,
         R_PAREN_DO_WHILE,
+        R_PAREN_FOR,
         R_PAREN_PARAMETERS,
         SEMI_ABSTRACT_METH_DEF,
         SEMI_FOR_CONDITION,
@@ -158,6 +162,7 @@ class Whitespace extends Check {
         R_CURLY_METHOD_DEF,
         R_CURLY_STATIC_INIT,
         R_CURLY_TYPE_DEF,
+        R_PAREN_FOR,
         SEMI_ABSTRACT_METH_DEF,
         SEMI_FOR_CONDITION,
         SEMI_FOR_INIT,
@@ -174,15 +179,33 @@ class Whitespace extends Check {
         L_PAREN_ANNOTATION,
         L_PAREN_CALL,
         L_PAREN_DO_WHILE,
+        L_PAREN_FOR,
         L_PAREN_PARAMETERS
     );
 
-    private boolean allowEmptyAnonClass   = true;
-    private boolean allowEmptyArrayInit   = true;
-    private boolean allowEmptyCatchBlock  = true;
-    private boolean allowEmptyInitializer = true;
-    private boolean allowEmptyMethod      = true;
-    private boolean allowEmptyType        = true;
+    public
+    enum Compactable {
+        EMPTY_ANON_CLASS,
+        EMPTY_ARRAY_INIT,
+        EMPTY_CATCH_BLOCK,
+        EMPTY_FOR_CONDITION,
+        EMPTY_FOR_INIT,
+        EMPTY_FOR_UPDATE,
+        EMPTY_METHOD,
+        EMPTY_TYPE,
+    }
+
+    private EnumSet<Compactable> compactables = EnumSet.of(
+        EMPTY_ANON_CLASS,
+        EMPTY_ARRAY_INIT,
+        EMPTY_CATCH_BLOCK,
+        EMPTY_FOR_CONDITION,
+        EMPTY_FOR_INIT,
+        EMPTY_FOR_UPDATE,
+        EMPTY_ARRAY_INIT,
+        EMPTY_METHOD,
+        EMPTY_TYPE
+    );
 
     // BEGIN CONFIGURATION SETTERS
 
@@ -191,13 +214,7 @@ class Whitespace extends Check {
     public void setNoWhitespaceBefore(String[] sa) { this.noWhitespaceBefore = toEnumSet(sa, Whitespaceable.class); }
     public void setWhitespaceAfter(String[] sa)    { this.whitespaceAfter    = toEnumSet(sa, Whitespaceable.class); }
     public void setNoWhitespaceAfter(String[] sa)  { this.noWhitespaceAfter  = toEnumSet(sa, Whitespaceable.class); }
-
-    public void setAllowEmptyAnonClass(boolean value)   { this.allowEmptyAnonClass   = value; }
-    public void setAllowEmptyArrayInit(boolean value)   { this.allowEmptyArrayInit   = value; }
-    public void setAllowEmptyCatchBlock(boolean value)  { this.allowEmptyCatchBlock  = value; }
-    public void setAllowEmptyInitializer(boolean value) { this.allowEmptyInitializer = value; }
-    public void setAllowEmptyType(boolean value)        { this.allowEmptyType        = value; }
-    public void setAllowEmptyMethod(boolean value)      { this.allowEmptyMethod      = value; }
+    public void setCompactables(String[] sa)       { this.compactables       = toEnumSet(sa, Compactable.class);    }
     // CHECKSTYLE JavadocMethod:ON
 
     // END CONFIGURATION SETTERS
@@ -247,9 +264,9 @@ class Whitespace extends Check {
         }
 
         // Find out how this token is to be checked.
-        Whitespaceable whitespaceable               = null;
-        boolean        allowMissingWhitespaceBefore = false;
-        boolean        allowMissingWhitespaceAfter  = false;
+        Whitespaceable whitespaceable   = null;
+        Compactable    leftCompactable  = null;
+        Compactable    rightCompactable = null;
         switch (ast.getType()) {
 
         case TokenTypes.ABSTRACT:
@@ -264,8 +281,8 @@ class Whitespace extends Check {
             whitespaceable = L_BRACK_ARRAY_DECL;
             break;
         case TokenTypes.ARRAY_INIT:
-            whitespaceable              = L_CURLY_ARRAY_INIT;
-            allowMissingWhitespaceAfter = firstChildType == TokenTypes.RCURLY && this.allowEmptyArrayInit;
+            whitespaceable = L_CURLY_ARRAY_INIT;
+            if (firstChildType == TokenTypes.RCURLY) leftCompactable = EMPTY_ARRAY_INIT;
             break;
 
         case TokenTypes.ASSIGN:
@@ -393,6 +410,7 @@ class Whitespace extends Check {
                 whitespaceable = NAME_VARIABLE_DEF;
             }
             break;
+
         case TokenTypes.IMPLEMENTS_CLAUSE:
         case TokenTypes.IMPORT:
         case TokenTypes.INC:
@@ -410,12 +428,12 @@ class Whitespace extends Check {
                 || grandparentType == TokenTypes.LITERAL_NEW    // 'new MyClass() {...}'
                 || grandparentType == TokenTypes.ANNOTATION_DEF // 'new @MyAnnotation {...}'
             )) {
-                whitespaceable              = L_CURLY_TYPE_DEF;
-                allowMissingWhitespaceAfter = nextSiblingType == TokenTypes.RCURLY && this.allowEmptyType;
+                whitespaceable = L_CURLY_TYPE_DEF;
+                if (nextSiblingType == TokenTypes.RCURLY) leftCompactable = EMPTY_TYPE;
             } else
             if (parentType == TokenTypes.ARRAY_INIT) { // 'int[] ia = {...}', 'new int[] {...}'
-                whitespaceable              = L_CURLY_ARRAY_INIT;
-                allowMissingWhitespaceAfter = this.allowEmptyArrayInit;
+                whitespaceable = L_CURLY_ARRAY_INIT;
+                leftCompactable = EMPTY_ARRAY_INIT;
             } else
             {
                 break;
@@ -476,6 +494,7 @@ class Whitespace extends Check {
         case TokenTypes.LNOT:
         case TokenTypes.LOR:
             break;
+
         case TokenTypes.LPAREN:
             if (parentType == TokenTypes.ANNOTATION) {
                 whitespaceable = L_PAREN_ANNOTATION;
@@ -488,8 +507,13 @@ class Whitespace extends Check {
             } else
             if (parentType == TokenTypes.LITERAL_DO) {
                 whitespaceable = L_PAREN_DO_WHILE;
+            } else
+            if (parentType == TokenTypes.LITERAL_FOR) {
+                whitespaceable = L_PAREN_FOR;
+                if (ast.getNextSibling().getFirstChild() == null) leftCompactable = EMPTY_FOR_INIT;
             }
             break;
+
         case TokenTypes.METHOD_CALL:
         case TokenTypes.METHOD_DEF:
         case TokenTypes.MINUS:
@@ -506,6 +530,7 @@ class Whitespace extends Check {
         case TokenTypes.POST_INC:
         case TokenTypes.QUESTION:
             break;
+
         case TokenTypes.RBRACK:
             whitespaceable = R_BRACK_ARRAY_DECL;
             break;
@@ -516,8 +541,8 @@ class Whitespace extends Check {
                 parentType == TokenTypes.OBJBLOCK
                 && grandparentType == TokenTypes.LITERAL_NEW
             ) {
-                whitespaceable               = R_CURLY_ANON_CLASS;
-                allowMissingWhitespaceBefore = this.allowEmptyAnonClass && previousSiblingType == TokenTypes.LCURLY;
+                whitespaceable = R_CURLY_ANON_CLASS;
+                if (previousSiblingType == TokenTypes.LCURLY) rightCompactable = EMPTY_ANON_CLASS;
                 break;
             } else
 
@@ -525,8 +550,8 @@ class Whitespace extends Check {
                 parentType == TokenTypes.SLIST
                 && grandparentType == TokenTypes.LITERAL_CATCH
             ) {
-                whitespaceable               = R_CURLY_CATCH_BLOCK;
-                allowMissingWhitespaceBefore = this.allowEmptyCatchBlock && ast.getPreviousSibling() == null;
+                whitespaceable = R_CURLY_CATCH_BLOCK;
+                if (ast.getPreviousSibling() == null) rightCompactable = EMPTY_CATCH_BLOCK; 
                 break;
             } else
 
@@ -538,8 +563,8 @@ class Whitespace extends Check {
                     || grandparentType == TokenTypes.ANNOTATION_DEF
                 )
             ) {
-                whitespaceable               = R_CURLY_TYPE_DEF;
-                allowMissingWhitespaceBefore = this.allowEmptyType && previousSiblingTypeIs(ast, TokenTypes.LCURLY);
+                whitespaceable = R_CURLY_TYPE_DEF;
+                if (previousSiblingType == TokenTypes.LCURLY) rightCompactable = EMPTY_TYPE; 
                 break;
             } else
 
@@ -547,14 +572,14 @@ class Whitespace extends Check {
                 parentType == TokenTypes.SLIST
                 && (grandparentType == TokenTypes.CTOR_DEF || grandparentType == TokenTypes.METHOD_DEF)
             ) {
-                whitespaceable               = R_CURLY_METHOD_DEF;
-                allowMissingWhitespaceBefore = this.allowEmptyMethod && ast.getPreviousSibling() == null;
+                whitespaceable = R_CURLY_METHOD_DEF;
+                if (ast.getPreviousSibling() == null) rightCompactable = EMPTY_METHOD;
                 break;
             } else
             
             if (parentType == TokenTypes.ARRAY_INIT) { // 'Object[] oa = {...}', 'new Object[] {...}'
-                whitespaceable               = R_CURLY_ARRAY_INIT;
-                allowMissingWhitespaceBefore = this.allowEmptyInitializer && ast.getPreviousSibling() == null;
+                whitespaceable = R_CURLY_ARRAY_INIT;
+                if (ast.getPreviousSibling() == null) rightCompactable = EMPTY_ARRAY_INIT;
                 break;
             }
             
@@ -568,6 +593,7 @@ class Whitespace extends Check {
         case TokenTypes.RESOURCE_SPECIFICATION:
         case TokenTypes.RESOURCES:
             break;
+
         case TokenTypes.RPAREN:
             if (parentType == TokenTypes.ANNOTATION) {
                 whitespaceable = R_PAREN_ANNOTATION;
@@ -580,8 +606,13 @@ class Whitespace extends Check {
             } else
             if (parentType == TokenTypes.LITERAL_DO) {
                 whitespaceable = R_PAREN_DO_WHILE;
+            } else
+            if (parentType == TokenTypes.LITERAL_FOR) {
+                whitespaceable = R_PAREN_FOR;
+                if (ast.getPreviousSibling().getFirstChild() == null) rightCompactable = EMPTY_FOR_UPDATE;
             }
             break;
+
         case TokenTypes.SEMI:
             if (parentType == TokenTypes.PACKAGE_DEF) {
                 whitespaceable = SEMI_PACKAGE_DEF;
@@ -598,22 +629,29 @@ class Whitespace extends Check {
             } else
             if (previousSiblingType == TokenTypes.FOR_INIT) {
                 whitespaceable = SEMI_FOR_INIT;
+                if (ast.getPreviousSibling().getFirstChild() == null) rightCompactable = EMPTY_FOR_INIT;
+                if (ast.getNextSibling().getFirstChild() == null) leftCompactable = EMPTY_FOR_CONDITION;
             } else
             if (previousSiblingType == TokenTypes.FOR_CONDITION) {
                 whitespaceable = SEMI_FOR_CONDITION;
+                if (ast.getPreviousSibling().getFirstChild() == null) rightCompactable = EMPTY_FOR_CONDITION;
+                if (ast.getNextSibling().getFirstChild() == null) leftCompactable = EMPTY_FOR_UPDATE;
             }
             break;
+
         case TokenTypes.SL:
             break;
+
         case TokenTypes.SLIST:
             if (parentType == TokenTypes.STATIC_INIT) {
                 whitespaceable = L_CURLY_STATIC_INIT;
             } else
             if (parentType == TokenTypes.CTOR_DEF) {
-                whitespaceable              = Whitespaceable.L_CURLY_METHOD_DEF;
-                allowMissingWhitespaceAfter = this.allowEmptyMethod && firstChildType == TokenTypes.RCURLY;
+                whitespaceable = Whitespaceable.L_CURLY_METHOD_DEF;
+                if (firstChildType == TokenTypes.RCURLY) leftCompactable = EMPTY_METHOD;
             }
             break;
+
         case TokenTypes.SR:
             break;
 
@@ -640,9 +678,7 @@ class Whitespace extends Check {
         case TokenTypes.TYPECAST:
         case TokenTypes.UNARY_MINUS:
         case TokenTypes.UNARY_PLUS:
-            break;
         case TokenTypes.VARIABLE_DEF:
-            break;
         case TokenTypes.WILDCARD_TYPE:
             break;
 
@@ -655,12 +691,12 @@ class Whitespace extends Check {
         }
 
         boolean mustBeWhitespaceBefore = (
-            !allowMissingWhitespaceBefore && this.whitespaceBefore.contains(whitespaceable)
+            !this.compactables.contains(rightCompactable) && this.whitespaceBefore.contains(whitespaceable)
         );
         boolean mustNotBeWhitespaceBefore = this.noWhitespaceBefore.contains(whitespaceable);
 
         boolean mustBeWhitespaceAfter = (
-            !allowMissingWhitespaceAfter && this.whitespaceAfter.contains(whitespaceable)
+            !this.compactables.contains(leftCompactable) && this.whitespaceAfter.contains(whitespaceable)
         );
         boolean mustNotBeWhitespaceAfter = this.noWhitespaceAfter.contains(whitespaceable);
 
@@ -707,13 +743,6 @@ class Whitespace extends Check {
     }
     private static final Pattern LINE_PREFIX = Pattern.compile("\\s*(?:/\\*(?:.(?!\\*/))*\\*/\\s*)*");
     private static final Pattern LINE_SUFFIX = Pattern.compile("\\s*(?:/\\*(?:.(?!\\*/))*\\*/\\s*)*(?://.*)?");
-
-    /** Whether or not empty constructor bodies are allowed. */
-    private boolean mAllowEmptyCtors;
-    /** Whether or not empty method bodies are allowed. */
-    private boolean mAllowEmptyMethods;
-    /** whether or not to ignore a colon in a enhanced for loop */
-    private boolean mIgnoreEnhancedForColon = true;
 
     @Override public int[]
     getDefaultTokens() {
@@ -882,87 +911,4 @@ class Whitespace extends Check {
             TokenTypes.WILDCARD_TYPE,
         };
     }
-
-    /**
-     * Sets whether or not empty method bodies are allowed.
-     * @param aAllow <code>true</code> to allow empty method bodies.
-     */
-    public void
-    setAllowEmptyMethods(boolean aAllow) {
-        this.mAllowEmptyMethods = aAllow;
-    }
-
-    /**
-     * Sets whether or not empty constructor bodies are allowed.
-     * @param aAllow <code>true</code> to allow empty constructor bodies.
-     */
-    public void
-    setAllowEmptyConstructors(boolean aAllow) {
-        this.mAllowEmptyCtors = aAllow;
-    }
-
-    /**
-     * Sets whether or not to ignore the whitespace around the
-     * colon in an enhanced for loop.
-     * @param aIgnore <code>true</code> to ignore enhanced for colon.
-     */
-    public void
-    setIgnoreEnhancedForColon(boolean aIgnore) {
-        this.mIgnoreEnhancedForColon = aIgnore;
-    }
-
-//    /**
-//     * Test if the given <code>DetailAST</code> is part of an allowed empty
-//     * method block.
-//     * @param ast the <code>DetailAST</code> to test.
-//     * @param aParentType the token type of <code>ast</code>'s parent.
-//     * @return <code>true</code> if <code>ast</code> makes up part of an
-//     *         allowed empty method block.
-//     */
-//    private boolean
-//    emptyMethodBlockCheck(DetailAST ast, int aParentType) {
-//        return this.mAllowEmptyMethods && emptyBlockCheck(ast, aParentType, TokenTypes.METHOD_DEF);
-//    }
-//
-//    /**
-//     * Test if the given <code>DetailAST</code> is part of an allowed empty
-//     * constructor (ctor) block.
-//     * @param ast the <code>DetailAST</code> to test.
-//     * @param aParentType the token type of <code>ast</code>'s parent.
-//     * @return <code>true</code> if <code>ast</code> makes up part of an
-//     *         allowed empty constructor block.
-//     */
-//    private boolean
-//    emptyCtorBlockCheck(DetailAST ast, int aParentType) {
-//        return this.mAllowEmptyCtors && emptyBlockCheck(ast, aParentType, TokenTypes.CTOR_DEF);
-//    }
-//
-//    /**
-//     * Test if the given <code>DetailAST</code> is part of an empty block.
-//     * An example empty block might look like the following
-//     * <p>
-//     * <pre>   public void myMethod(int val) {}</pre>
-//     * <p>
-//     * In the above, the method body is an empty block ("{}").
-//     *
-//     * @param ast the <code>DetailAST</code> to test.
-//     * @param aParentType the token type of <code>ast</code>'s parent.
-//     * @param aMatch the parent token type we're looking to match.
-//     * @return <code>true</code> if <code>ast</code> makes up part of an
-//     *         empty block contained under a <code>aMatch</code> token type
-//     *         node.
-//     */
-//    private boolean
-//    emptyBlockCheck(DetailAST ast, int aParentType, int aMatch) {
-//        final int type = ast.getType();
-//        if (type == TokenTypes.RCURLY) {
-//            final DetailAST grandParent = ast.getParent().getParent();
-//            return (aParentType == TokenTypes.SLIST)
-//                && (grandParent.getType() == aMatch);
-//        }
-//
-//        return (type == TokenTypes.SLIST)
-//            && (aParentType == aMatch)
-//            && (ast.getFirstChild().getType() == TokenTypes.RCURLY);
-//    }
 }
