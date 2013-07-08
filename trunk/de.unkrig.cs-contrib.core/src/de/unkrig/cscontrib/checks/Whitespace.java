@@ -50,8 +50,10 @@ class Whitespace extends Check {
      */
     public
     enum Whitespaceable {
+
         /** 'a + b', 'a - b' */
         ADDITIVE_OPERATORS,
+        ASSERT,
         /** 'int a = 7;' */
         ASSIGN_VARIABLE_DEF,
         /**
@@ -67,8 +69,11 @@ class Whitespace extends Check {
         BITWISE_OPERATORS,
         /** '~a' */
         BITWISE_COMPLEMENT,
-        /** '(int) a' */
-        CAST,
+        BREAK,
+        CASE,
+        CATCH,
+        CLASS_DECL,
+        CLASS_LITERAL,
         /** 'default:' */
         COLON_DEFAULT,
         /** 'case 77:' */
@@ -83,6 +88,11 @@ class Whitespace extends Check {
         COMMA,
         /** 'a || b', 'a && b' */
         CONDITIONAL_OPERATORS,
+        CONTINUE,
+        /** 'String engineer() default "[unassigned]";' */
+        DEFAULT_ANNOTATION_TYPE_ELEMENT,
+        DEFAULT_SWITCH,
+        DO,
         /** 'import pkg.*;', 'import pkg.Type;' */
         DOT_IMPORT,
         /** 'package pkg.pkg;' */
@@ -93,16 +103,25 @@ class Whitespace extends Check {
         DOT_SELECTOR,
         /** 'meth(Object... o)' */
         ELLIPSIS_PARAMETER,
+        ELSE,
         /** ';' */
         EMPTY_STAT,
+        ENUM,
         /** 'a < b', 'a <= b', 'a == b', 'a != b', 'a >= b', 'a > b' */
         EQUALITY_OPERATORS,
         /** 'class MyClass extends BaseClass {' */
         EXTENDS_TYPE,
         /** 'List<T extends MyClass>' */
         EXTENDS_TYPE_BOUND,
+        FINALLY,
+        FOR,
+        IF,
         /** 'List<T implements MyInterface1, MyInterface2>' */
         IMPLEMENTS,
+        IMPORT,
+        IMPORT_STATIC,
+        INSTANCEOF,
+        INTERFACE,
         /** 'List<String>' */
         L_ANGLE,
         /** 'Object[]' */
@@ -163,6 +182,8 @@ class Whitespace extends Check {
         L_PAREN_ANNOTATION,
         L_PAREN_ANNOTATION_FIELD_DEF,
         L_PAREN_CALL,
+        /** '(int) a' */
+        L_PAREN_CAST,
         L_PAREN_CATCH,
         L_PAREN_DO_WHILE,
         L_PAREN_FOR,
@@ -173,6 +194,7 @@ class Whitespace extends Check {
         LITERAL,
         LOGICAL_COMPLEMENT,
         MINUS_UNARY,
+        MODIFIER,
         MULTIPLICATIVE_OPERATORS,
         NAME_AMBIGUOUS,
         NAME_ANNOTATION,
@@ -188,7 +210,8 @@ class Whitespace extends Check {
         NAME_SIMPLE_TYPE,
         NAME_TYPE_DEF,
         NAME_VARIABLE_DEF,
-        OTHER_KEYWORDS,
+        NEW,
+        PACKAGE,
         PLUS_UNARY,
         POST_DEC,
         POST_INC,
@@ -255,6 +278,8 @@ class Whitespace extends Check {
         R_PAREN_ANNOTATION,
         R_PAREN_ANNOTATION_FIELD_DEF,
         R_PAREN_CALL,
+        /** '(int) a' */
+        R_PAREN_CAST,
         R_PAREN_CATCH,
         R_PAREN_DO_WHILE,
         R_PAREN_FOR,
@@ -282,24 +307,51 @@ class Whitespace extends Check {
         SEMI_STATIC_IMPORT,
         SHIFT_OPERATORS,
         STAR_TYPE_IMPORT_ON_DEMAND,
+        STATIC_INIT,
         SUPER_CTOR_CALL,
+        SUPER_EXPR,
         /** 'List<T super MyClass>' */
         SUPER_TYPE_BOUND,
+        SWITCH,
         THIS_CTOR_CALL,
+        THIS_EXPR,
+        THROW,
+        THROWS,
+        TRY,
+        VOID,
+        WHILE,
+        WHILE_DO,
     }
 
     private EnumSet<Whitespaceable> whitespaceBefore = EnumSet.of(
         ADDITIVE_OPERATORS,
+        ASSERT,
         ASSIGN_VARIABLE_DEF,
         ASSIGNS,
         BITWISE_OPERATORS,
+        BREAK,
+        CASE,
+        CATCH,
+        CLASS_DECL,
         COLON_ENHANCED_FOR,
         COLON_TERNARY,
         CONDITIONAL_OPERATORS,
+        CONTINUE,
+        DEFAULT_ANNOTATION_TYPE_ELEMENT,
+        DEFAULT_SWITCH,
+        DO,
+        ELSE,
+        ENUM,
         EQUALITY_OPERATORS,
         EXTENDS_TYPE,
         EXTENDS_TYPE_BOUND,
+        FINALLY,
+        FOR,
+        IF,
         IMPLEMENTS,
+        IMPORT,
+        IMPORT_STATIC,
+        INSTANCEOF,
         L_CURLY_ANON_CLASS,
         L_CURLY_BLOCK,
         L_CURLY_CATCH,
@@ -332,6 +384,7 @@ class Whitespace extends Check {
         NAME_PARAMETER,
         NAME_TYPE_DEF,
         NAME_VARIABLE_DEF,
+        PACKAGE,
         QUESTION_TERNARY,
         R_CURLY_ANNOTATION_ARRAY_INIT,
         R_CURLY_ANON_CLASS,
@@ -355,11 +408,20 @@ class Whitespace extends Check {
         RETURN_EXPR,
         RETURN_NO_EXPR,
         SHIFT_OPERATORS,
+        STATIC_INIT,
         SUPER_CTOR_CALL,
         SUPER_TYPE_BOUND,
-        THIS_CTOR_CALL
+        SWITCH,
+        THIS_CTOR_CALL,
+        THROW,
+        THROWS,
+        TRY,
+        VOID,
+        WHILE,
+        WHILE_DO
     );
     private EnumSet<Whitespaceable> noWhitespaceBefore = EnumSet.of(
+        CLASS_LITERAL,
         COLON_DEFAULT,
         COLON_CASE,
         COLON_LABELED_STAT,
@@ -369,7 +431,6 @@ class Whitespace extends Check {
         DOT_QUALIFIED_TYPE,
         DOT_SELECTOR,
         ELLIPSIS_PARAMETER,
-        EMPTY_STAT,
         L_BRACK_ARRAY_DECL,
         L_BRACK_INDEX,
         L_PAREN_ANNOTATION,
@@ -379,7 +440,6 @@ class Whitespace extends Check {
         NAME_ANNOTATION,
         POST_DEC,
         POST_INC,
-        QUESTION_WILDCARD_TYPE,
         R_ANGLE,
         R_BRACK_ARRAY_DECL,
         R_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
@@ -392,13 +452,13 @@ class Whitespace extends Check {
         R_PAREN_ANNOTATION,
         R_PAREN_ANNOTATION_FIELD_DEF,
         R_PAREN_CALL,
+        R_PAREN_CAST,
         R_PAREN_CATCH,
         R_PAREN_DO_WHILE,
         R_PAREN_FOR,
         R_PAREN_FOR_NO_UPDATE,
         R_PAREN_IF,
         R_PAREN_PARAMETERS,
-        R_PAREN_PARENTHESIZED,
         SEMI_ABSTRACT_METH_DEF,
         SEMI_ANNOTATION_FIELD_DEF,
         SEMI_ENUM_DEF,
@@ -419,10 +479,13 @@ class Whitespace extends Check {
     );
     private EnumSet<Whitespaceable> whitespaceAfter = EnumSet.of(
         ADDITIVE_OPERATORS,
+        ASSERT,
         ASSIGN_VARIABLE_DEF,
         ASSIGNS,
         BITWISE_OPERATORS,
-        CAST,
+        CASE,
+        CATCH,
+        CLASS_DECL,
         COLON_DEFAULT,
         COLON_CASE,
         COLON_ENHANCED_FOR,
@@ -430,12 +493,23 @@ class Whitespace extends Check {
         COLON_TERNARY,
         COMMA,
         CONDITIONAL_OPERATORS,
+        DEFAULT_ANNOTATION_TYPE_ELEMENT,
+        DO,
         ELLIPSIS_PARAMETER,
+        ELSE,
         EMPTY_STAT,
+        ENUM,
         EQUALITY_OPERATORS,
         EXTENDS_TYPE,
         EXTENDS_TYPE_BOUND,
+        FINALLY,
+        FOR,
+        IF,
         IMPLEMENTS,
+        IMPORT,
+        IMPORT_STATIC,
+        INSTANCEOF,
+        INTERFACE,
         L_CURLY_ANNOTATION_ARRAY_INIT,
         L_CURLY_ANON_CLASS,
         L_CURLY_ARRAY_INIT,
@@ -455,11 +529,12 @@ class Whitespace extends Check {
         L_CURLY_TRY,
         L_CURLY_TYPE_DEF,
         L_CURLY_WHILE,
+        MODIFIER,
+        NEW,
         MULTIPLICATIVE_OPERATORS,
         NAME_ANNOTATION_MEMBER,
-        NAME_TYPE_DEF,
+        PACKAGE,
         QUESTION_TERNARY,
-        QUESTION_WILDCARD_TYPE,
         R_CURLY_BLOCK,
         R_CURLY_CATCH,
         R_CURLY_DO_WHILE,
@@ -480,6 +555,7 @@ class Whitespace extends Check {
         R_CURLY_TYPE_DEF,
         R_CURLY_WHILE,
         R_PAREN_ANNOTATION,
+        R_PAREN_CAST,
         R_PAREN_CATCH,
         R_PAREN_IF,
         RETURN_EXPR,
@@ -496,12 +572,22 @@ class Whitespace extends Check {
         SEMI_STATEMENT,
         SEMI_STATIC_IMPORT,
         SHIFT_OPERATORS,
-        SUPER_TYPE_BOUND
+        STATIC_INIT,
+        SUPER_TYPE_BOUND,
+        SWITCH,
+        THROW,
+        THROWS,
+        TRY,
+        VOID,
+        WHILE,
+        WHILE_DO
     );
     private EnumSet<Whitespaceable> noWhitespaceAfter = EnumSet.of(
         AT_ANNOTATION,
         AT_ANNOTATION_DEF,
         BITWISE_COMPLEMENT,
+        CONTINUE,
+        DEFAULT_SWITCH,
         DOT_IMPORT,
         DOT_PACKAGE_DEF,
         DOT_QUALIFIED_TYPE,
@@ -518,6 +604,7 @@ class Whitespace extends Check {
         L_PAREN_ANNOTATION,
         L_PAREN_ANNOTATION_FIELD_DEF,
         L_PAREN_CALL,
+        L_PAREN_CAST,
         L_PAREN_CATCH,
         L_PAREN_DO_WHILE,
         L_PAREN_FOR,
@@ -546,6 +633,7 @@ class Whitespace extends Check {
         SEMI_FOR_NO_INIT_NO_CONDITION,
         STAR_TYPE_IMPORT_ON_DEMAND,
         SUPER_CTOR_CALL,
+        SUPER_EXPR,
         THIS_CTOR_CALL
     );
 
@@ -664,7 +752,7 @@ class Whitespace extends Check {
             break;
 
         case TokenTypes.TYPECAST:
-            whitespaceable = CAST;
+            whitespaceable = L_PAREN_CAST;
             break;
 
         case TokenTypes.COLON:
@@ -879,46 +967,136 @@ class Whitespace extends Check {
             whitespaceable = LITERAL;
             break;
 
-        case TokenTypes.ABSTRACT:
         case TokenTypes.DO_WHILE: // '... } while (...);'
+            whitespaceable = WHILE_DO;
+            break;
+
         case TokenTypes.ENUM:
-        case TokenTypes.FINAL:
+            whitespaceable = ENUM;
+            break;
+
         case TokenTypes.IMPORT:   // 'import ...'
+            whitespaceable = IMPORT;
+            break;
+
         case TokenTypes.LITERAL_ASSERT:
+            whitespaceable = ASSERT;
+            break;
+
         case TokenTypes.LITERAL_BREAK:
+            whitespaceable = BREAK;
+            break;
+
         case TokenTypes.LITERAL_CASE:
+            whitespaceable = CASE;
+            break;
+
         case TokenTypes.LITERAL_CATCH:
+            whitespaceable = CATCH;
+            break;
+
         case TokenTypes.LITERAL_CLASS:
+            whitespaceable = parentType == TokenTypes.CLASS_DEF ? CLASS_DECL : CLASS_LITERAL;
+            break;
+
         case TokenTypes.LITERAL_CONTINUE:
+            whitespaceable = CONTINUE;
+            break;
+
         case TokenTypes.LITERAL_DEFAULT:
+            whitespaceable = (
+                parentType == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR || parentType == TokenTypes.ANNOTATION_FIELD_DEF
+            ) ? DEFAULT_ANNOTATION_TYPE_ELEMENT : DEFAULT_SWITCH;
+            break;
+
         case TokenTypes.LITERAL_DO:
+            whitespaceable = DO;
+            break;
+
         case TokenTypes.LITERAL_ELSE:
+            whitespaceable = ELSE;
+            break;
+
         case TokenTypes.LITERAL_FINALLY:
+            whitespaceable = FINALLY;
+            break;
+
         case TokenTypes.LITERAL_FOR:
+            whitespaceable = FOR;
+            break;
+
         case TokenTypes.LITERAL_IF:
+            whitespaceable = IF;
+            break;
+
         case TokenTypes.LITERAL_INSTANCEOF:
+            whitespaceable = INSTANCEOF;
+            break;
+
         case TokenTypes.LITERAL_INTERFACE:
-        case TokenTypes.LITERAL_NATIVE:
+            whitespaceable = INTERFACE;
+            break;
+
         case TokenTypes.LITERAL_NEW:
+            whitespaceable = NEW;
+            break;
+
+        case TokenTypes.LITERAL_SUPER:
+            whitespaceable = SUPER_EXPR;
+            break;
+
+        case TokenTypes.LITERAL_SWITCH:
+            whitespaceable = SWITCH;
+            break;
+
+        case TokenTypes.LITERAL_THIS:
+            whitespaceable = THIS_EXPR;
+            break;
+
+        case TokenTypes.LITERAL_THROW:
+            whitespaceable = THROW;
+            break;
+
+        case TokenTypes.LITERAL_THROWS:
+            whitespaceable = THROWS;
+            break;
+
+        case TokenTypes.LITERAL_TRY:
+            whitespaceable = TRY;
+            break;
+
+        case TokenTypes.LITERAL_VOID:
+            whitespaceable = VOID;
+            break;
+
+        case TokenTypes.ABSTRACT:
+        case TokenTypes.FINAL:
+        case TokenTypes.LITERAL_NATIVE:
         case TokenTypes.LITERAL_PRIVATE:
         case TokenTypes.LITERAL_PROTECTED:
         case TokenTypes.LITERAL_PUBLIC:
         case TokenTypes.LITERAL_STATIC:
-        case TokenTypes.LITERAL_SUPER:
-        case TokenTypes.LITERAL_SWITCH:
         case TokenTypes.LITERAL_SYNCHRONIZED:
-        case TokenTypes.LITERAL_THIS:
-        case TokenTypes.LITERAL_THROW:
-        case TokenTypes.LITERAL_THROWS:
         case TokenTypes.LITERAL_TRANSIENT:
-        case TokenTypes.LITERAL_TRY:
-        case TokenTypes.LITERAL_VOID:
         case TokenTypes.LITERAL_VOLATILE:
+            whitespaceable = MODIFIER;
+            break;
+
         case TokenTypes.LITERAL_WHILE: // 'while (...) {'
+            whitespaceable = WHILE;
+            break;
+
         case TokenTypes.PACKAGE_DEF:   // 'package ...'
+            whitespaceable = PACKAGE;
+            break;
+
         case TokenTypes.STATIC_IMPORT: // '_import_ static ...' 
+            whitespaceable = IMPORT_STATIC;
+            break;
+
         case TokenTypes.STATIC_INIT:   // 'static {'
-            whitespaceable = OTHER_KEYWORDS;
+            ast.setText("static");
+            whitespaceable = STATIC_INIT;
             break;
 
         case TokenTypes.LITERAL_RETURN:
@@ -1117,6 +1295,9 @@ class Whitespace extends Check {
             } else
             if (parentType == TokenTypes.LITERAL_CATCH) {
                 whitespaceable = R_PAREN_CATCH;
+            } else
+            if (previousSiblingType == TokenTypes.TYPE) {
+                whitespaceable = R_PAREN_CAST;
             } else
             {
                 whitespaceable = R_PAREN_PARENTHESIZED;
