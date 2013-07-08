@@ -111,6 +111,8 @@ class Whitespace extends Check {
         L_BRACK_INDEX,
         /** '@SuppressWarnings({ "foo", "bar" })' */
         L_CURLY_ANNOTATION_ARRAY_INIT,
+        /** 'new Object() { ... }' */
+        L_CURLY_ANON_CLASS,
         /** 'int[] ia = { 1, 2 }', 'new int[] { 1, 2 }' */
         L_CURLY_ARRAY_INIT,
         /** '{ int i = 0; i++; }' */
@@ -121,6 +123,8 @@ class Whitespace extends Check {
         L_CURLY_DO,
         /** '@SuppressWarnings({})' */
         L_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
+        /** 'new Object() {}' */
+        L_CURLY_EMPTY_ANON_CLASS,
         /** 'int[] ia = {}', 'new int[] {}' */
         L_CURLY_EMPTY_ARRAY_INIT,
         /** 'try { ... } catch (...) {}' */
@@ -198,6 +202,8 @@ class Whitespace extends Check {
         R_BRACK_ARRAY_DECL,
         /** '@SuppressWarnings({ "foo", "bar" })' */
         R_CURLY_ANNOTATION_ARRAY_INIT,
+        /** 'new Object() {}' */
+        R_CURLY_ANON_CLASS,
         /** 'int[] ia = { 1, 2 }', 'new int[] { 1, 2 }' */
         R_CURLY_ARRAY_INIT,
         /** '{ int i = 0; i++; }' */
@@ -209,6 +215,8 @@ class Whitespace extends Check {
         R_CURLY_ELSE,
         /** '@SuppressWarnings({})' */
         R_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
+        /** 'new Object() {}' */
+        R_CURLY_EMPTY_ANON_CLASS,
         /** 'int[] ia = {}', 'new int[] {}' */
         R_CURLY_EMPTY_ARRAY_INIT,
         /** 'try { ... } catch (...) {}' */
@@ -281,133 +289,265 @@ class Whitespace extends Check {
     }
 
     private EnumSet<Whitespaceable> whitespaceBefore = EnumSet.of(
+        ADDITIVE_OPERATORS,
         ASSIGN_VARIABLE_DEF,
         ASSIGNS,
         BITWISE_OPERATORS,
         COLON_ENHANCED_FOR,
         COLON_TERNARY,
-        L_CURLY_DO,
+        CONDITIONAL_OPERATORS,
         EQUALITY_OPERATORS,
-        L_CURLY_ARRAY_INIT,
+        EXTENDS_TYPE,
+        EXTENDS_TYPE_BOUND,
+        IMPLEMENTS,
+        L_CURLY_ANON_CLASS,
+        L_CURLY_BLOCK,
+        L_CURLY_CATCH,
+        L_CURLY_DO,
+        L_CURLY_EMPTY_ANON_CLASS,
+        L_CURLY_EMPTY_CATCH,
+        L_CURLY_EMPTY_METHOD_DEF,
+        L_CURLY_EMPTY_TYPE_DEF,
+        L_CURLY_ENUM_CONSTANT_DEF,
+        L_CURLY_FINALLY,
+        L_CURLY_FOR,
+        L_CURLY_IF,
+        L_CURLY_INSTANCE_INIT,
+        L_CURLY_LABELED_STAT,
         L_CURLY_METHOD_DEF,
         L_CURLY_STATIC_INIT,
+        L_CURLY_SWITCH,
+        L_CURLY_SYNCHRONIZED,
+        L_CURLY_TRY,
         L_CURLY_TYPE_DEF,
+        L_CURLY_WHILE,
+        L_PAREN_CATCH,
         L_PAREN_DO_WHILE,
         L_PAREN_FOR,
+        L_PAREN_FOR_NO_INIT,
+        L_PAREN_IF,
         MULTIPLICATIVE_OPERATORS,
+        NAME_CTOR_DEF,
+        NAME_METHOD_DEF,
+        NAME_PARAMETER,
         NAME_TYPE_DEF,
         NAME_VARIABLE_DEF,
-        OTHER_KEYWORDS,
+        QUESTION_TERNARY,
+        R_CURLY_ANNOTATION_ARRAY_INIT,
+        R_CURLY_ANON_CLASS,
         R_CURLY_ARRAY_INIT,
-        /** 'catch (Exception e) { ... }' */
+        R_CURLY_BLOCK,
         R_CURLY_CATCH,
+        R_CURLY_DO_WHILE,
+        R_CURLY_ELSE,
+        R_CURLY_FINALLY,
+        R_CURLY_FOR,
+        R_CURLY_IF,
+        R_CURLY_INSTANCE_INIT,
+        R_CURLY_LABELED_STAT,
         R_CURLY_METHOD_DEF,
         R_CURLY_STATIC_INIT,
+        R_CURLY_SWITCH,
+        R_CURLY_SYNCHRONIZED,
+        R_CURLY_TRY,
         R_CURLY_TYPE_DEF,
+        R_CURLY_WHILE,
         RETURN_EXPR,
-        RETURN_NO_EXPR
+        RETURN_NO_EXPR,
+        SHIFT_OPERATORS,
+        SUPER_CTOR_CALL,
+        SUPER_TYPE_BOUND,
+        THIS_CTOR_CALL
     );
     private EnumSet<Whitespaceable> noWhitespaceBefore = EnumSet.of(
         COLON_DEFAULT,
         COLON_CASE,
+        COLON_LABELED_STAT,
         COMMA,
         DOT_IMPORT,
         DOT_PACKAGE_DEF,
+        DOT_QUALIFIED_TYPE,
+        DOT_SELECTOR,
+        ELLIPSIS_PARAMETER,
         EMPTY_STAT,
-        R_ANGLE,
         L_BRACK_ARRAY_DECL,
+        L_BRACK_INDEX,
         L_PAREN_ANNOTATION,
+        L_PAREN_ANNOTATION_FIELD_DEF,
         L_PAREN_CALL,
         L_PAREN_PARAMETERS,
         NAME_ANNOTATION,
+        POST_DEC,
+        POST_INC,
+        QUESTION_WILDCARD_TYPE,
+        R_ANGLE,
         R_BRACK_ARRAY_DECL,
+        R_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
+        R_CURLY_EMPTY_ANON_CLASS,
+        R_CURLY_EMPTY_ARRAY_INIT,
+        R_CURLY_EMPTY_CATCH,
+        R_CURLY_EMPTY_METHOD_DEF,
+        R_CURLY_EMPTY_TYPE_DEF,
+        R_CURLY_ENUM_CONSTANT_DEF,
         R_PAREN_ANNOTATION,
+        R_PAREN_ANNOTATION_FIELD_DEF,
         R_PAREN_CALL,
+        R_PAREN_CATCH,
         R_PAREN_DO_WHILE,
         R_PAREN_FOR,
+        R_PAREN_FOR_NO_UPDATE,
+        R_PAREN_IF,
         R_PAREN_PARAMETERS,
+        R_PAREN_PARENTHESIZED,
         SEMI_ABSTRACT_METH_DEF,
+        SEMI_ANNOTATION_FIELD_DEF,
+        SEMI_ENUM_DEF,
+        SEMI_FIELD_DEF,
         SEMI_FOR_CONDITION_NO_UPDATE,
         SEMI_FOR_CONDITION_UPDATE,
         SEMI_FOR_INIT_CONDITION,
         SEMI_FOR_INIT_NO_CONDITION,
+        SEMI_FOR_NO_CONDITION_NO_UPDATE,
+        SEMI_FOR_NO_CONDITION_UPDATE,
+        SEMI_FOR_NO_INIT_CONDITION,
+        SEMI_FOR_NO_INIT_NO_CONDITION,
         SEMI_IMPORT,
         SEMI_PACKAGE_DEF,
-        SEMI_STATEMENT
+        SEMI_STATEMENT,
+        SEMI_STATIC_IMPORT,
+        STAR_TYPE_IMPORT_ON_DEMAND
     );
     private EnumSet<Whitespaceable> whitespaceAfter = EnumSet.of(
+        ADDITIVE_OPERATORS,
         ASSIGN_VARIABLE_DEF,
         ASSIGNS,
         BITWISE_OPERATORS,
+        CAST,
         COLON_DEFAULT,
         COLON_CASE,
         COLON_ENHANCED_FOR,
+        COLON_LABELED_STAT,
         COLON_TERNARY,
         COMMA,
-        L_CURLY_DO,
+        CONDITIONAL_OPERATORS,
+        ELLIPSIS_PARAMETER,
         EMPTY_STAT,
         EQUALITY_OPERATORS,
+        EXTENDS_TYPE,
+        EXTENDS_TYPE_BOUND,
+        IMPLEMENTS,
+        L_CURLY_ANNOTATION_ARRAY_INIT,
+        L_CURLY_ANON_CLASS,
         L_CURLY_ARRAY_INIT,
+        L_CURLY_BLOCK,
+        L_CURLY_CATCH,
+        L_CURLY_DO,
+        L_CURLY_ENUM_CONSTANT_DEF,
+        L_CURLY_FINALLY,
+        L_CURLY_FOR,
+        L_CURLY_IF,
+        L_CURLY_INSTANCE_INIT,
+        L_CURLY_LABELED_STAT,
         L_CURLY_METHOD_DEF,
         L_CURLY_STATIC_INIT,
+        L_CURLY_SWITCH,
+        L_CURLY_SYNCHRONIZED,
+        L_CURLY_TRY,
         L_CURLY_TYPE_DEF,
+        L_CURLY_WHILE,
         MULTIPLICATIVE_OPERATORS,
+        NAME_ANNOTATION_MEMBER,
         NAME_TYPE_DEF,
-        OTHER_KEYWORDS,
+        QUESTION_TERNARY,
+        QUESTION_WILDCARD_TYPE,
+        R_CURLY_BLOCK,
+        R_CURLY_CATCH,
+        R_CURLY_DO_WHILE,
+        R_CURLY_ELSE,
+        R_CURLY_EMPTY_CATCH,
+        R_CURLY_EMPTY_METHOD_DEF,
+        R_CURLY_EMPTY_TYPE_DEF,
+        R_CURLY_FINALLY,
+        R_CURLY_FOR,
+        R_CURLY_IF,
+        R_CURLY_INSTANCE_INIT,
+        R_CURLY_LABELED_STAT,
         R_CURLY_METHOD_DEF,
         R_CURLY_STATIC_INIT,
+        R_CURLY_SWITCH,
+        R_CURLY_SYNCHRONIZED,
+        R_CURLY_TRY,
         R_CURLY_TYPE_DEF,
-        R_PAREN_FOR,
+        R_CURLY_WHILE,
+        R_PAREN_ANNOTATION,
+        R_PAREN_CATCH,
+        R_PAREN_IF,
         RETURN_EXPR,
         SEMI_ABSTRACT_METH_DEF,
+        SEMI_ANNOTATION_FIELD_DEF,
+        SEMI_ENUM_DEF,
+        SEMI_FIELD_DEF,
         SEMI_FOR_CONDITION_UPDATE,
         SEMI_FOR_INIT_CONDITION,
+        SEMI_FOR_NO_CONDITION_UPDATE,
+        SEMI_FOR_NO_INIT_CONDITION,
         SEMI_IMPORT,
         SEMI_PACKAGE_DEF,
-        SEMI_STATEMENT
+        SEMI_STATEMENT,
+        SEMI_STATIC_IMPORT,
+        SHIFT_OPERATORS,
+        SUPER_TYPE_BOUND
     );
     private EnumSet<Whitespaceable> noWhitespaceAfter = EnumSet.of(
         AT_ANNOTATION,
+        AT_ANNOTATION_DEF,
         BITWISE_COMPLEMENT,
         DOT_IMPORT,
         DOT_PACKAGE_DEF,
+        DOT_QUALIFIED_TYPE,
+        DOT_SELECTOR,
         L_ANGLE,
-        NAME_IMPORT_COMPONENT,
-        NAME_IMPORT_TYPE,
-        PRE_DEC,
         L_BRACK_ARRAY_DECL,
+        L_BRACK_INDEX,
+        L_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
+        L_CURLY_EMPTY_ANON_CLASS,
+        L_CURLY_EMPTY_ARRAY_INIT,
+        L_CURLY_EMPTY_CATCH,
+        L_CURLY_EMPTY_METHOD_DEF,
+        L_CURLY_EMPTY_TYPE_DEF,
         L_PAREN_ANNOTATION,
+        L_PAREN_ANNOTATION_FIELD_DEF,
         L_PAREN_CALL,
+        L_PAREN_CATCH,
         L_PAREN_DO_WHILE,
         L_PAREN_FOR,
+        L_PAREN_FOR_NO_INIT,
+        L_PAREN_IF,
         L_PAREN_PARAMETERS,
+        L_PAREN_PARENTHESIZED,
+        LOGICAL_COMPLEMENT,
+        MINUS_UNARY,
+        NAME_ANNOTATION_FIELD_DEF,
+        NAME_ANNOTATION_MEMBER,
+        NAME_CTOR_DEF,
+        NAME_IMPORT_COMPONENT,
+        NAME_IMPORT_TYPE,
+        NAME_METHOD_DEF,
+        NAME_PACKAGE_DEF,
+        NAME_PARAMETER,
+        PLUS_UNARY,
+        PRE_DEC,
+        PRE_INC,
+        R_PAREN_DO_WHILE,
         RETURN_NO_EXPR,
         SEMI_FOR_CONDITION_NO_UPDATE,
-        SEMI_FOR_INIT_NO_CONDITION
+        SEMI_FOR_INIT_NO_CONDITION,
+        SEMI_FOR_NO_CONDITION_NO_UPDATE,
+        SEMI_FOR_NO_INIT_NO_CONDITION,
+        STAR_TYPE_IMPORT_ON_DEMAND,
+        SUPER_CTOR_CALL,
+        THIS_CTOR_CALL
     );
-
-//    public
-//    enum Compactable {
-//        EMPTY_ANNOTATION_ARRAY_INIT,
-//        EMPTY_ARRAY_INIT,
-//        EMPTY_CATCH_BLOCK,
-//        EMPTY_FOR_CONDITION,
-//        EMPTY_FOR_INIT,
-//        EMPTY_FOR_UPDATE,
-//        EMPTY_METHOD,
-//        EMPTY_TYPE,
-//    }
-//
-//    private EnumSet<Compactable> compactables = EnumSet.of(
-//        EMPTY_ARRAY_INIT,
-//        EMPTY_CATCH_BLOCK,
-//        EMPTY_FOR_CONDITION,
-//        EMPTY_FOR_INIT,
-//        EMPTY_FOR_UPDATE,
-//        EMPTY_ARRAY_INIT,
-//        EMPTY_METHOD,
-//        EMPTY_TYPE
-//    );
 
     // BEGIN CONFIGURATION SETTERS
 
@@ -683,9 +823,13 @@ class Whitespace extends Check {
                 || grandparentType == TokenTypes.INTERFACE_DEF  // 'interface MyInterface() {...}'
                 || grandparentType == TokenTypes.ANNOTATION_DEF // 'interface @MyAnnotation {...}'
                 || grandparentType == TokenTypes.ENUM_DEF       // 'enum MyEnum {...}'
-                || grandparentType == TokenTypes.LITERAL_NEW    // 'new MyClass() {...}'
             )) {
                 whitespaceable = nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_TYPE_DEF : L_CURLY_TYPE_DEF;
+            } else
+            if (        // 'new MyClass() {...}'
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW
+            ) {
+                whitespaceable = nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ANON_CLASS : L_CURLY_ANON_CLASS;
             } else
             if ( // 'enum MyEnum { CONST {'
                 parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
@@ -701,7 +845,7 @@ class Whitespace extends Check {
             break;
 
         case TokenTypes.ANNOTATION_ARRAY_INIT:
-            whitespaceable  = firstChildType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ANNOTATION_ARRAY_INIT : L_CURLY_ANNOTATION_ARRAY_INIT;
+            whitespaceable = firstChildType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ANNOTATION_ARRAY_INIT : L_CURLY_ANNOTATION_ARRAY_INIT;
             break;
 
         case TokenTypes.INDEX_OP:
@@ -854,10 +998,14 @@ class Whitespace extends Check {
                     || grandparentType == TokenTypes.INTERFACE_DEF
                     || grandparentType == TokenTypes.ANNOTATION_DEF
                     || grandparentType == TokenTypes.ENUM_DEF
-                    || grandparentType == TokenTypes.LITERAL_NEW // 'new MyClass() {...}'
                 )
             ) {
                 whitespaceable = previousSiblingType == TokenTypes.LCURLY ? R_CURLY_EMPTY_TYPE_DEF : R_CURLY_TYPE_DEF;
+            } else
+            if ( // 'new MyClass() {...}'
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW 
+            ) {
+                whitespaceable = previousSiblingType == TokenTypes.LCURLY ? R_CURLY_EMPTY_ANON_CLASS : R_CURLY_ANON_CLASS;
             } else
             if (
                 parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
@@ -994,7 +1142,6 @@ class Whitespace extends Check {
                 || parentType == TokenTypes.LITERAL_BREAK
                 || parentType == TokenTypes.LITERAL_CONTINUE
                 || parentType == TokenTypes.LITERAL_IF
-                || parentType == TokenTypes.LITERAL_FOR
                 || parentType == TokenTypes.LITERAL_WHILE
                 || parentType == TokenTypes.LITERAL_ASSERT
                 || parentType == TokenTypes.LITERAL_THROW
