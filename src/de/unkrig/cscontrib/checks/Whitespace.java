@@ -123,29 +123,43 @@ class Whitespace extends Check {
         L_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
         /** 'int[] ia = {}', 'new int[] {}' */
         L_CURLY_EMPTY_ARRAY_INIT,
+        /** 'try { ... } catch (...) {}' */
+        L_CURLY_EMPTY_CATCH,
         /** 'void meth(...) {}' */
         L_CURLY_EMPTY_METHOD_DEF,
         /** 'class MyClass {}' */
         L_CURLY_EMPTY_TYPE_DEF,
         /** 'enum MyEnum { FOO { ... } }' */
         L_CURLY_ENUM_CONSTANT_DEF,
+        /** 'finally { ...' */
         L_CURLY_FINALLY,
+        /** 'for (...) {' */
         L_CURLY_FOR,
+        /** 'if (...) {' */
         L_CURLY_IF,
+        /** 'class MyClass { { ... } }' */
         L_CURLY_INSTANCE_INIT,
+        /** 'LABEL: {' */
         L_CURLY_LABELED_STAT,
         /** 'void meth(...) { ... }' */
         L_CURLY_METHOD_DEF,
+        /** 'class MyClass { static { ... } }' */
         L_CURLY_STATIC_INIT,
+        /** 'switch (a) {' */
         L_CURLY_SWITCH,
+        /** 'synchronized (a) {' */
         L_CURLY_SYNCHRONIZED,
+        /** 'try {' */
         L_CURLY_TRY,
         /** 'class MyClass { ... }' */
         L_CURLY_TYPE_DEF,
+        /** 'while (...) {' */
         L_CURLY_WHILE,
+        /** '@SuppressWarnings("foo")' */
         L_PAREN_ANNOTATION,
         L_PAREN_ANNOTATION_FIELD_DEF,
         L_PAREN_CALL,
+        L_PAREN_CATCH,
         L_PAREN_DO_WHILE,
         L_PAREN_FOR,
         L_PAREN_FOR_NO_INIT,
@@ -184,7 +198,6 @@ class Whitespace extends Check {
         R_BRACK_ARRAY_DECL,
         /** '@SuppressWarnings({ "foo", "bar" })' */
         R_CURLY_ANNOTATION_ARRAY_INIT,
-        R_CURLY_ANON_CLASS,
         /** 'int[] ia = { 1, 2 }', 'new int[] { 1, 2 }' */
         R_CURLY_ARRAY_INIT,
         /** '{ int i = 0; i++; }' */
@@ -196,7 +209,6 @@ class Whitespace extends Check {
         R_CURLY_ELSE,
         /** '@SuppressWarnings({})' */
         R_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
-        R_CURLY_EMPTY_ANON_CLASS,
         /** 'int[] ia = {}', 'new int[] {}' */
         R_CURLY_EMPTY_ARRAY_INIT,
         /** 'try { ... } catch (...) {}' */
@@ -207,23 +219,35 @@ class Whitespace extends Check {
         R_CURLY_EMPTY_TYPE_DEF,
         /** 'enum MyEnum { FOO { ... } }' */
         R_CURLY_ENUM_CONSTANT_DEF,
+        /** 'finally { ... }' */
         R_CURLY_FINALLY,
+        /** 'for (...) { ... }' */
         R_CURLY_FOR,
+        /** 'if (...) { ... }' */
         R_CURLY_IF,
+        /** 'class MyClass { { ... } }' */
         R_CURLY_INSTANCE_INIT,
+        /** 'LABEL: { ... }' */
         R_CURLY_LABELED_STAT,
         /** 'void meth(...) { ... }' */
         R_CURLY_METHOD_DEF,
+        /** 'class MyClass { static { ... } }' */
         R_CURLY_STATIC_INIT,
+        /** 'switch (a) { ... }' */
         R_CURLY_SWITCH,
+        /** 'synchronized (a) { ... }' */
         R_CURLY_SYNCHRONIZED,
+        /** 'try { ... }' */
         R_CURLY_TRY,
         /** 'class MyClass { ... }' */
         R_CURLY_TYPE_DEF,
+        /** 'while (...) { ... }' */
         R_CURLY_WHILE,
+        /** '@SuppressWarnings("foo")' */
         R_PAREN_ANNOTATION,
         R_PAREN_ANNOTATION_FIELD_DEF,
         R_PAREN_CALL,
+        R_PAREN_CATCH,
         R_PAREN_DO_WHILE,
         R_PAREN_FOR,
         R_PAREN_FOR_NO_UPDATE,
@@ -274,7 +298,6 @@ class Whitespace extends Check {
         NAME_TYPE_DEF,
         NAME_VARIABLE_DEF,
         OTHER_KEYWORDS,
-        R_CURLY_ANON_CLASS,
         R_CURLY_ARRAY_INIT,
         /** 'catch (Exception e) { ... }' */
         R_CURLY_CATCH,
@@ -366,7 +389,6 @@ class Whitespace extends Check {
 //    public
 //    enum Compactable {
 //        EMPTY_ANNOTATION_ARRAY_INIT,
-//        EMPTY_ANON_CLASS,
 //        EMPTY_ARRAY_INIT,
 //        EMPTY_CATCH_BLOCK,
 //        EMPTY_FOR_CONDITION,
@@ -377,7 +399,6 @@ class Whitespace extends Check {
 //    }
 //
 //    private EnumSet<Compactable> compactables = EnumSet.of(
-//        EMPTY_ANON_CLASS,
 //        EMPTY_ARRAY_INIT,
 //        EMPTY_CATCH_BLOCK,
 //        EMPTY_FOR_CONDITION,
@@ -787,6 +808,9 @@ class Whitespace extends Check {
             if (parentType == TokenTypes.LITERAL_FOR) {
                 whitespaceable = ast.getNextSibling().getFirstChild() == null ? L_PAREN_FOR_NO_INIT : L_PAREN_FOR;
             } else
+            if (parentType == TokenTypes.LITERAL_CATCH) {
+                whitespaceable = L_PAREN_CATCH;
+            } else
             {
                 whitespaceable = L_PAREN_PARENTHESIZED;
             }
@@ -812,12 +836,6 @@ class Whitespace extends Check {
             break;
 
         case TokenTypes.RCURLY:
-            if ( // 'new MyClass() {...}'
-                parentType == TokenTypes.OBJBLOCK
-                && grandparentType == TokenTypes.LITERAL_NEW
-            ) {
-                whitespaceable = previousSiblingType == TokenTypes.LCURLY ? R_CURLY_EMPTY_ANON_CLASS : R_CURLY_ANON_CLASS;
-            } else
             if ( // 'catch (Exception e) {...}'
                 parentType == TokenTypes.SLIST
                 && grandparentType == TokenTypes.LITERAL_CATCH
@@ -836,6 +854,7 @@ class Whitespace extends Check {
                     || grandparentType == TokenTypes.INTERFACE_DEF
                     || grandparentType == TokenTypes.ANNOTATION_DEF
                     || grandparentType == TokenTypes.ENUM_DEF
+                    || grandparentType == TokenTypes.LITERAL_NEW // 'new MyClass() {...}'
                 )
             ) {
                 whitespaceable = previousSiblingType == TokenTypes.LCURLY ? R_CURLY_EMPTY_TYPE_DEF : R_CURLY_TYPE_DEF;
@@ -948,6 +967,9 @@ class Whitespace extends Check {
             if (parentType == TokenTypes.LITERAL_FOR) {
                 whitespaceable = ast.getPreviousSibling().getFirstChild() == null ? R_PAREN_FOR_NO_UPDATE : R_PAREN_FOR;
             } else
+            if (parentType == TokenTypes.LITERAL_CATCH) {
+                whitespaceable = R_PAREN_CATCH;
+            } else
             {
                 whitespaceable = R_PAREN_PARENTHESIZED;
             }
@@ -1043,7 +1065,7 @@ class Whitespace extends Check {
                 whitespaceable = L_CURLY_TRY;
             } else
             if (parentType == TokenTypes.LITERAL_CATCH) { // 'catch (...) {'
-                whitespaceable = L_CURLY_CATCH;
+                whitespaceable = firstChildType == TokenTypes.RCURLY ? L_CURLY_EMPTY_CATCH : L_CURLY_CATCH;
             } else
             if (parentType == TokenTypes.LITERAL_FINALLY) { // 'finally {'
                 whitespaceable = L_CURLY_FINALLY;
@@ -1103,6 +1125,19 @@ class Whitespace extends Check {
             whitespaceable = COLON_LABELED_STAT;
             break;
             
+        case TokenTypes.CLASS_DEF:
+        case TokenTypes.INTERFACE_DEF:
+        case TokenTypes.CTOR_DEF:
+        case TokenTypes.FOR_INIT:
+        case TokenTypes.FOR_CONDITION:
+        case TokenTypes.FOR_ITERATOR:
+        case TokenTypes.ELIST:
+        case TokenTypes.CASE_GROUP:
+        case TokenTypes.ANNOTATION:
+        case TokenTypes.ANNOTATIONS:
+        case TokenTypes.EXPR:
+        case TokenTypes.ENUM_DEF:
+        case TokenTypes.ENUM_CONSTANT_DEF:
         case TokenTypes.STRICTFP:
         case TokenTypes.TYPE_ARGUMENT:
         case TokenTypes.TYPE_ARGUMENTS:
@@ -1113,7 +1148,7 @@ class Whitespace extends Check {
             break;
 
         default:
-            assert false;
+            assert false : "Unexpected DetailAST " + ast;
         }
 
         if (whitespaceable == null) {
