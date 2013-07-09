@@ -140,8 +140,14 @@ class Whitespace extends Check {
         INSTANCEOF,
         /** 'interface { ... }' */
         INTERFACE,
-        /** 'List<String>' */
-        L_ANGLE,
+        /** 'MyClass.&lt;Double>meth(x)' */
+        L_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
+        /** 'public &lt;T extends Number> void meth(T parm) {' */
+        L_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
+        /** 'MyClass&lt;String>' */
+        L_ANGLE_TYPE_ARGUMENTS,
+        /** 'class MyClass&lt;T extends Number> {' */
+        L_ANGLE_TYPE_PARAMETERS,
         /** 'Object[]' */
         L_BRACK_ARRAY_DECL,
         /** 'a[3]' */
@@ -213,6 +219,7 @@ class Whitespace extends Check {
         L_PAREN_PARAMETERS,
         L_PAREN_PARENTHESIZED,
         LITERAL,
+        /** '!a' */
         LOGICAL_COMPLEMENT,
         MINUS_UNARY,
         MODIFIER,
@@ -241,6 +248,7 @@ class Whitespace extends Check {
         NAME_QUALIFIED_TYPE,
         /** 'MyType', 'new MyType' */
         NAME_SIMPLE_TYPE,
+        /** 'class MyClass {', 'interface MyInterface {', 'interface @MyAnnotation {', 'enum MyEnum {' */
         NAME_TYPE_DEF,
         /** 'int a;' */
         NAME_VARIABLE_DEF,
@@ -248,14 +256,25 @@ class Whitespace extends Check {
         /** 'package ...' */
         PACKAGE,
         PLUS_UNARY,
+        /** 'x--' */
         POST_DEC,
+        /** 'x++' */
         POST_INC,
+        /** '--x' */
         PRE_DEC,
+        /** '++x' */
         PRE_INC,
         PRIMITIVE_TYPE,
         QUESTION_TERNARY,
         QUESTION_WILDCARD_TYPE,
-        R_ANGLE,
+        /** 'MyClass.&lt;Double>meth(x)' */
+        R_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
+        /** 'public &lt;T extends Number> void meth(T parm) {' */
+        R_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
+        /** 'MyClass&lt;String>' */
+        R_ANGLE_TYPE_ARGUMENTS,
+        /** 'class MyClass&lt;T extends Number> {' */
+        R_ANGLE_TYPE_PARAMETERS,
         /** 'Object[]' */
         R_BRACK_ARRAY_DECL,
         /** '@SuppressWarnings({ "foo", "bar" })' */
@@ -355,6 +374,8 @@ class Whitespace extends Check {
         SEMI_PACKAGE_DEF,
         SEMI_STATEMENT,
         SEMI_STATIC_IMPORT,
+        /** 'class MyClass { ; }' */
+        SEMI_TYPE_DECL,
         SHIFT_OPERATORS,
         /** 'import pkg.pkg.*;' */
         STAR_TYPE_IMPORT_ON_DEMAND,
@@ -406,6 +427,7 @@ class Whitespace extends Check {
         IMPORT,
         IMPORT_STATIC,
         INSTANCEOF,
+        L_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
         L_CURLY_ANON_CLASS,
         L_CURLY_BLOCK,
         L_CURLY_CATCH,
@@ -461,6 +483,7 @@ class Whitespace extends Check {
         R_CURLY_WHILE,
         RETURN_EXPR,
         RETURN_NO_EXPR,
+        SEMI_TYPE_DECL,
         SHIFT_OPERATORS,
         STATIC_INIT,
         SUPER_CTOR_CALL,
@@ -485,6 +508,9 @@ class Whitespace extends Check {
         DOT_QUALIFIED_TYPE,
         DOT_SELECTOR,
         ELLIPSIS_PARAMETER,
+        L_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
+        L_ANGLE_TYPE_ARGUMENTS,
+        L_ANGLE_TYPE_PARAMETERS,
         L_BRACK_ARRAY_DECL,
         L_BRACK_INDEX,
         L_PAREN_ANNOTATION,
@@ -494,7 +520,10 @@ class Whitespace extends Check {
         NAME_ANNOTATION,
         POST_DEC,
         POST_INC,
-        R_ANGLE,
+        R_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
+        R_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
+        R_ANGLE_TYPE_ARGUMENTS,
+        R_ANGLE_TYPE_PARAMETERS,
         R_BRACK_ARRAY_DECL,
         R_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
         R_CURLY_EMPTY_ANON_CLASS,
@@ -589,6 +618,7 @@ class Whitespace extends Check {
         NAME_ANNOTATION_MEMBER,
         PACKAGE,
         QUESTION_TERNARY,
+        R_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
         R_CURLY_BLOCK,
         R_CURLY_CATCH,
         R_CURLY_DO_WHILE,
@@ -608,7 +638,6 @@ class Whitespace extends Check {
         R_CURLY_TRY,
         R_CURLY_TYPE_DEF,
         R_CURLY_WHILE,
-        R_PAREN_ANNOTATION,
         R_PAREN_CAST,
         R_PAREN_CATCH,
         R_PAREN_IF,
@@ -625,6 +654,7 @@ class Whitespace extends Check {
         SEMI_PACKAGE_DEF,
         SEMI_STATEMENT,
         SEMI_STATIC_IMPORT,
+        SEMI_TYPE_DECL,
         SHIFT_OPERATORS,
         STATIC_INIT,
         SUPER_TYPE_BOUND,
@@ -632,7 +662,6 @@ class Whitespace extends Check {
         THROW,
         THROWS,
         TRY,
-        VOID,
         WHILE,
         WHILE_DO
     );
@@ -640,13 +669,15 @@ class Whitespace extends Check {
         AT_ANNOTATION,
         AT_ANNOTATION_DEF,
         BITWISE_COMPLEMENT,
-        CONTINUE,
         DEFAULT_SWITCH,
         DOT_IMPORT,
         DOT_PACKAGE_DEF,
         DOT_QUALIFIED_TYPE,
         DOT_SELECTOR,
-        L_ANGLE,
+        L_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
+        L_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
+        L_ANGLE_TYPE_ARGUMENTS,
+        L_ANGLE_TYPE_PARAMETERS,
         L_BRACK_ARRAY_DECL,
         L_BRACK_INDEX,
         L_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
@@ -669,7 +700,6 @@ class Whitespace extends Check {
         LOGICAL_COMPLEMENT,
         MINUS_UNARY,
         NAME_ANNOTATION_FIELD_DEF,
-        NAME_ANNOTATION_MEMBER,
         NAME_CTOR_DEF,
         NAME_IMPORT_COMPONENT,
         NAME_IMPORT_TYPE,
@@ -679,6 +709,7 @@ class Whitespace extends Check {
         PLUS_UNARY,
         PRE_DEC,
         PRE_INC,
+        R_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
         R_PAREN_DO_WHILE,
         RETURN_NO_EXPR,
         SEMI_FOR_CONDITION_NO_UPDATE,
@@ -779,6 +810,7 @@ class Whitespace extends Check {
             }
         }
     }
+
     private Whitespaceable
     toWhitespaceable(DetailAST ast) {
 
@@ -830,7 +862,7 @@ class Whitespace extends Check {
             return ASSIGNS;
 
         case TokenTypes.AT:
-            if (parentType == TokenTypes.ANNOTATION) return AT_ANNOTATION;
+            if (parentType == TokenTypes.ANNOTATION)     return AT_ANNOTATION;
             if (parentType == TokenTypes.ANNOTATION_DEF) return AT_ANNOTATION_DEF;
             assert false : "AT has unexpected parent '" + ast.getParent() + "'";
             return null;
@@ -843,11 +875,11 @@ class Whitespace extends Check {
         case TokenTypes.BNOT:
             return BITWISE_COMPLEMENT;
 
-        case TokenTypes.LOR: // 'a || b'
-        case TokenTypes.LAND: // 'a && b'
+        case TokenTypes.LOR:
+        case TokenTypes.LAND:
             return CONDITIONAL_OPERATORS;
 
-        case TokenTypes.LNOT: // '!a'
+        case TokenTypes.LNOT:
             return LOGICAL_COMPLEMENT;
 
         case TokenTypes.TYPECAST:
@@ -855,24 +887,15 @@ class Whitespace extends Check {
 
         case TokenTypes.COLON:
             if (parentType == TokenTypes.LITERAL_DEFAULT) return COLON_DEFAULT;
-            if (parentType == TokenTypes.LITERAL_CASE) return COLON_CASE;
+            if (parentType == TokenTypes.LITERAL_CASE)    return COLON_CASE;
             if (parentType == TokenTypes.FOR_EACH_CLAUSE) return COLON_ENHANCED_FOR;
             return COLON_TERNARY;
 
-        case TokenTypes.COMMA:
-            return COMMA;
-
-        case TokenTypes.DEC:
-            return PRE_DEC; // '--x'
-
-        case TokenTypes.INC:
-            return PRE_INC; // '++x'
-
-        case TokenTypes.POST_DEC:
-            return POST_DEC; // 'x--'
-
-        case TokenTypes.POST_INC:
-            return POST_INC; // 'x++'
+        case TokenTypes.COMMA:    return COMMA;
+        case TokenTypes.DEC:      return PRE_DEC;
+        case TokenTypes.INC:      return PRE_INC;
+        case TokenTypes.POST_DEC: return POST_DEC;
+        case TokenTypes.POST_INC: return POST_INC;
 
         case TokenTypes.STAR:
             if (parentType == TokenTypes.DOT) return STAR_TYPE_IMPORT_ON_DEMAND;
@@ -893,7 +916,7 @@ class Whitespace extends Check {
 
         case TokenTypes.DOT:
             if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return DOT_PACKAGE_DEF;
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) return DOT_IMPORT;
+            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT)      return DOT_IMPORT;
             if (
                 getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
             ) return DOT_QUALIFIED_TYPE;
@@ -911,30 +934,58 @@ class Whitespace extends Check {
             return EQUALITY_OPERATORS;
 
         case TokenTypes.GENERIC_END:
-            return R_ANGLE;
-
+            if (parentType == TokenTypes.TYPE_PARAMETERS) {
+                return (
+                    grandparentType == TokenTypes.METHOD_DEF
+                ) ? R_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS : R_ANGLE_TYPE_ARGUMENTS;
+            }
+            if (parentType == TokenTypes.TYPE_ARGUMENTS) {
+                return (
+                    grandparentType == TokenTypes.TYPE
+                    || grandparentType == TokenTypes.LITERAL_NEW
+                    || grandparentType == TokenTypes.EXTENDS_CLAUSE
+                    || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
+                ) ? R_ANGLE_TYPE_ARGUMENTS : R_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS;
+            }
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
+            
         case TokenTypes.GENERIC_START:
-            return L_ANGLE;
+            if (parentType == TokenTypes.TYPE_PARAMETERS) {
+                return (
+                    grandparentType == TokenTypes.METHOD_DEF
+                ) ? L_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS : L_ANGLE_TYPE_ARGUMENTS;
+            }
+            if (parentType == TokenTypes.TYPE_ARGUMENTS) {
+                return (
+                    grandparentType == TokenTypes.TYPE
+                    || grandparentType == TokenTypes.LITERAL_NEW
+                    || grandparentType == TokenTypes.EXTENDS_CLAUSE
+                    || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
+                ) ? L_ANGLE_TYPE_ARGUMENTS : L_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS;
+            }
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
 
         case TokenTypes.IDENT:
             if (
-                parentType == TokenTypes.CLASS_DEF                                       // 'class MyClass {'
-                || parentType == TokenTypes.INTERFACE_DEF                                // 'interface MyInterface {'
-                || parentType == TokenTypes.ANNOTATION_DEF                               // 'interface @MyAnnotation {'
-                || parentType == TokenTypes.ENUM_DEF                                     // 'enum MyEnum {'
+                parentType == TokenTypes.CLASS_DEF
+                || parentType == TokenTypes.INTERFACE_DEF
+                || parentType == TokenTypes.ANNOTATION_DEF
+                || parentType == TokenTypes.ENUM_DEF
             ) return NAME_TYPE_DEF;
-            if (parentType == TokenTypes.ANNOTATION) return NAME_ANNOTATION;
+            if (parentType == TokenTypes.ANNOTATION)           return NAME_ANNOTATION;
             if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return NAME_ANNOTATION_FIELD_DEF;
-            if (parentType == TokenTypes.VARIABLE_DEF) return NAME_VARIABLE_DEF;
-            if (parentType == TokenTypes.CTOR_DEF) return NAME_CTOR_DEF;
-            if (parentType == TokenTypes.METHOD_DEF) return NAME_METHOD_DEF;
+            if (parentType == TokenTypes.VARIABLE_DEF)         return NAME_VARIABLE_DEF;
+            if (parentType == TokenTypes.CTOR_DEF)             return NAME_CTOR_DEF;
+            if (parentType == TokenTypes.METHOD_DEF)           return NAME_METHOD_DEF;
             if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return NAME_PACKAGE_DEF;
             if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) {
                 return ast.getNextSibling() == null ? NAME_IMPORT_TYPE : NAME_IMPORT_COMPONENT;
             }
             if (
-                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.TYPE           // 'MyType'
-                || getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.LITERAL_NEW // 'new MyType'
+                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.TYPE
+                || getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.LITERAL_NEW
             ) return NAME_SIMPLE_TYPE;
             if (
                 getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
@@ -945,10 +996,10 @@ class Whitespace extends Check {
 
         case TokenTypes.LCURLY:
             if (parentType == TokenTypes.OBJBLOCK && (
-                grandparentType == TokenTypes.CLASS_DEF         // 'class MyClass() {...}'
-                || grandparentType == TokenTypes.INTERFACE_DEF  // 'interface MyInterface() {...}'
-                || grandparentType == TokenTypes.ANNOTATION_DEF // 'interface @MyAnnotation {...}'
-                || grandparentType == TokenTypes.ENUM_DEF       // 'enum MyEnum {...}'
+                grandparentType == TokenTypes.CLASS_DEF
+                || grandparentType == TokenTypes.INTERFACE_DEF
+                || grandparentType == TokenTypes.ANNOTATION_DEF
+                || grandparentType == TokenTypes.ENUM_DEF
             )) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_TYPE_DEF : L_CURLY_TYPE_DEF;
             if (
                 parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW
@@ -1125,6 +1176,7 @@ class Whitespace extends Check {
         case TokenTypes.OBJBLOCK:
         case TokenTypes.PARAMETER_DEF:
         case TokenTypes.PARAMETERS:
+        case TokenTypes.FOR_EACH_CLAUSE:
             return null;
 
         case TokenTypes.QUESTION:
@@ -1235,11 +1287,13 @@ class Whitespace extends Check {
             if (parentType == TokenTypes.PACKAGE_DEF) return SEMI_PACKAGE_DEF;
             if (parentType == TokenTypes.IMPORT) return SEMI_IMPORT;
             if (parentType == TokenTypes.STATIC_IMPORT) return SEMI_STATIC_IMPORT;
+            if (parentType == TokenTypes.OBJBLOCK) return SEMI_TYPE_DECL;
             if (
                 parentType == TokenTypes.SLIST
                 || parentType == TokenTypes.SUPER_CTOR_CALL
                 || parentType == TokenTypes.CTOR_CALL
                 || parentType == TokenTypes.LITERAL_DO
+                || (parentType == TokenTypes.LITERAL_FOR && nextSiblingType == -1)
                 || parentType == TokenTypes.LITERAL_RETURN
                 || parentType == TokenTypes.LITERAL_BREAK
                 || parentType == TokenTypes.LITERAL_CONTINUE
@@ -1304,8 +1358,7 @@ class Whitespace extends Check {
                     : Whitespaceable.L_CURLY_METHOD_DEF
                 );
             }
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
+            return null; // Not a 'physical' token.
 
         case TokenTypes.SL:
         case TokenTypes.SR:
@@ -1339,19 +1392,24 @@ class Whitespace extends Check {
         case TokenTypes.LABELED_STAT:
             return COLON_LABELED_STAT;
             
+        // These are the 'virtual' tokens, i.e. token which are not uniquely related to a physical token:
+        case TokenTypes.ANNOTATION:
+        case TokenTypes.ANNOTATION_DEF:
+        case TokenTypes.ANNOTATION_FIELD_DEF:
+        case TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR:
+        case TokenTypes.ANNOTATIONS:
+        case TokenTypes.CASE_GROUP:
         case TokenTypes.CLASS_DEF:
-        case TokenTypes.INTERFACE_DEF:
         case TokenTypes.CTOR_DEF:
+        case TokenTypes.ELIST:
+        case TokenTypes.ENUM_DEF:
+        case TokenTypes.ENUM_CONSTANT_DEF:
+        case TokenTypes.EXPR:
         case TokenTypes.FOR_INIT:
         case TokenTypes.FOR_CONDITION:
         case TokenTypes.FOR_ITERATOR:
-        case TokenTypes.ELIST:
-        case TokenTypes.CASE_GROUP:
-        case TokenTypes.ANNOTATION:
-        case TokenTypes.ANNOTATIONS:
-        case TokenTypes.EXPR:
-        case TokenTypes.ENUM_DEF:
-        case TokenTypes.ENUM_CONSTANT_DEF:
+        case TokenTypes.INTERFACE_DEF:
+        case TokenTypes.INSTANCE_INIT:
         case TokenTypes.STRICTFP:
         case TokenTypes.TYPE_ARGUMENT:
         case TokenTypes.TYPE_ARGUMENTS:
