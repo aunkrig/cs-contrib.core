@@ -53,6 +53,7 @@ class Whitespace extends Check {
 
         /** 'a + b', 'a - b' */
         ADDITIVE_OPERATORS,
+        /** 'assert x == 0;', 'assert x == 0 : "x not zero";' */
         ASSERT,
         /** 'int a = 7;' */
         ASSIGN_VARIABLE_DEF,
@@ -69,10 +70,15 @@ class Whitespace extends Check {
         BITWISE_OPERATORS,
         /** '~a' */
         BITWISE_COMPLEMENT,
+        /** 'break;', 'break LABEL;' */
         BREAK,
+        /** 'case 7:' */
         CASE,
+        /** 'catch (Exception e) {' */
         CATCH,
+        /** 'class MyClass {' */
         CLASS_DECL,
+        /** 'Class c = Object.class;' */
         CLASS_LITERAL,
         /** 'default:' */
         COLON_DEFAULT,
@@ -88,10 +94,13 @@ class Whitespace extends Check {
         COMMA,
         /** 'a || b', 'a && b' */
         CONDITIONAL_OPERATORS,
+        /** 'continue;', 'continue LABEL;' */
         CONTINUE,
         /** 'String engineer() default "[unassigned]";' */
         DEFAULT_ANNOTATION_TYPE_ELEMENT,
+        /** 'switch (x) { default: break; }' */
         DEFAULT_SWITCH,
+        /** 'do { ... } while (x > 0);' */
         DO,
         /** 'import pkg.*;', 'import pkg.Type;' */
         DOT_IMPORT,
@@ -103,9 +112,11 @@ class Whitespace extends Check {
         DOT_SELECTOR,
         /** 'meth(Object... o)' */
         ELLIPSIS_PARAMETER,
+        /** 'if (a == 0) { ... } else { ... } */
         ELSE,
         /** ';' */
         EMPTY_STAT,
+        /** 'public enum Color { RED, BLUE, GREEN }' */
         ENUM,
         /** 'a < b', 'a <= b', 'a == b', 'a != b', 'a >= b', 'a > b' */
         EQUALITY_OPERATORS,
@@ -113,14 +124,21 @@ class Whitespace extends Check {
         EXTENDS_TYPE,
         /** 'List<T extends MyClass>' */
         EXTENDS_TYPE_BOUND,
+        /** 'try { ... } finally { ... }' */
         FINALLY,
+        /** 'for (int i = 0; i < 3; i++) {', 'for (Object o : list) {' */
         FOR,
+        /** 'if (a == 0) {' */
         IF,
         /** 'List<T implements MyInterface1, MyInterface2>' */
         IMPLEMENTS,
+        /** 'import pkg.MyClass;', 'import pkg.*;' */
         IMPORT,
+        /** 'import static pkg.MyClass.member;', import static pkg.MyClass.*;' */
         IMPORT_STATIC,
+        /** 'a instanceof MyClass' */
         INSTANCEOF,
+        /** 'interface { ... }' */
         INTERFACE,
         /** 'List<String>' */
         L_ANGLE,
@@ -150,7 +168,7 @@ class Whitespace extends Check {
         L_CURLY_EMPTY_CATCH,
         /** 'void meth(...) {}' */
         L_CURLY_EMPTY_METHOD_DEF,
-        /** 'class MyClass {}' */
+        /** 'class MyClass() {}', 'interface MyInterface() {}', 'interface @MyAnnotation {}', 'enum MyEnum {}' */
         L_CURLY_EMPTY_TYPE_DEF,
         /** 'enum MyEnum { FOO { ... } }' */
         L_CURLY_ENUM_CONSTANT_DEF,
@@ -174,7 +192,10 @@ class Whitespace extends Check {
         L_CURLY_SYNCHRONIZED,
         /** 'try {' */
         L_CURLY_TRY,
-        /** 'class MyClass { ... }' */
+        /**
+         * 'class MyClass() {...}', 'interface MyInterface() {...}', 'interface @MyAnnotation {...}',
+         * 'enum MyEnum {...}'
+         */
         L_CURLY_TYPE_DEF,
         /** 'while (...) {' */
         L_CURLY_WHILE,
@@ -195,22 +216,36 @@ class Whitespace extends Check {
         LOGICAL_COMPLEMENT,
         MINUS_UNARY,
         MODIFIER,
+        /** 'a * b', 'a / b', 'a % b' */
         MULTIPLICATIVE_OPERATORS,
+        /** 'a.b.c' */
         NAME_AMBIGUOUS,
+        /** '@MyAnnotation("x")' */
         NAME_ANNOTATION,
         NAME_ANNOTATION_FIELD_DEF,
+        /** '@MyAnnotation(value = "x")' */
         NAME_ANNOTATION_MEMBER,
+        /** 'MyClass(...) {' */
         NAME_CTOR_DEF,
+        /** 'import pkg.pkg.*;' */
         NAME_IMPORT_COMPONENT,
+        /** 'import pkg.pkg.*;' */
         NAME_IMPORT_TYPE,
+        /** 'void main(...) {' */
         NAME_METHOD_DEF,
+        /** 'package pkg.pkg.pkg;' */
         NAME_PACKAGE_DEF,
+        /** 'meth(String parm)' */
         NAME_PARAMETER,
+        /** 'pkg.MyType' */
         NAME_QUALIFIED_TYPE,
+        /** 'MyType', 'new MyType' */
         NAME_SIMPLE_TYPE,
         NAME_TYPE_DEF,
+        /** 'int a;' */
         NAME_VARIABLE_DEF,
         NEW,
+        /** 'package ...' */
         PACKAGE,
         PLUS_UNARY,
         POST_DEC,
@@ -225,7 +260,7 @@ class Whitespace extends Check {
         R_BRACK_ARRAY_DECL,
         /** '@SuppressWarnings({ "foo", "bar" })' */
         R_CURLY_ANNOTATION_ARRAY_INIT,
-        /** 'new Object() {}' */
+        /** 'new Object() { ... }' */
         R_CURLY_ANON_CLASS,
         /** 'int[] ia = { 1, 2 }', 'new int[] { 1, 2 }' */
         R_CURLY_ARRAY_INIT,
@@ -235,6 +270,7 @@ class Whitespace extends Check {
         R_CURLY_CATCH,
         /** 'do { ... } while (...);' */
         R_CURLY_DO_WHILE,
+        /** 'else { ... }' */
         R_CURLY_ELSE,
         /** '@SuppressWarnings({})' */
         R_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
@@ -244,9 +280,9 @@ class Whitespace extends Check {
         R_CURLY_EMPTY_ARRAY_INIT,
         /** 'try { ... } catch (...) {}' */
         R_CURLY_EMPTY_CATCH,
-        /** 'void meth(...) {}' */
+        /** 'public MyClass(...) {}', 'public method(...) {}' */
         R_CURLY_EMPTY_METHOD_DEF,
-        /** 'class MyClass {}' */
+        /** 'class MyClass {}', 'interface MyInterface {}', '@interface MyAnnotation {}', 'enum MyEnum {}' */
         R_CURLY_EMPTY_TYPE_DEF,
         /** 'enum MyEnum { FOO { ... } }' */
         R_CURLY_ENUM_CONSTANT_DEF,
@@ -260,7 +296,7 @@ class Whitespace extends Check {
         R_CURLY_INSTANCE_INIT,
         /** 'LABEL: { ... }' */
         R_CURLY_LABELED_STAT,
-        /** 'void meth(...) { ... }' */
+        /** 'public MyClass(...) { ... }', 'public method(...) { ... }' */
         R_CURLY_METHOD_DEF,
         /** 'class MyClass { static { ... } }' */
         R_CURLY_STATIC_INIT,
@@ -270,7 +306,10 @@ class Whitespace extends Check {
         R_CURLY_SYNCHRONIZED,
         /** 'try { ... }' */
         R_CURLY_TRY,
-        /** 'class MyClass { ... }' */
+        /**
+         * 'class MyClass { ... }', 'interface MyInterface { ... }', '@interface MyAnnotation { ... }',
+         * 'enum MyEnum { ... }'
+         */
         R_CURLY_TYPE_DEF,
         /** 'while (...) { ... }' */
         R_CURLY_WHILE,
@@ -287,26 +326,39 @@ class Whitespace extends Check {
         R_PAREN_IF,
         R_PAREN_PARAMETERS,
         R_PAREN_PARENTHESIZED,
+        /** 'return x;' */
         RETURN_EXPR,
+        /** 'return;' */
         RETURN_NO_EXPR,
         SEMI_ABSTRACT_METH_DEF,
         SEMI_ANNOTATION_FIELD_DEF,
+        /** 'enum MyEnum { 1, B, C; ... }' */
         SEMI_ENUM_DEF,
         SEMI_FIELD_DEF,
+        /** 'for (...; i < 3;) {' */
         SEMI_FOR_CONDITION_NO_UPDATE,
+        /** 'for (...; i < 3; i++) {' */
         SEMI_FOR_CONDITION_UPDATE,
+        /** 'for (int i = 0; i < 3;...' */
         SEMI_FOR_INIT_CONDITION,
+        /** 'for (int i = 0;;...' */
         SEMI_FOR_INIT_NO_CONDITION,
+        /** 'for (...;;) {' */
         SEMI_FOR_NO_CONDITION_NO_UPDATE,
+        /** 'for (...;; i++) {'*/
         SEMI_FOR_NO_CONDITION_UPDATE,
+        /** 'for (; ...' */
         SEMI_FOR_NO_INIT_CONDITION,
+        /** 'for (;;...' */
         SEMI_FOR_NO_INIT_NO_CONDITION,
         SEMI_IMPORT,
         SEMI_PACKAGE_DEF,
         SEMI_STATEMENT,
         SEMI_STATIC_IMPORT,
         SHIFT_OPERATORS,
+        /** 'import pkg.pkg.*;' */
         STAR_TYPE_IMPORT_ON_DEMAND,
+        /** 'class MyClass { static { ... } }' */
         STATIC_INIT,
         SUPER_CTOR_CALL,
         SUPER_EXPR,
@@ -319,7 +371,9 @@ class Whitespace extends Check {
         THROWS,
         TRY,
         VOID,
+        /** 'while (a > 0) { ... }' */
         WHILE,
+        /** 'do { ... } while (a > 0);' */
         WHILE_DO,
     }
 
@@ -670,814 +724,7 @@ class Whitespace extends Check {
 
         @SuppressWarnings("unused") AstDumper dumper = new AstDumper(ast); // For debugging
 
-        final int parentType, grandparentType, previousSiblingType, nextSiblingType, firstChildType;
-        {
-            DetailAST parent = ast.getParent();
-            if (parent == null) {
-                parentType      = -1;
-                grandparentType = -1;
-            } else {
-                parentType = parent.getType();
-                DetailAST grandparent = parent.getParent();
-                grandparentType = grandparent == null ? -1 : grandparent.getType();
-            }
-
-            DetailAST previousSibling = ast.getPreviousSibling();
-            previousSiblingType = previousSibling == null ? -1 : previousSibling.getType();
-            
-            DetailAST nextSibling = ast.getNextSibling();
-            nextSiblingType = nextSibling == null ? -1 : nextSibling.getType();
-
-            DetailAST firstChild = ast.getFirstChild();
-            firstChildType = firstChild == null ? -1 : firstChild.getType();
-        }
-
-        // Find out how this token is to be checked.
-        Whitespaceable whitespaceable = null;
-        switch (ast.getType()) {
-
-        case TokenTypes.ARRAY_DECLARATOR:
-            whitespaceable = L_BRACK_ARRAY_DECL;
-            break;
-        case TokenTypes.ARRAY_INIT:
-            whitespaceable = firstChildType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ARRAY_INIT : L_CURLY_ARRAY_INIT;
-            break;
-
-        case TokenTypes.ASSIGN:
-            if (parentType == TokenTypes.VARIABLE_DEF) {
-                whitespaceable = ASSIGN_VARIABLE_DEF;
-                break;
-            }
-            // FALLTHROUGH
-        case TokenTypes.BAND_ASSIGN:
-        case TokenTypes.BOR_ASSIGN:
-        case TokenTypes.BSR_ASSIGN:
-        case TokenTypes.BXOR_ASSIGN:
-        case TokenTypes.DIV_ASSIGN:
-        case TokenTypes.MINUS_ASSIGN:
-        case TokenTypes.MOD_ASSIGN:
-        case TokenTypes.PLUS_ASSIGN:
-        case TokenTypes.SL_ASSIGN:
-        case TokenTypes.SR_ASSIGN:
-        case TokenTypes.STAR_ASSIGN:
-            whitespaceable = ASSIGNS;
-            break;
-
-        case TokenTypes.AT:
-            if (parentType == TokenTypes.ANNOTATION) {
-                whitespaceable = AT_ANNOTATION;
-            } else
-            if (parentType == TokenTypes.ANNOTATION_DEF) {
-                whitespaceable = AT_ANNOTATION_DEF;
-            }
-            break;
-
-        case TokenTypes.BAND:
-        case TokenTypes.BOR:
-        case TokenTypes.BXOR:
-            whitespaceable = BITWISE_OPERATORS;
-            break;
-
-        case TokenTypes.BNOT:
-            whitespaceable = BITWISE_COMPLEMENT;
-            break;
-
-        case TokenTypes.LOR: // 'a || b'
-        case TokenTypes.LAND: // 'a && b'
-            whitespaceable = CONDITIONAL_OPERATORS;
-            break;
-
-        case TokenTypes.LNOT: // '!a'
-            whitespaceable = LOGICAL_COMPLEMENT;
-            break;
-
-        case TokenTypes.TYPECAST:
-            whitespaceable = L_PAREN_CAST;
-            break;
-
-        case TokenTypes.COLON:
-            if (parentType == TokenTypes.LITERAL_DEFAULT) {
-                whitespaceable = COLON_DEFAULT;
-            } else
-            if (parentType == TokenTypes.LITERAL_CASE) {
-                whitespaceable = COLON_CASE;
-            } else
-            if (parentType == TokenTypes.FOR_EACH_CLAUSE) {
-                whitespaceable = COLON_ENHANCED_FOR;
-            } else
-            {
-                whitespaceable = COLON_TERNARY;
-            }
-            break;
-
-        case TokenTypes.COMMA:
-            whitespaceable = COMMA;
-            break;
-
-        case TokenTypes.DEC:
-            whitespaceable = PRE_DEC; // '--x'
-            break;
-
-        case TokenTypes.INC:
-            whitespaceable = PRE_INC; // '++x'
-            break;
-
-        case TokenTypes.POST_DEC:
-            whitespaceable = POST_DEC; // 'x--'
-            break;
-
-        case TokenTypes.POST_INC:
-            whitespaceable = POST_INC; // 'x++'
-            break;
-
-        case TokenTypes.STAR:
-            if (parentType == TokenTypes.DOT) { // 'import pkg.pkg.*;'
-                whitespaceable = STAR_TYPE_IMPORT_ON_DEMAND;
-                break;
-            }                  // 'a * b'
-            // FALLTHROUGH
-        case TokenTypes.DIV:   // 'a / b'
-        case TokenTypes.MOD:   // 'a % b'
-            whitespaceable = MULTIPLICATIVE_OPERATORS;
-            break;
-
-        case TokenTypes.PLUS:
-        case TokenTypes.MINUS:
-            whitespaceable = ADDITIVE_OPERATORS;
-            break;
-
-
-        case TokenTypes.UNARY_MINUS:
-            whitespaceable = MINUS_UNARY;
-            break;
-
-        case TokenTypes.UNARY_PLUS:
-            whitespaceable = PLUS_UNARY;
-            break;
-
-        case TokenTypes.DOT:
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) {
-                whitespaceable = DOT_PACKAGE_DEF;
-            } else
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) {
-                whitespaceable = DOT_IMPORT;
-            } else
-            if (
-                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
-            ) {
-                whitespaceable = DOT_QUALIFIED_TYPE;
-            } else
-            {
-                whitespaceable = DOT_SELECTOR;
-            }
-            break;
-
-        case TokenTypes.EMPTY_STAT: // ';'
-            whitespaceable = EMPTY_STAT;
-            break;
-
-        case TokenTypes.LT:
-        case TokenTypes.LE:
-        case TokenTypes.EQUAL:
-        case TokenTypes.NOT_EQUAL:
-        case TokenTypes.GE:
-        case TokenTypes.GT:
-            whitespaceable = EQUALITY_OPERATORS;
-            break;
-
-        case TokenTypes.GENERIC_END:
-            whitespaceable = R_ANGLE;
-            break;
-
-        case TokenTypes.GENERIC_START:
-            whitespaceable = L_ANGLE;
-            break;
-
-        case TokenTypes.IDENT:
-            if (
-                parentType == TokenTypes.CLASS_DEF                                       // 'class MyClass {'
-                || parentType == TokenTypes.INTERFACE_DEF                                // 'interface MyInterface {'
-                || parentType == TokenTypes.ANNOTATION_DEF                               // 'interface @MyAnnotation {'
-                || parentType == TokenTypes.ENUM_DEF                                     // 'enum MyEnum {'
-            ) {
-                whitespaceable = NAME_TYPE_DEF;
-            } else
-            if (parentType == TokenTypes.ANNOTATION) {                                   // '@MyAnnotation("x")'
-                whitespaceable = NAME_ANNOTATION;
-            } else
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) {
-                whitespaceable = NAME_ANNOTATION_FIELD_DEF;
-            } else
-            if (parentType == TokenTypes.VARIABLE_DEF) {                                 // 'int a;'
-                whitespaceable = NAME_VARIABLE_DEF;
-            } else
-            if (parentType == TokenTypes.CTOR_DEF) {                                     // 'MyClass(...) {'
-                whitespaceable = NAME_CTOR_DEF;
-            } else
-            if (parentType == TokenTypes.METHOD_DEF) {                                   // 'void main(...) {'
-                whitespaceable = NAME_METHOD_DEF;
-            } else
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) { // 'package pkg.pkg.pkg;'
-                whitespaceable = NAME_PACKAGE_DEF;
-            } else
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) {      // 'import pkg.pkg.*;'
-                whitespaceable = ast.getNextSibling() == null ? NAME_IMPORT_TYPE : NAME_IMPORT_COMPONENT;
-            } else
-            if (
-                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.TYPE           // 'MyType'
-                || getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.LITERAL_NEW // 'new MyType'
-            ) {
-                whitespaceable = NAME_SIMPLE_TYPE;
-            } else
-            if (                                                                         // 'pkg.MyType'
-                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
-            ) {
-                whitespaceable = NAME_QUALIFIED_TYPE;
-            } else
-            if (parentType == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR) {               // '@MyAnnotation(value = "x")'
-                whitespaceable = NAME_ANNOTATION_MEMBER;
-            } else
-            if (parentType == TokenTypes.PARAMETER_DEF) {                               // 'meth(String parm)'
-                whitespaceable = NAME_PARAMETER;
-            } else
-            {
-                whitespaceable = NAME_AMBIGUOUS;                                             // 'a.b.c'
-            }
-            break;
-
-        case TokenTypes.LCURLY:
-            if (parentType == TokenTypes.OBJBLOCK && (
-                grandparentType == TokenTypes.CLASS_DEF         // 'class MyClass() {...}'
-                || grandparentType == TokenTypes.INTERFACE_DEF  // 'interface MyInterface() {...}'
-                || grandparentType == TokenTypes.ANNOTATION_DEF // 'interface @MyAnnotation {...}'
-                || grandparentType == TokenTypes.ENUM_DEF       // 'enum MyEnum {...}'
-            )) {
-                whitespaceable = nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_TYPE_DEF : L_CURLY_TYPE_DEF;
-            } else
-            if (        // 'new MyClass() {...}'
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW
-            ) {
-                whitespaceable = nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ANON_CLASS : L_CURLY_ANON_CLASS;
-            } else
-            if ( // 'enum MyEnum { CONST {'
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
-            ) {
-                whitespaceable = L_CURLY_ENUM_CONSTANT_DEF;
-            } else
-            if (parentType == TokenTypes.ARRAY_INIT) {
-                whitespaceable = nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ARRAY_INIT : L_CURLY_ARRAY_INIT;
-            } else
-            if (parentType == TokenTypes.LITERAL_SWITCH) { // 'switch {'
-                whitespaceable = L_CURLY_SWITCH;
-            }
-            break;
-
-        case TokenTypes.ANNOTATION_ARRAY_INIT:
-            whitespaceable = firstChildType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ANNOTATION_ARRAY_INIT : L_CURLY_ANNOTATION_ARRAY_INIT;
-            break;
-
-        case TokenTypes.INDEX_OP:
-            whitespaceable = L_BRACK_INDEX;
-            break;
-
-        case TokenTypes.IMPLEMENTS_CLAUSE:
-            whitespaceable = IMPLEMENTS;
-            break;
-
-        case TokenTypes.LITERAL_BYTE:
-        case TokenTypes.LITERAL_INT:
-        case TokenTypes.LITERAL_FLOAT:
-        case TokenTypes.LITERAL_BOOLEAN:
-        case TokenTypes.LITERAL_CHAR:
-        case TokenTypes.LITERAL_LONG:
-        case TokenTypes.LITERAL_DOUBLE:
-        case TokenTypes.LITERAL_SHORT:
-            whitespaceable = PRIMITIVE_TYPE;
-            break;
-
-        case TokenTypes.CHAR_LITERAL:
-        case TokenTypes.LITERAL_FALSE:
-        case TokenTypes.LITERAL_TRUE:
-        case TokenTypes.LITERAL_NULL:
-        case TokenTypes.NUM_DOUBLE:
-        case TokenTypes.NUM_FLOAT:
-        case TokenTypes.NUM_INT:
-        case TokenTypes.NUM_LONG:
-        case TokenTypes.STRING_LITERAL:
-            whitespaceable = LITERAL;
-            break;
-
-        case TokenTypes.DO_WHILE: // '... } while (...);'
-            whitespaceable = WHILE_DO;
-            break;
-
-        case TokenTypes.ENUM:
-            whitespaceable = ENUM;
-            break;
-
-        case TokenTypes.IMPORT:   // 'import ...'
-            whitespaceable = IMPORT;
-            break;
-
-        case TokenTypes.LITERAL_ASSERT:
-            whitespaceable = ASSERT;
-            break;
-
-        case TokenTypes.LITERAL_BREAK:
-            whitespaceable = BREAK;
-            break;
-
-        case TokenTypes.LITERAL_CASE:
-            whitespaceable = CASE;
-            break;
-
-        case TokenTypes.LITERAL_CATCH:
-            whitespaceable = CATCH;
-            break;
-
-        case TokenTypes.LITERAL_CLASS:
-            whitespaceable = parentType == TokenTypes.CLASS_DEF ? CLASS_DECL : CLASS_LITERAL;
-            break;
-
-        case TokenTypes.LITERAL_CONTINUE:
-            whitespaceable = CONTINUE;
-            break;
-
-        case TokenTypes.LITERAL_DEFAULT:
-            whitespaceable = (
-                parentType == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR || parentType == TokenTypes.ANNOTATION_FIELD_DEF
-            ) ? DEFAULT_ANNOTATION_TYPE_ELEMENT : DEFAULT_SWITCH;
-            break;
-
-        case TokenTypes.LITERAL_DO:
-            whitespaceable = DO;
-            break;
-
-        case TokenTypes.LITERAL_ELSE:
-            whitespaceable = ELSE;
-            break;
-
-        case TokenTypes.LITERAL_FINALLY:
-            whitespaceable = FINALLY;
-            break;
-
-        case TokenTypes.LITERAL_FOR:
-            whitespaceable = FOR;
-            break;
-
-        case TokenTypes.LITERAL_IF:
-            whitespaceable = IF;
-            break;
-
-        case TokenTypes.LITERAL_INSTANCEOF:
-            whitespaceable = INSTANCEOF;
-            break;
-
-        case TokenTypes.LITERAL_INTERFACE:
-            whitespaceable = INTERFACE;
-            break;
-
-        case TokenTypes.LITERAL_NEW:
-            whitespaceable = NEW;
-            break;
-
-        case TokenTypes.LITERAL_SUPER:
-            whitespaceable = SUPER_EXPR;
-            break;
-
-        case TokenTypes.LITERAL_SWITCH:
-            whitespaceable = SWITCH;
-            break;
-
-        case TokenTypes.LITERAL_THIS:
-            whitespaceable = THIS_EXPR;
-            break;
-
-        case TokenTypes.LITERAL_THROW:
-            whitespaceable = THROW;
-            break;
-
-        case TokenTypes.LITERAL_THROWS:
-            whitespaceable = THROWS;
-            break;
-
-        case TokenTypes.LITERAL_TRY:
-            whitespaceable = TRY;
-            break;
-
-        case TokenTypes.LITERAL_VOID:
-            whitespaceable = VOID;
-            break;
-
-        case TokenTypes.ABSTRACT:
-        case TokenTypes.FINAL:
-        case TokenTypes.LITERAL_NATIVE:
-        case TokenTypes.LITERAL_PRIVATE:
-        case TokenTypes.LITERAL_PROTECTED:
-        case TokenTypes.LITERAL_PUBLIC:
-        case TokenTypes.LITERAL_STATIC:
-        case TokenTypes.LITERAL_SYNCHRONIZED:
-        case TokenTypes.LITERAL_TRANSIENT:
-        case TokenTypes.LITERAL_VOLATILE:
-            whitespaceable = MODIFIER;
-            break;
-
-        case TokenTypes.LITERAL_WHILE: // 'while (...) {'
-            whitespaceable = WHILE;
-            break;
-
-        case TokenTypes.PACKAGE_DEF:   // 'package ...'
-            whitespaceable = PACKAGE;
-            break;
-
-        case TokenTypes.STATIC_IMPORT: // '_import_ static ...' 
-            whitespaceable = IMPORT_STATIC;
-            break;
-
-        case TokenTypes.STATIC_INIT:   // 'static {'
-            ast.setText("static");
-            whitespaceable = STATIC_INIT;
-            break;
-
-        case TokenTypes.LITERAL_RETURN:
-            if (firstChildType == TokenTypes.SEMI) { // 'return;'
-                whitespaceable = RETURN_NO_EXPR;
-                break;
-            } else { // 'return x;'
-                whitespaceable = RETURN_EXPR;
-                break;
-            }
-
-        case TokenTypes.LPAREN:
-            if (parentType == TokenTypes.ANNOTATION) {
-                whitespaceable = L_PAREN_ANNOTATION;
-            } else
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) {
-                whitespaceable = L_PAREN_ANNOTATION_FIELD_DEF;
-            } else
-            if (nextSiblingType == TokenTypes.PARAMETERS) {
-                whitespaceable = L_PAREN_PARAMETERS;
-            } else
-            if (parentType == TokenTypes.SUPER_CTOR_CALL || parentType == TokenTypes.LITERAL_NEW) {
-                whitespaceable = L_PAREN_CALL;
-            } else
-            if (parentType == TokenTypes.LITERAL_DO) {
-                whitespaceable = L_PAREN_DO_WHILE;
-            } else
-            if (parentType == TokenTypes.LITERAL_IF) {
-                whitespaceable = L_PAREN_IF;
-            } else
-            if (parentType == TokenTypes.LITERAL_FOR) {
-                whitespaceable = ast.getNextSibling().getFirstChild() == null ? L_PAREN_FOR_NO_INIT : L_PAREN_FOR;
-            } else
-            if (parentType == TokenTypes.LITERAL_CATCH) {
-                whitespaceable = L_PAREN_CATCH;
-            } else
-            {
-                whitespaceable = L_PAREN_PARENTHESIZED;
-            }
-            break;
-
-        case TokenTypes.METHOD_CALL:
-            whitespaceable = L_PAREN_CALL;
-            break;
-
-        case TokenTypes.METHOD_DEF:
-        case TokenTypes.MODIFIERS:
-        case TokenTypes.OBJBLOCK:
-        case TokenTypes.PARAMETER_DEF:
-        case TokenTypes.PARAMETERS:
-            break;
-
-        case TokenTypes.QUESTION:
-            whitespaceable = QUESTION_TERNARY;
-            break;
-
-        case TokenTypes.RBRACK:
-            whitespaceable = R_BRACK_ARRAY_DECL;
-            break;
-
-        case TokenTypes.RCURLY:
-            if ( // 'catch (Exception e) {...}'
-                parentType == TokenTypes.SLIST
-                && grandparentType == TokenTypes.LITERAL_CATCH
-            ) {
-                whitespaceable = ast.getPreviousSibling() == null ? R_CURLY_EMPTY_CATCH : R_CURLY_CATCH;
-            } else
-            if ( // 'synchronized (...) { ... }'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_SYNCHRONIZED
-            ) {
-                whitespaceable = R_CURLY_SYNCHRONIZED;
-            } else
-            if ( // 'class MyClass {...}', 'interface MyInterface {...}', '@interface MyAnnotation {...}'
-                parentType == TokenTypes.OBJBLOCK
-                && (
-                    grandparentType == TokenTypes.CLASS_DEF
-                    || grandparentType == TokenTypes.INTERFACE_DEF
-                    || grandparentType == TokenTypes.ANNOTATION_DEF
-                    || grandparentType == TokenTypes.ENUM_DEF
-                )
-            ) {
-                whitespaceable = previousSiblingType == TokenTypes.LCURLY ? R_CURLY_EMPTY_TYPE_DEF : R_CURLY_TYPE_DEF;
-            } else
-            if ( // 'new MyClass() {...}'
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW 
-            ) {
-                whitespaceable = previousSiblingType == TokenTypes.LCURLY ? R_CURLY_EMPTY_ANON_CLASS : R_CURLY_ANON_CLASS;
-            } else
-            if (
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
-            ) {
-                whitespaceable = R_CURLY_ENUM_CONSTANT_DEF;
-            } else
-            if ( // 'public MyClass(...) {...}', 'public method(...) {...}'
-                parentType == TokenTypes.SLIST
-                && (grandparentType == TokenTypes.CTOR_DEF || grandparentType == TokenTypes.METHOD_DEF)
-            ) {
-                whitespaceable = ast.getPreviousSibling() == null ? R_CURLY_EMPTY_METHOD_DEF : R_CURLY_METHOD_DEF;
-            } else
-            if ( // 'for (...) { ... }'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_FOR
-            ) {
-                whitespaceable = R_CURLY_FOR;
-            } else
-            if ( // 'if (...) { ... }'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_IF
-            ) {
-                whitespaceable = R_CURLY_IF;
-            } else
-            if ( // 'else { ... }'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_ELSE
-            ) {
-                whitespaceable = R_CURLY_IF;
-            } else
-            if ( // 'while (...) { ... }'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_WHILE
-            ) {
-                whitespaceable = R_CURLY_WHILE;
-            } else
-            if ( // 'do { ... } while (...);'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_DO
-            ) {
-                whitespaceable = R_CURLY_DO_WHILE;
-            } else
-            if ( // 'try { ... }'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_TRY
-            ) {
-                whitespaceable = R_CURLY_TRY;
-            } else
-            if ( // 'finally { ... }'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_FINALLY
-            ) {
-                whitespaceable = R_CURLY_FINALLY;
-            } else
-            if ( // 'LABEL: { ... }'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LABELED_STAT
-            ) {
-                whitespaceable = R_CURLY_LABELED_STAT;
-            } else
-            if ( // 'meth() { { ... } }'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.SLIST
-            ) {
-                whitespaceable = R_CURLY_BLOCK;
-            } else
-            if (parentType == TokenTypes.LITERAL_SWITCH) { // 'switch { ... }'
-                whitespaceable = R_CURLY_SWITCH;
-            } else
-            if (parentType == TokenTypes.ARRAY_INIT) { // 'Object[] oa = { ... }', 'new Object[] { ... }'
-                whitespaceable = ast.getPreviousSibling() == null ? R_CURLY_EMPTY_ARRAY_INIT : R_CURLY_ARRAY_INIT;
-            } else
-            if (parentType == TokenTypes.ANNOTATION_ARRAY_INIT) { // '@MyAnno({ x, y })'
-                whitespaceable = ast.getPreviousSibling() == null ? R_CURLY_EMPTY_ANNOTATION_ARRAY_INIT : R_CURLY_ANNOTATION_ARRAY_INIT;
-            } else
-            if ( // 'class MyClass { static { ... } }'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.STATIC_INIT
-            ) {
-                whitespaceable = R_CURLY_STATIC_INIT;
-            } else
-            if ( // 'class MyClass { { ... } }'
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.INSTANCE_INIT
-            ) {
-                whitespaceable = R_CURLY_INSTANCE_INIT;
-            }
-            break;
-
-        case TokenTypes.RESOURCE:
-        case TokenTypes.RESOURCE_SPECIFICATION:
-        case TokenTypes.RESOURCES:
-            break;
-
-        case TokenTypes.RPAREN:
-            if (parentType == TokenTypes.ANNOTATION) {
-                whitespaceable = R_PAREN_ANNOTATION;
-            } else
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) {
-                whitespaceable = R_PAREN_ANNOTATION_FIELD_DEF;
-            } else
-            if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) {
-                whitespaceable = R_PAREN_PARAMETERS;
-            } else
-            if (
-                parentType == TokenTypes.SUPER_CTOR_CALL
-                || parentType == TokenTypes.LITERAL_NEW
-                || parentType == TokenTypes.METHOD_CALL
-            ) {
-                whitespaceable = R_PAREN_CALL;
-            } else
-            if (parentType == TokenTypes.LITERAL_IF) {
-                whitespaceable = R_PAREN_IF;
-            } else
-            if (parentType == TokenTypes.LITERAL_DO) {
-                whitespaceable = R_PAREN_DO_WHILE;
-            } else
-            if (parentType == TokenTypes.LITERAL_FOR) {
-                whitespaceable = ast.getPreviousSibling().getFirstChild() == null ? R_PAREN_FOR_NO_UPDATE : R_PAREN_FOR;
-            } else
-            if (parentType == TokenTypes.LITERAL_CATCH) {
-                whitespaceable = R_PAREN_CATCH;
-            } else
-            if (previousSiblingType == TokenTypes.TYPE) {
-                whitespaceable = R_PAREN_CAST;
-            } else
-            {
-                whitespaceable = R_PAREN_PARENTHESIZED;
-            }
-            break;
-
-        case TokenTypes.SEMI:
-            if (parentType == TokenTypes.PACKAGE_DEF) {
-                whitespaceable = SEMI_PACKAGE_DEF;
-            } else
-            if (parentType == TokenTypes.IMPORT) {
-                whitespaceable = SEMI_IMPORT;
-            } else
-            if (parentType == TokenTypes.STATIC_IMPORT) {
-                whitespaceable = SEMI_STATIC_IMPORT;
-            } else
-            if (
-                parentType == TokenTypes.SLIST
-                || parentType == TokenTypes.SUPER_CTOR_CALL
-                || parentType == TokenTypes.CTOR_CALL
-                || parentType == TokenTypes.LITERAL_DO
-                || parentType == TokenTypes.LITERAL_RETURN
-                || parentType == TokenTypes.LITERAL_BREAK
-                || parentType == TokenTypes.LITERAL_CONTINUE
-                || parentType == TokenTypes.LITERAL_IF
-                || parentType == TokenTypes.LITERAL_WHILE
-                || parentType == TokenTypes.LITERAL_ASSERT
-                || parentType == TokenTypes.LITERAL_THROW
-            ) {
-                whitespaceable = SEMI_STATEMENT;
-            } else
-            if (parentType == TokenTypes.METHOD_DEF) {
-                whitespaceable = SEMI_ABSTRACT_METH_DEF;
-            } else
-            if (previousSiblingType == TokenTypes.FOR_INIT) {
-                whitespaceable = ast.getPreviousSibling().getFirstChild() == null ? (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI_FOR_NO_INIT_NO_CONDITION       // 'for (;;...'
-                    : SEMI_FOR_NO_INIT_CONDITION          // 'for (; ...'
-                ) : (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI_FOR_INIT_NO_CONDITION          // 'for (int i = 0;;...'
-                    : SEMI_FOR_INIT_CONDITION             // 'for (int i = 0; i < 3;...'
-                );
-            } else
-            if (previousSiblingType == TokenTypes.FOR_CONDITION) {
-                whitespaceable = ast.getPreviousSibling().getFirstChild() == null ? (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI_FOR_NO_CONDITION_NO_UPDATE     // 'for (...;;) {'
-                    : SEMI_FOR_NO_CONDITION_UPDATE        // 'for (...;; i++) {'
-                ) : (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI_FOR_CONDITION_NO_UPDATE        // 'for (...; i < 3;) {'
-                    : SEMI_FOR_CONDITION_UPDATE           // 'for (...; i < 3; i++) {'
-                );
-            } else
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) {
-                whitespaceable = SEMI_ANNOTATION_FIELD_DEF;
-            } else
-            if ( // 'enum MyEnum { 1, B, C; ... }'
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_DEF
-            ) {
-                whitespaceable = SEMI_ENUM_DEF;
-            } else
-            if (parentType == TokenTypes.VARIABLE_DEF && grandparentType == TokenTypes.OBJBLOCK) {
-                whitespaceable = SEMI_FIELD_DEF;
-            }
-            break;
-
-        case TokenTypes.SLIST:
-            if (parentType == TokenTypes.STATIC_INIT) { // 'class MyClass { static { ... } }
-                whitespaceable = L_CURLY_STATIC_INIT;
-            } else
-            if (parentType == TokenTypes.INSTANCE_INIT) { // 'class MyClass { { ... } }
-                whitespaceable = L_CURLY_INSTANCE_INIT;
-            } else
-            if (parentType == TokenTypes.LITERAL_IF) { // 'if (...) { ... }'
-                whitespaceable = L_CURLY_IF;
-            } else
-            if (parentType == TokenTypes.LITERAL_ELSE) { // 'else { ... }'
-                whitespaceable = R_CURLY_ELSE;
-            } else
-            if (parentType == TokenTypes.LITERAL_DO) { // 'do { ... } while (...)'
-                whitespaceable = L_CURLY_DO;
-            } else
-            if (parentType == TokenTypes.LITERAL_WHILE) { // 'while (...) {'
-                whitespaceable = L_CURLY_WHILE;
-            } else
-            if (parentType == TokenTypes.LITERAL_FOR) { // 'for (...) {'
-                whitespaceable = L_CURLY_FOR;
-            } else
-            if (parentType == TokenTypes.LITERAL_TRY) { // 'try {'
-                whitespaceable = L_CURLY_TRY;
-            } else
-            if (parentType == TokenTypes.LITERAL_CATCH) { // 'catch (...) {'
-                whitespaceable = firstChildType == TokenTypes.RCURLY ? L_CURLY_EMPTY_CATCH : L_CURLY_CATCH;
-            } else
-            if (parentType == TokenTypes.LITERAL_FINALLY) { // 'finally {'
-                whitespaceable = L_CURLY_FINALLY;
-            } else
-            if (parentType == TokenTypes.LITERAL_SYNCHRONIZED) { // 'synchronized (...) {'
-                whitespaceable = L_CURLY_SYNCHRONIZED;
-            } else
-            if (parentType == TokenTypes.LABELED_STAT) { // 'LABEL: {'
-                whitespaceable = L_CURLY_LABELED_STAT;
-            } else
-            if (parentType == TokenTypes.SLIST) { // '{ ... }'
-                whitespaceable = L_CURLY_BLOCK;
-            } else
-            if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) {
-                whitespaceable = firstChildType == TokenTypes.RCURLY ? Whitespaceable.L_CURLY_EMPTY_METHOD_DEF : Whitespaceable.L_CURLY_METHOD_DEF;
-            }
-            break;
-
-        case TokenTypes.SL:
-        case TokenTypes.SR:
-        case TokenTypes.BSR:
-            whitespaceable = SHIFT_OPERATORS;
-            break;
-            
-        case TokenTypes.ELLIPSIS:
-            whitespaceable = ELLIPSIS_PARAMETER;
-            break;
-
-        case TokenTypes.TYPE:
-            break;
-            
-        case TokenTypes.CTOR_CALL:
-            whitespaceable = THIS_CTOR_CALL;
-            break;
-
-        case TokenTypes.SUPER_CTOR_CALL:
-            whitespaceable = SUPER_CTOR_CALL;
-            break;
-
-        case TokenTypes.TYPE_UPPER_BOUNDS:
-            whitespaceable = EXTENDS_TYPE_BOUND;
-            break;
-
-        case TokenTypes.TYPE_LOWER_BOUNDS:
-            whitespaceable = SUPER_TYPE_BOUND;
-            break;
-
-        case TokenTypes.WILDCARD_TYPE:
-            whitespaceable = QUESTION_WILDCARD_TYPE;
-            break;
-
-        case TokenTypes.EXTENDS_CLAUSE:
-            whitespaceable = EXTENDS_TYPE;
-            break;
-            
-        case TokenTypes.LABELED_STAT:
-            whitespaceable = COLON_LABELED_STAT;
-            break;
-            
-        case TokenTypes.CLASS_DEF:
-        case TokenTypes.INTERFACE_DEF:
-        case TokenTypes.CTOR_DEF:
-        case TokenTypes.FOR_INIT:
-        case TokenTypes.FOR_CONDITION:
-        case TokenTypes.FOR_ITERATOR:
-        case TokenTypes.ELIST:
-        case TokenTypes.CASE_GROUP:
-        case TokenTypes.ANNOTATION:
-        case TokenTypes.ANNOTATIONS:
-        case TokenTypes.EXPR:
-        case TokenTypes.ENUM_DEF:
-        case TokenTypes.ENUM_CONSTANT_DEF:
-        case TokenTypes.STRICTFP:
-        case TokenTypes.TYPE_ARGUMENT:
-        case TokenTypes.TYPE_ARGUMENTS:
-        case TokenTypes.TYPE_EXTENSION_AND:
-        case TokenTypes.TYPE_PARAMETER:
-        case TokenTypes.TYPE_PARAMETERS:
-        case TokenTypes.VARIABLE_DEF:
-            break;
-
-        default:
-            assert false : "Unexpected DetailAST " + ast;
-        }
+        Whitespaceable whitespaceable = toWhitespaceable(ast);
 
         if (whitespaceable == null) {
             return;
@@ -1530,6 +777,593 @@ class Whitespace extends Check {
                     log(ast.getLineNo(), ast.getColumnNo() + ast.getText().length(), "ws.followed", ast.getText());
                 }
             }
+        }
+    }
+    private Whitespaceable
+    toWhitespaceable(DetailAST ast) {
+
+        final int parentType, grandparentType, previousSiblingType, nextSiblingType, firstChildType;
+        {
+            DetailAST parent = ast.getParent();
+            if (parent == null) {
+                parentType      = -1;
+                grandparentType = -1;
+            } else {
+                parentType = parent.getType();
+                DetailAST grandparent = parent.getParent();
+                grandparentType = grandparent == null ? -1 : grandparent.getType();
+            }
+
+            DetailAST previousSibling = ast.getPreviousSibling();
+            previousSiblingType = previousSibling == null ? -1 : previousSibling.getType();
+            
+            DetailAST nextSibling = ast.getNextSibling();
+            nextSiblingType = nextSibling == null ? -1 : nextSibling.getType();
+
+            DetailAST firstChild = ast.getFirstChild();
+            firstChildType = firstChild == null ? -1 : firstChild.getType();
+        }
+
+        // Find out how this token is to be checked.
+        switch (ast.getType()) {
+
+        case TokenTypes.ARRAY_DECLARATOR:
+            return L_BRACK_ARRAY_DECL;
+
+        case TokenTypes.ARRAY_INIT:
+            return firstChildType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ARRAY_INIT : L_CURLY_ARRAY_INIT;
+
+        case TokenTypes.ASSIGN:
+            if (parentType == TokenTypes.VARIABLE_DEF) return ASSIGN_VARIABLE_DEF;
+            // FALLTHROUGH
+        case TokenTypes.BAND_ASSIGN:
+        case TokenTypes.BOR_ASSIGN:
+        case TokenTypes.BSR_ASSIGN:
+        case TokenTypes.BXOR_ASSIGN:
+        case TokenTypes.DIV_ASSIGN:
+        case TokenTypes.MINUS_ASSIGN:
+        case TokenTypes.MOD_ASSIGN:
+        case TokenTypes.PLUS_ASSIGN:
+        case TokenTypes.SL_ASSIGN:
+        case TokenTypes.SR_ASSIGN:
+        case TokenTypes.STAR_ASSIGN:
+            return ASSIGNS;
+
+        case TokenTypes.AT:
+            if (parentType == TokenTypes.ANNOTATION) return AT_ANNOTATION;
+            if (parentType == TokenTypes.ANNOTATION_DEF) return AT_ANNOTATION_DEF;
+            assert false : "AT has unexpected parent '" + ast.getParent() + "'";
+            return null;
+
+        case TokenTypes.BAND:
+        case TokenTypes.BOR:
+        case TokenTypes.BXOR:
+            return BITWISE_OPERATORS;
+
+        case TokenTypes.BNOT:
+            return BITWISE_COMPLEMENT;
+
+        case TokenTypes.LOR: // 'a || b'
+        case TokenTypes.LAND: // 'a && b'
+            return CONDITIONAL_OPERATORS;
+
+        case TokenTypes.LNOT: // '!a'
+            return LOGICAL_COMPLEMENT;
+
+        case TokenTypes.TYPECAST:
+            return L_PAREN_CAST;
+
+        case TokenTypes.COLON:
+            if (parentType == TokenTypes.LITERAL_DEFAULT) return COLON_DEFAULT;
+            if (parentType == TokenTypes.LITERAL_CASE) return COLON_CASE;
+            if (parentType == TokenTypes.FOR_EACH_CLAUSE) return COLON_ENHANCED_FOR;
+            return COLON_TERNARY;
+
+        case TokenTypes.COMMA:
+            return COMMA;
+
+        case TokenTypes.DEC:
+            return PRE_DEC; // '--x'
+
+        case TokenTypes.INC:
+            return PRE_INC; // '++x'
+
+        case TokenTypes.POST_DEC:
+            return POST_DEC; // 'x--'
+
+        case TokenTypes.POST_INC:
+            return POST_INC; // 'x++'
+
+        case TokenTypes.STAR:
+            if (parentType == TokenTypes.DOT) return STAR_TYPE_IMPORT_ON_DEMAND;
+            // FALLTHROUGH
+        case TokenTypes.DIV:
+        case TokenTypes.MOD:
+            return MULTIPLICATIVE_OPERATORS;
+
+        case TokenTypes.PLUS:
+        case TokenTypes.MINUS:
+            return ADDITIVE_OPERATORS;
+
+        case TokenTypes.UNARY_MINUS:
+            return MINUS_UNARY;
+
+        case TokenTypes.UNARY_PLUS:
+            return PLUS_UNARY;
+
+        case TokenTypes.DOT:
+            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return DOT_PACKAGE_DEF;
+            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) return DOT_IMPORT;
+            if (
+                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
+            ) return DOT_QUALIFIED_TYPE;
+            return DOT_SELECTOR;
+
+        case TokenTypes.EMPTY_STAT:
+            return EMPTY_STAT;
+
+        case TokenTypes.LT:
+        case TokenTypes.LE:
+        case TokenTypes.EQUAL:
+        case TokenTypes.NOT_EQUAL:
+        case TokenTypes.GE:
+        case TokenTypes.GT:
+            return EQUALITY_OPERATORS;
+
+        case TokenTypes.GENERIC_END:
+            return R_ANGLE;
+
+        case TokenTypes.GENERIC_START:
+            return L_ANGLE;
+
+        case TokenTypes.IDENT:
+            if (
+                parentType == TokenTypes.CLASS_DEF                                       // 'class MyClass {'
+                || parentType == TokenTypes.INTERFACE_DEF                                // 'interface MyInterface {'
+                || parentType == TokenTypes.ANNOTATION_DEF                               // 'interface @MyAnnotation {'
+                || parentType == TokenTypes.ENUM_DEF                                     // 'enum MyEnum {'
+            ) return NAME_TYPE_DEF;
+            if (parentType == TokenTypes.ANNOTATION) return NAME_ANNOTATION;
+            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return NAME_ANNOTATION_FIELD_DEF;
+            if (parentType == TokenTypes.VARIABLE_DEF) return NAME_VARIABLE_DEF;
+            if (parentType == TokenTypes.CTOR_DEF) return NAME_CTOR_DEF;
+            if (parentType == TokenTypes.METHOD_DEF) return NAME_METHOD_DEF;
+            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return NAME_PACKAGE_DEF;
+            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) {
+                return ast.getNextSibling() == null ? NAME_IMPORT_TYPE : NAME_IMPORT_COMPONENT;
+            }
+            if (
+                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.TYPE           // 'MyType'
+                || getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.LITERAL_NEW // 'new MyType'
+            ) return NAME_SIMPLE_TYPE;
+            if (
+                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
+            ) return NAME_QUALIFIED_TYPE;
+            if (parentType == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR) return NAME_ANNOTATION_MEMBER;
+            if (parentType == TokenTypes.PARAMETER_DEF) return NAME_PARAMETER;
+            return NAME_AMBIGUOUS;
+
+        case TokenTypes.LCURLY:
+            if (parentType == TokenTypes.OBJBLOCK && (
+                grandparentType == TokenTypes.CLASS_DEF         // 'class MyClass() {...}'
+                || grandparentType == TokenTypes.INTERFACE_DEF  // 'interface MyInterface() {...}'
+                || grandparentType == TokenTypes.ANNOTATION_DEF // 'interface @MyAnnotation {...}'
+                || grandparentType == TokenTypes.ENUM_DEF       // 'enum MyEnum {...}'
+            )) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_TYPE_DEF : L_CURLY_TYPE_DEF;
+            if (
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW
+            ) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ANON_CLASS : L_CURLY_ANON_CLASS;
+            if (
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
+            ) return L_CURLY_ENUM_CONSTANT_DEF;
+            if (
+                parentType == TokenTypes.ARRAY_INIT
+            ) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ARRAY_INIT : L_CURLY_ARRAY_INIT;
+            if (parentType == TokenTypes.LITERAL_SWITCH) return L_CURLY_SWITCH;
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
+
+        case TokenTypes.ANNOTATION_ARRAY_INIT:
+            return (
+                firstChildType == TokenTypes.RCURLY
+                ? L_CURLY_EMPTY_ANNOTATION_ARRAY_INIT
+                : L_CURLY_ANNOTATION_ARRAY_INIT
+            );
+
+        case TokenTypes.INDEX_OP:
+            return L_BRACK_INDEX;
+
+        case TokenTypes.IMPLEMENTS_CLAUSE:
+            return IMPLEMENTS;
+
+        case TokenTypes.LITERAL_BYTE:
+        case TokenTypes.LITERAL_INT:
+        case TokenTypes.LITERAL_FLOAT:
+        case TokenTypes.LITERAL_BOOLEAN:
+        case TokenTypes.LITERAL_CHAR:
+        case TokenTypes.LITERAL_LONG:
+        case TokenTypes.LITERAL_DOUBLE:
+        case TokenTypes.LITERAL_SHORT:
+            return PRIMITIVE_TYPE;
+
+        case TokenTypes.CHAR_LITERAL:
+        case TokenTypes.LITERAL_FALSE:
+        case TokenTypes.LITERAL_TRUE:
+        case TokenTypes.LITERAL_NULL:
+        case TokenTypes.NUM_DOUBLE:
+        case TokenTypes.NUM_FLOAT:
+        case TokenTypes.NUM_INT:
+        case TokenTypes.NUM_LONG:
+        case TokenTypes.STRING_LITERAL:
+            return LITERAL;
+
+        case TokenTypes.DO_WHILE:
+            return WHILE_DO;
+
+        case TokenTypes.ENUM:
+            return ENUM;
+
+        case TokenTypes.IMPORT:
+            return IMPORT;
+
+        case TokenTypes.LITERAL_ASSERT:
+            return ASSERT;
+
+        case TokenTypes.LITERAL_BREAK:
+            return BREAK;
+
+        case TokenTypes.LITERAL_CASE:
+            return CASE;
+
+        case TokenTypes.LITERAL_CATCH:
+            return CATCH;
+
+        case TokenTypes.LITERAL_CLASS:
+            return parentType == TokenTypes.CLASS_DEF ? CLASS_DECL : CLASS_LITERAL;
+
+        case TokenTypes.LITERAL_CONTINUE:
+            return CONTINUE;
+
+        case TokenTypes.LITERAL_DEFAULT:
+            return (
+                parentType == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR || parentType == TokenTypes.ANNOTATION_FIELD_DEF
+            ) ? DEFAULT_ANNOTATION_TYPE_ELEMENT : DEFAULT_SWITCH;
+
+        case TokenTypes.LITERAL_DO:
+            return DO;
+
+        case TokenTypes.LITERAL_ELSE:
+            return ELSE;
+
+        case TokenTypes.LITERAL_FINALLY:
+            return FINALLY;
+
+        case TokenTypes.LITERAL_FOR:
+            return FOR;
+
+        case TokenTypes.LITERAL_IF:
+            return IF;
+
+        case TokenTypes.LITERAL_INSTANCEOF:
+            return INSTANCEOF;
+
+        case TokenTypes.LITERAL_INTERFACE:
+            return INTERFACE;
+
+        case TokenTypes.LITERAL_NEW:
+            return NEW;
+
+        case TokenTypes.LITERAL_SUPER:
+            return SUPER_EXPR;
+
+        case TokenTypes.LITERAL_SWITCH:
+            return SWITCH;
+
+        case TokenTypes.LITERAL_THIS:
+            return THIS_EXPR;
+
+        case TokenTypes.LITERAL_THROW:
+            return THROW;
+
+        case TokenTypes.LITERAL_THROWS:
+            return THROWS;
+
+        case TokenTypes.LITERAL_TRY:
+            return TRY;
+
+        case TokenTypes.LITERAL_VOID:
+            return VOID;
+
+        case TokenTypes.ABSTRACT:
+        case TokenTypes.FINAL:
+        case TokenTypes.LITERAL_NATIVE:
+        case TokenTypes.LITERAL_PRIVATE:
+        case TokenTypes.LITERAL_PROTECTED:
+        case TokenTypes.LITERAL_PUBLIC:
+        case TokenTypes.LITERAL_STATIC:
+        case TokenTypes.LITERAL_SYNCHRONIZED:
+        case TokenTypes.LITERAL_TRANSIENT:
+        case TokenTypes.LITERAL_VOLATILE:
+            return MODIFIER;
+
+        case TokenTypes.LITERAL_WHILE:
+            return WHILE;
+
+        case TokenTypes.PACKAGE_DEF:
+            return PACKAGE;
+
+        case TokenTypes.STATIC_IMPORT: 
+            return IMPORT_STATIC;
+
+        case TokenTypes.STATIC_INIT:
+            ast.setText("static");
+            return STATIC_INIT;
+
+        case TokenTypes.LITERAL_RETURN:
+            return firstChildType == TokenTypes.SEMI ? RETURN_NO_EXPR : RETURN_EXPR;
+
+        case TokenTypes.LPAREN:
+            if (parentType == TokenTypes.ANNOTATION) return L_PAREN_ANNOTATION;
+            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return L_PAREN_ANNOTATION_FIELD_DEF;
+            if (nextSiblingType == TokenTypes.PARAMETERS) return L_PAREN_PARAMETERS;
+            if (
+                parentType == TokenTypes.SUPER_CTOR_CALL || parentType == TokenTypes.LITERAL_NEW
+            ) return L_PAREN_CALL;
+            if (parentType == TokenTypes.LITERAL_DO) return L_PAREN_DO_WHILE;
+            if (parentType == TokenTypes.LITERAL_IF) return L_PAREN_IF;
+            if (parentType == TokenTypes.LITERAL_FOR) {
+                return ast.getNextSibling().getFirstChild() == null ? L_PAREN_FOR_NO_INIT : L_PAREN_FOR;
+            }
+            if (parentType == TokenTypes.LITERAL_CATCH) return L_PAREN_CATCH;
+            return L_PAREN_PARENTHESIZED;
+
+        case TokenTypes.METHOD_CALL:
+            return L_PAREN_CALL;
+
+        case TokenTypes.METHOD_DEF:
+        case TokenTypes.MODIFIERS:
+        case TokenTypes.OBJBLOCK:
+        case TokenTypes.PARAMETER_DEF:
+        case TokenTypes.PARAMETERS:
+            return null;
+
+        case TokenTypes.QUESTION:
+            return QUESTION_TERNARY;
+
+        case TokenTypes.RBRACK:
+            return R_BRACK_ARRAY_DECL;
+
+        case TokenTypes.RCURLY:
+            if (
+                parentType == TokenTypes.SLIST
+                && grandparentType == TokenTypes.LITERAL_CATCH
+            ) return ast.getPreviousSibling() == null ? R_CURLY_EMPTY_CATCH : R_CURLY_CATCH;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_SYNCHRONIZED
+            ) return R_CURLY_SYNCHRONIZED;
+            if (
+                parentType == TokenTypes.OBJBLOCK
+                && (
+                    grandparentType == TokenTypes.CLASS_DEF
+                    || grandparentType == TokenTypes.INTERFACE_DEF
+                    || grandparentType == TokenTypes.ANNOTATION_DEF
+                    || grandparentType == TokenTypes.ENUM_DEF
+                )
+            ) return previousSiblingType == TokenTypes.LCURLY ? R_CURLY_EMPTY_TYPE_DEF : R_CURLY_TYPE_DEF;
+            if (
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW 
+            ) return previousSiblingType == TokenTypes.LCURLY ? R_CURLY_EMPTY_ANON_CLASS : R_CURLY_ANON_CLASS;
+            if (
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
+            ) return R_CURLY_ENUM_CONSTANT_DEF;
+            if (
+                parentType == TokenTypes.SLIST
+                && (grandparentType == TokenTypes.CTOR_DEF || grandparentType == TokenTypes.METHOD_DEF)
+            ) return ast.getPreviousSibling() == null ? R_CURLY_EMPTY_METHOD_DEF : R_CURLY_METHOD_DEF;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_FOR
+            ) return R_CURLY_FOR;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_IF
+            ) return R_CURLY_IF;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_ELSE
+            ) return R_CURLY_IF;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_WHILE
+            ) return R_CURLY_WHILE;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_DO
+            ) return R_CURLY_DO_WHILE;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_TRY
+            ) return R_CURLY_TRY;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_FINALLY
+            ) return R_CURLY_FINALLY;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LABELED_STAT
+            ) return R_CURLY_LABELED_STAT;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.SLIST
+            ) return R_CURLY_BLOCK;
+            if (parentType == TokenTypes.LITERAL_SWITCH) return R_CURLY_SWITCH;
+            if (parentType == TokenTypes.ARRAY_INIT) {
+                return ast.getPreviousSibling() == null ? R_CURLY_EMPTY_ARRAY_INIT : R_CURLY_ARRAY_INIT;
+            } 
+            if (parentType == TokenTypes.ANNOTATION_ARRAY_INIT) {
+                return (
+                    ast.getPreviousSibling() == null
+                    ? R_CURLY_EMPTY_ANNOTATION_ARRAY_INIT
+                    : R_CURLY_ANNOTATION_ARRAY_INIT
+                );
+            }
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.STATIC_INIT
+            ) return R_CURLY_STATIC_INIT;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.INSTANCE_INIT
+            ) return R_CURLY_INSTANCE_INIT;
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
+
+        case TokenTypes.RESOURCE:
+        case TokenTypes.RESOURCE_SPECIFICATION:
+        case TokenTypes.RESOURCES:
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
+
+        case TokenTypes.RPAREN:
+            if (parentType == TokenTypes.ANNOTATION) return R_PAREN_ANNOTATION;
+            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return R_PAREN_ANNOTATION_FIELD_DEF;
+            if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) return R_PAREN_PARAMETERS;
+            if (
+                parentType == TokenTypes.SUPER_CTOR_CALL
+                || parentType == TokenTypes.LITERAL_NEW
+                || parentType == TokenTypes.METHOD_CALL
+            ) return R_PAREN_CALL;
+            if (parentType == TokenTypes.LITERAL_IF) return R_PAREN_IF;
+            if (parentType == TokenTypes.LITERAL_DO) return R_PAREN_DO_WHILE;
+            if (parentType == TokenTypes.LITERAL_FOR) {
+                return ast.getPreviousSibling().getFirstChild() == null ? R_PAREN_FOR_NO_UPDATE : R_PAREN_FOR;
+            }
+            if (parentType == TokenTypes.LITERAL_CATCH) return R_PAREN_CATCH;
+            if (previousSiblingType == TokenTypes.TYPE) return R_PAREN_CAST;
+            return R_PAREN_PARENTHESIZED;
+
+        case TokenTypes.SEMI:
+            if (parentType == TokenTypes.PACKAGE_DEF) return SEMI_PACKAGE_DEF;
+            if (parentType == TokenTypes.IMPORT) return SEMI_IMPORT;
+            if (parentType == TokenTypes.STATIC_IMPORT) return SEMI_STATIC_IMPORT;
+            if (
+                parentType == TokenTypes.SLIST
+                || parentType == TokenTypes.SUPER_CTOR_CALL
+                || parentType == TokenTypes.CTOR_CALL
+                || parentType == TokenTypes.LITERAL_DO
+                || parentType == TokenTypes.LITERAL_RETURN
+                || parentType == TokenTypes.LITERAL_BREAK
+                || parentType == TokenTypes.LITERAL_CONTINUE
+                || parentType == TokenTypes.LITERAL_IF
+                || parentType == TokenTypes.LITERAL_WHILE
+                || parentType == TokenTypes.LITERAL_ASSERT
+                || parentType == TokenTypes.LITERAL_THROW
+            ) return SEMI_STATEMENT;
+            if (parentType == TokenTypes.METHOD_DEF) return SEMI_ABSTRACT_METH_DEF;
+            if (previousSiblingType == TokenTypes.FOR_INIT) {
+                return ast.getPreviousSibling().getFirstChild() == null ? (
+                    ast.getNextSibling().getFirstChild() == null
+                    ? SEMI_FOR_NO_INIT_NO_CONDITION
+                    : SEMI_FOR_NO_INIT_CONDITION
+                ) : (
+                    ast.getNextSibling().getFirstChild() == null
+                    ? SEMI_FOR_INIT_NO_CONDITION
+                    : SEMI_FOR_INIT_CONDITION
+                );
+            }
+            if (previousSiblingType == TokenTypes.FOR_CONDITION) {
+                return ast.getPreviousSibling().getFirstChild() == null ? (
+                    ast.getNextSibling().getFirstChild() == null
+                    ? SEMI_FOR_NO_CONDITION_NO_UPDATE
+                    : SEMI_FOR_NO_CONDITION_UPDATE
+                ) : (
+                    ast.getNextSibling().getFirstChild() == null
+                    ? SEMI_FOR_CONDITION_NO_UPDATE
+                    : SEMI_FOR_CONDITION_UPDATE
+                );
+            }
+            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return SEMI_ANNOTATION_FIELD_DEF;
+            if (
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_DEF
+            ) return SEMI_ENUM_DEF;
+            if (
+                parentType == TokenTypes.VARIABLE_DEF && grandparentType == TokenTypes.OBJBLOCK
+            ) return SEMI_FIELD_DEF;
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
+
+        case TokenTypes.SLIST:
+            if (parentType == TokenTypes.STATIC_INIT) return L_CURLY_STATIC_INIT;
+            if (parentType == TokenTypes.INSTANCE_INIT) return L_CURLY_INSTANCE_INIT;
+            if (parentType == TokenTypes.LITERAL_IF) return L_CURLY_IF;
+            if (parentType == TokenTypes.LITERAL_ELSE) return R_CURLY_ELSE;
+            if (parentType == TokenTypes.LITERAL_DO) return L_CURLY_DO;
+            if (parentType == TokenTypes.LITERAL_WHILE) return L_CURLY_WHILE;
+            if (parentType == TokenTypes.LITERAL_FOR) return L_CURLY_FOR;
+            if (parentType == TokenTypes.LITERAL_TRY) return L_CURLY_TRY;
+            if (parentType == TokenTypes.LITERAL_CATCH) { 
+                return firstChildType == TokenTypes.RCURLY ? L_CURLY_EMPTY_CATCH : L_CURLY_CATCH;
+            }
+            if (parentType == TokenTypes.LITERAL_FINALLY) return L_CURLY_FINALLY;
+            if (parentType == TokenTypes.LITERAL_SYNCHRONIZED) return L_CURLY_SYNCHRONIZED;
+            if (parentType == TokenTypes.LABELED_STAT) return L_CURLY_LABELED_STAT;
+            if (parentType == TokenTypes.SLIST) return L_CURLY_BLOCK;
+            if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) {
+                return (
+                    firstChildType == TokenTypes.RCURLY
+                    ? Whitespaceable.L_CURLY_EMPTY_METHOD_DEF
+                    : Whitespaceable.L_CURLY_METHOD_DEF
+                );
+            }
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
+
+        case TokenTypes.SL:
+        case TokenTypes.SR:
+        case TokenTypes.BSR:
+            return SHIFT_OPERATORS;
+            
+        case TokenTypes.ELLIPSIS:
+            return ELLIPSIS_PARAMETER;
+
+        case TokenTypes.TYPE:
+            return null;
+
+        case TokenTypes.CTOR_CALL:
+            return THIS_CTOR_CALL;
+
+        case TokenTypes.SUPER_CTOR_CALL:
+            return SUPER_CTOR_CALL;
+
+        case TokenTypes.TYPE_UPPER_BOUNDS:
+            return EXTENDS_TYPE_BOUND;
+
+        case TokenTypes.TYPE_LOWER_BOUNDS:
+            return SUPER_TYPE_BOUND;
+
+        case TokenTypes.WILDCARD_TYPE:
+            return QUESTION_WILDCARD_TYPE;
+
+        case TokenTypes.EXTENDS_CLAUSE:
+            return EXTENDS_TYPE;
+            
+        case TokenTypes.LABELED_STAT:
+            return COLON_LABELED_STAT;
+            
+        case TokenTypes.CLASS_DEF:
+        case TokenTypes.INTERFACE_DEF:
+        case TokenTypes.CTOR_DEF:
+        case TokenTypes.FOR_INIT:
+        case TokenTypes.FOR_CONDITION:
+        case TokenTypes.FOR_ITERATOR:
+        case TokenTypes.ELIST:
+        case TokenTypes.CASE_GROUP:
+        case TokenTypes.ANNOTATION:
+        case TokenTypes.ANNOTATIONS:
+        case TokenTypes.EXPR:
+        case TokenTypes.ENUM_DEF:
+        case TokenTypes.ENUM_CONSTANT_DEF:
+        case TokenTypes.STRICTFP:
+        case TokenTypes.TYPE_ARGUMENT:
+        case TokenTypes.TYPE_ARGUMENTS:
+        case TokenTypes.TYPE_EXTENSION_AND:
+        case TokenTypes.TYPE_PARAMETER:
+        case TokenTypes.TYPE_PARAMETERS:
+        case TokenTypes.VARIABLE_DEF:
+            return null;
+
+        default:
+            assert false : "Unexpected DetailAST " + ast;
+            return null;
         }
     }
 
