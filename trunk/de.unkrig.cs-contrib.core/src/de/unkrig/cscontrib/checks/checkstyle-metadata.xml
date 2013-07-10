@@ -454,10 +454,10 @@
                 <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$Compactable"/>
             </property-metadata>
 -->
-            <message-key key="ws.preceded"/>
-            <message-key key="ws.notPreceded"/>
-            <message-key key="ws.followed"/>
-            <message-key key="ws.notFollowed"/>
+            <message-key key="de.unkrig.cscontrib.checks.Whitespace.preceded"/>
+            <message-key key="de.unkrig.cscontrib.checks.Whitespace.notPreceded"/>
+            <message-key key="de.unkrig.cscontrib.checks.Whitespace.followed"/>
+            <message-key key="de.unkrig.cscontrib.checks.Whitespace.notFollowed"/>
         </rule-metadata>
     </rule-group-metadata>
 

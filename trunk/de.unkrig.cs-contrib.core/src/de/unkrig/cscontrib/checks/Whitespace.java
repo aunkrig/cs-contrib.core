@@ -777,8 +777,7 @@ class Whitespace extends Check {
             && !mustNotBeWhitespaceAfter
         ) return;
 
-        final String[] lines = getLines();
-        final String   line  = lines[ast.getLineNo() - 1];
+        final String line = getLines()[ast.getLineNo() - 1];
 
         // Check whitespace BEFORE token.
         if (mustBeWhitespaceBefore || mustNotBeWhitespaceBefore) {
@@ -787,10 +786,10 @@ class Whitespace extends Check {
             if (before > 0 && !LINE_PREFIX.matcher(line).region(0, before).matches()) {
                 boolean isWhitespace = Character.isWhitespace(line.charAt(before));
                 if (mustBeWhitespaceBefore && !isWhitespace) {
-                    log(ast.getLineNo(), ast.getColumnNo(), "ws.notPreceded", ast.getText());
-                }
+                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.notPreceded", ast.getText(), whitespaceable);
+                } else
                 if (mustNotBeWhitespaceBefore && isWhitespace) {
-                    log(ast.getLineNo(), ast.getColumnNo(), "ws.preceded", ast.getText());
+                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.preceded", ast.getText(), whitespaceable);
                 }
             }
         }
@@ -802,10 +801,22 @@ class Whitespace extends Check {
             if (after < line.length() && !LINE_SUFFIX.matcher(line).region(after, line.length()).matches()) {
                 boolean isWhitespace = Character.isWhitespace(line.charAt(after));
                 if (mustBeWhitespaceAfter && !isWhitespace) {
-                    log(ast.getLineNo(), ast.getColumnNo() + ast.getText().length(), "ws.notFollowed", ast.getText());
-                }
+                    log(
+                        ast.getLineNo(),
+                        after,
+                        "de.unkrig.cscontrib.checks.Whitespace.notFollowed",
+                        ast.getText(),
+                        whitespaceable
+                    );
+                } else
                 if (mustNotBeWhitespaceAfter && isWhitespace) {
-                    log(ast.getLineNo(), ast.getColumnNo() + ast.getText().length(), "ws.followed", ast.getText());
+                    log(
+                        ast.getLineNo(),
+                        after,
+                        "de.unkrig.cscontrib.checks.Whitespace.followed",
+                        ast.getText(),
+                        whitespaceable
+                    );
                 }
             }
         }
@@ -1450,8 +1461,8 @@ class Whitespace extends Check {
         }
     }
 
-    private static final Pattern LINE_PREFIX = Pattern.compile("\\s*(?:/\\*(?:.(?!\\*/))*\\*/\\s*)*");
-    private static final Pattern LINE_SUFFIX = Pattern.compile("\\s*(?:/\\*(?:.(?!\\*/))*\\*/\\s*)*(?://.*)?");
+    private static final Pattern LINE_PREFIX = Pattern.compile("\\s*");
+    private static final Pattern LINE_SUFFIX = Pattern.compile("\\s*(?://.*)?");
 
     @Override public int[]
     getDefaultTokens() {
