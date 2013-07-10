@@ -1171,14 +1171,6 @@ class Whitespace extends Check {
         case TokenTypes.METHOD_CALL:
             return L_PAREN_CALL;
 
-        case TokenTypes.METHOD_DEF:
-        case TokenTypes.MODIFIERS:
-        case TokenTypes.OBJBLOCK:
-        case TokenTypes.PARAMETER_DEF:
-        case TokenTypes.PARAMETERS:
-        case TokenTypes.FOR_EACH_CLAUSE:
-            return null;
-
         case TokenTypes.QUESTION:
             return QUESTION_TERNARY;
 
@@ -1256,12 +1248,6 @@ class Whitespace extends Check {
             if (
                 parentType == TokenTypes.SLIST && grandparentType == TokenTypes.INSTANCE_INIT
             ) return R_CURLY_INSTANCE_INIT;
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
-
-        case TokenTypes.RESOURCE:
-        case TokenTypes.RESOURCE_SPECIFICATION:
-        case TokenTypes.RESOURCES:
             assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
             return null;
 
@@ -1368,9 +1354,6 @@ class Whitespace extends Check {
         case TokenTypes.ELLIPSIS:
             return ELLIPSIS_PARAMETER;
 
-        case TokenTypes.TYPE:
-            return null;
-
         case TokenTypes.CTOR_CALL:
             return THIS_CTOR_CALL;
 
@@ -1405,18 +1388,32 @@ class Whitespace extends Check {
         case TokenTypes.ENUM_DEF:
         case TokenTypes.ENUM_CONSTANT_DEF:
         case TokenTypes.EXPR:
+        case TokenTypes.FOR_EACH_CLAUSE:
         case TokenTypes.FOR_INIT:
         case TokenTypes.FOR_CONDITION:
         case TokenTypes.FOR_ITERATOR:
         case TokenTypes.INTERFACE_DEF:
         case TokenTypes.INSTANCE_INIT:
+        case TokenTypes.METHOD_DEF:
+        case TokenTypes.MODIFIERS:
+        case TokenTypes.OBJBLOCK:
+        case TokenTypes.PARAMETER_DEF:
+        case TokenTypes.PARAMETERS:
+        case TokenTypes.RESOURCE:
+        case TokenTypes.RESOURCE_SPECIFICATION:
+        case TokenTypes.RESOURCES:
         case TokenTypes.STRICTFP:
+        case TokenTypes.TYPE:
         case TokenTypes.TYPE_ARGUMENT:
         case TokenTypes.TYPE_ARGUMENTS:
         case TokenTypes.TYPE_EXTENSION_AND:
         case TokenTypes.TYPE_PARAMETER:
         case TokenTypes.TYPE_PARAMETERS:
         case TokenTypes.VARIABLE_DEF:
+            return null;
+
+        case TokenTypes.EOF:
+            assert false : "Unexpected token '" + ast + "'";
             return null;
 
         default:
