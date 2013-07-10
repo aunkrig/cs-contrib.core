@@ -395,7 +395,38 @@ class Whitespace extends Check {
         /** 'while (a > 0) { ... }' */
         WHILE,
         /** 'do { ... } while (a > 0);' */
-        WHILE_DO,
+        WHILE_DO;
+
+        public String
+        getDetail() {
+            String s = this.toString();
+
+            // Strip the Whitespaceable prefix which is identical with the AST type.
+            {
+                int idx = s.indexOf('_', 2);
+                if (idx == -1) return null;
+                s = s.substring(idx);
+            }
+            
+            // Convert the enum constant into lower case and replace underscores with spaces.
+            s = s.toLowerCase().replace('_', ' ');
+
+            // Apply some text substitutions which make the detail nicer.
+            for (int i = 0; i < DETAIL_TRANSFORMATIONS.length;) {
+                Pattern pattern     = (Pattern) DETAIL_TRANSFORMATIONS[i++];
+                String  replacement = (String) DETAIL_TRANSFORMATIONS[i++];
+                s = pattern.matcher(s).replaceAll(replacement);
+            }
+
+            return s;
+        }
+        private static final Object[] DETAIL_TRANSFORMATIONS = {
+            Pattern.compile("type_import_on_demand"), "in type-import-on-demand",
+            Pattern.compile("init"),                  "in initializer",
+            Pattern.compile("ctor call"),             "in constructor call",
+            Pattern.compile("expr"),                  "in expression",
+            Pattern.compile("do"),                    "in DO statement",
+        };
     }
 
     private EnumSet<Whitespaceable> whitespaceBefore = EnumSet.of(
@@ -786,10 +817,10 @@ class Whitespace extends Check {
             if (before > 0 && !LINE_PREFIX.matcher(line).region(0, before).matches()) {
                 boolean isWhitespace = Character.isWhitespace(line.charAt(before));
                 if (mustBeWhitespaceBefore && !isWhitespace) {
-                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.notPreceded", ast.getText(), whitespaceable);
+                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.notPreceded", beautify(ast, whitespaceable));
                 } else
                 if (mustNotBeWhitespaceBefore && isWhitespace) {
-                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.preceded", ast.getText(), whitespaceable);
+                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.preceded", beautify(ast, whitespaceable));
                 }
             }
         }
@@ -805,8 +836,7 @@ class Whitespace extends Check {
                         ast.getLineNo(),
                         after,
                         "de.unkrig.cscontrib.checks.Whitespace.notFollowed",
-                        ast.getText(),
-                        whitespaceable
+                        beautify(ast, whitespaceable)
                     );
                 } else
                 if (mustNotBeWhitespaceAfter && isWhitespace) {
@@ -814,12 +844,17 @@ class Whitespace extends Check {
                         ast.getLineNo(),
                         after,
                         "de.unkrig.cscontrib.checks.Whitespace.followed",
-                        ast.getText(),
-                        whitespaceable
+                        beautify(ast, whitespaceable)
                     );
                 }
             }
         }
+    }
+
+    private static Object
+    beautify(DetailAST ast, Whitespaceable whitespaceable) {
+        String detail = whitespaceable.getDetail();
+        return detail == null ? ast.getText() : ast.getText() + " (" + detail + ')';
     }
 
     private Whitespaceable
