@@ -26,7 +26,7 @@
 
 package de.unkrig.cscontrib.checks;
 
-import static de.unkrig.cscontrib.checks.Whitespace.Whitespaceable.*;
+import static de.unkrig.cscontrib.checks.Whitespace.JavaElement.*;
 
 import java.util.EnumSet;
 import java.util.regex.Pattern;
@@ -49,85 +49,105 @@ class Whitespace extends Check {
      * The elements that must or must not be preceded and/or followed by whitespace.
      */
     public
-    enum Whitespaceable {
+    enum JavaElement {
 
-        /** 'a + b', 'a - b' */
-        ADDITIVE_OPERATORS,
+        // CHECKSTYLE __:OFF
+        /** 'abstract' */
+        ABSTRACT,
+        /** 'a & b' */
+        AND__EXPR,
+        /** 'a &= b' */
+        AND_ASSIGN,
         /** 'assert x == 0;', 'assert x == 0 : "x not zero";' */
         ASSERT,
+        /** 'a = 7;' */
+        ASSIGN__ASSIGNMENT,
         /** 'int a = 7;' */
-        ASSIGN_VARIABLE_DEF,
-        /**
-         * 'a &= b', 'a |= b', 'a >>>= b', 'a ^= b', ' a /= b', 'a -= b', 'a %= b', 'a += b', 'a <<= b', 'a >>= b',
-         * 'a *= b'
-         */
-        ASSIGNS,
+        ASSIGN__VAR_DECL,
         /** '@MyAnno' */
-        AT_ANNOTATION,
+        AT__ANNO,
         /** 'interface @MyAnno {' */
-        AT_ANNOTATION_DEF,
-        /** 'a & b', 'a | b', 'a ^ b' */
-        BITWISE_OPERATORS,
+        AT__ANNO_DECL,
         /** '~a' */
         BITWISE_COMPLEMENT,
+        /** 'boolean' */
+        BOOLEAN,
         /** 'break;', 'break LABEL;' */
         BREAK,
+        /** 'byte' */
+        BYTE,
         /** 'case 7:' */
         CASE,
         /** 'catch (Exception e) {' */
         CATCH,
+        /** 'char' */
+        CHAR,
         /** 'class MyClass {' */
-        CLASS_DECL,
+        CLASS__CLASS_DECL,
         /** 'Class c = Object.class;' */
-        CLASS_LITERAL,
-        /** 'default:' */
-        COLON_DEFAULT,
+        CLASS__CLASS_LITERAL,
         /** 'case 77:' */
-        COLON_CASE,
+        COLON__CASE,
+        /** 'default:' */
+        COLON__DEFAULT,
         /** 'for (Object o : list) {' */
-        COLON_ENHANCED_FOR,
+        COLON__ENHANCED_FOR,
         /** 'LABEL: while (...) {' */
-        COLON_LABELED_STAT,
+        COLON__LABELED_STAT,
         /** 'a ? b : c' */
-        COLON_TERNARY,
+        COLON__TERNARY,
         /** ',' */
         COMMA,
-        /** 'a || b', 'a && b' */
-        CONDITIONAL_OPERATORS,
+        /** 'a && b' */
+        CONDITIONAL_AND,
+        /** 'a || b' */
+        CONDITIONAL_OR,
         /** 'continue;', 'continue LABEL;' */
         CONTINUE,
         /** 'String engineer() default "[unassigned]";' */
-        DEFAULT_ANNOTATION_TYPE_ELEMENT,
+        DEFAULT__ANNO_ELEM,
         /** 'switch (x) { default: break; }' */
-        DEFAULT_SWITCH,
+        DEFAULT__SWITCH,
+        /** 'a / b' */
+        DIVIDE,
+        /** 'a /= b' */
+        DIVIDE_ASSIGN,
         /** 'do { ... } while (x > 0);' */
         DO,
         /** 'import pkg.*;', 'import pkg.Type;' */
-        DOT_IMPORT,
+        DOT__IMPORT,
         /** 'package pkg.pkg;' */
-        DOT_PACKAGE_DEF,
+        DOT__PACKAGE_DECL,
         /** 'pkg.MyType', 'pkg.MyType[]' */
-        DOT_QUALIFIED_TYPE,
+        DOT__QUALIFIED_TYPE,
         /** 'a.b', 'a().b' */
-        DOT_SELECTOR,
+        DOT__SELECTOR,
+        /** 'double' */
+        DOUBLE,
         /** 'meth(Object... o)' */
-        ELLIPSIS_PARAMETER,
+        ELLIPSIS,
         /** 'if (a == 0) { ... } else { ... } */
         ELSE,
-        /** ';' */
-        EMPTY_STAT,
         /** 'public enum Color { RED, BLUE, GREEN }' */
         ENUM,
-        /** 'a < b', 'a <= b', 'a == b', 'a != b', 'a >= b', 'a > b' */
-        EQUALITY_OPERATORS,
+        /** 'a == b' */
+        EQUAL,
         /** 'class MyClass extends BaseClass {' */
-        EXTENDS_TYPE,
+        EXTENDS__TYPE,
         /** 'List<T extends MyClass>' */
-        EXTENDS_TYPE_BOUND,
+        EXTENDS__TYPE_BOUND,
+        /** 'final' */
+        FINAL,
         /** 'try { ... } finally { ... }' */
         FINALLY,
+        /** 'float' */
+        FLOAT,
         /** 'for (int i = 0; i < 3; i++) {', 'for (Object o : list) {' */
         FOR,
+        /** 'a > b' */
+        GREATER,
+        /** 'a >= b' */
+        GREATER_EQUAL,
         /** 'if (a == 0) {' */
         IF,
         /** 'List<T implements MyInterface1, MyInterface2>' */
@@ -135,1370 +155,750 @@ class Whitespace extends Check {
         /** 'import pkg.MyClass;', 'import pkg.*;' */
         IMPORT,
         /** 'import static pkg.MyClass.member;', import static pkg.MyClass.*;' */
-        IMPORT_STATIC,
+        IMPORT__STATIC_IMPORT,
         /** 'a instanceof MyClass' */
         INSTANCEOF,
+        /** 'int' */
+        INT,
         /** 'interface { ... }' */
         INTERFACE,
-        /** 'MyClass.&lt;Double>meth(x)' */
-        L_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
         /** 'public &lt;T extends Number> void meth(T parm) {' */
-        L_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
+        L_ANGLE__METH_DECL_TYPE_PARAMS,
+        /** 'MyClass.&lt;Double>meth(x)' */
+        L_ANGLE__METH_INVOCATION_TYPE_ARGS,
         /** 'MyClass&lt;String>' */
-        L_ANGLE_TYPE_ARGUMENTS,
+        L_ANGLE__TYPE_ARGS,
         /** 'class MyClass&lt;T extends Number> {' */
-        L_ANGLE_TYPE_PARAMETERS,
+        L_ANGLE__TYPE_PARAMS,
         /** 'Object[]' */
-        L_BRACK_ARRAY_DECL,
+        L_BRACK__ARRAY_DECL,
         /** 'a[3]' */
-        L_BRACK_INDEX,
+        L_BRACK__INDEX,
         /** '@SuppressWarnings({ "foo", "bar" })' */
-        L_CURLY_ANNOTATION_ARRAY_INIT,
+        L_CURLY__ANNO_ARRAY_INIT,
         /** 'new Object() { ... }' */
-        L_CURLY_ANON_CLASS,
+        L_CURLY__ANON_CLASS,
         /** 'int[] ia = { 1, 2 }', 'new int[] { 1, 2 }' */
-        L_CURLY_ARRAY_INIT,
+        L_CURLY__ARRAY_INIT,
         /** '{ int i = 0; i++; }' */
-        L_CURLY_BLOCK,
+        L_CURLY__BLOCK,
         /** 'try { ... } catch (...) { ...' */
-        L_CURLY_CATCH,
+        L_CURLY__CATCH,
         /** 'do { ...' */
-        L_CURLY_DO,
+        L_CURLY__DO,
         /** '@SuppressWarnings({})' */
-        L_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
+        L_CURLY__EMPTY_ANNO_ARRAY_INIT,
         /** 'new Object() {}' */
-        L_CURLY_EMPTY_ANON_CLASS,
+        L_CURLY__EMPTY_ANON_CLASS,
         /** 'int[] ia = {}', 'new int[] {}' */
-        L_CURLY_EMPTY_ARRAY_INIT,
+        L_CURLY__EMPTY_ARRAY_INIT,
         /** 'try { ... } catch (...) {}' */
-        L_CURLY_EMPTY_CATCH,
+        L_CURLY__EMPTY_CATCH,
         /** 'void meth(...) {}' */
-        L_CURLY_EMPTY_METHOD_DEF,
+        L_CURLY__EMPTY_METH_DEF,
         /** 'class MyClass() {}', 'interface MyInterface() {}', 'interface @MyAnnotation {}', 'enum MyEnum {}' */
-        L_CURLY_EMPTY_TYPE_DEF,
+        L_CURLY__EMPTY_TYPE_DEF,
         /** 'enum MyEnum { FOO { ... } }' */
-        L_CURLY_ENUM_CONSTANT_DEF,
+        L_CURLY__ENUM_CONST_DEF,
         /** 'finally { ...' */
-        L_CURLY_FINALLY,
+        L_CURLY__FINALLY,
         /** 'for (...) {' */
-        L_CURLY_FOR,
+        L_CURLY__FOR,
         /** 'if (...) {' */
-        L_CURLY_IF,
+        L_CURLY__IF,
         /** 'class MyClass { { ... } }' */
-        L_CURLY_INSTANCE_INIT,
+        L_CURLY__INSTANCE_INIT,
         /** 'LABEL: {' */
-        L_CURLY_LABELED_STAT,
+        L_CURLY__LABELED_STAT,
         /** 'void meth(...) { ... }' */
-        L_CURLY_METHOD_DEF,
+        L_CURLY__METH_DECL,
         /** 'class MyClass { static { ... } }' */
-        L_CURLY_STATIC_INIT,
+        L_CURLY__STATIC_INIT,
         /** 'switch (a) {' */
-        L_CURLY_SWITCH,
+        L_CURLY__SWITCH,
         /** 'synchronized (a) {' */
-        L_CURLY_SYNCHRONIZED,
+        L_CURLY__SYNCHRONIZED,
         /** 'try {' */
-        L_CURLY_TRY,
-        /**
-         * 'class MyClass() {...}', 'interface MyInterface() {...}', 'interface @MyAnnotation {...}',
-         * 'enum MyEnum {...}'
-         */
-        L_CURLY_TYPE_DEF,
+        L_CURLY__TRY,
+        /** 'class MyClass() {', 'interface MyInterface() {', 'interface @MyAnno {', 'enum MyEnum {' */
+        L_CURLY__TYPE_DECL,
         /** 'while (...) {' */
-        L_CURLY_WHILE,
+        L_CURLY__WHILE,
         /** '@SuppressWarnings("foo")' */
-        L_PAREN_ANNOTATION,
-        L_PAREN_ANNOTATION_FIELD_DEF,
-        L_PAREN_CALL,
+        L_PAREN__ANNO,
+        /** 'interface @MyAnno { String engineer(); }' */
+        L_PAREN__ANNO_ELEM_DECL,
         /** '(int) a' */
-        L_PAREN_CAST,
-        L_PAREN_CATCH,
-        L_PAREN_DO_WHILE,
-        L_PAREN_FOR,
-        L_PAREN_FOR_NO_INIT,
-        L_PAREN_IF,
-        L_PAREN_PARAMETERS,
-        L_PAREN_PARENTHESIZED,
+        L_PAREN__CAST,
+        /** 'try { ... } catch (Exception e) {' */
+        L_PAREN__CATCH,
+        /** 'do { ... } while (...);' */
+        L_PAREN__DO_WHILE,
+        /** 'for (int i = 0; i  10; i++) {' */
+        L_PAREN__FOR,
+        /** 'for (; i  10; i++) {' */
+        L_PAREN__FOR_NO_INIT,
+        /** 'if (...) {' */
+        L_PAREN__IF,
+        /** 'a()' */
+        L_PAREN__METH_INVOCATION,
+        /** 'void meth(...) {' */
+        L_PAREN__PARAMS,
+        /** '(a + b) * c' */
+        L_PAREN__PARENTHESIZED,
+        /** '<<' */
+        LEFT_SHIFT,
+        /** 'a <<= b' */
+        LEFT_SHIFT_ASSIGN,
+        /** 'a < b' */
+        LESS,
+        /** 'a <= b' */
+        LESS_EQUAL,
         LITERAL,
         /** '!a' */
         LOGICAL_COMPLEMENT,
-        MINUS_UNARY,
-        MODIFIER,
-        /** 'a * b', 'a / b', 'a % b' */
-        MULTIPLICATIVE_OPERATORS,
+        /** 'long' */
+        LONG,
+        /** 'a - b' */
+        MINUS__ADDITIVE,
+        /** '-a' */
+        MINUS__UNARY,
+        /** 'a -= b' */
+        MINUS_ASSIGN,
+        /** 'a % b' */
+        MODULO,
+        /** 'a %= b'*/
+        MODULO_ASSIGN,
+        /** 'a * b' */
+        MULTIPLY,
+        /** 'a *= b' */
+        MULTIPLY_ASSIGN,
         /** 'a.b.c' */
-        NAME_AMBIGUOUS,
+        NAME__AMBIGUOUS,
         /** '@MyAnnotation("x")' */
-        NAME_ANNOTATION,
-        NAME_ANNOTATION_FIELD_DEF,
+        NAME__ANNO,
+        /** 'interface @MyAnno { String engineer(); }' */
+        NAME__ANNO_ELEM_DECL,
         /** '@MyAnnotation(value = "x")' */
-        NAME_ANNOTATION_MEMBER,
+        NAME__ANNO_MEMBER,
         /** 'MyClass(...) {' */
-        NAME_CTOR_DEF,
+        NAME__CTOR_DEF,
         /** 'import pkg.pkg.*;' */
-        NAME_IMPORT_COMPONENT,
+        NAME__IMPORT_COMPONENT,
         /** 'import pkg.pkg.*;' */
-        NAME_IMPORT_TYPE,
+        NAME__IMPORT_TYPE,
         /** 'void main(...) {' */
-        NAME_METHOD_DEF,
+        NAME__METH_DECL,
         /** 'package pkg.pkg.pkg;' */
-        NAME_PACKAGE_DEF,
+        NAME__PACKAGE_DECL,
         /** 'meth(String parm)' */
-        NAME_PARAMETER,
+        NAME__PARAM,
         /** 'pkg.MyType' */
-        NAME_QUALIFIED_TYPE,
+        NAME__QUALIFIED_TYPE,
         /** 'MyType', 'new MyType' */
-        NAME_SIMPLE_TYPE,
+        NAME__SIMPLE_TYPE,
         /** 'class MyClass {', 'interface MyInterface {', 'interface @MyAnnotation {', 'enum MyEnum {' */
-        NAME_TYPE_DEF,
+        NAME__TYPE_DECL,
         /** 'int a;' */
-        NAME_VARIABLE_DEF,
+        NAME__VAR_DEF,
+        /** 'native' */
+        NATIVE,
+        /** 'new' */
         NEW,
+        /** 'a != b' */
+        NOT_EQUAL,
+        /** 'a | b' */
+        OR,
+        /** 'a |= b'*/
+        OR_ASSIGN,
         /** 'package ...' */
         PACKAGE,
-        PLUS_UNARY,
+        /** 'a + b',  */
+        PLUS__ADDITIVE,
+        /** '+(a + b)' */
+        PLUS__UNARY,
+        /** 'a += b' */
+        PLUS_ASSIGN,
         /** 'x--' */
-        POST_DEC,
+        POST_DECR,
         /** 'x++' */
-        POST_INC,
+        POST_INCR,
         /** '--x' */
-        PRE_DEC,
+        PRE_DECR,
         /** '++x' */
-        PRE_INC,
-        PRIMITIVE_TYPE,
-        QUESTION_TERNARY,
-        QUESTION_WILDCARD_TYPE,
-        /** 'MyClass.&lt;Double>meth(x)' */
-        R_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
+        PRE_INCR,
+        /** 'private' */
+        PRIVATE,
+        /** 'protected' */
+        PROTECTED,
+        /** 'public' */
+        PUBLIC,
+        /** 'a ? b : c' */
+        QUESTION__TERNARY,
+        /** 'List&lt;? extends InputStream>' */
+        QUESTION__WILDCARD_TYPE,
         /** 'public &lt;T extends Number> void meth(T parm) {' */
-        R_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
+        R_ANGLE__METH_DECL_TYPE_PARAMS,
+        /** 'MyClass.&lt;Double>meth(x)' */
+        R_ANGLE__METH_INVOCATION_TYPE_ARGS,
         /** 'MyClass&lt;String>' */
-        R_ANGLE_TYPE_ARGUMENTS,
+        R_ANGLE__TYPE_ARGS,
         /** 'class MyClass&lt;T extends Number> {' */
-        R_ANGLE_TYPE_PARAMETERS,
+        R_ANGLE__TYPE_PARAMS,
         /** 'Object[]' */
-        R_BRACK_ARRAY_DECL,
+        R_BRACK__ARRAY_DECL,
         /** '@SuppressWarnings({ "foo", "bar" })' */
-        R_CURLY_ANNOTATION_ARRAY_INIT,
+        R_CURLY__ANNO_ARRAY_INIT,
         /** 'new Object() { ... }' */
-        R_CURLY_ANON_CLASS,
+        R_CURLY__ANON_CLASS,
         /** 'int[] ia = { 1, 2 }', 'new int[] { 1, 2 }' */
-        R_CURLY_ARRAY_INIT,
+        R_CURLY__ARRAY_INIT,
         /** '{ int i = 0; i++; }' */
-        R_CURLY_BLOCK,
+        R_CURLY__BLOCK,
         /** 'try { ... } catch (...) { ...' */
-        R_CURLY_CATCH,
+        R_CURLY__CATCH,
         /** 'do { ... } while (...);' */
-        R_CURLY_DO_WHILE,
+        R_CURLY__DO,
         /** 'else { ... }' */
-        R_CURLY_ELSE,
+        R_CURLY__ELSE,
         /** '@SuppressWarnings({})' */
-        R_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
+        R_CURLY__EMPTY_ANNO_ARRAY_INIT,
         /** 'new Object() {}' */
-        R_CURLY_EMPTY_ANON_CLASS,
+        R_CURLY__EMPTY_ANON_CLASS,
         /** 'int[] ia = {}', 'new int[] {}' */
-        R_CURLY_EMPTY_ARRAY_INIT,
+        R_CURLY__EMPTY_ARRAY_INIT,
         /** 'try { ... } catch (...) {}' */
-        R_CURLY_EMPTY_CATCH,
+        R_CURLY__EMPTY_CATCH,
         /** 'public MyClass(...) {}', 'public method(...) {}' */
-        R_CURLY_EMPTY_METHOD_DEF,
+        R_CURLY__EMPTY_METH_DECL,
         /** 'class MyClass {}', 'interface MyInterface {}', '@interface MyAnnotation {}', 'enum MyEnum {}' */
-        R_CURLY_EMPTY_TYPE_DEF,
+        R_CURLY__EMPTY_TYPE_DEF,
         /** 'enum MyEnum { FOO { ... } }' */
-        R_CURLY_ENUM_CONSTANT_DEF,
+        R_CURLY__ENUM_CONST_DEF,
         /** 'finally { ... }' */
-        R_CURLY_FINALLY,
+        R_CURLY__FINALLY,
         /** 'for (...) { ... }' */
-        R_CURLY_FOR,
+        R_CURLY__FOR,
         /** 'if (...) { ... }' */
-        R_CURLY_IF,
+        R_CURLY__IF,
         /** 'class MyClass { { ... } }' */
-        R_CURLY_INSTANCE_INIT,
+        R_CURLY__INSTANCE_INIT,
         /** 'LABEL: { ... }' */
-        R_CURLY_LABELED_STAT,
+        R_CURLY__LABELED_STAT,
         /** 'public MyClass(...) { ... }', 'public method(...) { ... }' */
-        R_CURLY_METHOD_DEF,
+        R_CURLY__METH_DECL,
         /** 'class MyClass { static { ... } }' */
-        R_CURLY_STATIC_INIT,
+        R_CURLY__STATIC_INIT,
         /** 'switch (a) { ... }' */
-        R_CURLY_SWITCH,
+        R_CURLY__SWITCH,
         /** 'synchronized (a) { ... }' */
-        R_CURLY_SYNCHRONIZED,
+        R_CURLY__SYNCHRONIZED,
         /** 'try { ... }' */
-        R_CURLY_TRY,
-        /**
-         * 'class MyClass { ... }', 'interface MyInterface { ... }', '@interface MyAnnotation { ... }',
-         * 'enum MyEnum { ... }'
-         */
-        R_CURLY_TYPE_DEF,
+        R_CURLY__TRY,
+        /** 'class MyClass { ... }', 'interface MyInter { ... }', '@interface MyAnno { ... }', 'enum MyEnum { ... }' */
+        R_CURLY__TYPE_DEF,
         /** 'while (...) { ... }' */
-        R_CURLY_WHILE,
+        R_CURLY__WHILE,
         /** '@SuppressWarnings("foo")' */
-        R_PAREN_ANNOTATION,
-        R_PAREN_ANNOTATION_FIELD_DEF,
-        R_PAREN_CALL,
+        R_PAREN__ANNO,
+        /** 'interface @MyAnno { String engineer(); }' */
+        R_PAREN__ANNO_ELEM_DECL,
         /** '(int) a' */
-        R_PAREN_CAST,
-        R_PAREN_CATCH,
-        R_PAREN_DO_WHILE,
-        R_PAREN_FOR,
-        R_PAREN_FOR_NO_UPDATE,
-        R_PAREN_IF,
-        R_PAREN_PARAMETERS,
-        R_PAREN_PARENTHESIZED,
+        R_PAREN__CAST,
+        /** 'try { ... } catch (Exception e) {' */
+        R_PAREN__CATCH,
+        /** 'do { ... } while (...); */
+        R_PAREN__DO_WHILE,
+        /** 'for (int i = 0; i &lt; 10; i++) {' */
+        R_PAREN__FOR,
+        /** 'for (int i = 0; i &lt; 10;) {' */
+        R_PAREN__FOR_NO_UPDATE,
+        /** 'if (...) {' */
+        R_PAREN__IF,
+        /** 'a()' */
+        R_PAREN__METH_INVOCATION,
+        /** 'void meth(...) {' */
+        R_PAREN__PARAMS,
+        /** '(a + b) * c' */
+        R_PAREN__PARENTHESIZED,
         /** 'return x;' */
-        RETURN_EXPR,
+        RETURN__EXPR,
         /** 'return;' */
-        RETURN_NO_EXPR,
-        SEMI_ABSTRACT_METH_DEF,
-        SEMI_ANNOTATION_FIELD_DEF,
+        RETURN__NO_EXPR,
+        /** '>>' */
+        RIGHT_SHIFT,
+        /** 'a >>= b'*/
+        RIGHT_SHIFT_ASSIGN,
+        /** 'abstract meth(); */
+        SEMI__ABSTRACT_METH_DEF,
+        /** 'interface @MyAnno { String engineer(); }' */
+        SEMI__ANNO_ELEM_DECL,
+        /** ';' */
+        SEMI__EMPTY_STAT,
         /** 'enum MyEnum { 1, B, C; ... }' */
-        SEMI_ENUM_DEF,
-        SEMI_FIELD_DEF,
+        SEMI__ENUM_DEF,
+        /** 'public int i;' */
+        SEMI__FIELD_DEF,
         /** 'for (...; i < 3;) {' */
-        SEMI_FOR_CONDITION_NO_UPDATE,
+        SEMI__FOR_CONDITION_NO_UPDATE,
         /** 'for (...; i < 3; i++) {' */
-        SEMI_FOR_CONDITION_UPDATE,
+        SEMI__FOR_CONDITION_UPDATE,
         /** 'for (int i = 0; i < 3;...' */
-        SEMI_FOR_INIT_CONDITION,
+        SEMI__FOR_INIT_CONDITION,
         /** 'for (int i = 0;;...' */
-        SEMI_FOR_INIT_NO_CONDITION,
+        SEMI__FOR_INIT_NO_CONDITION,
         /** 'for (...;;) {' */
-        SEMI_FOR_NO_CONDITION_NO_UPDATE,
+        SEMI__FOR_NO_CONDITION_NO_UPDATE,
         /** 'for (...;; i++) {'*/
-        SEMI_FOR_NO_CONDITION_UPDATE,
-        /** 'for (; ...' */
-        SEMI_FOR_NO_INIT_CONDITION,
-        /** 'for (;;...' */
-        SEMI_FOR_NO_INIT_NO_CONDITION,
-        SEMI_IMPORT,
-        SEMI_PACKAGE_DEF,
-        SEMI_STATEMENT,
-        SEMI_STATIC_IMPORT,
+        SEMI__FOR_NO_CONDITION_UPDATE,
+        /** 'for (; ...; ...) {' */
+        SEMI__FOR_NO_INIT_CONDITION,
+        /** 'for (;;...) {' */
+        SEMI__FOR_NO_INIT_NO_CONDITION,
+        /** 'import pkg.*;', 'import pkg.MyClass;' */
+        SEMI__IMPORT,
+        /** 'package pkg.pkg;' */
+        SEMI__PACKAGE_DECL,
+        /** 'a = 7;' */
+        SEMI__STATEMENT,
+        /** 'import static MyClass.*;' */
+        SEMI__STATIC_IMPORT,
         /** 'class MyClass { ; }' */
-        SEMI_TYPE_DECL,
-        SHIFT_OPERATORS,
+        SEMI__TYPE_DECL,
+        /** 'short' */
+        SHORT,
         /** 'import pkg.pkg.*;' */
-        STAR_TYPE_IMPORT_ON_DEMAND,
+        STAR__TYPE_IMPORT_ON_DEMAND,
+        /** 'static int x;', 'static class MyClass {', 'static void meth() {' */
+        STATIC__MOD,
         /** 'class MyClass { static { ... } }' */
-        STATIC_INIT,
-        SUPER_CTOR_CALL,
-        SUPER_EXPR,
+        STATIC__STATIC_INIT,
+        /** 'super(x, y);' */
+        SUPER__CTOR_CALL,
+        /** 'super.meth();' */
+        SUPER__EXPR,
         /** 'List<T super MyClass>' */
-        SUPER_TYPE_BOUND,
+        SUPER__TYPE_BOUND,
+        /** 'switch (a) {' */
         SWITCH,
-        THIS_CTOR_CALL,
-        THIS_EXPR,
+        /** 'synchronized Object o;' */
+        SYNCHRONIZED,
+        /** 'this(a, b);' */
+        THIS__CTOR_CALL,
+        /** 'this.meth()', 'this.field' */
+        THIS__EXPR,
+        /** 'throw' */
         THROW,
+        /** 'throws' */
         THROWS,
+        /** 'transient' */
+        TRANSIENT,
+        /** 'try { ... } catch (...) { ... }' */
         TRY,
+        /** '>>>' */
+        UNSIGNED_RIGHT_SHIFT,
+        /** 'a >>>= b'*/
+        UNSIGNED_RIGHT_SHIFT_ASSIGN,
+        /** 'void meth() {', 'void.class' */
         VOID,
-        /** 'while (a > 0) { ... }' */
-        WHILE,
+        /** 'volatile' */
+        VOLATILE,
         /** 'do { ... } while (a > 0);' */
-        WHILE_DO;
+        WHILE__DO,
+        /** 'while (a > 0) { ... }' */
+        WHILE__WHILE,
+        /** 'a ^ b' */
+        XOR,
+        /** 'a ^= b'*/
+        XOR_ASSIGN,
 
-        public String
-        getDetail() {
-            String s = this.toString();
-
-            // Strip the Whitespaceable prefix which is identical with the AST type.
-            {
-                int idx = s.indexOf('_', 2);
-                if (idx == -1) return null;
-                s = s.substring(idx);
-            }
-            
-            // Convert the enum constant into lower case and replace underscores with spaces.
-            s = s.toLowerCase().replace('_', ' ');
-
-            // Apply some text substitutions which make the detail nicer.
-            for (int i = 0; i < DETAIL_TRANSFORMATIONS.length;) {
-                Pattern pattern     = (Pattern) DETAIL_TRANSFORMATIONS[i++];
-                String  replacement = (String) DETAIL_TRANSFORMATIONS[i++];
-                s = pattern.matcher(s).replaceAll(replacement);
-            }
-
-            return s;
-        }
-        private static final Object[] DETAIL_TRANSFORMATIONS = {
-            Pattern.compile("type_import_on_demand"), "in type-import-on-demand",
-            Pattern.compile("init"),                  "in initializer",
-            Pattern.compile("ctor call"),             "in constructor call",
-            Pattern.compile("expr"),                  "in expression",
-            Pattern.compile("do"),                    "in DO statement",
-        };
+        // CHECKSTYLE __:OFF
     }
 
-    private EnumSet<Whitespaceable> whitespaceBefore = EnumSet.of(
-        ADDITIVE_OPERATORS,
+    private EnumSet<JavaElement> whitespaceBefore = EnumSet.of(
+        AND__EXPR,
+        AND_ASSIGN,
         ASSERT,
-        ASSIGN_VARIABLE_DEF,
-        ASSIGNS,
-        BITWISE_OPERATORS,
+        ASSIGN__ASSIGNMENT,
+        ASSIGN__VAR_DECL,
         BREAK,
         CASE,
         CATCH,
-        CLASS_DECL,
-        COLON_ENHANCED_FOR,
-        COLON_TERNARY,
-        CONDITIONAL_OPERATORS,
+        CLASS__CLASS_DECL,
+        COLON__ENHANCED_FOR,
+        COLON__TERNARY,
+        CONDITIONAL_AND,
+        CONDITIONAL_OR,
         CONTINUE,
-        DEFAULT_ANNOTATION_TYPE_ELEMENT,
-        DEFAULT_SWITCH,
+        DEFAULT__ANNO_ELEM,
+        DEFAULT__SWITCH,
+        DIVIDE,
+        DIVIDE_ASSIGN,
         DO,
         ELSE,
         ENUM,
-        EQUALITY_OPERATORS,
-        EXTENDS_TYPE,
-        EXTENDS_TYPE_BOUND,
+        EQUAL,
+        EXTENDS__TYPE,
+        EXTENDS__TYPE_BOUND,
         FINALLY,
         FOR,
+        GREATER,
+        GREATER_EQUAL,
         IF,
         IMPLEMENTS,
         IMPORT,
-        IMPORT_STATIC,
+        IMPORT__STATIC_IMPORT,
         INSTANCEOF,
-        L_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
-        L_CURLY_ANON_CLASS,
-        L_CURLY_BLOCK,
-        L_CURLY_CATCH,
-        L_CURLY_DO,
-        L_CURLY_EMPTY_ANON_CLASS,
-        L_CURLY_EMPTY_CATCH,
-        L_CURLY_EMPTY_METHOD_DEF,
-        L_CURLY_EMPTY_TYPE_DEF,
-        L_CURLY_ENUM_CONSTANT_DEF,
-        L_CURLY_FINALLY,
-        L_CURLY_FOR,
-        L_CURLY_IF,
-        L_CURLY_INSTANCE_INIT,
-        L_CURLY_LABELED_STAT,
-        L_CURLY_METHOD_DEF,
-        L_CURLY_STATIC_INIT,
-        L_CURLY_SWITCH,
-        L_CURLY_SYNCHRONIZED,
-        L_CURLY_TRY,
-        L_CURLY_TYPE_DEF,
-        L_CURLY_WHILE,
-        L_PAREN_CATCH,
-        L_PAREN_DO_WHILE,
-        L_PAREN_FOR,
-        L_PAREN_FOR_NO_INIT,
-        L_PAREN_IF,
-        MULTIPLICATIVE_OPERATORS,
-        NAME_CTOR_DEF,
-        NAME_METHOD_DEF,
-        NAME_PARAMETER,
-        NAME_TYPE_DEF,
-        NAME_VARIABLE_DEF,
+        L_ANGLE__METH_DECL_TYPE_PARAMS,
+        L_CURLY__ANON_CLASS,
+        L_CURLY__BLOCK,
+        L_CURLY__CATCH,
+        L_CURLY__DO,
+        L_CURLY__EMPTY_ANON_CLASS,
+        L_CURLY__EMPTY_CATCH,
+        L_CURLY__EMPTY_METH_DEF,
+        L_CURLY__EMPTY_TYPE_DEF,
+        L_CURLY__ENUM_CONST_DEF,
+        L_CURLY__FINALLY,
+        L_CURLY__FOR,
+        L_CURLY__IF,
+        L_CURLY__INSTANCE_INIT,
+        L_CURLY__LABELED_STAT,
+        L_CURLY__METH_DECL,
+        L_CURLY__STATIC_INIT,
+        L_CURLY__SWITCH,
+        L_CURLY__SYNCHRONIZED,
+        L_CURLY__TRY,
+        L_CURLY__TYPE_DECL,
+        L_CURLY__WHILE,
+        L_PAREN__CATCH,
+        L_PAREN__DO_WHILE,
+        L_PAREN__FOR,
+        L_PAREN__FOR_NO_INIT,
+        L_PAREN__IF,
+        LEFT_SHIFT,
+        LEFT_SHIFT_ASSIGN,
+        LESS,
+        LESS_EQUAL,
+        MINUS__ADDITIVE,
+        MINUS_ASSIGN,
+        MODULO,
+        MODULO_ASSIGN,
+        MULTIPLY,
+        MULTIPLY_ASSIGN,
+        NAME__CTOR_DEF,
+        NAME__METH_DECL,
+        NAME__PARAM,
+        NAME__TYPE_DECL,
+        NAME__VAR_DEF,
+        NOT_EQUAL,
+        OR,
+        OR_ASSIGN,
         PACKAGE,
-        QUESTION_TERNARY,
-        R_CURLY_ANNOTATION_ARRAY_INIT,
-        R_CURLY_ANON_CLASS,
-        R_CURLY_ARRAY_INIT,
-        R_CURLY_BLOCK,
-        R_CURLY_CATCH,
-        R_CURLY_DO_WHILE,
-        R_CURLY_ELSE,
-        R_CURLY_FINALLY,
-        R_CURLY_FOR,
-        R_CURLY_IF,
-        R_CURLY_INSTANCE_INIT,
-        R_CURLY_LABELED_STAT,
-        R_CURLY_METHOD_DEF,
-        R_CURLY_STATIC_INIT,
-        R_CURLY_SWITCH,
-        R_CURLY_SYNCHRONIZED,
-        R_CURLY_TRY,
-        R_CURLY_TYPE_DEF,
-        R_CURLY_WHILE,
-        RETURN_EXPR,
-        RETURN_NO_EXPR,
-        SEMI_TYPE_DECL,
-        SHIFT_OPERATORS,
-        STATIC_INIT,
-        SUPER_CTOR_CALL,
-        SUPER_TYPE_BOUND,
+        PLUS__ADDITIVE,
+        PLUS_ASSIGN,
+        QUESTION__TERNARY,
+        R_CURLY__ANNO_ARRAY_INIT,
+        R_CURLY__ANON_CLASS,
+        R_CURLY__ARRAY_INIT,
+        R_CURLY__BLOCK,
+        R_CURLY__CATCH,
+        R_CURLY__DO,
+        R_CURLY__ELSE,
+        R_CURLY__FINALLY,
+        R_CURLY__FOR,
+        R_CURLY__IF,
+        R_CURLY__INSTANCE_INIT,
+        R_CURLY__LABELED_STAT,
+        R_CURLY__METH_DECL,
+        R_CURLY__STATIC_INIT,
+        R_CURLY__SWITCH,
+        R_CURLY__SYNCHRONIZED,
+        R_CURLY__TRY,
+        R_CURLY__TYPE_DEF,
+        R_CURLY__WHILE,
+        RETURN__EXPR,
+        RETURN__NO_EXPR,
+        RIGHT_SHIFT,
+        RIGHT_SHIFT_ASSIGN,
+        SEMI__TYPE_DECL,
+        STATIC__STATIC_INIT,
+        SUPER__CTOR_CALL,
+        SUPER__TYPE_BOUND,
         SWITCH,
-        THIS_CTOR_CALL,
+        THIS__CTOR_CALL,
         THROW,
         THROWS,
         TRY,
+        UNSIGNED_RIGHT_SHIFT,
+        UNSIGNED_RIGHT_SHIFT_ASSIGN,
         VOID,
-        WHILE,
-        WHILE_DO
+        WHILE__DO,
+        WHILE__WHILE,
+        XOR,
+        XOR_ASSIGN
     );
-    private EnumSet<Whitespaceable> noWhitespaceBefore = EnumSet.of(
-        CLASS_LITERAL,
-        COLON_DEFAULT,
-        COLON_CASE,
-        COLON_LABELED_STAT,
+    private EnumSet<JavaElement> noWhitespaceBefore = EnumSet.of(
+        CLASS__CLASS_LITERAL,
+        COLON__DEFAULT,
+        COLON__CASE,
+        COLON__LABELED_STAT,
         COMMA,
-        DOT_IMPORT,
-        DOT_PACKAGE_DEF,
-        DOT_QUALIFIED_TYPE,
-        DOT_SELECTOR,
-        ELLIPSIS_PARAMETER,
-        L_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
-        L_ANGLE_TYPE_ARGUMENTS,
-        L_ANGLE_TYPE_PARAMETERS,
-        L_BRACK_ARRAY_DECL,
-        L_BRACK_INDEX,
-        L_PAREN_ANNOTATION,
-        L_PAREN_ANNOTATION_FIELD_DEF,
-        L_PAREN_CALL,
-        L_PAREN_PARAMETERS,
-        NAME_ANNOTATION,
-        POST_DEC,
-        POST_INC,
-        R_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
-        R_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
-        R_ANGLE_TYPE_ARGUMENTS,
-        R_ANGLE_TYPE_PARAMETERS,
-        R_BRACK_ARRAY_DECL,
-        R_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
-        R_CURLY_EMPTY_ANON_CLASS,
-        R_CURLY_EMPTY_ARRAY_INIT,
-        R_CURLY_EMPTY_CATCH,
-        R_CURLY_EMPTY_METHOD_DEF,
-        R_CURLY_EMPTY_TYPE_DEF,
-        R_CURLY_ENUM_CONSTANT_DEF,
-        R_PAREN_ANNOTATION,
-        R_PAREN_ANNOTATION_FIELD_DEF,
-        R_PAREN_CALL,
-        R_PAREN_CAST,
-        R_PAREN_CATCH,
-        R_PAREN_DO_WHILE,
-        R_PAREN_FOR,
-        R_PAREN_FOR_NO_UPDATE,
-        R_PAREN_IF,
-        R_PAREN_PARAMETERS,
-        SEMI_ABSTRACT_METH_DEF,
-        SEMI_ANNOTATION_FIELD_DEF,
-        SEMI_ENUM_DEF,
-        SEMI_FIELD_DEF,
-        SEMI_FOR_CONDITION_NO_UPDATE,
-        SEMI_FOR_CONDITION_UPDATE,
-        SEMI_FOR_INIT_CONDITION,
-        SEMI_FOR_INIT_NO_CONDITION,
-        SEMI_FOR_NO_CONDITION_NO_UPDATE,
-        SEMI_FOR_NO_CONDITION_UPDATE,
-        SEMI_FOR_NO_INIT_CONDITION,
-        SEMI_FOR_NO_INIT_NO_CONDITION,
-        SEMI_IMPORT,
-        SEMI_PACKAGE_DEF,
-        SEMI_STATEMENT,
-        SEMI_STATIC_IMPORT,
-        STAR_TYPE_IMPORT_ON_DEMAND
+        DOT__IMPORT,
+        DOT__PACKAGE_DECL,
+        DOT__QUALIFIED_TYPE,
+        DOT__SELECTOR,
+        ELLIPSIS,
+        L_ANGLE__METH_INVOCATION_TYPE_ARGS,
+        L_ANGLE__TYPE_ARGS,
+        L_ANGLE__TYPE_PARAMS,
+        L_BRACK__ARRAY_DECL,
+        L_BRACK__INDEX,
+        L_PAREN__ANNO,
+        L_PAREN__ANNO_ELEM_DECL,
+        L_PAREN__METH_INVOCATION,
+        L_PAREN__PARAMS,
+        NAME__ANNO,
+        POST_DECR,
+        POST_INCR,
+        R_ANGLE__METH_DECL_TYPE_PARAMS,
+        R_ANGLE__METH_INVOCATION_TYPE_ARGS,
+        R_ANGLE__TYPE_ARGS,
+        R_ANGLE__TYPE_PARAMS,
+        R_BRACK__ARRAY_DECL,
+        R_CURLY__EMPTY_ANNO_ARRAY_INIT,
+        R_CURLY__EMPTY_ANON_CLASS,
+        R_CURLY__EMPTY_ARRAY_INIT,
+        R_CURLY__EMPTY_CATCH,
+        R_CURLY__EMPTY_METH_DECL,
+        R_CURLY__EMPTY_TYPE_DEF,
+        R_CURLY__ENUM_CONST_DEF,
+        R_PAREN__ANNO,
+        R_PAREN__ANNO_ELEM_DECL,
+        R_PAREN__METH_INVOCATION,
+        R_PAREN__CAST,
+        R_PAREN__CATCH,
+        R_PAREN__DO_WHILE,
+        R_PAREN__FOR,
+        R_PAREN__FOR_NO_UPDATE,
+        R_PAREN__IF,
+        R_PAREN__PARAMS,
+        SEMI__ABSTRACT_METH_DEF,
+        SEMI__ANNO_ELEM_DECL,
+        SEMI__ENUM_DEF,
+        SEMI__FIELD_DEF,
+        SEMI__FOR_CONDITION_NO_UPDATE,
+        SEMI__FOR_CONDITION_UPDATE,
+        SEMI__FOR_INIT_CONDITION,
+        SEMI__FOR_INIT_NO_CONDITION,
+        SEMI__FOR_NO_CONDITION_NO_UPDATE,
+        SEMI__FOR_NO_CONDITION_UPDATE,
+        SEMI__FOR_NO_INIT_CONDITION,
+        SEMI__FOR_NO_INIT_NO_CONDITION,
+        SEMI__IMPORT,
+        SEMI__PACKAGE_DECL,
+        SEMI__STATEMENT,
+        SEMI__STATIC_IMPORT,
+        STAR__TYPE_IMPORT_ON_DEMAND
     );
-    private EnumSet<Whitespaceable> whitespaceAfter = EnumSet.of(
-        ADDITIVE_OPERATORS,
+    // END CONFIGURATION SETTERS
+    
+    private EnumSet<JavaElement> whitespaceAfter = EnumSet.of(
+        ABSTRACT,
+        AND__EXPR,
+        AND_ASSIGN,
         ASSERT,
-        ASSIGN_VARIABLE_DEF,
-        ASSIGNS,
-        BITWISE_OPERATORS,
+        ASSIGN__ASSIGNMENT,
+        ASSIGN__VAR_DECL,
         CASE,
         CATCH,
-        CLASS_DECL,
-        COLON_DEFAULT,
-        COLON_CASE,
-        COLON_ENHANCED_FOR,
-        COLON_LABELED_STAT,
-        COLON_TERNARY,
+        CLASS__CLASS_DECL,
+        COLON__CASE,
+        COLON__DEFAULT,
+        COLON__ENHANCED_FOR,
+        COLON__LABELED_STAT,
+        COLON__TERNARY,
         COMMA,
-        CONDITIONAL_OPERATORS,
-        DEFAULT_ANNOTATION_TYPE_ELEMENT,
+        CONDITIONAL_AND,
+        CONDITIONAL_OR,
+        DEFAULT__ANNO_ELEM,
+        DIVIDE,
+        DIVIDE_ASSIGN,
         DO,
-        ELLIPSIS_PARAMETER,
+        ELLIPSIS,
         ELSE,
-        EMPTY_STAT,
         ENUM,
-        EQUALITY_OPERATORS,
-        EXTENDS_TYPE,
-        EXTENDS_TYPE_BOUND,
+        EQUAL,
+        EXTENDS__TYPE,
+        EXTENDS__TYPE_BOUND,
+        FINAL,
         FINALLY,
         FOR,
+        GREATER,
+        GREATER_EQUAL,
         IF,
         IMPLEMENTS,
         IMPORT,
-        IMPORT_STATIC,
+        IMPORT__STATIC_IMPORT,
         INSTANCEOF,
         INTERFACE,
-        L_CURLY_ANNOTATION_ARRAY_INIT,
-        L_CURLY_ANON_CLASS,
-        L_CURLY_ARRAY_INIT,
-        L_CURLY_BLOCK,
-        L_CURLY_CATCH,
-        L_CURLY_DO,
-        L_CURLY_ENUM_CONSTANT_DEF,
-        L_CURLY_FINALLY,
-        L_CURLY_FOR,
-        L_CURLY_IF,
-        L_CURLY_INSTANCE_INIT,
-        L_CURLY_LABELED_STAT,
-        L_CURLY_METHOD_DEF,
-        L_CURLY_STATIC_INIT,
-        L_CURLY_SWITCH,
-        L_CURLY_SYNCHRONIZED,
-        L_CURLY_TRY,
-        L_CURLY_TYPE_DEF,
-        L_CURLY_WHILE,
-        MODIFIER,
+        L_CURLY__ANNO_ARRAY_INIT,
+        L_CURLY__ANON_CLASS,
+        L_CURLY__ARRAY_INIT,
+        L_CURLY__BLOCK,
+        L_CURLY__CATCH,
+        L_CURLY__DO,
+        L_CURLY__ENUM_CONST_DEF,
+        L_CURLY__FINALLY,
+        L_CURLY__FOR,
+        L_CURLY__IF,
+        L_CURLY__INSTANCE_INIT,
+        L_CURLY__LABELED_STAT,
+        L_CURLY__METH_DECL,
+        L_CURLY__STATIC_INIT,
+        L_CURLY__SWITCH,
+        L_CURLY__SYNCHRONIZED,
+        L_CURLY__TRY,
+        L_CURLY__TYPE_DECL,
+        L_CURLY__WHILE,
+        LEFT_SHIFT,
+        LEFT_SHIFT_ASSIGN,
+        LESS,
+        LESS_EQUAL,
+        MINUS__ADDITIVE,
+        MINUS_ASSIGN,
+        MODULO,
+        MODULO_ASSIGN,
+        MULTIPLY,
+        MULTIPLY_ASSIGN,
+        NAME__ANNO_MEMBER,
+        NATIVE,
         NEW,
-        MULTIPLICATIVE_OPERATORS,
-        NAME_ANNOTATION_MEMBER,
+        NOT_EQUAL,
+        OR,
+        OR_ASSIGN,
         PACKAGE,
-        QUESTION_TERNARY,
-        R_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
-        R_CURLY_BLOCK,
-        R_CURLY_CATCH,
-        R_CURLY_DO_WHILE,
-        R_CURLY_ELSE,
-        R_CURLY_EMPTY_CATCH,
-        R_CURLY_EMPTY_METHOD_DEF,
-        R_CURLY_EMPTY_TYPE_DEF,
-        R_CURLY_FINALLY,
-        R_CURLY_FOR,
-        R_CURLY_IF,
-        R_CURLY_INSTANCE_INIT,
-        R_CURLY_LABELED_STAT,
-        R_CURLY_METHOD_DEF,
-        R_CURLY_STATIC_INIT,
-        R_CURLY_SWITCH,
-        R_CURLY_SYNCHRONIZED,
-        R_CURLY_TRY,
-        R_CURLY_TYPE_DEF,
-        R_CURLY_WHILE,
-        R_PAREN_CAST,
-        R_PAREN_CATCH,
-        R_PAREN_IF,
-        RETURN_EXPR,
-        SEMI_ABSTRACT_METH_DEF,
-        SEMI_ANNOTATION_FIELD_DEF,
-        SEMI_ENUM_DEF,
-        SEMI_FIELD_DEF,
-        SEMI_FOR_CONDITION_UPDATE,
-        SEMI_FOR_INIT_CONDITION,
-        SEMI_FOR_NO_CONDITION_UPDATE,
-        SEMI_FOR_NO_INIT_CONDITION,
-        SEMI_IMPORT,
-        SEMI_PACKAGE_DEF,
-        SEMI_STATEMENT,
-        SEMI_STATIC_IMPORT,
-        SEMI_TYPE_DECL,
-        SHIFT_OPERATORS,
-        STATIC_INIT,
-        SUPER_TYPE_BOUND,
+        PLUS__ADDITIVE,
+        PLUS_ASSIGN,
+        PRIVATE,
+        PROTECTED,
+        PUBLIC,
+        QUESTION__TERNARY,
+        R_ANGLE__METH_DECL_TYPE_PARAMS,
+        R_CURLY__BLOCK,
+        R_CURLY__CATCH,
+        R_CURLY__DO,
+        R_CURLY__ELSE,
+        R_CURLY__EMPTY_CATCH,
+        R_CURLY__EMPTY_METH_DECL,
+        R_CURLY__EMPTY_TYPE_DEF,
+        R_CURLY__FINALLY,
+        R_CURLY__FOR,
+        R_CURLY__IF,
+        R_CURLY__INSTANCE_INIT,
+        R_CURLY__LABELED_STAT,
+        R_CURLY__METH_DECL,
+        R_CURLY__STATIC_INIT,
+        R_CURLY__SWITCH,
+        R_CURLY__SYNCHRONIZED,
+        R_CURLY__TRY,
+        R_CURLY__TYPE_DEF,
+        R_CURLY__WHILE,
+        R_PAREN__CAST,
+        R_PAREN__CATCH,
+        R_PAREN__IF,
+        RETURN__EXPR,
+        RIGHT_SHIFT,
+        RIGHT_SHIFT_ASSIGN,
+        SEMI__ABSTRACT_METH_DEF,
+        SEMI__ANNO_ELEM_DECL,
+        SEMI__EMPTY_STAT,
+        SEMI__ENUM_DEF,
+        SEMI__FIELD_DEF,
+        SEMI__FOR_CONDITION_UPDATE,
+        SEMI__FOR_INIT_CONDITION,
+        SEMI__FOR_NO_CONDITION_UPDATE,
+        SEMI__FOR_NO_INIT_CONDITION,
+        SEMI__IMPORT,
+        SEMI__PACKAGE_DECL,
+        SEMI__STATEMENT,
+        SEMI__STATIC_IMPORT,
+        SEMI__TYPE_DECL,
+        STATIC__MOD,
+        STATIC__STATIC_INIT,
+        SUPER__TYPE_BOUND,
         SWITCH,
+        SYNCHRONIZED,
         THROW,
         THROWS,
+        TRANSIENT,
         TRY,
-        WHILE,
-        WHILE_DO
+        UNSIGNED_RIGHT_SHIFT,
+        UNSIGNED_RIGHT_SHIFT_ASSIGN,
+        VOLATILE,
+        WHILE__DO,
+        WHILE__WHILE,
+        XOR,
+        XOR_ASSIGN
     );
-    private EnumSet<Whitespaceable> noWhitespaceAfter = EnumSet.of(
-        AT_ANNOTATION,
-        AT_ANNOTATION_DEF,
+    private EnumSet<JavaElement> noWhitespaceAfter = EnumSet.of(
+        AT__ANNO,
+        AT__ANNO_DECL,
         BITWISE_COMPLEMENT,
-        DEFAULT_SWITCH,
-        DOT_IMPORT,
-        DOT_PACKAGE_DEF,
-        DOT_QUALIFIED_TYPE,
-        DOT_SELECTOR,
-        L_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS,
-        L_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
-        L_ANGLE_TYPE_ARGUMENTS,
-        L_ANGLE_TYPE_PARAMETERS,
-        L_BRACK_ARRAY_DECL,
-        L_BRACK_INDEX,
-        L_CURLY_EMPTY_ANNOTATION_ARRAY_INIT,
-        L_CURLY_EMPTY_ANON_CLASS,
-        L_CURLY_EMPTY_ARRAY_INIT,
-        L_CURLY_EMPTY_CATCH,
-        L_CURLY_EMPTY_METHOD_DEF,
-        L_CURLY_EMPTY_TYPE_DEF,
-        L_PAREN_ANNOTATION,
-        L_PAREN_ANNOTATION_FIELD_DEF,
-        L_PAREN_CALL,
-        L_PAREN_CAST,
-        L_PAREN_CATCH,
-        L_PAREN_DO_WHILE,
-        L_PAREN_FOR,
-        L_PAREN_FOR_NO_INIT,
-        L_PAREN_IF,
-        L_PAREN_PARAMETERS,
-        L_PAREN_PARENTHESIZED,
+        DEFAULT__SWITCH,
+        DOT__IMPORT,
+        DOT__PACKAGE_DECL,
+        DOT__QUALIFIED_TYPE,
+        DOT__SELECTOR,
+        L_ANGLE__METH_DECL_TYPE_PARAMS,
+        L_ANGLE__METH_INVOCATION_TYPE_ARGS,
+        L_ANGLE__TYPE_ARGS,
+        L_ANGLE__TYPE_PARAMS,
+        L_BRACK__ARRAY_DECL,
+        L_BRACK__INDEX,
+        L_CURLY__EMPTY_ANNO_ARRAY_INIT,
+        L_CURLY__EMPTY_ANON_CLASS,
+        L_CURLY__EMPTY_ARRAY_INIT,
+        L_CURLY__EMPTY_CATCH,
+        L_CURLY__EMPTY_METH_DEF,
+        L_CURLY__EMPTY_TYPE_DEF,
+        L_PAREN__ANNO,
+        L_PAREN__ANNO_ELEM_DECL,
+        L_PAREN__METH_INVOCATION,
+        L_PAREN__CAST,
+        L_PAREN__CATCH,
+        L_PAREN__DO_WHILE,
+        L_PAREN__FOR,
+        L_PAREN__FOR_NO_INIT,
+        L_PAREN__IF,
+        L_PAREN__PARAMS,
+        L_PAREN__PARENTHESIZED,
         LOGICAL_COMPLEMENT,
-        MINUS_UNARY,
-        NAME_ANNOTATION_FIELD_DEF,
-        NAME_CTOR_DEF,
-        NAME_IMPORT_COMPONENT,
-        NAME_IMPORT_TYPE,
-        NAME_METHOD_DEF,
-        NAME_PACKAGE_DEF,
-        NAME_PARAMETER,
-        PLUS_UNARY,
-        PRE_DEC,
-        PRE_INC,
-        R_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS,
-        R_PAREN_DO_WHILE,
-        RETURN_NO_EXPR,
-        SEMI_FOR_CONDITION_NO_UPDATE,
-        SEMI_FOR_INIT_NO_CONDITION,
-        SEMI_FOR_NO_CONDITION_NO_UPDATE,
-        SEMI_FOR_NO_INIT_NO_CONDITION,
-        STAR_TYPE_IMPORT_ON_DEMAND,
-        SUPER_CTOR_CALL,
-        SUPER_EXPR,
-        THIS_CTOR_CALL
+        MINUS__UNARY,
+        NAME__ANNO_ELEM_DECL,
+        NAME__CTOR_DEF,
+        NAME__IMPORT_COMPONENT,
+        NAME__IMPORT_TYPE,
+        NAME__METH_DECL,
+        NAME__PACKAGE_DECL,
+        NAME__PARAM,
+        PLUS__UNARY,
+        PRE_DECR,
+        PRE_INCR,
+        R_ANGLE__METH_INVOCATION_TYPE_ARGS,
+        R_PAREN__DO_WHILE,
+        RETURN__NO_EXPR,
+        SEMI__FOR_CONDITION_NO_UPDATE,
+        SEMI__FOR_INIT_NO_CONDITION,
+        SEMI__FOR_NO_CONDITION_NO_UPDATE,
+        SEMI__FOR_NO_INIT_NO_CONDITION,
+        STAR__TYPE_IMPORT_ON_DEMAND,
+        SUPER__CTOR_CALL,
+        SUPER__EXPR,
+        THIS__CTOR_CALL
     );
-
-    // BEGIN CONFIGURATION SETTERS
-
-    // CHECKSTYLE JavadocMethod:OFF
-    public void setWhitespaceBefore(String[] sa)   { this.whitespaceBefore   = toEnumSet(sa, Whitespaceable.class); }
-    public void setNoWhitespaceBefore(String[] sa) { this.noWhitespaceBefore = toEnumSet(sa, Whitespaceable.class); }
-    public void setWhitespaceAfter(String[] sa)    { this.whitespaceAfter    = toEnumSet(sa, Whitespaceable.class); }
-    public void setNoWhitespaceAfter(String[] sa)  { this.noWhitespaceAfter  = toEnumSet(sa, Whitespaceable.class); }
-    // CHECKSTYLE JavadocMethod:ON
-
     // END CONFIGURATION SETTERS
-
-    private static <E extends Enum<E>> E
-    toEnum(String value, Class<E> enumClass) {
-        try {
-            return Enum.valueOf(enumClass, value.trim().toUpperCase());
-        } catch (IllegalArgumentException iae) {
-            throw new ConversionException("Unable to parse " + value, iae);
-        }
-    }
     
-    private static <E extends Enum<E>> EnumSet<E>
-    toEnumSet(String[] values, Class<E> enumClass) {
-        EnumSet<E> result = EnumSet.noneOf(enumClass);
-        for (String value : values) result.add(toEnum(value, enumClass));
-        return result;
-    }
-
-    @Override public void
-    visitToken(DetailAST ast) {
-        assert ast != null;
-
-        @SuppressWarnings("unused") AstDumper dumper = new AstDumper(ast); // For debugging
-
-        Whitespaceable whitespaceable = toWhitespaceable(ast);
-
-        if (whitespaceable == null) {
-            return;
-        }
-
-//        log(ast, "CHECK {0}={1} => {2}", ast, ast.getType(), whitespaceable);
-
-        boolean mustBeWhitespaceBefore    = this.whitespaceBefore.contains(whitespaceable);
-        boolean mustNotBeWhitespaceBefore = this.noWhitespaceBefore.contains(whitespaceable);
-
-        boolean mustBeWhitespaceAfter    = this.whitespaceAfter.contains(whitespaceable);
-        boolean mustNotBeWhitespaceAfter = this.noWhitespaceAfter.contains(whitespaceable);
-
-        // Short-circuit.
-        if (
-            !mustBeWhitespaceBefore
-            && !mustNotBeWhitespaceBefore
-            && !mustBeWhitespaceAfter
-            && !mustNotBeWhitespaceAfter
-        ) return;
-
-        final String line = getLines()[ast.getLineNo() - 1];
-
-        // Check whitespace BEFORE token.
-        if (mustBeWhitespaceBefore || mustNotBeWhitespaceBefore) {
-            int before = ast.getColumnNo() - 1;
-
-            if (before > 0 && !LINE_PREFIX.matcher(line).region(0, before).matches()) {
-                boolean isWhitespace = Character.isWhitespace(line.charAt(before));
-                if (mustBeWhitespaceBefore && !isWhitespace) {
-                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.notPreceded", beautify(ast, whitespaceable));
-                } else
-                if (mustNotBeWhitespaceBefore && isWhitespace) {
-                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.preceded", beautify(ast, whitespaceable));
-                }
-            }
-        }
-
-        // Check whitespace AFTER token.
-        if (mustBeWhitespaceAfter || mustNotBeWhitespaceAfter) {
-            int after = ast.getColumnNo() + ast.getText().length();
-
-            if (after < line.length() && !LINE_SUFFIX.matcher(line).region(after, line.length()).matches()) {
-                boolean isWhitespace = Character.isWhitespace(line.charAt(after));
-                if (mustBeWhitespaceAfter && !isWhitespace) {
-                    log(
-                        ast.getLineNo(),
-                        after,
-                        "de.unkrig.cscontrib.checks.Whitespace.notFollowed",
-                        beautify(ast, whitespaceable)
-                    );
-                } else
-                if (mustNotBeWhitespaceAfter && isWhitespace) {
-                    log(
-                        ast.getLineNo(),
-                        after,
-                        "de.unkrig.cscontrib.checks.Whitespace.followed",
-                        beautify(ast, whitespaceable)
-                    );
-                }
-            }
-        }
-    }
-
-    private static Object
-    beautify(DetailAST ast, Whitespaceable whitespaceable) {
-        String detail = whitespaceable.getDetail();
-        return detail == null ? ast.getText() : ast.getText() + " (" + detail + ')';
-    }
-
-    private Whitespaceable
-    toWhitespaceable(DetailAST ast) {
-
-        final int parentType, grandparentType, previousSiblingType, nextSiblingType, firstChildType;
-        {
-            DetailAST parent = ast.getParent();
-            if (parent == null) {
-                parentType      = -1;
-                grandparentType = -1;
-            } else {
-                parentType = parent.getType();
-                DetailAST grandparent = parent.getParent();
-                grandparentType = grandparent == null ? -1 : grandparent.getType();
-            }
-
-            DetailAST previousSibling = ast.getPreviousSibling();
-            previousSiblingType = previousSibling == null ? -1 : previousSibling.getType();
-            
-            DetailAST nextSibling = ast.getNextSibling();
-            nextSiblingType = nextSibling == null ? -1 : nextSibling.getType();
-
-            DetailAST firstChild = ast.getFirstChild();
-            firstChildType = firstChild == null ? -1 : firstChild.getType();
-        }
-
-        // Find out how this token is to be checked.
-        switch (ast.getType()) {
-
-        case TokenTypes.ARRAY_DECLARATOR:
-            return L_BRACK_ARRAY_DECL;
-
-        case TokenTypes.ARRAY_INIT:
-            return firstChildType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ARRAY_INIT : L_CURLY_ARRAY_INIT;
-
-        case TokenTypes.ASSIGN:
-            if (parentType == TokenTypes.VARIABLE_DEF) return ASSIGN_VARIABLE_DEF;
-            // FALLTHROUGH
-        case TokenTypes.BAND_ASSIGN:
-        case TokenTypes.BOR_ASSIGN:
-        case TokenTypes.BSR_ASSIGN:
-        case TokenTypes.BXOR_ASSIGN:
-        case TokenTypes.DIV_ASSIGN:
-        case TokenTypes.MINUS_ASSIGN:
-        case TokenTypes.MOD_ASSIGN:
-        case TokenTypes.PLUS_ASSIGN:
-        case TokenTypes.SL_ASSIGN:
-        case TokenTypes.SR_ASSIGN:
-        case TokenTypes.STAR_ASSIGN:
-            return ASSIGNS;
-
-        case TokenTypes.AT:
-            if (parentType == TokenTypes.ANNOTATION)     return AT_ANNOTATION;
-            if (parentType == TokenTypes.ANNOTATION_DEF) return AT_ANNOTATION_DEF;
-            assert false : "AT has unexpected parent '" + ast.getParent() + "'";
-            return null;
-
-        case TokenTypes.BAND:
-        case TokenTypes.BOR:
-        case TokenTypes.BXOR:
-            return BITWISE_OPERATORS;
-
-        case TokenTypes.BNOT:
-            return BITWISE_COMPLEMENT;
-
-        case TokenTypes.LOR:
-        case TokenTypes.LAND:
-            return CONDITIONAL_OPERATORS;
-
-        case TokenTypes.LNOT:
-            return LOGICAL_COMPLEMENT;
-
-        case TokenTypes.TYPECAST:
-            return L_PAREN_CAST;
-
-        case TokenTypes.COLON:
-            if (parentType == TokenTypes.LITERAL_DEFAULT) return COLON_DEFAULT;
-            if (parentType == TokenTypes.LITERAL_CASE)    return COLON_CASE;
-            if (parentType == TokenTypes.FOR_EACH_CLAUSE) return COLON_ENHANCED_FOR;
-            return COLON_TERNARY;
-
-        case TokenTypes.COMMA:    return COMMA;
-        case TokenTypes.DEC:      return PRE_DEC;
-        case TokenTypes.INC:      return PRE_INC;
-        case TokenTypes.POST_DEC: return POST_DEC;
-        case TokenTypes.POST_INC: return POST_INC;
-
-        case TokenTypes.STAR:
-            if (parentType == TokenTypes.DOT) return STAR_TYPE_IMPORT_ON_DEMAND;
-            // FALLTHROUGH
-        case TokenTypes.DIV:
-        case TokenTypes.MOD:
-            return MULTIPLICATIVE_OPERATORS;
-
-        case TokenTypes.PLUS:
-        case TokenTypes.MINUS:
-            return ADDITIVE_OPERATORS;
-
-        case TokenTypes.UNARY_MINUS:
-            return MINUS_UNARY;
-
-        case TokenTypes.UNARY_PLUS:
-            return PLUS_UNARY;
-
-        case TokenTypes.DOT:
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return DOT_PACKAGE_DEF;
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT)      return DOT_IMPORT;
-            if (
-                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
-            ) return DOT_QUALIFIED_TYPE;
-            return DOT_SELECTOR;
-
-        case TokenTypes.EMPTY_STAT:
-            return EMPTY_STAT;
-
-        case TokenTypes.LT:
-        case TokenTypes.LE:
-        case TokenTypes.EQUAL:
-        case TokenTypes.NOT_EQUAL:
-        case TokenTypes.GE:
-        case TokenTypes.GT:
-            return EQUALITY_OPERATORS;
-
-        case TokenTypes.GENERIC_END:
-            if (parentType == TokenTypes.TYPE_PARAMETERS) {
-                return (
-                    grandparentType == TokenTypes.METHOD_DEF
-                ) ? R_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS : R_ANGLE_TYPE_ARGUMENTS;
-            }
-            if (parentType == TokenTypes.TYPE_ARGUMENTS) {
-                return (
-                    grandparentType == TokenTypes.TYPE
-                    || grandparentType == TokenTypes.LITERAL_NEW
-                    || grandparentType == TokenTypes.EXTENDS_CLAUSE
-                    || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
-                ) ? R_ANGLE_TYPE_ARGUMENTS : R_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS;
-            }
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
-            
-        case TokenTypes.GENERIC_START:
-            if (parentType == TokenTypes.TYPE_PARAMETERS) {
-                return (
-                    grandparentType == TokenTypes.METHOD_DEF
-                ) ? L_ANGLE_METHOD_DECLARATION_TYPE_PARAMETERS : L_ANGLE_TYPE_ARGUMENTS;
-            }
-            if (parentType == TokenTypes.TYPE_ARGUMENTS) {
-                return (
-                    grandparentType == TokenTypes.TYPE
-                    || grandparentType == TokenTypes.LITERAL_NEW
-                    || grandparentType == TokenTypes.EXTENDS_CLAUSE
-                    || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
-                ) ? L_ANGLE_TYPE_ARGUMENTS : L_ANGLE_METHOD_INVOCATION_TYPE_ARGUMENTS;
-            }
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
-
-        case TokenTypes.IDENT:
-            if (
-                parentType == TokenTypes.CLASS_DEF
-                || parentType == TokenTypes.INTERFACE_DEF
-                || parentType == TokenTypes.ANNOTATION_DEF
-                || parentType == TokenTypes.ENUM_DEF
-            ) return NAME_TYPE_DEF;
-            if (parentType == TokenTypes.ANNOTATION)           return NAME_ANNOTATION;
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return NAME_ANNOTATION_FIELD_DEF;
-            if (parentType == TokenTypes.VARIABLE_DEF)         return NAME_VARIABLE_DEF;
-            if (parentType == TokenTypes.CTOR_DEF)             return NAME_CTOR_DEF;
-            if (parentType == TokenTypes.METHOD_DEF)           return NAME_METHOD_DEF;
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return NAME_PACKAGE_DEF;
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) {
-                return ast.getNextSibling() == null ? NAME_IMPORT_TYPE : NAME_IMPORT_COMPONENT;
-            }
-            if (
-                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.TYPE
-                || getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.LITERAL_NEW
-            ) return NAME_SIMPLE_TYPE;
-            if (
-                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
-            ) return NAME_QUALIFIED_TYPE;
-            if (parentType == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR) return NAME_ANNOTATION_MEMBER;
-            if (parentType == TokenTypes.PARAMETER_DEF) return NAME_PARAMETER;
-            return NAME_AMBIGUOUS;
-
-        case TokenTypes.LCURLY:
-            if (parentType == TokenTypes.OBJBLOCK && (
-                grandparentType == TokenTypes.CLASS_DEF
-                || grandparentType == TokenTypes.INTERFACE_DEF
-                || grandparentType == TokenTypes.ANNOTATION_DEF
-                || grandparentType == TokenTypes.ENUM_DEF
-            )) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_TYPE_DEF : L_CURLY_TYPE_DEF;
-            if (
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW
-            ) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ANON_CLASS : L_CURLY_ANON_CLASS;
-            if (
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
-            ) return L_CURLY_ENUM_CONSTANT_DEF;
-            if (
-                parentType == TokenTypes.ARRAY_INIT
-            ) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY_EMPTY_ARRAY_INIT : L_CURLY_ARRAY_INIT;
-            if (parentType == TokenTypes.LITERAL_SWITCH) return L_CURLY_SWITCH;
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
-
-        case TokenTypes.ANNOTATION_ARRAY_INIT:
-            return (
-                firstChildType == TokenTypes.RCURLY
-                ? L_CURLY_EMPTY_ANNOTATION_ARRAY_INIT
-                : L_CURLY_ANNOTATION_ARRAY_INIT
-            );
-
-        case TokenTypes.INDEX_OP:
-            return L_BRACK_INDEX;
-
-        case TokenTypes.IMPLEMENTS_CLAUSE:
-            return IMPLEMENTS;
-
-        case TokenTypes.LITERAL_BYTE:
-        case TokenTypes.LITERAL_INT:
-        case TokenTypes.LITERAL_FLOAT:
-        case TokenTypes.LITERAL_BOOLEAN:
-        case TokenTypes.LITERAL_CHAR:
-        case TokenTypes.LITERAL_LONG:
-        case TokenTypes.LITERAL_DOUBLE:
-        case TokenTypes.LITERAL_SHORT:
-            return PRIMITIVE_TYPE;
-
-        case TokenTypes.CHAR_LITERAL:
-        case TokenTypes.LITERAL_FALSE:
-        case TokenTypes.LITERAL_TRUE:
-        case TokenTypes.LITERAL_NULL:
-        case TokenTypes.NUM_DOUBLE:
-        case TokenTypes.NUM_FLOAT:
-        case TokenTypes.NUM_INT:
-        case TokenTypes.NUM_LONG:
-        case TokenTypes.STRING_LITERAL:
-            return LITERAL;
-
-        case TokenTypes.DO_WHILE:
-            return WHILE_DO;
-
-        case TokenTypes.ENUM:
-            return ENUM;
-
-        case TokenTypes.IMPORT:
-            return IMPORT;
-
-        case TokenTypes.LITERAL_ASSERT:
-            return ASSERT;
-
-        case TokenTypes.LITERAL_BREAK:
-            return BREAK;
-
-        case TokenTypes.LITERAL_CASE:
-            return CASE;
-
-        case TokenTypes.LITERAL_CATCH:
-            return CATCH;
-
-        case TokenTypes.LITERAL_CLASS:
-            return parentType == TokenTypes.CLASS_DEF ? CLASS_DECL : CLASS_LITERAL;
-
-        case TokenTypes.LITERAL_CONTINUE:
-            return CONTINUE;
-
-        case TokenTypes.LITERAL_DEFAULT:
-            return (
-                parentType == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR || parentType == TokenTypes.ANNOTATION_FIELD_DEF
-            ) ? DEFAULT_ANNOTATION_TYPE_ELEMENT : DEFAULT_SWITCH;
-
-        case TokenTypes.LITERAL_DO:
-            return DO;
-
-        case TokenTypes.LITERAL_ELSE:
-            return ELSE;
-
-        case TokenTypes.LITERAL_FINALLY:
-            return FINALLY;
-
-        case TokenTypes.LITERAL_FOR:
-            return FOR;
-
-        case TokenTypes.LITERAL_IF:
-            return IF;
-
-        case TokenTypes.LITERAL_INSTANCEOF:
-            return INSTANCEOF;
-
-        case TokenTypes.LITERAL_INTERFACE:
-            return INTERFACE;
-
-        case TokenTypes.LITERAL_NEW:
-            return NEW;
-
-        case TokenTypes.LITERAL_SUPER:
-            return SUPER_EXPR;
-
-        case TokenTypes.LITERAL_SWITCH:
-            return SWITCH;
-
-        case TokenTypes.LITERAL_THIS:
-            return THIS_EXPR;
-
-        case TokenTypes.LITERAL_THROW:
-            return THROW;
-
-        case TokenTypes.LITERAL_THROWS:
-            return THROWS;
-
-        case TokenTypes.LITERAL_TRY:
-            return TRY;
-
-        case TokenTypes.LITERAL_VOID:
-            return VOID;
-
-        case TokenTypes.ABSTRACT:
-        case TokenTypes.FINAL:
-        case TokenTypes.LITERAL_NATIVE:
-        case TokenTypes.LITERAL_PRIVATE:
-        case TokenTypes.LITERAL_PROTECTED:
-        case TokenTypes.LITERAL_PUBLIC:
-        case TokenTypes.LITERAL_STATIC:
-        case TokenTypes.LITERAL_SYNCHRONIZED:
-        case TokenTypes.LITERAL_TRANSIENT:
-        case TokenTypes.LITERAL_VOLATILE:
-            return MODIFIER;
-
-        case TokenTypes.LITERAL_WHILE:
-            return WHILE;
-
-        case TokenTypes.PACKAGE_DEF:
-            return PACKAGE;
-
-        case TokenTypes.STATIC_IMPORT: 
-            return IMPORT_STATIC;
-
-        case TokenTypes.STATIC_INIT:
-            ast.setText("static");
-            return STATIC_INIT;
-
-        case TokenTypes.LITERAL_RETURN:
-            return firstChildType == TokenTypes.SEMI ? RETURN_NO_EXPR : RETURN_EXPR;
-
-        case TokenTypes.LPAREN:
-            if (parentType == TokenTypes.ANNOTATION) return L_PAREN_ANNOTATION;
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return L_PAREN_ANNOTATION_FIELD_DEF;
-            if (nextSiblingType == TokenTypes.PARAMETERS) return L_PAREN_PARAMETERS;
-            if (
-                parentType == TokenTypes.SUPER_CTOR_CALL || parentType == TokenTypes.LITERAL_NEW
-            ) return L_PAREN_CALL;
-            if (parentType == TokenTypes.LITERAL_DO) return L_PAREN_DO_WHILE;
-            if (parentType == TokenTypes.LITERAL_IF) return L_PAREN_IF;
-            if (parentType == TokenTypes.LITERAL_FOR) {
-                return ast.getNextSibling().getFirstChild() == null ? L_PAREN_FOR_NO_INIT : L_PAREN_FOR;
-            }
-            if (parentType == TokenTypes.LITERAL_CATCH) return L_PAREN_CATCH;
-            return L_PAREN_PARENTHESIZED;
-
-        case TokenTypes.METHOD_CALL:
-            return L_PAREN_CALL;
-
-        case TokenTypes.QUESTION:
-            return QUESTION_TERNARY;
-
-        case TokenTypes.RBRACK:
-            return R_BRACK_ARRAY_DECL;
-
-        case TokenTypes.RCURLY:
-            if (
-                parentType == TokenTypes.SLIST
-                && grandparentType == TokenTypes.LITERAL_CATCH
-            ) return ast.getPreviousSibling() == null ? R_CURLY_EMPTY_CATCH : R_CURLY_CATCH;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_SYNCHRONIZED
-            ) return R_CURLY_SYNCHRONIZED;
-            if (
-                parentType == TokenTypes.OBJBLOCK
-                && (
-                    grandparentType == TokenTypes.CLASS_DEF
-                    || grandparentType == TokenTypes.INTERFACE_DEF
-                    || grandparentType == TokenTypes.ANNOTATION_DEF
-                    || grandparentType == TokenTypes.ENUM_DEF
-                )
-            ) return previousSiblingType == TokenTypes.LCURLY ? R_CURLY_EMPTY_TYPE_DEF : R_CURLY_TYPE_DEF;
-            if (
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW 
-            ) return previousSiblingType == TokenTypes.LCURLY ? R_CURLY_EMPTY_ANON_CLASS : R_CURLY_ANON_CLASS;
-            if (
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
-            ) return R_CURLY_ENUM_CONSTANT_DEF;
-            if (
-                parentType == TokenTypes.SLIST
-                && (grandparentType == TokenTypes.CTOR_DEF || grandparentType == TokenTypes.METHOD_DEF)
-            ) return ast.getPreviousSibling() == null ? R_CURLY_EMPTY_METHOD_DEF : R_CURLY_METHOD_DEF;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_FOR
-            ) return R_CURLY_FOR;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_IF
-            ) return R_CURLY_IF;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_ELSE
-            ) return R_CURLY_IF;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_WHILE
-            ) return R_CURLY_WHILE;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_DO
-            ) return R_CURLY_DO_WHILE;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_TRY
-            ) return R_CURLY_TRY;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_FINALLY
-            ) return R_CURLY_FINALLY;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LABELED_STAT
-            ) return R_CURLY_LABELED_STAT;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.SLIST
-            ) return R_CURLY_BLOCK;
-            if (parentType == TokenTypes.LITERAL_SWITCH) return R_CURLY_SWITCH;
-            if (parentType == TokenTypes.ARRAY_INIT) {
-                return ast.getPreviousSibling() == null ? R_CURLY_EMPTY_ARRAY_INIT : R_CURLY_ARRAY_INIT;
-            } 
-            if (parentType == TokenTypes.ANNOTATION_ARRAY_INIT) {
-                return (
-                    ast.getPreviousSibling() == null
-                    ? R_CURLY_EMPTY_ANNOTATION_ARRAY_INIT
-                    : R_CURLY_ANNOTATION_ARRAY_INIT
-                );
-            }
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.STATIC_INIT
-            ) return R_CURLY_STATIC_INIT;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.INSTANCE_INIT
-            ) return R_CURLY_INSTANCE_INIT;
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
-
-        case TokenTypes.RPAREN:
-            if (parentType == TokenTypes.ANNOTATION) return R_PAREN_ANNOTATION;
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return R_PAREN_ANNOTATION_FIELD_DEF;
-            if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) return R_PAREN_PARAMETERS;
-            if (
-                parentType == TokenTypes.SUPER_CTOR_CALL
-                || parentType == TokenTypes.LITERAL_NEW
-                || parentType == TokenTypes.METHOD_CALL
-            ) return R_PAREN_CALL;
-            if (parentType == TokenTypes.LITERAL_IF) return R_PAREN_IF;
-            if (parentType == TokenTypes.LITERAL_DO) return R_PAREN_DO_WHILE;
-            if (parentType == TokenTypes.LITERAL_FOR) {
-                return ast.getPreviousSibling().getFirstChild() == null ? R_PAREN_FOR_NO_UPDATE : R_PAREN_FOR;
-            }
-            if (parentType == TokenTypes.LITERAL_CATCH) return R_PAREN_CATCH;
-            if (previousSiblingType == TokenTypes.TYPE) return R_PAREN_CAST;
-            return R_PAREN_PARENTHESIZED;
-
-        case TokenTypes.SEMI:
-            if (parentType == TokenTypes.PACKAGE_DEF) return SEMI_PACKAGE_DEF;
-            if (parentType == TokenTypes.IMPORT) return SEMI_IMPORT;
-            if (parentType == TokenTypes.STATIC_IMPORT) return SEMI_STATIC_IMPORT;
-            if (parentType == TokenTypes.OBJBLOCK) return SEMI_TYPE_DECL;
-            if (
-                parentType == TokenTypes.SLIST
-                || parentType == TokenTypes.SUPER_CTOR_CALL
-                || parentType == TokenTypes.CTOR_CALL
-                || parentType == TokenTypes.LITERAL_DO
-                || (parentType == TokenTypes.LITERAL_FOR && nextSiblingType == -1)
-                || parentType == TokenTypes.LITERAL_RETURN
-                || parentType == TokenTypes.LITERAL_BREAK
-                || parentType == TokenTypes.LITERAL_CONTINUE
-                || parentType == TokenTypes.LITERAL_IF
-                || parentType == TokenTypes.LITERAL_WHILE
-                || parentType == TokenTypes.LITERAL_ASSERT
-                || parentType == TokenTypes.LITERAL_THROW
-            ) return SEMI_STATEMENT;
-            if (parentType == TokenTypes.METHOD_DEF) return SEMI_ABSTRACT_METH_DEF;
-            if (previousSiblingType == TokenTypes.FOR_INIT) {
-                return ast.getPreviousSibling().getFirstChild() == null ? (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI_FOR_NO_INIT_NO_CONDITION
-                    : SEMI_FOR_NO_INIT_CONDITION
-                ) : (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI_FOR_INIT_NO_CONDITION
-                    : SEMI_FOR_INIT_CONDITION
-                );
-            }
-            if (previousSiblingType == TokenTypes.FOR_CONDITION) {
-                return ast.getPreviousSibling().getFirstChild() == null ? (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI_FOR_NO_CONDITION_NO_UPDATE
-                    : SEMI_FOR_NO_CONDITION_UPDATE
-                ) : (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI_FOR_CONDITION_NO_UPDATE
-                    : SEMI_FOR_CONDITION_UPDATE
-                );
-            }
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return SEMI_ANNOTATION_FIELD_DEF;
-            if (
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_DEF
-            ) return SEMI_ENUM_DEF;
-            if (
-                parentType == TokenTypes.VARIABLE_DEF && grandparentType == TokenTypes.OBJBLOCK
-            ) return SEMI_FIELD_DEF;
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
-
-        case TokenTypes.SLIST:
-            if (parentType == TokenTypes.STATIC_INIT) return L_CURLY_STATIC_INIT;
-            if (parentType == TokenTypes.INSTANCE_INIT) return L_CURLY_INSTANCE_INIT;
-            if (parentType == TokenTypes.LITERAL_IF) return L_CURLY_IF;
-            if (parentType == TokenTypes.LITERAL_ELSE) return R_CURLY_ELSE;
-            if (parentType == TokenTypes.LITERAL_DO) return L_CURLY_DO;
-            if (parentType == TokenTypes.LITERAL_WHILE) return L_CURLY_WHILE;
-            if (parentType == TokenTypes.LITERAL_FOR) return L_CURLY_FOR;
-            if (parentType == TokenTypes.LITERAL_TRY) return L_CURLY_TRY;
-            if (parentType == TokenTypes.LITERAL_CATCH) { 
-                return firstChildType == TokenTypes.RCURLY ? L_CURLY_EMPTY_CATCH : L_CURLY_CATCH;
-            }
-            if (parentType == TokenTypes.LITERAL_FINALLY) return L_CURLY_FINALLY;
-            if (parentType == TokenTypes.LITERAL_SYNCHRONIZED) return L_CURLY_SYNCHRONIZED;
-            if (parentType == TokenTypes.LABELED_STAT) return L_CURLY_LABELED_STAT;
-            if (parentType == TokenTypes.SLIST) return L_CURLY_BLOCK;
-            if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) {
-                return (
-                    firstChildType == TokenTypes.RCURLY
-                    ? Whitespaceable.L_CURLY_EMPTY_METHOD_DEF
-                    : Whitespaceable.L_CURLY_METHOD_DEF
-                );
-            }
-            return null; // Not a 'physical' token.
-
-        case TokenTypes.SL:
-        case TokenTypes.SR:
-        case TokenTypes.BSR:
-            return SHIFT_OPERATORS;
-            
-        case TokenTypes.ELLIPSIS:
-            return ELLIPSIS_PARAMETER;
-
-        case TokenTypes.CTOR_CALL:
-            return THIS_CTOR_CALL;
-
-        case TokenTypes.SUPER_CTOR_CALL:
-            return SUPER_CTOR_CALL;
-
-        case TokenTypes.TYPE_UPPER_BOUNDS:
-            return EXTENDS_TYPE_BOUND;
-
-        case TokenTypes.TYPE_LOWER_BOUNDS:
-            return SUPER_TYPE_BOUND;
-
-        case TokenTypes.WILDCARD_TYPE:
-            return QUESTION_WILDCARD_TYPE;
-
-        case TokenTypes.EXTENDS_CLAUSE:
-            return EXTENDS_TYPE;
-            
-        case TokenTypes.LABELED_STAT:
-            return COLON_LABELED_STAT;
-            
-        // These are the 'virtual' tokens, i.e. token which are not uniquely related to a physical token:
-        case TokenTypes.ANNOTATION:
-        case TokenTypes.ANNOTATION_DEF:
-        case TokenTypes.ANNOTATION_FIELD_DEF:
-        case TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR:
-        case TokenTypes.ANNOTATIONS:
-        case TokenTypes.CASE_GROUP:
-        case TokenTypes.CLASS_DEF:
-        case TokenTypes.CTOR_DEF:
-        case TokenTypes.ELIST:
-        case TokenTypes.ENUM_DEF:
-        case TokenTypes.ENUM_CONSTANT_DEF:
-        case TokenTypes.EXPR:
-        case TokenTypes.FOR_EACH_CLAUSE:
-        case TokenTypes.FOR_INIT:
-        case TokenTypes.FOR_CONDITION:
-        case TokenTypes.FOR_ITERATOR:
-        case TokenTypes.INTERFACE_DEF:
-        case TokenTypes.INSTANCE_INIT:
-        case TokenTypes.METHOD_DEF:
-        case TokenTypes.MODIFIERS:
-        case TokenTypes.OBJBLOCK:
-        case TokenTypes.PARAMETER_DEF:
-        case TokenTypes.PARAMETERS:
-        case TokenTypes.RESOURCE:
-        case TokenTypes.RESOURCE_SPECIFICATION:
-        case TokenTypes.RESOURCES:
-        case TokenTypes.STRICTFP:
-        case TokenTypes.TYPE:
-        case TokenTypes.TYPE_ARGUMENT:
-        case TokenTypes.TYPE_ARGUMENTS:
-        case TokenTypes.TYPE_EXTENSION_AND:
-        case TokenTypes.TYPE_PARAMETER:
-        case TokenTypes.TYPE_PARAMETERS:
-        case TokenTypes.VARIABLE_DEF:
-            return null;
-
-        case TokenTypes.EOF:
-            assert false : "Unexpected token '" + ast + "'";
-            return null;
-
-        default:
-            assert false : "Unexpected DetailAST " + ast;
-            return null;
-        }
-    }
-
-    /**
-     * @return The type of the closest ancestor who's type is no the given {@code tokenType}, or -1
-     */
-    private static int
-    getAncestorWithTypeNot(DetailAST ast, int tokenType) {
-        for (DetailAST a = ast.getParent();; a = a.getParent()) {
-
-            if (a == null) return -1;
-
-            int t = a.getType();
-            if (t != tokenType) return t;
-        }
-    }
-    
-    /**
-     * @return The type of the closest ancestor who's type is not {@code tokenType1} or {@code tokenType2}, or -1
-     */
-    private static int
-    getAncestorWithTypeNot(DetailAST ast, int tokenType1, int tokenType2) {
-        for (DetailAST a = ast.getParent();; a = a.getParent()) {
-            
-            if (a == null) return -1;
-            
-            int t = a.getType();
-            if (t != tokenType1 && t != tokenType2) return t;
-        }
-    }
-
-    private static final Pattern LINE_PREFIX = Pattern.compile("\\s*");
-    private static final Pattern LINE_SUFFIX = Pattern.compile("\\s*(?://.*)?");
-
     @Override public int[]
     getDefaultTokens() {
         return new int[] {
@@ -1665,5 +1065,661 @@ class Whitespace extends Check {
             TokenTypes.VARIABLE_DEF,
             TokenTypes.WILDCARD_TYPE,
         };
+    }
+
+    // BEGIN CONFIGURATION SETTERS
+
+    // CHECKSTYLE JavadocMethod:OFF
+    public void setWhitespaceBefore(String[] sa)   { this.whitespaceBefore   = toEnumSet(sa, JavaElement.class); }
+    public void setNoWhitespaceBefore(String[] sa) { this.noWhitespaceBefore = toEnumSet(sa, JavaElement.class); }
+    public void setWhitespaceAfter(String[] sa)    { this.whitespaceAfter    = toEnumSet(sa, JavaElement.class); }
+    public void setNoWhitespaceAfter(String[] sa)  { this.noWhitespaceAfter  = toEnumSet(sa, JavaElement.class); }
+    // CHECKSTYLE JavadocMethod:ON
+
+    // END CONFIGURATION SETTERS
+
+    /**
+     * A replacement for {@link Enum#valueOf(Class, String)} which compares {@code s} to the values' {@link
+     * Object#toString()}s instead of the values' {@link Enum#name()}s.
+     */
+    private static <E extends Enum<E>> E
+    toEnum(String s, Class<E> enumType) {
+        try {
+            @SuppressWarnings("unchecked") E[] values = (E[]) (
+                enumType
+                .getMethod("values", (Class<?>[]) null)
+                .invoke(null, (Object[]) null)
+            );
+            for (E value : values) {
+                if (value.toString().equals(s)) return value;
+            }
+            throw new IllegalArgumentException("No enum const " + enumType + "." + s);
+        } catch (Exception e) {
+            throw new ConversionException("Unable to parse " + s, e);
+        }
+    }
+
+    private static <E extends Enum<E>> EnumSet<E>
+    toEnumSet(String[] values, Class<E> enumClass) {
+        EnumSet<E> result = EnumSet.noneOf(enumClass);
+        for (String value : values) result.add(toEnum(value, enumClass));
+        return result;
+    }
+
+    @Override public void
+    visitToken(DetailAST ast) {
+        assert ast != null;
+
+        @SuppressWarnings("unused") AstDumper dumper = new AstDumper(ast); // For debugging
+
+        JavaElement whitespaceable = toWhitespaceable(ast);
+
+        if (whitespaceable == null) {
+            return;
+        }
+    
+//        log(ast, "CHECK {0}={1} => {2}", ast, ast.getType(), whitespaceable);
+    
+        boolean mustBeWhitespaceBefore    = this.whitespaceBefore.contains(whitespaceable);
+        boolean mustNotBeWhitespaceBefore = this.noWhitespaceBefore.contains(whitespaceable);
+
+        boolean mustBeWhitespaceAfter    = this.whitespaceAfter.contains(whitespaceable);
+        boolean mustNotBeWhitespaceAfter = this.noWhitespaceAfter.contains(whitespaceable);
+
+        // Short-circuit.
+        if (
+            !mustBeWhitespaceBefore
+            && !mustNotBeWhitespaceBefore
+            && !mustBeWhitespaceAfter
+            && !mustNotBeWhitespaceAfter
+        ) return;
+
+        final String line = getLines()[ast.getLineNo() - 1];
+
+        // Check whitespace BEFORE token.
+        if (mustBeWhitespaceBefore || mustNotBeWhitespaceBefore) {
+            int before = ast.getColumnNo() - 1;
+
+            if (before > 0 && !LINE_PREFIX.matcher(line).region(0, before).matches()) {
+                boolean isWhitespace = Character.isWhitespace(line.charAt(before));
+                if (mustBeWhitespaceBefore && !isWhitespace) {
+                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.notPreceded", ast.getText(), whitespaceable);
+                } else
+                if (mustNotBeWhitespaceBefore && isWhitespace) {
+                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.preceded", ast.getText(), whitespaceable);
+                }
+            }
+        }
+
+        // Check whitespace AFTER token.
+        if (mustBeWhitespaceAfter || mustNotBeWhitespaceAfter) {
+            int after = ast.getColumnNo() + ast.getText().length();
+
+            if (after < line.length() && !LINE_SUFFIX.matcher(line).region(after, line.length()).matches()) {
+                boolean isWhitespace = Character.isWhitespace(line.charAt(after));
+                if (mustBeWhitespaceAfter && !isWhitespace) {
+                    log(
+                        ast.getLineNo(),
+                        after,
+                        "de.unkrig.cscontrib.checks.Whitespace.notFollowed",
+                        ast.getText(),
+                        whitespaceable
+                    );
+                } else
+                if (mustNotBeWhitespaceAfter && isWhitespace) {
+                    log(
+                        ast.getLineNo(),
+                        after,
+                        "de.unkrig.cscontrib.checks.Whitespace.followed",
+                        ast.getText(),
+                        whitespaceable
+                    );
+                }
+            }
+        }
+    }
+
+    private static JavaElement
+    toWhitespaceable(DetailAST ast) {
+    
+        final int parentType, grandparentType, previousSiblingType, nextSiblingType, firstChildType;
+        {
+            DetailAST parent = ast.getParent();
+            if (parent == null) {
+                parentType      = -1;
+                grandparentType = -1;
+            } else {
+                parentType = parent.getType();
+                DetailAST grandparent = parent.getParent();
+                grandparentType = grandparent == null ? -1 : grandparent.getType();
+            }
+    
+            DetailAST previousSibling = ast.getPreviousSibling();
+            previousSiblingType = previousSibling == null ? -1 : previousSibling.getType();
+            
+            DetailAST nextSibling = ast.getNextSibling();
+            nextSiblingType = nextSibling == null ? -1 : nextSibling.getType();
+    
+            DetailAST firstChild = ast.getFirstChild();
+            firstChildType = firstChild == null ? -1 : firstChild.getType();
+        }
+    
+        // Find out how this token is to be checked.
+        switch (ast.getType()) {
+    
+        case TokenTypes.ARRAY_DECLARATOR:
+            return L_BRACK__ARRAY_DECL;
+    
+        case TokenTypes.ARRAY_INIT:
+            return firstChildType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ARRAY_INIT : L_CURLY__ARRAY_INIT;
+    
+        case TokenTypes.ASSIGN:
+            return parentType == TokenTypes.VARIABLE_DEF ? ASSIGN__VAR_DECL : ASSIGN__ASSIGNMENT;
+    
+        case TokenTypes.BAND_ASSIGN:  return AND_ASSIGN;
+        case TokenTypes.BOR_ASSIGN:   return OR_ASSIGN;
+        case TokenTypes.BSR_ASSIGN:   return UNSIGNED_RIGHT_SHIFT_ASSIGN;
+        case TokenTypes.BXOR_ASSIGN:  return XOR_ASSIGN;
+        case TokenTypes.DIV_ASSIGN:   return DIVIDE_ASSIGN;
+        case TokenTypes.MINUS_ASSIGN: return MINUS_ASSIGN;
+        case TokenTypes.MOD_ASSIGN:   return MODULO_ASSIGN;
+        case TokenTypes.PLUS_ASSIGN:  return PLUS_ASSIGN;
+        case TokenTypes.SL_ASSIGN:    return LEFT_SHIFT_ASSIGN;
+        case TokenTypes.SR_ASSIGN:    return RIGHT_SHIFT_ASSIGN;
+        case TokenTypes.STAR_ASSIGN:  return MULTIPLY_ASSIGN;
+    
+        case TokenTypes.AT:
+            if (parentType == TokenTypes.ANNOTATION)     return AT__ANNO;
+            if (parentType == TokenTypes.ANNOTATION_DEF) return AT__ANNO_DECL;
+            assert false : "AT has unexpected parent '" + ast.getParent() + "'";
+            return null;
+    
+        case TokenTypes.BAND: return AND__EXPR;
+        case TokenTypes.BOR:  return OR;
+        case TokenTypes.BXOR: return XOR;
+        case TokenTypes.BNOT: return BITWISE_COMPLEMENT;
+
+        case TokenTypes.LAND:     return CONDITIONAL_AND;
+        case TokenTypes.LOR:      return CONDITIONAL_OR;
+        case TokenTypes.LNOT:     return LOGICAL_COMPLEMENT;
+        case TokenTypes.TYPECAST: return L_PAREN__CAST;
+    
+        case TokenTypes.COLON:
+            if (parentType == TokenTypes.LITERAL_DEFAULT) return COLON__DEFAULT;
+            if (parentType == TokenTypes.LITERAL_CASE)    return COLON__CASE;
+            if (parentType == TokenTypes.FOR_EACH_CLAUSE) return COLON__ENHANCED_FOR;
+            return COLON__TERNARY;
+    
+        case TokenTypes.COMMA: return COMMA;
+
+        case TokenTypes.DEC:      return PRE_DECR;
+        case TokenTypes.INC:      return PRE_INCR;
+        case TokenTypes.POST_DEC: return POST_DECR;
+        case TokenTypes.POST_INC: return POST_INCR;
+    
+        case TokenTypes.STAR: return parentType == TokenTypes.DOT ? STAR__TYPE_IMPORT_ON_DEMAND : MULTIPLY;
+        case TokenTypes.DIV:  return DIVIDE;
+        case TokenTypes.MOD:  return MODULO;
+    
+        case TokenTypes.PLUS:  return PLUS__ADDITIVE;
+        case TokenTypes.MINUS: return MINUS__ADDITIVE;
+    
+        case TokenTypes.UNARY_PLUS:  return PLUS__UNARY;
+        case TokenTypes.UNARY_MINUS: return MINUS__UNARY;
+    
+        case TokenTypes.DOT:
+            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return DOT__PACKAGE_DECL;
+            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT)      return DOT__IMPORT;
+            if (
+                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
+            ) return DOT__QUALIFIED_TYPE;
+            return DOT__SELECTOR;
+    
+        case TokenTypes.EMPTY_STAT: return SEMI__EMPTY_STAT;
+    
+        case TokenTypes.LT:        return LESS;
+        case TokenTypes.LE:        return LESS_EQUAL;
+        case TokenTypes.EQUAL:     return EQUAL;
+        case TokenTypes.NOT_EQUAL: return NOT_EQUAL;
+        case TokenTypes.GE:        return GREATER_EQUAL;
+        case TokenTypes.GT:        return GREATER;
+    
+        case TokenTypes.GENERIC_END:
+            if (parentType == TokenTypes.TYPE_PARAMETERS) {
+                return (
+                    grandparentType == TokenTypes.METHOD_DEF
+                ) ? R_ANGLE__METH_DECL_TYPE_PARAMS : R_ANGLE__TYPE_ARGS;
+            }
+            if (parentType == TokenTypes.TYPE_ARGUMENTS) {
+                return (
+                    grandparentType == TokenTypes.TYPE
+                    || grandparentType == TokenTypes.LITERAL_NEW
+                    || grandparentType == TokenTypes.EXTENDS_CLAUSE
+                    || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
+                ) ? R_ANGLE__TYPE_ARGS : R_ANGLE__METH_INVOCATION_TYPE_ARGS;
+            }
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
+            
+        case TokenTypes.GENERIC_START:
+            if (parentType == TokenTypes.TYPE_PARAMETERS) {
+                return (
+                    grandparentType == TokenTypes.METHOD_DEF
+                ) ? L_ANGLE__METH_DECL_TYPE_PARAMS : L_ANGLE__TYPE_ARGS;
+            }
+            if (parentType == TokenTypes.TYPE_ARGUMENTS) {
+                return (
+                    grandparentType == TokenTypes.TYPE
+                    || grandparentType == TokenTypes.LITERAL_NEW
+                    || grandparentType == TokenTypes.EXTENDS_CLAUSE
+                    || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
+                ) ? L_ANGLE__TYPE_ARGS : L_ANGLE__METH_INVOCATION_TYPE_ARGS;
+            }
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
+    
+        case TokenTypes.IDENT:
+            if (
+                parentType == TokenTypes.CLASS_DEF
+                || parentType == TokenTypes.INTERFACE_DEF
+                || parentType == TokenTypes.ANNOTATION_DEF
+                || parentType == TokenTypes.ENUM_DEF
+            ) return NAME__TYPE_DECL;
+            if (parentType == TokenTypes.ANNOTATION)           return NAME__ANNO;
+            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return NAME__ANNO_ELEM_DECL;
+            if (parentType == TokenTypes.VARIABLE_DEF)         return NAME__VAR_DEF;
+            if (parentType == TokenTypes.CTOR_DEF)             return NAME__CTOR_DEF;
+            if (parentType == TokenTypes.METHOD_DEF)           return NAME__METH_DECL;
+            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return NAME__PACKAGE_DECL;
+            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) {
+                return ast.getNextSibling() == null ? NAME__IMPORT_TYPE : NAME__IMPORT_COMPONENT;
+            }
+            if (
+                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.TYPE
+                || getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.LITERAL_NEW
+            ) return NAME__SIMPLE_TYPE;
+            if (
+                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
+            ) return NAME__QUALIFIED_TYPE;
+            if (parentType == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR) return NAME__ANNO_MEMBER;
+            if (parentType == TokenTypes.PARAMETER_DEF) return NAME__PARAM;
+            return NAME__AMBIGUOUS;
+    
+        case TokenTypes.LCURLY:
+            if (parentType == TokenTypes.OBJBLOCK && (
+                grandparentType == TokenTypes.CLASS_DEF
+                || grandparentType == TokenTypes.INTERFACE_DEF
+                || grandparentType == TokenTypes.ANNOTATION_DEF
+                || grandparentType == TokenTypes.ENUM_DEF
+            )) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_TYPE_DEF : L_CURLY__TYPE_DECL;
+            if (
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW
+            ) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ANON_CLASS : L_CURLY__ANON_CLASS;
+            if (
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
+            ) return L_CURLY__ENUM_CONST_DEF;
+            if (
+                parentType == TokenTypes.ARRAY_INIT
+            ) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ARRAY_INIT : L_CURLY__ARRAY_INIT;
+            if (parentType == TokenTypes.LITERAL_SWITCH) return L_CURLY__SWITCH;
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
+    
+        case TokenTypes.ANNOTATION_ARRAY_INIT:
+            return (
+                firstChildType == TokenTypes.RCURLY
+                ? L_CURLY__EMPTY_ANNO_ARRAY_INIT
+                : L_CURLY__ANNO_ARRAY_INIT
+            );
+    
+        case TokenTypes.INDEX_OP: return L_BRACK__INDEX;
+
+        case TokenTypes.IMPLEMENTS_CLAUSE: return IMPLEMENTS;
+    
+        case TokenTypes.LITERAL_BYTE:    return BYTE;
+        case TokenTypes.LITERAL_SHORT:   return SHORT;
+        case TokenTypes.LITERAL_INT:     return INT;
+        case TokenTypes.LITERAL_LONG:    return LONG;
+        case TokenTypes.LITERAL_CHAR:    return CHAR;
+        case TokenTypes.LITERAL_FLOAT:   return FLOAT;
+        case TokenTypes.LITERAL_DOUBLE:  return DOUBLE;
+        case TokenTypes.LITERAL_BOOLEAN: return BOOLEAN;
+        case TokenTypes.LITERAL_VOID:    return VOID;
+
+        case TokenTypes.CHAR_LITERAL:
+        case TokenTypes.LITERAL_FALSE:
+        case TokenTypes.LITERAL_TRUE:
+        case TokenTypes.LITERAL_NULL:
+        case TokenTypes.NUM_DOUBLE:
+        case TokenTypes.NUM_FLOAT:
+        case TokenTypes.NUM_INT:
+        case TokenTypes.NUM_LONG:
+        case TokenTypes.STRING_LITERAL:
+            return LITERAL;
+
+        case TokenTypes.IMPORT: return IMPORT;
+
+        case TokenTypes.DO_WHILE:         return WHILE__DO;
+        case TokenTypes.LITERAL_ASSERT:   return ASSERT;
+        case TokenTypes.LITERAL_BREAK:    return BREAK;
+        case TokenTypes.LITERAL_CASE:     return CASE;
+        case TokenTypes.LITERAL_CATCH:    return CATCH;
+        case TokenTypes.LITERAL_CONTINUE: return CONTINUE;
+        case TokenTypes.LITERAL_DO:       return DO;
+        case TokenTypes.LITERAL_ELSE:     return ELSE;
+        case TokenTypes.LITERAL_FINALLY:  return FINALLY;
+        case TokenTypes.LITERAL_FOR:      return FOR;
+        case TokenTypes.LITERAL_IF:       return IF;
+        case TokenTypes.LITERAL_SWITCH:   return SWITCH;
+        case TokenTypes.LITERAL_THROW:    return THROW;
+        case TokenTypes.LITERAL_TRY:      return TRY;
+        case TokenTypes.LITERAL_RETURN:   return firstChildType == TokenTypes.SEMI ? RETURN__NO_EXPR : RETURN__EXPR;
+        case TokenTypes.LITERAL_WHILE:    return WHILE__WHILE;
+    
+        case TokenTypes.LITERAL_CLASS:     return parentType == TokenTypes.CLASS_DEF ? CLASS__CLASS_DECL : CLASS__CLASS_LITERAL;
+        case TokenTypes.LITERAL_INTERFACE: return INTERFACE;
+        case TokenTypes.ENUM:              return ENUM;
+    
+        case TokenTypes.LITERAL_DEFAULT:
+            return (
+                parentType == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR || parentType == TokenTypes.ANNOTATION_FIELD_DEF
+            ) ? DEFAULT__ANNO_ELEM : DEFAULT__SWITCH;
+    
+        case TokenTypes.LITERAL_INSTANCEOF: return INSTANCEOF;
+        case TokenTypes.LITERAL_NEW:        return NEW;
+        case TokenTypes.LITERAL_SUPER:      return SUPER__EXPR;
+        case TokenTypes.LITERAL_THIS:       return THIS__EXPR;
+        case TokenTypes.LITERAL_THROWS:     return THROWS;
+
+        case TokenTypes.ABSTRACT:             return ABSTRACT;
+        case TokenTypes.FINAL:                return FINAL;
+        case TokenTypes.LITERAL_NATIVE:       return NATIVE;
+        case TokenTypes.LITERAL_PRIVATE:      return PRIVATE;
+        case TokenTypes.LITERAL_PROTECTED:    return PROTECTED;
+        case TokenTypes.LITERAL_PUBLIC:       return PUBLIC;
+        case TokenTypes.LITERAL_STATIC:       return STATIC__MOD;
+        case TokenTypes.LITERAL_SYNCHRONIZED: return SYNCHRONIZED;
+        case TokenTypes.LITERAL_TRANSIENT:    return TRANSIENT;
+        case TokenTypes.LITERAL_VOLATILE:     return VOLATILE;
+    
+        case TokenTypes.PACKAGE_DEF:   return PACKAGE;
+        case TokenTypes.STATIC_IMPORT: return IMPORT__STATIC_IMPORT;
+        case TokenTypes.STATIC_INIT:   ast.setText("static"); return STATIC__STATIC_INIT;
+    
+        case TokenTypes.LPAREN:
+            if (parentType == TokenTypes.ANNOTATION) return L_PAREN__ANNO;
+            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return L_PAREN__ANNO_ELEM_DECL;
+            if (nextSiblingType == TokenTypes.PARAMETERS) return L_PAREN__PARAMS;
+            if (
+                parentType == TokenTypes.SUPER_CTOR_CALL || parentType == TokenTypes.LITERAL_NEW
+            ) return L_PAREN__METH_INVOCATION;
+            if (parentType == TokenTypes.LITERAL_DO) return L_PAREN__DO_WHILE;
+            if (parentType == TokenTypes.LITERAL_IF) return L_PAREN__IF;
+            if (parentType == TokenTypes.LITERAL_FOR) {
+                return ast.getNextSibling().getFirstChild() == null ? L_PAREN__FOR_NO_INIT : L_PAREN__FOR;
+            }
+            if (parentType == TokenTypes.LITERAL_CATCH) return L_PAREN__CATCH;
+            return L_PAREN__PARENTHESIZED;
+    
+        case TokenTypes.METHOD_CALL: return L_PAREN__METH_INVOCATION;
+    
+        case TokenTypes.QUESTION: return QUESTION__TERNARY;
+        case TokenTypes.RBRACK: return R_BRACK__ARRAY_DECL;
+    
+        case TokenTypes.RCURLY:
+            if (
+                parentType == TokenTypes.SLIST
+                && grandparentType == TokenTypes.LITERAL_CATCH
+            ) return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_CATCH : R_CURLY__CATCH;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_SYNCHRONIZED
+            ) return R_CURLY__SYNCHRONIZED;
+            if (
+                parentType == TokenTypes.OBJBLOCK
+                && (
+                    grandparentType == TokenTypes.CLASS_DEF
+                    || grandparentType == TokenTypes.INTERFACE_DEF
+                    || grandparentType == TokenTypes.ANNOTATION_DEF
+                    || grandparentType == TokenTypes.ENUM_DEF
+                )
+            ) return previousSiblingType == TokenTypes.LCURLY ? R_CURLY__EMPTY_TYPE_DEF : R_CURLY__TYPE_DEF;
+            if (
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW 
+            ) return previousSiblingType == TokenTypes.LCURLY ? R_CURLY__EMPTY_ANON_CLASS : R_CURLY__ANON_CLASS;
+            if (
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
+            ) return R_CURLY__ENUM_CONST_DEF;
+            if (
+                parentType == TokenTypes.SLIST
+                && (grandparentType == TokenTypes.CTOR_DEF || grandparentType == TokenTypes.METHOD_DEF)
+            ) return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_METH_DECL : R_CURLY__METH_DECL;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_FOR
+            ) return R_CURLY__FOR;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_IF
+            ) return R_CURLY__IF;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_ELSE
+            ) return R_CURLY__IF;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_WHILE
+            ) return R_CURLY__WHILE;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_DO
+            ) return R_CURLY__DO;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_TRY
+            ) return R_CURLY__TRY;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_FINALLY
+            ) return R_CURLY__FINALLY;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LABELED_STAT
+            ) return R_CURLY__LABELED_STAT;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.SLIST
+            ) return R_CURLY__BLOCK;
+            if (parentType == TokenTypes.LITERAL_SWITCH) return R_CURLY__SWITCH;
+            if (parentType == TokenTypes.ARRAY_INIT) {
+                return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_ARRAY_INIT : R_CURLY__ARRAY_INIT;
+            } 
+            if (parentType == TokenTypes.ANNOTATION_ARRAY_INIT) {
+                return (
+                    ast.getPreviousSibling() == null
+                    ? R_CURLY__EMPTY_ANNO_ARRAY_INIT
+                    : R_CURLY__ANNO_ARRAY_INIT
+                );
+            }
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.STATIC_INIT
+            ) return R_CURLY__STATIC_INIT;
+            if (
+                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.INSTANCE_INIT
+            ) return R_CURLY__INSTANCE_INIT;
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
+    
+        case TokenTypes.RPAREN:
+            if (parentType == TokenTypes.ANNOTATION) return R_PAREN__ANNO;
+            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return R_PAREN__ANNO_ELEM_DECL;
+            if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) return R_PAREN__PARAMS;
+            if (
+                parentType == TokenTypes.SUPER_CTOR_CALL
+                || parentType == TokenTypes.LITERAL_NEW
+                || parentType == TokenTypes.METHOD_CALL
+            ) return R_PAREN__METH_INVOCATION;
+            if (parentType == TokenTypes.LITERAL_IF) return R_PAREN__IF;
+            if (parentType == TokenTypes.LITERAL_DO) return R_PAREN__DO_WHILE;
+            if (parentType == TokenTypes.LITERAL_FOR) {
+                return ast.getPreviousSibling().getFirstChild() == null ? R_PAREN__FOR_NO_UPDATE : R_PAREN__FOR;
+            }
+            if (parentType == TokenTypes.LITERAL_CATCH) return R_PAREN__CATCH;
+            if (previousSiblingType == TokenTypes.TYPE) return R_PAREN__CAST;
+            return R_PAREN__PARENTHESIZED;
+    
+        case TokenTypes.SEMI:
+            if (parentType == TokenTypes.PACKAGE_DEF) return SEMI__PACKAGE_DECL;
+            if (parentType == TokenTypes.IMPORT) return SEMI__IMPORT;
+            if (parentType == TokenTypes.STATIC_IMPORT) return SEMI__STATIC_IMPORT;
+            if (parentType == TokenTypes.OBJBLOCK) return SEMI__TYPE_DECL;
+            if (
+                parentType == TokenTypes.SLIST
+                || parentType == TokenTypes.SUPER_CTOR_CALL
+                || parentType == TokenTypes.CTOR_CALL
+                || parentType == TokenTypes.LITERAL_DO
+                || (parentType == TokenTypes.LITERAL_FOR && nextSiblingType == -1)
+                || parentType == TokenTypes.LITERAL_RETURN
+                || parentType == TokenTypes.LITERAL_BREAK
+                || parentType == TokenTypes.LITERAL_CONTINUE
+                || parentType == TokenTypes.LITERAL_IF
+                || parentType == TokenTypes.LITERAL_WHILE
+                || parentType == TokenTypes.LITERAL_ASSERT
+                || parentType == TokenTypes.LITERAL_THROW
+            ) return SEMI__STATEMENT;
+            if (parentType == TokenTypes.METHOD_DEF) return SEMI__ABSTRACT_METH_DEF;
+            if (previousSiblingType == TokenTypes.FOR_INIT) {
+                return ast.getPreviousSibling().getFirstChild() == null ? (
+                    ast.getNextSibling().getFirstChild() == null
+                    ? SEMI__FOR_NO_INIT_NO_CONDITION
+                    : SEMI__FOR_NO_INIT_CONDITION
+                ) : (
+                    ast.getNextSibling().getFirstChild() == null
+                    ? SEMI__FOR_INIT_NO_CONDITION
+                    : SEMI__FOR_INIT_CONDITION
+                );
+            }
+            if (previousSiblingType == TokenTypes.FOR_CONDITION) {
+                return ast.getPreviousSibling().getFirstChild() == null ? (
+                    ast.getNextSibling().getFirstChild() == null
+                    ? SEMI__FOR_NO_CONDITION_NO_UPDATE
+                    : SEMI__FOR_NO_CONDITION_UPDATE
+                ) : (
+                    ast.getNextSibling().getFirstChild() == null
+                    ? SEMI__FOR_CONDITION_NO_UPDATE
+                    : SEMI__FOR_CONDITION_UPDATE
+                );
+            }
+            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return SEMI__ANNO_ELEM_DECL;
+            if (
+                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_DEF
+            ) return SEMI__ENUM_DEF;
+            if (
+                parentType == TokenTypes.VARIABLE_DEF && grandparentType == TokenTypes.OBJBLOCK
+            ) return SEMI__FIELD_DEF;
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
+    
+        case TokenTypes.SLIST:
+            if (parentType == TokenTypes.STATIC_INIT) return L_CURLY__STATIC_INIT;
+            if (parentType == TokenTypes.INSTANCE_INIT) return L_CURLY__INSTANCE_INIT;
+            if (parentType == TokenTypes.LITERAL_IF) return L_CURLY__IF;
+            if (parentType == TokenTypes.LITERAL_ELSE) return R_CURLY__ELSE;
+            if (parentType == TokenTypes.LITERAL_DO) return L_CURLY__DO;
+            if (parentType == TokenTypes.LITERAL_WHILE) return L_CURLY__WHILE;
+            if (parentType == TokenTypes.LITERAL_FOR) return L_CURLY__FOR;
+            if (parentType == TokenTypes.LITERAL_TRY) return L_CURLY__TRY;
+            if (parentType == TokenTypes.LITERAL_CATCH) { 
+                return firstChildType == TokenTypes.RCURLY ? L_CURLY__EMPTY_CATCH : L_CURLY__CATCH;
+            }
+            if (parentType == TokenTypes.LITERAL_FINALLY) return L_CURLY__FINALLY;
+            if (parentType == TokenTypes.LITERAL_SYNCHRONIZED) return L_CURLY__SYNCHRONIZED;
+            if (parentType == TokenTypes.LABELED_STAT) return L_CURLY__LABELED_STAT;
+            if (parentType == TokenTypes.SLIST) return L_CURLY__BLOCK;
+            if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) {
+                return (
+                    firstChildType == TokenTypes.RCURLY
+                    ? JavaElement.L_CURLY__EMPTY_METH_DEF
+                    : JavaElement.L_CURLY__METH_DECL
+                );
+            }
+            return null; // Not a 'physical' token.
+    
+        case TokenTypes.SL:                return LEFT_SHIFT;
+        case TokenTypes.SR:                return RIGHT_SHIFT;
+        case TokenTypes.BSR:               return UNSIGNED_RIGHT_SHIFT;
+        case TokenTypes.ELLIPSIS:          return ELLIPSIS;
+        case TokenTypes.CTOR_CALL:         return THIS__CTOR_CALL;
+        case TokenTypes.SUPER_CTOR_CALL:   return SUPER__CTOR_CALL;
+        case TokenTypes.TYPE_UPPER_BOUNDS: return EXTENDS__TYPE_BOUND;
+        case TokenTypes.TYPE_LOWER_BOUNDS: return SUPER__TYPE_BOUND;
+        case TokenTypes.WILDCARD_TYPE:     return QUESTION__WILDCARD_TYPE;
+        case TokenTypes.EXTENDS_CLAUSE:    return EXTENDS__TYPE;
+        case TokenTypes.LABELED_STAT:      return COLON__LABELED_STAT;
+            
+        // These are the 'virtual' tokens, i.e. token which are not uniquely related to a physical token:
+        case TokenTypes.ANNOTATION:
+        case TokenTypes.ANNOTATION_DEF:
+        case TokenTypes.ANNOTATION_FIELD_DEF:
+        case TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR:
+        case TokenTypes.ANNOTATIONS:
+        case TokenTypes.CASE_GROUP:
+        case TokenTypes.CLASS_DEF:
+        case TokenTypes.CTOR_DEF:
+        case TokenTypes.ELIST:
+        case TokenTypes.ENUM_DEF:
+        case TokenTypes.ENUM_CONSTANT_DEF:
+        case TokenTypes.EXPR:
+        case TokenTypes.FOR_EACH_CLAUSE:
+        case TokenTypes.FOR_INIT:
+        case TokenTypes.FOR_CONDITION:
+        case TokenTypes.FOR_ITERATOR:
+        case TokenTypes.INTERFACE_DEF:
+        case TokenTypes.INSTANCE_INIT:
+        case TokenTypes.METHOD_DEF:
+        case TokenTypes.MODIFIERS:
+        case TokenTypes.OBJBLOCK:
+        case TokenTypes.PARAMETER_DEF:
+        case TokenTypes.PARAMETERS:
+        case TokenTypes.RESOURCE:
+        case TokenTypes.RESOURCE_SPECIFICATION:
+        case TokenTypes.RESOURCES:
+        case TokenTypes.STRICTFP:
+        case TokenTypes.TYPE:
+        case TokenTypes.TYPE_ARGUMENT:
+        case TokenTypes.TYPE_ARGUMENTS:
+        case TokenTypes.TYPE_EXTENSION_AND:
+        case TokenTypes.TYPE_PARAMETER:
+        case TokenTypes.TYPE_PARAMETERS:
+        case TokenTypes.VARIABLE_DEF:
+            return null;
+    
+        case TokenTypes.EOF:
+            assert false : "Unexpected token '" + ast + "'";
+            return null;
+    
+        default:
+            assert false : "Unexpected DetailAST " + ast;
+            return null;
+        }
+    }
+
+    private static final Pattern LINE_PREFIX = Pattern.compile("\\s*");
+    private static final Pattern LINE_SUFFIX = Pattern.compile("\\s*(?://.*)?");
+    /**
+     * @return The type of the closest ancestor who's type is no the given {@code tokenType}, or -1
+     */
+    private static int
+    getAncestorWithTypeNot(DetailAST ast, int tokenType) {
+        for (DetailAST a = ast.getParent();; a = a.getParent()) {
+
+            if (a == null) return -1;
+
+            int t = a.getType();
+            if (t != tokenType) return t;
+        }
+    }
+    /**
+     * @return The type of the closest ancestor who's type is not {@code tokenType1} or {@code tokenType2}, or -1
+     */
+    private static int
+    getAncestorWithTypeNot(DetailAST ast, int tokenType1, int tokenType2) {
+        for (DetailAST a = ast.getParent();; a = a.getParent()) {
+            
+            if (a == null) return -1;
+            
+            int t = a.getType();
+            if (t != tokenType1 && t != tokenType2) return t;
+        }
     }
 }
