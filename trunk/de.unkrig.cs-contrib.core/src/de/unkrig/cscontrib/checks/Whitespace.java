@@ -82,6 +82,8 @@ class Whitespace extends Check {
         CATCH,
         /** 'char' */
         CHAR,
+        /** 'c' */
+        CHAR_LITERAL,
         /** 'class MyClass {' */
         CLASS__CLASS_DECL,
         /** 'Class c = Object.class;' */
@@ -124,6 +126,8 @@ class Whitespace extends Check {
         DOT__SELECTOR,
         /** 'double' */
         DOUBLE,
+        /** '1.0', '.1', '1E3', '1D' */
+        DOUBLE_LITERAL,
         /** 'meth(Object... o)' */
         ELLIPSIS,
         /** 'if (a == 0) { ... } else { ... } */
@@ -136,12 +140,16 @@ class Whitespace extends Check {
         EXTENDS__TYPE,
         /** 'List<T extends MyClass>' */
         EXTENDS__TYPE_BOUND,
+        /** 'false' */
+        FALSE,
         /** 'final' */
         FINAL,
         /** 'try { ... } finally { ... }' */
         FINALLY,
         /** 'float' */
         FLOAT,
+        /** '1F' */
+        FLOAT_LITERAL,
         /** 'for (int i = 0; i < 3; i++) {', 'for (Object o : list) {' */
         FOR,
         /** 'a > b' */
@@ -160,6 +168,8 @@ class Whitespace extends Check {
         INSTANCEOF,
         /** 'int' */
         INT,
+        /** '11', '0xB', '013', '0B1011' */
+        INT_LITERAL,
         /** 'interface { ... }' */
         INTERFACE,
         /** 'public &lt;T extends Number> void meth(T parm) {' */
@@ -254,11 +264,12 @@ class Whitespace extends Check {
         LESS,
         /** 'a <= b' */
         LESS_EQUAL,
-        LITERAL,
         /** '!a' */
         LOGICAL_COMPLEMENT,
         /** 'long' */
         LONG,
+        /** '11L', '0xBL', '013L', '0B1011L' */
+        LONG_LITERAL,
         /** 'a - b' */
         MINUS__ADDITIVE,
         /** '-a' */
@@ -307,6 +318,8 @@ class Whitespace extends Check {
         NEW,
         /** 'a != b' */
         NOT_EQUAL,
+        /** 'null' */
+        NULL,
         /** 'a | b' */
         OR,
         /** 'a |= b'*/
@@ -347,6 +360,8 @@ class Whitespace extends Check {
         R_ANGLE__TYPE_PARAMS,
         /** 'Object[]' */
         R_BRACK__ARRAY_DECL,
+        /** 'a[3]' */
+        R_BRACK__INDEX,
         /** '@SuppressWarnings({ "foo", "bar" })' */
         R_CURLY__ANNO_ARRAY_INIT,
         /** 'new Object() { ... }' */
@@ -473,6 +488,8 @@ class Whitespace extends Check {
         STATIC__MOD,
         /** 'class MyClass { static { ... } }' */
         STATIC__STATIC_INIT,
+        /** '"hello"' */
+        STRING_LITERAL,
         /** 'super(x, y);' */
         SUPER__CTOR_CALL,
         /** 'super.meth();' */
@@ -493,6 +510,8 @@ class Whitespace extends Check {
         THROWS,
         /** 'transient' */
         TRANSIENT,
+        /** 'true' */
+        TRUE,
         /** 'try { ... } catch (...) { ... }' */
         TRY,
         /** '>>>' */
@@ -666,6 +685,7 @@ class Whitespace extends Check {
         R_ANGLE__TYPE_ARGS,
         R_ANGLE__TYPE_PARAMS,
         R_BRACK__ARRAY_DECL,
+        R_BRACK__INDEX,
         R_CURLY__EMPTY_ANNO_ARRAY_INIT,
         R_CURLY__EMPTY_ANON_CLASS,
         R_CURLY__EMPTY_ARRAY_INIT,
@@ -701,8 +721,6 @@ class Whitespace extends Check {
         SEMI__STATIC_IMPORT,
         STAR__TYPE_IMPORT_ON_DEMAND
     );
-    // END CONFIGURATION SETTERS
-    
     private EnumSet<JavaElement> whitespaceAfter = EnumSet.of(
         ABSTRACT,
         AND__EXPR,
@@ -897,205 +915,22 @@ class Whitespace extends Check {
         SUPER__EXPR,
         THIS__CTOR_CALL
     );
-    // END CONFIGURATION SETTERS
     
-    @Override public int[]
-    getDefaultTokens() {
-        return new int[] {
-            TokenTypes.ABSTRACT,
-            TokenTypes.ANNOTATION,
-            TokenTypes.ANNOTATION_ARRAY_INIT,
-            TokenTypes.ANNOTATION_DEF,
-            TokenTypes.ANNOTATION_FIELD_DEF,
-            TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR,
-            TokenTypes.ANNOTATIONS,
-            TokenTypes.ARRAY_DECLARATOR,
-            TokenTypes.ARRAY_INIT,
-            TokenTypes.ASSIGN,
-            TokenTypes.AT,
-            TokenTypes.BAND,
-            TokenTypes.BAND_ASSIGN,
-            TokenTypes.BNOT,
-            TokenTypes.BOR,
-            TokenTypes.BOR_ASSIGN,
-            TokenTypes.BSR,
-            TokenTypes.BSR_ASSIGN,
-            TokenTypes.BXOR,
-            TokenTypes.BXOR_ASSIGN,
-            TokenTypes.CASE_GROUP,
-            TokenTypes.CHAR_LITERAL,
-            TokenTypes.CLASS_DEF,
-            TokenTypes.COLON,
-            TokenTypes.COMMA,
-            TokenTypes.CTOR_CALL,
-            TokenTypes.CTOR_DEF,
-            TokenTypes.DEC,
-            TokenTypes.DIV,
-            TokenTypes.DIV_ASSIGN,
-            TokenTypes.DO_WHILE,
-            TokenTypes.DOT,
-            TokenTypes.ELIST,
-            TokenTypes.ELLIPSIS,
-            TokenTypes.EMPTY_STAT,
-            TokenTypes.ENUM,
-            TokenTypes.ENUM_CONSTANT_DEF,
-            TokenTypes.ENUM_DEF,
-            TokenTypes.EOF,
-            TokenTypes.EQUAL,
-            TokenTypes.EXPR,
-            TokenTypes.EXTENDS_CLAUSE,
-            TokenTypes.FINAL,
-            TokenTypes.FOR_CONDITION,
-            TokenTypes.FOR_EACH_CLAUSE,
-            TokenTypes.FOR_INIT,
-            TokenTypes.FOR_ITERATOR,
-            TokenTypes.GE,
-            TokenTypes.GENERIC_END,
-            TokenTypes.GENERIC_START,
-            TokenTypes.GT,
-            TokenTypes.IDENT,
-            TokenTypes.IMPLEMENTS_CLAUSE,
-            TokenTypes.IMPORT,
-            TokenTypes.INC,
-            TokenTypes.INDEX_OP,
-            TokenTypes.INSTANCE_INIT,
-            TokenTypes.INTERFACE_DEF,
-            TokenTypes.LABELED_STAT,
-            TokenTypes.LAND,
-            TokenTypes.LCURLY,
-            TokenTypes.LE,
-            TokenTypes.LITERAL_ASSERT,
-            TokenTypes.LITERAL_BOOLEAN,
-            TokenTypes.LITERAL_BREAK,
-            TokenTypes.LITERAL_BYTE,
-            TokenTypes.LITERAL_CASE,
-            TokenTypes.LITERAL_CATCH,
-            TokenTypes.LITERAL_CHAR,
-            TokenTypes.LITERAL_CLASS,
-            TokenTypes.LITERAL_CONTINUE,
-            TokenTypes.LITERAL_DEFAULT,
-            TokenTypes.LITERAL_DO,
-            TokenTypes.LITERAL_DOUBLE,
-            TokenTypes.LITERAL_ELSE,
-            TokenTypes.LITERAL_FALSE,
-            TokenTypes.LITERAL_FINALLY,
-            TokenTypes.LITERAL_FLOAT,
-            TokenTypes.LITERAL_FOR,
-            TokenTypes.LITERAL_IF,
-            TokenTypes.LITERAL_INSTANCEOF,
-            TokenTypes.LITERAL_INT,
-            TokenTypes.LITERAL_INTERFACE,
-            TokenTypes.LITERAL_LONG,
-            TokenTypes.LITERAL_NATIVE,
-            TokenTypes.LITERAL_NEW,
-            TokenTypes.LITERAL_NULL,
-            TokenTypes.LITERAL_PRIVATE,
-            TokenTypes.LITERAL_PROTECTED,
-            TokenTypes.LITERAL_PUBLIC,
-            TokenTypes.LITERAL_RETURN,
-            TokenTypes.LITERAL_SHORT,
-            TokenTypes.LITERAL_STATIC,
-            TokenTypes.LITERAL_SUPER,
-            TokenTypes.LITERAL_SWITCH,
-            TokenTypes.LITERAL_SYNCHRONIZED,
-            TokenTypes.LITERAL_THIS,
-            TokenTypes.LITERAL_THROW,
-            TokenTypes.LITERAL_THROWS,
-            TokenTypes.LITERAL_TRANSIENT,
-            TokenTypes.LITERAL_TRUE,
-            TokenTypes.LITERAL_TRY,
-            TokenTypes.LITERAL_VOID,
-            TokenTypes.LITERAL_VOLATILE,
-            TokenTypes.LITERAL_WHILE,
-            TokenTypes.LNOT,
-            TokenTypes.LOR,
-            TokenTypes.LPAREN,
-            TokenTypes.LT,
-            TokenTypes.METHOD_CALL,
-            TokenTypes.METHOD_DEF,
-            TokenTypes.MINUS,
-            TokenTypes.MINUS_ASSIGN,
-            TokenTypes.MOD,
-            TokenTypes.MOD_ASSIGN,
-            TokenTypes.MODIFIERS,
-            TokenTypes.NOT_EQUAL,
-            TokenTypes.NUM_DOUBLE,
-            TokenTypes.NUM_FLOAT,
-            TokenTypes.NUM_INT,
-            TokenTypes.NUM_LONG,
-            TokenTypes.OBJBLOCK,
-            TokenTypes.PACKAGE_DEF,
-            TokenTypes.PARAMETER_DEF,
-            TokenTypes.PARAMETERS,
-            TokenTypes.PLUS,
-            TokenTypes.PLUS_ASSIGN,
-            TokenTypes.POST_DEC,
-            TokenTypes.POST_INC,
-            TokenTypes.QUESTION,
-            TokenTypes.RBRACK,
-            TokenTypes.RCURLY,
-            TokenTypes.RESOURCE,
-            TokenTypes.RESOURCE_SPECIFICATION,
-            TokenTypes.RESOURCES,
-            TokenTypes.RPAREN,
-            TokenTypes.SEMI,
-            TokenTypes.SL,
-            TokenTypes.SL_ASSIGN,
-            TokenTypes.SLIST,
-            TokenTypes.SR,
-            TokenTypes.SR_ASSIGN,
-            TokenTypes.STAR,
-            TokenTypes.STAR_ASSIGN,
-            TokenTypes.STATIC_IMPORT,
-            TokenTypes.STATIC_INIT,
-            TokenTypes.STRICTFP,
-            TokenTypes.STRING_LITERAL,
-            TokenTypes.SUPER_CTOR_CALL,
-            TokenTypes.TYPE,
-            TokenTypes.TYPE_ARGUMENT,
-            TokenTypes.TYPE_ARGUMENTS,
-            TokenTypes.TYPE_EXTENSION_AND,
-            TokenTypes.TYPE_LOWER_BOUNDS,
-            TokenTypes.TYPE_PARAMETER,
-            TokenTypes.TYPE_PARAMETERS,
-            TokenTypes.TYPE_UPPER_BOUNDS,
-            TokenTypes.TYPECAST,
-            TokenTypes.UNARY_MINUS,
-            TokenTypes.UNARY_PLUS,
-            TokenTypes.VARIABLE_DEF,
-            TokenTypes.WILDCARD_TYPE,
-        };
-    }
-
     // BEGIN CONFIGURATION SETTERS
-
     // CHECKSTYLE JavadocMethod:OFF
     public void setWhitespaceBefore(String[] sa)   { this.whitespaceBefore   = toEnumSet(sa, JavaElement.class); }
     public void setNoWhitespaceBefore(String[] sa) { this.noWhitespaceBefore = toEnumSet(sa, JavaElement.class); }
     public void setWhitespaceAfter(String[] sa)    { this.whitespaceAfter    = toEnumSet(sa, JavaElement.class); }
     public void setNoWhitespaceAfter(String[] sa)  { this.noWhitespaceAfter  = toEnumSet(sa, JavaElement.class); }
     // CHECKSTYLE JavadocMethod:ON
-
     // END CONFIGURATION SETTERS
 
-    /**
-     * A replacement for {@link Enum#valueOf(Class, String)} which compares {@code s} to the values' {@link
-     * Object#toString()}s instead of the values' {@link Enum#name()}s.
-     */
     private static <E extends Enum<E>> E
     toEnum(String s, Class<E> enumType) {
         try {
-            @SuppressWarnings("unchecked") E[] values = (E[]) (
-                enumType
-                .getMethod("values", (Class<?>[]) null)
-                .invoke(null, (Object[]) null)
-            );
-            for (E value : values) {
-                if (value.toString().equals(s)) return value;
-            }
-            throw new IllegalArgumentException("No enum const " + enumType + "." + s);
-        } catch (Exception e) {
-            throw new ConversionException("Unable to parse " + s, e);
+            return Enum.valueOf(enumType, s.trim().toUpperCase());
+        } catch (IllegalArgumentException iae) {
+            throw new ConversionException("Unable to parse " + s, iae);
         }
     }
 
@@ -1112,7 +947,7 @@ class Whitespace extends Check {
 
         @SuppressWarnings("unused") AstDumper dumper = new AstDumper(ast); // For debugging
 
-        JavaElement whitespaceable = toWhitespaceable(ast);
+        JavaElement whitespaceable = toJavaElement(ast);
 
         if (whitespaceable == null) {
             return;
@@ -1180,7 +1015,7 @@ class Whitespace extends Check {
     }
 
     private static JavaElement
-    toWhitespaceable(DetailAST ast) {
+    toJavaElement(DetailAST ast) {
     
         final int parentType, grandparentType, previousSiblingType, nextSiblingType, firstChildType;
         {
@@ -1386,16 +1221,15 @@ class Whitespace extends Check {
         case TokenTypes.LITERAL_BOOLEAN: return BOOLEAN;
         case TokenTypes.LITERAL_VOID:    return VOID;
 
-        case TokenTypes.CHAR_LITERAL:
-        case TokenTypes.LITERAL_FALSE:
-        case TokenTypes.LITERAL_TRUE:
-        case TokenTypes.LITERAL_NULL:
-        case TokenTypes.NUM_DOUBLE:
-        case TokenTypes.NUM_FLOAT:
-        case TokenTypes.NUM_INT:
-        case TokenTypes.NUM_LONG:
-        case TokenTypes.STRING_LITERAL:
-            return LITERAL;
+        case TokenTypes.CHAR_LITERAL:   return CHAR_LITERAL;
+        case TokenTypes.LITERAL_FALSE:  return FALSE;
+        case TokenTypes.LITERAL_TRUE:   return TRUE;
+        case TokenTypes.LITERAL_NULL:   return NULL;
+        case TokenTypes.NUM_DOUBLE:     return DOUBLE_LITERAL;
+        case TokenTypes.NUM_FLOAT:      return FLOAT_LITERAL;
+        case TokenTypes.NUM_INT:        return INT_LITERAL;
+        case TokenTypes.NUM_LONG:       return LONG_LITERAL;
+        case TokenTypes.STRING_LITERAL: return STRING_LITERAL;
 
         case TokenTypes.IMPORT: return IMPORT;
 
@@ -1416,7 +1250,9 @@ class Whitespace extends Check {
         case TokenTypes.LITERAL_RETURN:   return firstChildType == TokenTypes.SEMI ? RETURN__NO_EXPR : RETURN__EXPR;
         case TokenTypes.LITERAL_WHILE:    return WHILE__WHILE;
     
-        case TokenTypes.LITERAL_CLASS:     return parentType == TokenTypes.CLASS_DEF ? CLASS__CLASS_DECL : CLASS__CLASS_LITERAL;
+        case TokenTypes.LITERAL_CLASS: 
+            return parentType == TokenTypes.CLASS_DEF ? CLASS__CLASS_DECL : CLASS__CLASS_LITERAL;
+
         case TokenTypes.LITERAL_INTERFACE: return INTERFACE;
         case TokenTypes.ENUM:              return ENUM;
     
@@ -1464,7 +1300,12 @@ class Whitespace extends Check {
         case TokenTypes.METHOD_CALL: return L_PAREN__METH_INVOCATION;
     
         case TokenTypes.QUESTION: return QUESTION__TERNARY;
-        case TokenTypes.RBRACK: return R_BRACK__ARRAY_DECL;
+
+        case TokenTypes.RBRACK:
+            if (parentType == TokenTypes.ARRAY_DECLARATOR) return R_BRACK__ARRAY_DECL;
+            if (parentType == TokenTypes.INDEX_OP)         return R_BRACK__INDEX;
+            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
+            return null;
     
         case TokenTypes.RCURLY:
             if (
@@ -1693,9 +1534,9 @@ class Whitespace extends Check {
             return null;
         }
     }
-
     private static final Pattern LINE_PREFIX = Pattern.compile("\\s*");
     private static final Pattern LINE_SUFFIX = Pattern.compile("\\s*(?://.*)?");
+
     /**
      * @return The type of the closest ancestor who's type is no the given {@code tokenType}, or -1
      */
@@ -1721,5 +1562,173 @@ class Whitespace extends Check {
             int t = a.getType();
             if (t != tokenType1 && t != tokenType2) return t;
         }
+    }
+
+    @Override public int[]
+    getDefaultTokens() {
+        return new int[] {
+            TokenTypes.ABSTRACT,
+            TokenTypes.ANNOTATION,
+            TokenTypes.ANNOTATION_ARRAY_INIT,
+            TokenTypes.ANNOTATION_DEF,
+            TokenTypes.ANNOTATION_FIELD_DEF,
+            TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR,
+            TokenTypes.ANNOTATIONS,
+            TokenTypes.ARRAY_DECLARATOR,
+            TokenTypes.ARRAY_INIT,
+            TokenTypes.ASSIGN,
+            TokenTypes.AT,
+            TokenTypes.BAND,
+            TokenTypes.BAND_ASSIGN,
+            TokenTypes.BNOT,
+            TokenTypes.BOR,
+            TokenTypes.BOR_ASSIGN,
+            TokenTypes.BSR,
+            TokenTypes.BSR_ASSIGN,
+            TokenTypes.BXOR,
+            TokenTypes.BXOR_ASSIGN,
+            TokenTypes.CASE_GROUP,
+            TokenTypes.CHAR_LITERAL,
+            TokenTypes.CLASS_DEF,
+            TokenTypes.COLON,
+            TokenTypes.COMMA,
+            TokenTypes.CTOR_CALL,
+            TokenTypes.CTOR_DEF,
+            TokenTypes.DEC,
+            TokenTypes.DIV,
+            TokenTypes.DIV_ASSIGN,
+            TokenTypes.DO_WHILE,
+            TokenTypes.DOT,
+            TokenTypes.ELIST,
+            TokenTypes.ELLIPSIS,
+            TokenTypes.EMPTY_STAT,
+            TokenTypes.ENUM,
+            TokenTypes.ENUM_CONSTANT_DEF,
+            TokenTypes.ENUM_DEF,
+            TokenTypes.EOF,
+            TokenTypes.EQUAL,
+            TokenTypes.EXPR,
+            TokenTypes.EXTENDS_CLAUSE,
+            TokenTypes.FINAL,
+            TokenTypes.FOR_CONDITION,
+            TokenTypes.FOR_EACH_CLAUSE,
+            TokenTypes.FOR_INIT,
+            TokenTypes.FOR_ITERATOR,
+            TokenTypes.GE,
+            TokenTypes.GENERIC_END,
+            TokenTypes.GENERIC_START,
+            TokenTypes.GT,
+            TokenTypes.IDENT,
+            TokenTypes.IMPLEMENTS_CLAUSE,
+            TokenTypes.IMPORT,
+            TokenTypes.INC,
+            TokenTypes.INDEX_OP,
+            TokenTypes.INSTANCE_INIT,
+            TokenTypes.INTERFACE_DEF,
+            TokenTypes.LABELED_STAT,
+            TokenTypes.LAND,
+            TokenTypes.LCURLY,
+            TokenTypes.LE,
+            TokenTypes.LITERAL_ASSERT,
+            TokenTypes.LITERAL_BOOLEAN,
+            TokenTypes.LITERAL_BREAK,
+            TokenTypes.LITERAL_BYTE,
+            TokenTypes.LITERAL_CASE,
+            TokenTypes.LITERAL_CATCH,
+            TokenTypes.LITERAL_CHAR,
+            TokenTypes.LITERAL_CLASS,
+            TokenTypes.LITERAL_CONTINUE,
+            TokenTypes.LITERAL_DEFAULT,
+            TokenTypes.LITERAL_DO,
+            TokenTypes.LITERAL_DOUBLE,
+            TokenTypes.LITERAL_ELSE,
+            TokenTypes.LITERAL_FALSE,
+            TokenTypes.LITERAL_FINALLY,
+            TokenTypes.LITERAL_FLOAT,
+            TokenTypes.LITERAL_FOR,
+            TokenTypes.LITERAL_IF,
+            TokenTypes.LITERAL_INSTANCEOF,
+            TokenTypes.LITERAL_INT,
+            TokenTypes.LITERAL_INTERFACE,
+            TokenTypes.LITERAL_LONG,
+            TokenTypes.LITERAL_NATIVE,
+            TokenTypes.LITERAL_NEW,
+            TokenTypes.LITERAL_NULL,
+            TokenTypes.LITERAL_PRIVATE,
+            TokenTypes.LITERAL_PROTECTED,
+            TokenTypes.LITERAL_PUBLIC,
+            TokenTypes.LITERAL_RETURN,
+            TokenTypes.LITERAL_SHORT,
+            TokenTypes.LITERAL_STATIC,
+            TokenTypes.LITERAL_SUPER,
+            TokenTypes.LITERAL_SWITCH,
+            TokenTypes.LITERAL_SYNCHRONIZED,
+            TokenTypes.LITERAL_THIS,
+            TokenTypes.LITERAL_THROW,
+            TokenTypes.LITERAL_THROWS,
+            TokenTypes.LITERAL_TRANSIENT,
+            TokenTypes.LITERAL_TRUE,
+            TokenTypes.LITERAL_TRY,
+            TokenTypes.LITERAL_VOID,
+            TokenTypes.LITERAL_VOLATILE,
+            TokenTypes.LITERAL_WHILE,
+            TokenTypes.LNOT,
+            TokenTypes.LOR,
+            TokenTypes.LPAREN,
+            TokenTypes.LT,
+            TokenTypes.METHOD_CALL,
+            TokenTypes.METHOD_DEF,
+            TokenTypes.MINUS,
+            TokenTypes.MINUS_ASSIGN,
+            TokenTypes.MOD,
+            TokenTypes.MOD_ASSIGN,
+            TokenTypes.MODIFIERS,
+            TokenTypes.NOT_EQUAL,
+            TokenTypes.NUM_DOUBLE,
+            TokenTypes.NUM_FLOAT,
+            TokenTypes.NUM_INT,
+            TokenTypes.NUM_LONG,
+            TokenTypes.OBJBLOCK,
+            TokenTypes.PACKAGE_DEF,
+            TokenTypes.PARAMETER_DEF,
+            TokenTypes.PARAMETERS,
+            TokenTypes.PLUS,
+            TokenTypes.PLUS_ASSIGN,
+            TokenTypes.POST_DEC,
+            TokenTypes.POST_INC,
+            TokenTypes.QUESTION,
+            TokenTypes.RBRACK,
+            TokenTypes.RCURLY,
+            TokenTypes.RESOURCE,
+            TokenTypes.RESOURCE_SPECIFICATION,
+            TokenTypes.RESOURCES,
+            TokenTypes.RPAREN,
+            TokenTypes.SEMI,
+            TokenTypes.SL,
+            TokenTypes.SL_ASSIGN,
+            TokenTypes.SLIST,
+            TokenTypes.SR,
+            TokenTypes.SR_ASSIGN,
+            TokenTypes.STAR,
+            TokenTypes.STAR_ASSIGN,
+            TokenTypes.STATIC_IMPORT,
+            TokenTypes.STATIC_INIT,
+            TokenTypes.STRICTFP,
+            TokenTypes.STRING_LITERAL,
+            TokenTypes.SUPER_CTOR_CALL,
+            TokenTypes.TYPE,
+            TokenTypes.TYPE_ARGUMENT,
+            TokenTypes.TYPE_ARGUMENTS,
+            TokenTypes.TYPE_EXTENSION_AND,
+            TokenTypes.TYPE_LOWER_BOUNDS,
+            TokenTypes.TYPE_PARAMETER,
+            TokenTypes.TYPE_PARAMETERS,
+            TokenTypes.TYPE_UPPER_BOUNDS,
+            TokenTypes.TYPECAST,
+            TokenTypes.UNARY_MINUS,
+            TokenTypes.UNARY_PLUS,
+            TokenTypes.VARIABLE_DEF,
+            TokenTypes.WILDCARD_TYPE,
+        };
     }
 }
