@@ -28,7 +28,6 @@ package de.unkrig.cscontrib.checks;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
-import de.unkrig.commons.nullanalysis.NotNull;
 import de.unkrig.commons.nullanalysis.Nullable;
 
 /**
