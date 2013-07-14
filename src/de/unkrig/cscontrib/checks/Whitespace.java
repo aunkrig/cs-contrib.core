@@ -205,11 +205,11 @@ class Whitespace extends Check {
         /** 'try { ... } catch (...) {}' */
         L_CURLY__EMPTY_CATCH,
         /** 'void meth(...) {}' */
-        L_CURLY__EMPTY_METH_DEF,
+        L_CURLY__EMPTY_METH_DECL,
         /** 'class MyClass() {}', 'interface MyInterface() {}', 'interface @MyAnnotation {}', 'enum MyEnum {}' */
-        L_CURLY__EMPTY_TYPE_DEF,
+        L_CURLY__EMPTY_TYPE_DECL,
         /** 'enum MyEnum { FOO { ... } }' */
-        L_CURLY__ENUM_CONST_DEF,
+        L_CURLY__ENUM_CONST,
         /** 'finally { ...' */
         L_CURLY__FINALLY,
         /** 'for (...) {' */
@@ -293,7 +293,7 @@ class Whitespace extends Check {
         /** '@MyAnnotation(value = "x")' */
         NAME__ANNO_MEMBER,
         /** 'MyClass(...) {' */
-        NAME__CTOR_DEF,
+        NAME__CTOR_DECL,
         /** 'import pkg.pkg.*;' */
         NAME__IMPORT_COMPONENT,
         /** 'import pkg.pkg.*;' */
@@ -311,7 +311,7 @@ class Whitespace extends Check {
         /** 'class MyClass {', 'interface MyInterface {', 'interface @MyAnnotation {', 'enum MyEnum {' */
         NAME__TYPE_DECL,
         /** 'int a;' */
-        NAME__VAR_DEF,
+        NAME__LOCAL_VAR_DECL,
         /** 'native' */
         NATIVE,
         /** 'new' */
@@ -387,9 +387,9 @@ class Whitespace extends Check {
         /** 'public MyClass(...) {}', 'public method(...) {}' */
         R_CURLY__EMPTY_METH_DECL,
         /** 'class MyClass {}', 'interface MyInterface {}', '@interface MyAnnotation {}', 'enum MyEnum {}' */
-        R_CURLY__EMPTY_TYPE_DEF,
+        R_CURLY__EMPTY_TYPE_DECL,
         /** 'enum MyEnum { FOO { ... } }' */
-        R_CURLY__ENUM_CONST_DEF,
+        R_CURLY__ENUM_CONST_DECL,
         /** 'finally { ... }' */
         R_CURLY__FINALLY,
         /** 'for (...) { ... }' */
@@ -411,7 +411,7 @@ class Whitespace extends Check {
         /** 'try { ... }' */
         R_CURLY__TRY,
         /** 'class MyClass { ... }', 'interface MyInter { ... }', '@interface MyAnno { ... }', 'enum MyEnum { ... }' */
-        R_CURLY__TYPE_DEF,
+        R_CURLY__TYPE_DECL,
         /** 'while (...) { ... }' */
         R_CURLY__WHILE,
         /** '@SuppressWarnings("foo")' */
@@ -445,15 +445,15 @@ class Whitespace extends Check {
         /** 'a >>= b'*/
         RIGHT_SHIFT_ASSIGN,
         /** 'abstract meth(); */
-        SEMI__ABSTRACT_METH_DEF,
+        SEMI__ABSTRACT_METH_DECL,
         /** 'interface @MyAnno { String engineer(); }' */
         SEMI__ANNO_ELEM_DECL,
         /** ';' */
         SEMI__EMPTY_STAT,
         /** 'enum MyEnum { 1, B, C; ... }' */
-        SEMI__ENUM_DEF,
+        SEMI__ENUM_DECL,
         /** 'public int i;' */
-        SEMI__FIELD_DEF,
+        SEMI__FIELD_DECL,
         /** 'for (...; i < 3;) {' */
         SEMI__FOR_CONDITION_NO_UPDATE,
         /** 'for (...; i < 3; i++) {' */
@@ -575,9 +575,9 @@ class Whitespace extends Check {
         L_CURLY__DO,
         L_CURLY__EMPTY_ANON_CLASS,
         L_CURLY__EMPTY_CATCH,
-        L_CURLY__EMPTY_METH_DEF,
-        L_CURLY__EMPTY_TYPE_DEF,
-        L_CURLY__ENUM_CONST_DEF,
+        L_CURLY__EMPTY_METH_DECL,
+        L_CURLY__EMPTY_TYPE_DECL,
+        L_CURLY__ENUM_CONST,
         L_CURLY__FINALLY,
         L_CURLY__FOR,
         L_CURLY__IF,
@@ -605,11 +605,11 @@ class Whitespace extends Check {
         MODULO_ASSIGN,
         MULTIPLY,
         MULTIPLY_ASSIGN,
-        NAME__CTOR_DEF,
+        NAME__CTOR_DECL,
         NAME__METH_DECL,
         NAME__PARAM,
         NAME__TYPE_DECL,
-        NAME__VAR_DEF,
+        NAME__LOCAL_VAR_DECL,
         NOT_EQUAL,
         OR,
         OR_ASSIGN,
@@ -634,7 +634,7 @@ class Whitespace extends Check {
         R_CURLY__SWITCH,
         R_CURLY__SYNCHRONIZED,
         R_CURLY__TRY,
-        R_CURLY__TYPE_DEF,
+        R_CURLY__TYPE_DECL,
         R_CURLY__WHILE,
         RETURN__EXPR,
         RETURN__NO_EXPR,
@@ -691,8 +691,8 @@ class Whitespace extends Check {
         R_CURLY__EMPTY_ARRAY_INIT,
         R_CURLY__EMPTY_CATCH,
         R_CURLY__EMPTY_METH_DECL,
-        R_CURLY__EMPTY_TYPE_DEF,
-        R_CURLY__ENUM_CONST_DEF,
+        R_CURLY__EMPTY_TYPE_DECL,
+        R_CURLY__ENUM_CONST_DECL,
         R_PAREN__ANNO,
         R_PAREN__ANNO_ELEM_DECL,
         R_PAREN__METH_INVOCATION,
@@ -703,10 +703,10 @@ class Whitespace extends Check {
         R_PAREN__FOR_NO_UPDATE,
         R_PAREN__IF,
         R_PAREN__PARAMS,
-        SEMI__ABSTRACT_METH_DEF,
+        SEMI__ABSTRACT_METH_DECL,
         SEMI__ANNO_ELEM_DECL,
-        SEMI__ENUM_DEF,
-        SEMI__FIELD_DEF,
+        SEMI__ENUM_DECL,
+        SEMI__FIELD_DECL,
         SEMI__FOR_CONDITION_NO_UPDATE,
         SEMI__FOR_CONDITION_UPDATE,
         SEMI__FOR_INIT_CONDITION,
@@ -766,7 +766,7 @@ class Whitespace extends Check {
         L_CURLY__BLOCK,
         L_CURLY__CATCH,
         L_CURLY__DO,
-        L_CURLY__ENUM_CONST_DEF,
+        L_CURLY__ENUM_CONST,
         L_CURLY__FINALLY,
         L_CURLY__FOR,
         L_CURLY__IF,
@@ -809,7 +809,7 @@ class Whitespace extends Check {
         R_CURLY__ELSE,
         R_CURLY__EMPTY_CATCH,
         R_CURLY__EMPTY_METH_DECL,
-        R_CURLY__EMPTY_TYPE_DEF,
+        R_CURLY__EMPTY_TYPE_DECL,
         R_CURLY__FINALLY,
         R_CURLY__FOR,
         R_CURLY__IF,
@@ -820,7 +820,7 @@ class Whitespace extends Check {
         R_CURLY__SWITCH,
         R_CURLY__SYNCHRONIZED,
         R_CURLY__TRY,
-        R_CURLY__TYPE_DEF,
+        R_CURLY__TYPE_DECL,
         R_CURLY__WHILE,
         R_PAREN__CAST,
         R_PAREN__CATCH,
@@ -828,11 +828,11 @@ class Whitespace extends Check {
         RETURN__EXPR,
         RIGHT_SHIFT,
         RIGHT_SHIFT_ASSIGN,
-        SEMI__ABSTRACT_METH_DEF,
+        SEMI__ABSTRACT_METH_DECL,
         SEMI__ANNO_ELEM_DECL,
         SEMI__EMPTY_STAT,
-        SEMI__ENUM_DEF,
-        SEMI__FIELD_DEF,
+        SEMI__ENUM_DECL,
+        SEMI__FIELD_DECL,
         SEMI__FOR_CONDITION_UPDATE,
         SEMI__FOR_INIT_CONDITION,
         SEMI__FOR_NO_CONDITION_UPDATE,
@@ -878,8 +878,8 @@ class Whitespace extends Check {
         L_CURLY__EMPTY_ANON_CLASS,
         L_CURLY__EMPTY_ARRAY_INIT,
         L_CURLY__EMPTY_CATCH,
-        L_CURLY__EMPTY_METH_DEF,
-        L_CURLY__EMPTY_TYPE_DEF,
+        L_CURLY__EMPTY_METH_DECL,
+        L_CURLY__EMPTY_TYPE_DECL,
         L_PAREN__ANNO,
         L_PAREN__ANNO_ELEM_DECL,
         L_PAREN__METH_INVOCATION,
@@ -894,7 +894,7 @@ class Whitespace extends Check {
         LOGICAL_COMPLEMENT,
         MINUS__UNARY,
         NAME__ANNO_ELEM_DECL,
-        NAME__CTOR_DEF,
+        NAME__CTOR_DECL,
         NAME__IMPORT_COMPONENT,
         NAME__IMPORT_TYPE,
         NAME__METH_DECL,
@@ -1162,8 +1162,8 @@ class Whitespace extends Check {
             ) return NAME__TYPE_DECL;
             if (parentType == TokenTypes.ANNOTATION)           return NAME__ANNO;
             if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return NAME__ANNO_ELEM_DECL;
-            if (parentType == TokenTypes.VARIABLE_DEF)         return NAME__VAR_DEF;
-            if (parentType == TokenTypes.CTOR_DEF)             return NAME__CTOR_DEF;
+            if (parentType == TokenTypes.VARIABLE_DEF)         return NAME__LOCAL_VAR_DECL;
+            if (parentType == TokenTypes.CTOR_DEF)             return NAME__CTOR_DECL;
             if (parentType == TokenTypes.METHOD_DEF)           return NAME__METH_DECL;
             if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return NAME__PACKAGE_DECL;
             if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) {
@@ -1186,13 +1186,13 @@ class Whitespace extends Check {
                 || grandparentType == TokenTypes.INTERFACE_DEF
                 || grandparentType == TokenTypes.ANNOTATION_DEF
                 || grandparentType == TokenTypes.ENUM_DEF
-            )) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_TYPE_DEF : L_CURLY__TYPE_DECL;
+            )) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_TYPE_DECL : L_CURLY__TYPE_DECL;
             if (
                 parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW
             ) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ANON_CLASS : L_CURLY__ANON_CLASS;
             if (
                 parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
-            ) return L_CURLY__ENUM_CONST_DEF;
+            ) return L_CURLY__ENUM_CONST;
             if (
                 parentType == TokenTypes.ARRAY_INIT
             ) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ARRAY_INIT : L_CURLY__ARRAY_INIT;
@@ -1323,13 +1323,13 @@ class Whitespace extends Check {
                     || grandparentType == TokenTypes.ANNOTATION_DEF
                     || grandparentType == TokenTypes.ENUM_DEF
                 )
-            ) return previousSiblingType == TokenTypes.LCURLY ? R_CURLY__EMPTY_TYPE_DEF : R_CURLY__TYPE_DEF;
+            ) return previousSiblingType == TokenTypes.LCURLY ? R_CURLY__EMPTY_TYPE_DECL : R_CURLY__TYPE_DECL;
             if (
                 parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW 
             ) return previousSiblingType == TokenTypes.LCURLY ? R_CURLY__EMPTY_ANON_CLASS : R_CURLY__ANON_CLASS;
             if (
                 parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
-            ) return R_CURLY__ENUM_CONST_DEF;
+            ) return R_CURLY__ENUM_CONST_DECL;
             if (
                 parentType == TokenTypes.SLIST
                 && (grandparentType == TokenTypes.CTOR_DEF || grandparentType == TokenTypes.METHOD_DEF)
@@ -1400,54 +1400,60 @@ class Whitespace extends Check {
             return R_PAREN__PARENTHESIZED;
     
         case TokenTypes.SEMI:
-            if (parentType == TokenTypes.PACKAGE_DEF) return SEMI__PACKAGE_DECL;
-            if (parentType == TokenTypes.IMPORT) return SEMI__IMPORT;
-            if (parentType == TokenTypes.STATIC_IMPORT) return SEMI__STATIC_IMPORT;
-            if (parentType == TokenTypes.OBJBLOCK) return SEMI__TYPE_DECL;
-            if (
-                parentType == TokenTypes.SLIST
-                || parentType == TokenTypes.SUPER_CTOR_CALL
-                || parentType == TokenTypes.CTOR_CALL
-                || parentType == TokenTypes.LITERAL_DO
-                || (parentType == TokenTypes.LITERAL_FOR && nextSiblingType == -1)
-                || parentType == TokenTypes.LITERAL_RETURN
-                || parentType == TokenTypes.LITERAL_BREAK
-                || parentType == TokenTypes.LITERAL_CONTINUE
-                || parentType == TokenTypes.LITERAL_IF
-                || parentType == TokenTypes.LITERAL_WHILE
-                || parentType == TokenTypes.LITERAL_ASSERT
-                || parentType == TokenTypes.LITERAL_THROW
-            ) return SEMI__STATEMENT;
-            if (parentType == TokenTypes.METHOD_DEF) return SEMI__ABSTRACT_METH_DEF;
-            if (previousSiblingType == TokenTypes.FOR_INIT) {
-                return ast.getPreviousSibling().getFirstChild() == null ? (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI__FOR_NO_INIT_NO_CONDITION
-                    : SEMI__FOR_NO_INIT_CONDITION
-                ) : (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI__FOR_INIT_NO_CONDITION
-                    : SEMI__FOR_INIT_CONDITION
-                );
+            switch (parentType) {
+
+            case TokenTypes.PACKAGE_DEF:          return SEMI__PACKAGE_DECL;
+            case TokenTypes.IMPORT:               return SEMI__IMPORT;
+            case TokenTypes.STATIC_IMPORT:        return SEMI__STATIC_IMPORT;
+            case TokenTypes.METHOD_DEF:           return SEMI__ABSTRACT_METH_DECL;
+            case TokenTypes.ANNOTATION_FIELD_DEF: return SEMI__ANNO_ELEM_DECL;
+
+            case TokenTypes.OBJBLOCK:
+                return previousSiblingType == TokenTypes.ENUM_CONSTANT_DEF ? SEMI__ENUM_DECL :  SEMI__TYPE_DECL;
+
+            case TokenTypes.SLIST:
+            case TokenTypes.SUPER_CTOR_CALL:
+            case TokenTypes.CTOR_CALL:
+            case TokenTypes.LITERAL_DO:
+            case TokenTypes.LITERAL_RETURN:
+            case TokenTypes.LITERAL_BREAK:
+            case TokenTypes.LITERAL_CONTINUE:
+            case TokenTypes.LITERAL_IF:
+            case TokenTypes.LITERAL_WHILE:
+            case TokenTypes.LITERAL_ASSERT:
+            case TokenTypes.LITERAL_THROW:
+                return SEMI__STATEMENT;
+
+            case TokenTypes.LITERAL_FOR:
+                if (nextSiblingType == -1) return SEMI__STATEMENT;
+                if (previousSiblingType == TokenTypes.FOR_INIT) {
+                    return ast.getPreviousSibling().getFirstChild() == null ? (
+                        ast.getNextSibling().getFirstChild() == null
+                        ? SEMI__FOR_NO_INIT_NO_CONDITION
+                        : SEMI__FOR_NO_INIT_CONDITION
+                    ) : (
+                        ast.getNextSibling().getFirstChild() == null
+                        ? SEMI__FOR_INIT_NO_CONDITION
+                        : SEMI__FOR_INIT_CONDITION
+                    );
+                }
+                if (previousSiblingType == TokenTypes.FOR_CONDITION) {
+                    return ast.getPreviousSibling().getFirstChild() == null ? (
+                        ast.getNextSibling().getFirstChild() == null
+                        ? SEMI__FOR_NO_CONDITION_NO_UPDATE
+                        : SEMI__FOR_NO_CONDITION_UPDATE
+                    ) : (
+                        ast.getNextSibling().getFirstChild() == null
+                        ? SEMI__FOR_CONDITION_NO_UPDATE
+                        : SEMI__FOR_CONDITION_UPDATE
+                    );
+                }
+                break;
+
+            case TokenTypes.VARIABLE_DEF:
+                if (grandparentType == TokenTypes.OBJBLOCK) return SEMI__FIELD_DECL;
+                break;
             }
-            if (previousSiblingType == TokenTypes.FOR_CONDITION) {
-                return ast.getPreviousSibling().getFirstChild() == null ? (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI__FOR_NO_CONDITION_NO_UPDATE
-                    : SEMI__FOR_NO_CONDITION_UPDATE
-                ) : (
-                    ast.getNextSibling().getFirstChild() == null
-                    ? SEMI__FOR_CONDITION_NO_UPDATE
-                    : SEMI__FOR_CONDITION_UPDATE
-                );
-            }
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return SEMI__ANNO_ELEM_DECL;
-            if (
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_DEF
-            ) return SEMI__ENUM_DEF;
-            if (
-                parentType == TokenTypes.VARIABLE_DEF && grandparentType == TokenTypes.OBJBLOCK
-            ) return SEMI__FIELD_DEF;
             assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
             return null;
     
@@ -1470,7 +1476,7 @@ class Whitespace extends Check {
             if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) {
                 return (
                     firstChildType == TokenTypes.RCURLY
-                    ? JavaElement.L_CURLY__EMPTY_METH_DEF
+                    ? JavaElement.L_CURLY__EMPTY_METH_DECL
                     : JavaElement.L_CURLY__METH_DECL
                 );
             }
