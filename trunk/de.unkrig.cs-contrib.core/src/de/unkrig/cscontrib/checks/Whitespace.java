@@ -52,483 +52,542 @@ class Whitespace extends Check {
     enum JavaElement {
 
         // CHECKSTYLE __:OFF
-        /** 'abstract' */
+        /** '<font color="red">abstract</font>' */
         ABSTRACT,
-        /** 'a & b' */
+        /** 'a <font color="red">&amp;</font> b' */
         AND__EXPR,
-        /** 'a &= b' */
+        /** '&lt;T extends MyClass <font color="red">&amp;</font> MyInterface>' */
+        AND__TYPE_BOUND,
+        /** 'a <font color="red">&amp;=</font> b' */
         AND_ASSIGN,
-        /** 'assert x == 0;', 'assert x == 0 : "x not zero";' */
+        /** '<font color="red">assert</font> x == 0;'<br/>'<font color="red">assert</font> x == 0 : "x not zero";' */
         ASSERT,
-        /** 'a = 7;' */
+        /** 'a <font color="red">=</font> 7;' */
         ASSIGN__ASSIGNMENT,
-        /** 'int a = 7;' */
+        /** 'int a <font color="red">=</font> 7;' */
         ASSIGN__VAR_DECL,
-        /** '@MyAnno' */
+        /** '<font color="red">@</font>MyAnno' */
         AT__ANNO,
-        /** 'interface @MyAnno {' */
+        /** 'interface <font color="red">@</font>MyAnno {' */
         AT__ANNO_DECL,
-        /** '~a' */
+        /** '<font color="red">~</font>a' */
         BITWISE_COMPLEMENT,
-        /** 'boolean' */
+        /** '<font color="red">boolean</font>' */
         BOOLEAN,
-        /** 'break;', 'break LABEL;' */
+        /** '<font color="red">break</font>;'<br/>'<font color="red">break</font> LABEL;' */
         BREAK,
-        /** 'byte' */
+        /** '<font color="red">byte</font>' */
         BYTE,
-        /** 'case 7:' */
+        /** '<font color="red">case</font> 7:' */
         CASE,
-        /** 'catch (Exception e) {' */
+        /** '<font color="red">catch</font> (Exception e) {' */
         CATCH,
-        /** 'char' */
+        /** '<font color="red">char</font>' */
         CHAR,
-        /** 'c' */
+        /** '<font color="red">'c'</font>' */
         CHAR_LITERAL,
-        /** 'class MyClass {' */
+        /** '<font color="red">class</font> MyClass {' */
         CLASS__CLASS_DECL,
-        /** 'Class c = Object.class;' */
+        /** 'Class c = Object.<font color="red">class</font>;' */
         CLASS__CLASS_LITERAL,
-        /** 'case 77:' */
+        /** 'case 77<font color="red">:</font>' */
         COLON__CASE,
-        /** 'default:' */
+        /** 'default<font color="red">:</font>' */
         COLON__DEFAULT,
-        /** 'for (Object o : list) {' */
+        /** 'for (Object o <font color="red">:</font> list) {' */
         COLON__ENHANCED_FOR,
-        /** 'LABEL: while (...) {' */
+        /** 'LABEL<font color="red">:</font> while (...) {' */
         COLON__LABELED_STAT,
-        /** 'a ? b : c' */
+        /** 'a ? b <font color="red">:</font> c' */
         COLON__TERNARY,
-        /** ',' */
+        /** '<font color="red">,</font>' */
         COMMA,
-        /** 'a && b' */
+        /** 'a <font color="red">&&</font> b' */
         CONDITIONAL_AND,
-        /** 'a || b' */
+        /** 'a <font color="red">||</font> b' */
         CONDITIONAL_OR,
-        /** 'continue;', 'continue LABEL;' */
+        /** '<font color="red">continue</font>;'<br/>'<font color="red">continue</font> LABEL;' */
         CONTINUE,
-        /** 'String engineer() default "[unassigned]";' */
+        /** 'interface @MyAnno { String engineer() <font color="red">default</font> "[unassigned]"; }' */
         DEFAULT__ANNO_ELEM,
-        /** 'switch (x) { default: break; }' */
+        /** 'switch (x) { <font color="red">default</font>: break; }' */
         DEFAULT__SWITCH,
-        /** 'a / b' */
+        /** 'a <font color="red">/</font> b' */
         DIVIDE,
-        /** 'a /= b' */
+        /** 'a <font color="red">/=</font> b' */
         DIVIDE_ASSIGN,
-        /** 'do { ... } while (x > 0);' */
+        /** '<font color="red">do</font> { ... } while (...);' */
         DO,
-        /** 'import pkg.*;', 'import pkg.Type;' */
+        /** 'import pkg<font color="red">.</font>*;'<br/>'import pkg<font color="red">.</font>Type;' */
         DOT__IMPORT,
-        /** 'package pkg.pkg;' */
+        /** 'package pkg<font color="red">.</font>pkg;' */
         DOT__PACKAGE_DECL,
-        /** 'pkg.MyType', 'pkg.MyType[]' */
+        /** 'pkg<font color="red">.</font>MyType'<br/>'pkg<font color="red">.</font>MyType[]' */
         DOT__QUALIFIED_TYPE,
-        /** 'a.b', 'a().b' */
+        /** 'a<font color="red">.</font>b'<br/>'a<font color="red">.</font>b()' */
         DOT__SELECTOR,
-        /** 'double' */
+        /** '<font color="red">double</font>' */
         DOUBLE,
-        /** '1.0', '.1', '1E3', '1D' */
+        /**
+         * '<font color="red">1.0</font>'<br/>
+         * '<font color="red">.1</font>'<br/>
+         * '<font color="red">1E3</font>'<br/>
+         * '<font color="red">1D</font>'
+         */
         DOUBLE_LITERAL,
-        /** 'meth(Object... o)' */
+        /** 'meth(Object<font color="red">...</font> o)' */
         ELLIPSIS,
-        /** 'if (a == 0) { ... } else { ... } */
+        /** 'if (...) { ... } <font color="red">else</font> { ... } */
         ELSE,
-        /** 'public enum Color { RED, BLUE, GREEN }' */
+        /** 'public <font color="red">enum</font> Color { RED, BLUE, GREEN }' */
         ENUM,
-        /** 'a == b' */
+        /** 'a <font color="red">==</font> b' */
         EQUAL,
-        /** 'class MyClass extends BaseClass {' */
+        /** 'class MyClass <font color="red">extends</font> BaseClass {' */
         EXTENDS__TYPE,
-        /** 'List<T extends MyClass>' */
+        /** 'List&lt;T <font color="red">extends</font> MyClass>' */
         EXTENDS__TYPE_BOUND,
-        /** 'false' */
+        /** '<font color="red">false</font>' */
         FALSE,
-        /** 'final' */
+        /** '<font color="red">final</font>' */
         FINAL,
-        /** 'try { ... } finally { ... }' */
+        /** 'try { ... } <font color="red">finally</font> { ... }' */
         FINALLY,
-        /** 'float' */
+        /** '<font color="red">float</font>' */
         FLOAT,
-        /** '1F' */
+        /** '<font color="red">1F</font>' */
         FLOAT_LITERAL,
-        /** 'for (int i = 0; i < 3; i++) {', 'for (Object o : list) {' */
+        /**
+         * '<font color="red">for</font> (int i = 0; i < 3; i++) {'<br/>
+         * '<font color="red">for</font> (Object o : list) {'
+         */
         FOR,
-        /** 'a > b' */
+        /** 'a <font color="red">></font> b' */
         GREATER,
-        /** 'a >= b' */
+        /** 'a <font color="red">>=</font> b' */
         GREATER_EQUAL,
-        /** 'if (a == 0) {' */
+        /** '<font color="red">if</font> (a == 0) {' */
         IF,
-        /** 'List<T implements MyInterface1, MyInterface2>' */
+        /** 'List&lt;T <font color="red">implements</font> MyInterface1, MyInterface2>' */
         IMPLEMENTS,
-        /** 'import pkg.MyClass;', 'import pkg.*;' */
+        /** '<font color="red">import</font> pkg.MyClass;'<br/>'<font color="red">import</font> pkg.*;' */
         IMPORT,
-        /** 'import static pkg.MyClass.member;', import static pkg.MyClass.*;' */
+        /**
+         * '<font color="red">import</font> static pkg.MyClass.member;'<br/>
+         * '<font color="red">import</font> static pkg.MyClass.*;'
+         */
         IMPORT__STATIC_IMPORT,
-        /** 'a instanceof MyClass' */
+        /** 'a <font color="red">instanceof</font> MyClass' */
         INSTANCEOF,
-        /** 'int' */
+        /** '<font color="red">int</font>' */
         INT,
-        /** '11', '0xB', '013', '0B1011' */
+        /**
+         * '<font color="red">11</font>'<br/>
+         * '<font color="red">0xB</font>'<br/>
+         * '<font color="red">013</font>'<br/>
+         * '<font color="red">0B1011</font>'
+         */
         INT_LITERAL,
-        /** 'interface { ... }' */
+        /** 'public <font color="red">interface</font> MyInterface { ... }' */
         INTERFACE,
-        /** 'public &lt;T extends Number> void meth(T parm) {' */
+        /** 'public <font color="red">&lt;</font>T extends Number> void meth(T parm) {' */
         L_ANGLE__METH_DECL_TYPE_PARAMS,
-        /** 'MyClass.&lt;Double>meth(x)' */
+        /** 'MyClass.<font color="red">&lt;</font>Double>meth(x)' */
         L_ANGLE__METH_INVOCATION_TYPE_ARGS,
-        /** 'MyClass&lt;String>' */
+        /** 'MyClass<font color="red">&lt;</font>String>' */
         L_ANGLE__TYPE_ARGS,
-        /** 'class MyClass&lt;T extends Number> {' */
+        /** 'class MyClass<font color="red">&lt;</font>T extends Number> {' */
         L_ANGLE__TYPE_PARAMS,
-        /** 'Object[]' */
+        /** 'Object<font color="red">[</font>]' */
         L_BRACK__ARRAY_DECL,
-        /** 'a[3]' */
+        /** 'a<font color="red">[</font>3]' */
         L_BRACK__INDEX,
-        /** '@SuppressWarnings({ "foo", "bar" })' */
+        /** '@SuppressWarnings(<font color="red">{</font> "foo", "bar" })' */
         L_CURLY__ANNO_ARRAY_INIT,
-        /** 'new Object() { ... }' */
+        /** 'new Object() <font color="red">{</font> ... }' */
         L_CURLY__ANON_CLASS,
-        /** 'int[] ia = { 1, 2 }', 'new int[] { 1, 2 }' */
+        /** 'int[] ia = <font color="red">{</font> 1, 2 }'<br/>'new int[] <font color="red">{</font> 1, 2 }' */
         L_CURLY__ARRAY_INIT,
-        /** '{ int i = 0; i++; }' */
+        /** '<font color="red">{</font> int i = 0; i++; }' */
         L_CURLY__BLOCK,
-        /** 'try { ... } catch (...) { ...' */
+        /** 'try { ... } catch (...) <font color="red">{</font> ...' */
         L_CURLY__CATCH,
-        /** 'do { ...' */
+        /** 'do <font color="red">{</font> ... } while (...);' */
         L_CURLY__DO,
-        /** '@SuppressWarnings({})' */
+        /** '@SuppressWarnings(<font color="red">{</font>})' */
         L_CURLY__EMPTY_ANNO_ARRAY_INIT,
-        /** 'new Object() {}' */
+        /** 'new Object() <font color="red">{</font>}' */
         L_CURLY__EMPTY_ANON_CLASS,
-        /** 'int[] ia = {}', 'new int[] {}' */
+        /** 'int[] ia = <font color="red">{</font>};'<br/>'new int[] <font color="red">{</font>}' */
         L_CURLY__EMPTY_ARRAY_INIT,
-        /** 'try { ... } catch (...) {}' */
+        /** 'try { ... } catch (...) <font color="red">{</font>}' */
         L_CURLY__EMPTY_CATCH,
-        /** 'void meth(...) {}' */
+        /** 'void meth(...) <font color="red">{</font>}' */
         L_CURLY__EMPTY_METH_DECL,
-        /** 'class MyClass() {}', 'interface MyInterface() {}', 'interface @MyAnnotation {}', 'enum MyEnum {}' */
+        /**
+         * 'class MyClass() <font color="red">{</font>}'<br/>
+         * 'interface MyInterface() <font color="red">{</font>}'<br/>
+         * 'interface @MyAnnotation <font color="red">{</font>}'<br/>
+         * 'enum MyEnum <font color="red">{</font>}'
+         */
         L_CURLY__EMPTY_TYPE_DECL,
-        /** 'enum MyEnum { FOO { ... } }' */
+        /** 'enum MyEnum { FOO <font color="red">{</font> ... } }' */
         L_CURLY__ENUM_CONST,
-        /** 'finally { ...' */
+        /** 'finally <font color="red">{</font> ... }' */
         L_CURLY__FINALLY,
-        /** 'for (...) {' */
+        /** 'for (...) <font color="red">{</font>' */
         L_CURLY__FOR,
-        /** 'if (...) {' */
+        /** 'if (...) <font color="red">{</font>' */
         L_CURLY__IF,
-        /** 'class MyClass { { ... } }' */
+        /** 'class MyClass { <font color="red">{</font> ... } }' */
         L_CURLY__INSTANCE_INIT,
-        /** 'LABEL: {' */
+        /** 'LABEL: <font color="red">{</font>' */
         L_CURLY__LABELED_STAT,
-        /** 'void meth(...) { ... }' */
+        /** 'void meth(...) <font color="red">{</font> ... }' */
         L_CURLY__METH_DECL,
-        /** 'class MyClass { static { ... } }' */
+        /** 'class MyClass { static <font color="red">{</font> ... } }' */
         L_CURLY__STATIC_INIT,
-        /** 'switch (a) {' */
+        /** 'switch (a) <font color="red">{</font>' */
         L_CURLY__SWITCH,
-        /** 'synchronized (a) {' */
+        /** 'synchronized (a) <font color="red">{</font>' */
         L_CURLY__SYNCHRONIZED,
-        /** 'try {' */
+        /** 'try <font color="red">{' */
         L_CURLY__TRY,
-        /** 'class MyClass() {', 'interface MyInterface() {', 'interface @MyAnno {', 'enum MyEnum {' */
+        /**
+         * 'class MyClass() <font color="red">{</font>'<br/>
+         * 'interface MyInterface() <font color="red">{</font>'<br/>
+         * 'interface @MyAnno <font color="red">{</font>'<br/>
+         * 'enum MyEnum <font color="red">{</font>'
+         */
         L_CURLY__TYPE_DECL,
-        /** 'while (...) {' */
+        /** 'while (...) <font color="red">{</font>' */
         L_CURLY__WHILE,
-        /** '@SuppressWarnings("foo")' */
+        /** '@SuppressWarnings<font color="red">(</font>"foo")' */
         L_PAREN__ANNO,
-        /** 'interface @MyAnno { String engineer(); }' */
+        /** 'interface @MyAnno { String engineer<font color="red">(</font>); }' */
         L_PAREN__ANNO_ELEM_DECL,
-        /** '(int) a' */
+        /** '<font color="red">(</font>int) a' */
         L_PAREN__CAST,
-        /** 'try { ... } catch (Exception e) {' */
+        /** 'try { ... } catch <font color="red">(</font>Exception e) {' */
         L_PAREN__CATCH,
-        /** 'do { ... } while (...);' */
+        /** 'do { ... } while <font color="red">(</font>...);' */
         L_PAREN__DO_WHILE,
-        /** 'for (int i = 0; i  10; i++) {' */
+        /** 'for <font color="red">(</font>int i = 0; i  10; i++) {' */
         L_PAREN__FOR,
-        /** 'for (; i  10; i++) {' */
+        /** 'for <font color="red">(</font>; i  10; i++) {' */
         L_PAREN__FOR_NO_INIT,
-        /** 'if (...) {' */
+        /** 'if <font color="red">(</font>...) {' */
         L_PAREN__IF,
-        /** 'a()' */
+        /** 'a<font color="red">(</font>x, y)' */
         L_PAREN__METH_INVOCATION,
-        /** 'void meth(...) {' */
+        /** 'void meth<font color="red">(</font>int x, int y) {' */
         L_PAREN__PARAMS,
-        /** '(a + b) * c' */
+        /** '<font color="red">(</font>a + b) * c' */
         L_PAREN__PARENTHESIZED,
-        /** '<<' */
+        /** 'a <font color="red">&lt;&lt;</font> 3' */
         LEFT_SHIFT,
-        /** 'a <<= b' */
+        /** 'a <font color="red">&lt;&lt;=</font> 1' */
         LEFT_SHIFT_ASSIGN,
-        /** 'a < b' */
+        /** 'a <font color="red">&lt;</font> b' */
         LESS,
-        /** 'a <= b' */
+        /** 'a <font color="red">&lt;=</font> b' */
         LESS_EQUAL,
-        /** '!a' */
+        /** '<font color="red">!</font>a' */
         LOGICAL_COMPLEMENT,
-        /** 'long' */
+        /** '<font color="red">long</font>' */
         LONG,
-        /** '11L', '0xBL', '013L', '0B1011L' */
+        /**
+         * '<font color="red">11L</font>'<br/>
+         * '<font color="red">0xBL</font>'<br/>
+         * '<font color="red">013L</font>'<br/>
+         * '<font color="red">0B1011L</font>'
+         */
         LONG_LITERAL,
-        /** 'a - b' */
+        /** 'a <font color="red">-</font> b' */
         MINUS__ADDITIVE,
-        /** '-a' */
+        /** '<font color="red">-</font>a' */
         MINUS__UNARY,
-        /** 'a -= b' */
+        /** 'a <font color="red">-=</font> b' */
         MINUS_ASSIGN,
-        /** 'a % b' */
+        /** 'a <font color="red">%</font> b' */
         MODULO,
-        /** 'a %= b'*/
+        /** 'a <font color="red">%=</font> b'*/
         MODULO_ASSIGN,
-        /** 'a * b' */
+        /** 'a <font color="red">*</font> b' */
         MULTIPLY,
-        /** 'a *= b' */
+        /** 'a <font color="red">*=</font> b' */
         MULTIPLY_ASSIGN,
-        /** 'a.b.c' */
+        /** '<font color="red">a</font>.<font color="red">b</font>.<font color="red">c</font>' */
         NAME__AMBIGUOUS,
-        /** '@MyAnnotation("x")' */
+        /** '@<font color="red">MyAnnotation</font>("x")' */
         NAME__ANNO,
-        /** 'interface @MyAnno { String engineer(); }' */
+        /** 'interface @MyAnno { String <font color="red">engineer</font>(); }' */
         NAME__ANNO_ELEM_DECL,
-        /** '@MyAnnotation(value = "x")' */
+        /** '@MyAnnotation(<font color="red">value</font> = "x")' */
         NAME__ANNO_MEMBER,
-        /** 'MyClass(...) {' */
+        /** '<font color="red">MyClass</font>(...) {' */
         NAME__CTOR_DECL,
-        /** 'import pkg.pkg.*;' */
+        /** 'import <font color="red">pkg</font>.<font color="red">pkg</font>.*;' */
         NAME__IMPORT_COMPONENT,
-        /** 'import pkg.pkg.*;' */
+        /** 'import pkg.pkg.<font color="red">MyType</font>;' */
         NAME__IMPORT_TYPE,
-        /** 'void main(...) {' */
+        /** 'void <font color="red">main</font>(...) {' */
         NAME__METH_DECL,
-        /** 'package pkg.pkg.pkg;' */
+        /** 'package <font color="red">pkg</font>.<font color="red">pkg</font>.<font color="red">pkg</font>;' */
         NAME__PACKAGE_DECL,
-        /** 'meth(String parm)' */
+        /** 'void meth(String <font color="red">param</font>)' */
         NAME__PARAM,
-        /** 'pkg.MyType' */
+        /** '<font color="red">pkg</font>.<font color="red">MyType</font>' */
         NAME__QUALIFIED_TYPE,
-        /** 'MyType', 'new MyType' */
+        /** '<font color="red">MyType</font> x;'<br/>'y = new <font color="red">MyType</font>();' */
         NAME__SIMPLE_TYPE,
-        /** 'class MyClass {', 'interface MyInterface {', 'interface @MyAnnotation {', 'enum MyEnum {' */
+        /**
+         * 'class <font color="red">MyClass</font> { ... }'<br/>
+         * 'interface <font color="red">MyInterface</font> { ... }'<br/>
+         * 'interface @<font color="red">MyAnnotation</font> { ... }'<br/>
+         * 'enum <font color="red">MyEnum</font> { ... }'
+         */
         NAME__TYPE_DECL,
-        /** 'int a;' */
+        /** 'int <font color="red">a</font>;' */
         NAME__LOCAL_VAR_DECL,
-        /** 'native' */
+        /** '<font color="red">native</font>' */
         NATIVE,
-        /** 'new' */
+        /** '<font color="red">new</font>' */
         NEW,
-        /** 'a != b' */
+        /** 'a <font color="red">!=</font> b' */
         NOT_EQUAL,
-        /** 'null' */
+        /** '<font color="red">null</font>' */
         NULL,
-        /** 'a | b' */
+        /** 'a <font color="red">|</font> b' */
         OR,
-        /** 'a |= b'*/
+        /** 'a <font color="red">|=</font> b'*/
         OR_ASSIGN,
-        /** 'package ...' */
+        /** '<font color="red">package</font> ...;' */
         PACKAGE,
-        /** 'a + b',  */
+        /** 'a <font color="red">+</font> b',  */
         PLUS__ADDITIVE,
-        /** '+(a + b)' */
+        /** '<font color="red">+</font>(a + b)' */
         PLUS__UNARY,
-        /** 'a += b' */
+        /** 'a <font color="red">+=</font> b' */
         PLUS_ASSIGN,
-        /** 'x--' */
+        /** 'x<font color="red">--</font>' */
         POST_DECR,
-        /** 'x++' */
+        /** 'x<font color="red">++</font>' */
         POST_INCR,
-        /** '--x' */
+        /** '<font color="red">--</font>x' */
         PRE_DECR,
-        /** '++x' */
+        /** '<font color="red">++</font>x' */
         PRE_INCR,
-        /** 'private' */
+        /** '<font color="red">private</font>' */
         PRIVATE,
-        /** 'protected' */
+        /** '<font color="red">protected</font>' */
         PROTECTED,
-        /** 'public' */
+        /** '<font color="red">public</font>' */
         PUBLIC,
-        /** 'a ? b : c' */
+        /** 'a <font color="red">?</font> b : c' */
         QUESTION__TERNARY,
-        /** 'List&lt;? extends InputStream>' */
+        /** 'List&lt;<font color="red">?</font> extends InputStream>' */
         QUESTION__WILDCARD_TYPE,
-        /** 'public &lt;T extends Number> void meth(T parm) {' */
+        /** 'public &lt;T extends Number<font color="red">></font> void meth(T parm) {' */
         R_ANGLE__METH_DECL_TYPE_PARAMS,
-        /** 'MyClass.&lt;Double>meth(x)' */
+        /** 'MyClass.&lt;Double<font color="red">></font>meth(x)' */
         R_ANGLE__METH_INVOCATION_TYPE_ARGS,
-        /** 'MyClass&lt;String>' */
+        /** 'MyClass&lt;String<font color="red">></font>' */
         R_ANGLE__TYPE_ARGS,
-        /** 'class MyClass&lt;T extends Number> {' */
+        /** 'class MyClass&lt;T extends Number<font color="red">></font> {' */
         R_ANGLE__TYPE_PARAMS,
-        /** 'Object[]' */
+        /** 'Object[<font color="red">]</font>' */
         R_BRACK__ARRAY_DECL,
-        /** 'a[3]' */
+        /** 'a[3<font color="red">]</font>' */
         R_BRACK__INDEX,
-        /** '@SuppressWarnings({ "foo", "bar" })' */
+        /** '@SuppressWarnings({ "foo", "bar" <font color="red">}</font>)' */
         R_CURLY__ANNO_ARRAY_INIT,
-        /** 'new Object() { ... }' */
+        /** 'new Object() { ... <font color="red">}</font>' */
         R_CURLY__ANON_CLASS,
-        /** 'int[] ia = { 1, 2 }', 'new int[] { 1, 2 }' */
+        /** 'int[] ia = { 1, 2 <font color="red">};</font>'<br/>'b = new int[] { 1, 2 <font color="red">}</font>;' */
         R_CURLY__ARRAY_INIT,
-        /** '{ int i = 0; i++; }' */
+        /** '{ int i = 0; i++; <font color="red">}</font>' */
         R_CURLY__BLOCK,
-        /** 'try { ... } catch (...) { ...' */
+        /** 'try { ... } catch (...) { ... <font color="red">}</font>' */
         R_CURLY__CATCH,
-        /** 'do { ... } while (...);' */
+        /** 'do { ... <font color="red">}</font> while (...);' */
         R_CURLY__DO,
-        /** 'else { ... }' */
+        /** 'else { ... <font color="red">}</font>' */
         R_CURLY__ELSE,
-        /** '@SuppressWarnings({})' */
+        /** '@SuppressWarnings({<font color="red">}</font>)' */
         R_CURLY__EMPTY_ANNO_ARRAY_INIT,
-        /** 'new Object() {}' */
+        /** 'new Object() {<font color="red">}</font>' */
         R_CURLY__EMPTY_ANON_CLASS,
-        /** 'int[] ia = {}', 'new int[] {}' */
+        /** 'int[] ia = {<font color="red">}</font>;'<br/>'b = new int[] {<font color="red">}</font>;' */
         R_CURLY__EMPTY_ARRAY_INIT,
-        /** 'try { ... } catch (...) {}' */
+        /** 'try { ... } catch (...) {<font color="red">}</font>' */
         R_CURLY__EMPTY_CATCH,
-        /** 'public MyClass(...) {}', 'public method(...) {}' */
+        /** 'public MyClass(...) {<font color="red">}</font>'<br/>'public method(...) {<font color="red">}</font>' */
         R_CURLY__EMPTY_METH_DECL,
-        /** 'class MyClass {}', 'interface MyInterface {}', '@interface MyAnnotation {}', 'enum MyEnum {}' */
+        /**
+         * 'class MyClass {<font color="red">}</font>'<br/>
+         * 'interface MyInterface {<font color="red">}</font>'<br/>
+         * '@interface MyAnnotation {<font color="red">}</font>'<br/>
+         * 'enum MyEnum {<font color="red">}</font>'
+         */
         R_CURLY__EMPTY_TYPE_DECL,
-        /** 'enum MyEnum { FOO { ... } }' */
+        /** 'enum MyEnum { FOO { ... <font color="red">}</font> }' */
         R_CURLY__ENUM_CONST_DECL,
-        /** 'finally { ... }' */
+        /** 'finally { ... <font color="red">}</font>' */
         R_CURLY__FINALLY,
-        /** 'for (...) { ... }' */
+        /** 'for (...) { ... <font color="red">}</font>' */
         R_CURLY__FOR,
-        /** 'if (...) { ... }' */
+        /** 'if (...) { ... <font color="red">}</font>' */
         R_CURLY__IF,
-        /** 'class MyClass { { ... } }' */
+        /** 'class MyClass { { ... <font color="red">}</font> }' */
         R_CURLY__INSTANCE_INIT,
-        /** 'LABEL: { ... }' */
+        /** 'LABEL: { ... <font color="red">}</font>' */
         R_CURLY__LABELED_STAT,
-        /** 'public MyClass(...) { ... }', 'public method(...) { ... }' */
+        /**
+         * 'public MyClass(...) { ... <font color="red">}</font>'<br/>
+         * 'public method(...) { ... <font color="red">}</font>'
+         */
         R_CURLY__METH_DECL,
-        /** 'class MyClass { static { ... } }' */
+        /** 'class MyClass { static { ... <font color="red">}</font> }' */
         R_CURLY__STATIC_INIT,
-        /** 'switch (a) { ... }' */
+        /** 'switch (a) { ... <font color="red">}</font>' */
         R_CURLY__SWITCH,
-        /** 'synchronized (a) { ... }' */
+        /** 'synchronized (a) { ... <font color="red">}</font>' */
         R_CURLY__SYNCHRONIZED,
-        /** 'try { ... }' */
+        /** 'try { ... <font color="red">} catch {</font>' */
         R_CURLY__TRY,
-        /** 'class MyClass { ... }', 'interface MyInter { ... }', '@interface MyAnno { ... }', 'enum MyEnum { ... }' */
+        /**
+         * 'class MyClass { ... <font color="red">}</font>'<br/>
+         * 'interface MyInter { ... <font color="red">}</font>'<br/>
+         * '@interface MyAnno { ... <font color="red">}</font>'<br/>
+         * 'enum MyEnum { ... <font color="red">}</font>'
+         */
         R_CURLY__TYPE_DECL,
-        /** 'while (...) { ... }' */
+        /** 'while (...) { ... <font color="red">}</font>' */
         R_CURLY__WHILE,
-        /** '@SuppressWarnings("foo")' */
+        /** '@SuppressWarnings("foo"<font color="red">)</font>' */
         R_PAREN__ANNO,
-        /** 'interface @MyAnno { String engineer(); }' */
+        /** 'interface @MyAnno { String engineer(<font color="red">)</font>; }' */
         R_PAREN__ANNO_ELEM_DECL,
-        /** '(int) a' */
+        /** '(int<font color="red">)</font> a' */
         R_PAREN__CAST,
-        /** 'try { ... } catch (Exception e) {' */
+        /** 'try { ... } catch (Exception e<font color="red">)</font> {' */
         R_PAREN__CATCH,
-        /** 'do { ... } while (...); */
+        /** 'do { ... } while (...<font color="red">)</font>; */
         R_PAREN__DO_WHILE,
-        /** 'for (int i = 0; i &lt; 10; i++) {' */
+        /** 'for (int i = 0; i &lt; 10; i++<font color="red">)</font> {' */
         R_PAREN__FOR,
-        /** 'for (int i = 0; i &lt; 10;) {' */
+        /** 'for (int i = 0; i &lt; 10;<font color="red">)</font> {' */
         R_PAREN__FOR_NO_UPDATE,
-        /** 'if (...) {' */
+        /** 'if (...<font color="red">)</font> {' */
         R_PAREN__IF,
-        /** 'a()' */
+        /** 'a(x, y<font color="red">)</font>' */
         R_PAREN__METH_INVOCATION,
-        /** 'void meth(...) {' */
+        /** 'void meth(int a, int b<font color="red">)</font> {' */
         R_PAREN__PARAMS,
-        /** '(a + b) * c' */
+        /** '(a + b<font color="red">)</font> * c' */
         R_PAREN__PARENTHESIZED,
-        /** 'return x;' */
+        /** '<font color="red">return</font> x;' */
         RETURN__EXPR,
-        /** 'return;' */
+        /** '<font color="red">return</font>;' */
         RETURN__NO_EXPR,
-        /** '>>' */
+        /** 'a <font color="red">>></font> 3' */
         RIGHT_SHIFT,
-        /** 'a >>= b'*/
+        /** 'a <font color="red">>>=</font> 2'*/
         RIGHT_SHIFT_ASSIGN,
-        /** 'abstract meth(); */
+        /** 'abstract meth(int x)<font color="red">;</font> */
         SEMI__ABSTRACT_METH_DECL,
-        /** 'interface @MyAnno { String engineer(); }' */
+        /** 'interface @MyAnno { String engineer()<font color="red">;</font> }' */
         SEMI__ANNO_ELEM_DECL,
-        /** ';' */
+        /** '<font color="red">;</font>' */
         SEMI__EMPTY_STAT,
-        /** 'enum MyEnum { 1, B, C; ... }' */
+        /** 'enum MyEnum { A, B, C<font color="red">;</font> public String toString() { ... } }' */
         SEMI__ENUM_DECL,
-        /** 'public int i;' */
+        /** 'public int i<font color="red">;</font>' */
         SEMI__FIELD_DECL,
-        /** 'for (...; i < 3;) {' */
+        /** 'for (...; i < 3<font color="red">;</font>) {' */
         SEMI__FOR_CONDITION_NO_UPDATE,
-        /** 'for (...; i < 3; i++) {' */
+        /** 'for (...; i < 3<font color="red">;</font> i++) {' */
         SEMI__FOR_CONDITION_UPDATE,
-        /** 'for (int i = 0; i < 3;...' */
+        /** 'for (int i = 0<font color="red">;</font> i < 3;...' */
         SEMI__FOR_INIT_CONDITION,
-        /** 'for (int i = 0;;...' */
+        /** 'for (int i = 0<font color="red">;</font>;...' */
         SEMI__FOR_INIT_NO_CONDITION,
-        /** 'for (...;;) {' */
+        /** 'for (...;<font color="red">;</font>) {' */
         SEMI__FOR_NO_CONDITION_NO_UPDATE,
-        /** 'for (...;; i++) {'*/
+        /** 'for (...;<font color="red">;</font> i++) {'*/
         SEMI__FOR_NO_CONDITION_UPDATE,
-        /** 'for (; ...; ...) {' */
+        /** 'for (<font color="red">;</font> ...; ...) {' */
         SEMI__FOR_NO_INIT_CONDITION,
-        /** 'for (;;...) {' */
+        /** 'for (<font color="red">;</font>;...) {' */
         SEMI__FOR_NO_INIT_NO_CONDITION,
-        /** 'import pkg.*;', 'import pkg.MyClass;' */
+        /** 'import pkg.*<font color="red">;</font>'<br/>'import pkg.MyClass<font color="red">;</font>' */
         SEMI__IMPORT,
-        /** 'package pkg.pkg;' */
+        /** 'package pkg.pkg<font color="red">;</font>' */
         SEMI__PACKAGE_DECL,
-        /** 'a = 7;' */
+        /** 'a = 7<font color="red">;</font>' */
         SEMI__STATEMENT,
-        /** 'import static MyClass.*;' */
+        /** 'import static MyClass.*<font color="red">;</font>' */
         SEMI__STATIC_IMPORT,
-        /** 'class MyClass { ; }' */
+        /** 'class MyClass { <font color="red">;</font> }' */
         SEMI__TYPE_DECL,
-        /** 'short' */
+        /** '<font color="red">short</font>' */
         SHORT,
-        /** 'import pkg.pkg.*;' */
+        /** 'import pkg.pkg.<font color="red">*</font>;' */
         STAR__TYPE_IMPORT_ON_DEMAND,
-        /** 'static int x;', 'static class MyClass {', 'static void meth() {' */
+        /** 'import <font color="red">static</font> java.util.Map.Entry;' */
+        STATIC__STATIC_IMPORT,
+        /**
+         * '<font color="red">static</font> int x;'<br/>
+         * '<font color="red">static</font> class MyClass {'<br/>
+         * '<font color="red">static</font> void meth() {'
+         */
         STATIC__MOD,
-        /** 'class MyClass { static { ... } }' */
+        /** 'class MyClass { <font color="red">static</font> { ... } }' */
         STATIC__STATIC_INIT,
-        /** '"hello"' */
+        /** '<font color="red">"hello"</font>' */
         STRING_LITERAL,
-        /** 'super(x, y);' */
+        /** '<font color="red">super</font>(x, y);' */
         SUPER__CTOR_CALL,
-        /** 'super.meth();' */
+        /** '<font color="red">super</font>.meth();' */
         SUPER__EXPR,
-        /** 'List<T super MyClass>' */
+        /** 'List&lt;T <font color="red">super</font> MyClass>' */
         SUPER__TYPE_BOUND,
-        /** 'switch (a) {' */
+        /** '<font color="red">switch</font> (a) {' */
         SWITCH,
-        /** 'synchronized Object o;' */
-        SYNCHRONIZED,
-        /** 'this(a, b);' */
+        /** '<font color="red">synchronized</font> Object o;' */
+        SYNCHRONIZED__MOD,
+        /** '<font color="red">synchronized</font> (x) { ... }' */
+        SYNCHRONIZED__SYNCHRONIZED,
+        /** '<font color="red">this</font>(a, b);' */
         THIS__CTOR_CALL,
-        /** 'this.meth()', 'this.field' */
+        /** '<font color="red">this</font>.meth()'<br/>'<font color="red">this</font>.field' */
         THIS__EXPR,
-        /** 'throw' */
+        /** '<font color="red">throw</font> new IOException();' */
         THROW,
-        /** 'throws' */
+        /** '<font color="red">throws</font>' */
         THROWS,
-        /** 'transient' */
+        /** '<font color="red">transient</font>' */
         TRANSIENT,
-        /** 'true' */
+        /** '<font color="red">true</font>' */
         TRUE,
-        /** 'try { ... } catch (...) { ... }' */
+        /** '<font color="red">try</font> { ... } catch (...) { ... }' */
         TRY,
-        /** '>>>' */
+        /** 'a <font color="red">>>></font> 3' */
         UNSIGNED_RIGHT_SHIFT,
-        /** 'a >>>= b'*/
+        /** 'a <font color="red">>>>=</font> 2'*/
         UNSIGNED_RIGHT_SHIFT_ASSIGN,
-        /** 'void meth() {', 'void.class' */
+        /** '<font color="red">void</font> meth() {'<br/>'<font color="red">void</font>.class' */
         VOID,
-        /** 'volatile' */
+        /** '<font color="red">volatile</font>' */
         VOLATILE,
-        /** 'do { ... } while (a > 0);' */
+        /** 'do { ... } <font color="red">while</font> (a > 0);' */
         WHILE__DO,
-        /** 'while (a > 0) { ... }' */
+        /** '<font color="red">while</font> (a > 0) { ... }' */
         WHILE__WHILE,
-        /** 'a ^ b' */
+        /** 'a <font color="red">^</font> b' */
         XOR,
-        /** 'a ^= b'*/
+        /** 'a <font color="red">^=</font> b'*/
         XOR_ASSIGN,
 
         // CHECKSTYLE __:OFF
@@ -536,6 +595,7 @@ class Whitespace extends Check {
 
     private EnumSet<JavaElement> whitespaceBefore = EnumSet.of(
         AND__EXPR,
+        AND__TYPE_BOUND,
         AND_ASSIGN,
         ASSERT,
         ASSIGN__ASSIGNMENT,
@@ -641,10 +701,13 @@ class Whitespace extends Check {
         RIGHT_SHIFT,
         RIGHT_SHIFT_ASSIGN,
         SEMI__TYPE_DECL,
+        STATIC__STATIC_IMPORT,
         STATIC__STATIC_INIT,
         SUPER__CTOR_CALL,
         SUPER__TYPE_BOUND,
         SWITCH,
+        SYNCHRONIZED__MOD,
+        SYNCHRONIZED__SYNCHRONIZED,
         THIS__CTOR_CALL,
         THROW,
         THROWS,
@@ -724,6 +787,7 @@ class Whitespace extends Check {
     private EnumSet<JavaElement> whitespaceAfter = EnumSet.of(
         ABSTRACT,
         AND__EXPR,
+        AND__TYPE_BOUND,
         AND_ASSIGN,
         ASSERT,
         ASSIGN__ASSIGNMENT,
@@ -843,10 +907,12 @@ class Whitespace extends Check {
         SEMI__STATIC_IMPORT,
         SEMI__TYPE_DECL,
         STATIC__MOD,
+        STATIC__STATIC_IMPORT,
         STATIC__STATIC_INIT,
         SUPER__TYPE_BOUND,
         SWITCH,
-        SYNCHRONIZED,
+        SYNCHRONIZED__MOD,
+        SYNCHRONIZED__SYNCHRONIZED,
         THROW,
         THROWS,
         TRANSIENT,
@@ -1041,91 +1107,154 @@ class Whitespace extends Check {
     
         // Find out how this token is to be checked.
         switch (ast.getType()) {
-    
-        case TokenTypes.ARRAY_DECLARATOR:
-            return L_BRACK__ARRAY_DECL;
-    
+
+        // Tokens that appear in only one context, and thus map one-to-one to a Java element.
+        case TokenTypes.ABSTRACT:           return ABSTRACT;
+        case TokenTypes.ARRAY_DECLARATOR:   return L_BRACK__ARRAY_DECL;
+        case TokenTypes.BAND:               return AND__EXPR;
+        case TokenTypes.BAND_ASSIGN:        return AND_ASSIGN;
+        case TokenTypes.BNOT:               return BITWISE_COMPLEMENT;
+        case TokenTypes.BOR:                return OR;
+        case TokenTypes.BOR_ASSIGN:         return OR_ASSIGN;
+        case TokenTypes.BSR:                return UNSIGNED_RIGHT_SHIFT;
+        case TokenTypes.BSR_ASSIGN:         return UNSIGNED_RIGHT_SHIFT_ASSIGN;
+        case TokenTypes.BXOR:               return XOR;
+        case TokenTypes.BXOR_ASSIGN:        return XOR_ASSIGN;
+        case TokenTypes.CHAR_LITERAL:       return CHAR_LITERAL;
+        case TokenTypes.COMMA:              return COMMA;
+        case TokenTypes.CTOR_CALL:          return THIS__CTOR_CALL;
+        case TokenTypes.DEC:                return PRE_DECR;
+        case TokenTypes.DIV:                return DIVIDE;
+        case TokenTypes.DIV_ASSIGN:         return DIVIDE_ASSIGN;
+        case TokenTypes.DO_WHILE:           return WHILE__DO;
+        case TokenTypes.ELLIPSIS:           return ELLIPSIS;
+        case TokenTypes.EMPTY_STAT:         return SEMI__EMPTY_STAT;
+        case TokenTypes.ENUM:               return ENUM;
+        case TokenTypes.EQUAL:              return EQUAL;
+        case TokenTypes.EXTENDS_CLAUSE:     return EXTENDS__TYPE;
+        case TokenTypes.FINAL:              return FINAL;
+        case TokenTypes.GE:                 return GREATER_EQUAL;
+        case TokenTypes.GT:                 return GREATER;
+        case TokenTypes.IMPLEMENTS_CLAUSE:  return IMPLEMENTS;
+        case TokenTypes.IMPORT:             return IMPORT;
+        case TokenTypes.INC:                return PRE_INCR;
+        case TokenTypes.INDEX_OP:           return L_BRACK__INDEX;
+        case TokenTypes.LABELED_STAT:       return COLON__LABELED_STAT;
+        case TokenTypes.LAND:               return CONDITIONAL_AND;
+        case TokenTypes.LE:                 return LESS_EQUAL;
+        case TokenTypes.LITERAL_ASSERT:     return ASSERT;
+        case TokenTypes.LITERAL_BOOLEAN:    return BOOLEAN;
+        case TokenTypes.LITERAL_BREAK:      return BREAK;
+        case TokenTypes.LITERAL_BYTE:       return BYTE;
+        case TokenTypes.LITERAL_CASE:       return CASE;
+        case TokenTypes.LITERAL_CATCH:      return CATCH;
+        case TokenTypes.LITERAL_CONTINUE:   return CONTINUE;
+        case TokenTypes.LITERAL_CHAR:       return CHAR;
+        case TokenTypes.LITERAL_DO:         return DO;
+        case TokenTypes.LITERAL_DOUBLE:     return DOUBLE;
+        case TokenTypes.LITERAL_ELSE:       return ELSE;
+        case TokenTypes.LITERAL_FALSE:      return FALSE;
+        case TokenTypes.LITERAL_FINALLY:    return FINALLY;
+        case TokenTypes.LITERAL_FLOAT:      return FLOAT;
+        case TokenTypes.LITERAL_FOR:        return FOR;
+        case TokenTypes.LITERAL_IF:         return IF;
+        case TokenTypes.LITERAL_INSTANCEOF: return INSTANCEOF;
+        case TokenTypes.LITERAL_INT:        return INT;
+        case TokenTypes.LITERAL_INTERFACE:  return INTERFACE;
+        case TokenTypes.LITERAL_LONG:       return LONG;
+        case TokenTypes.LITERAL_NATIVE:     return NATIVE;
+        case TokenTypes.LITERAL_NEW:        return NEW;
+        case TokenTypes.LITERAL_NULL:       return NULL;
+        case TokenTypes.LITERAL_PRIVATE:    return PRIVATE;
+        case TokenTypes.LITERAL_PROTECTED:  return PROTECTED;
+        case TokenTypes.LITERAL_PUBLIC:     return PUBLIC;
+        case TokenTypes.LITERAL_SHORT:      return SHORT;
+        case TokenTypes.LITERAL_SUPER:      return SUPER__EXPR;
+        case TokenTypes.LITERAL_SWITCH:     return SWITCH;
+        case TokenTypes.LITERAL_THIS:       return THIS__EXPR;
+        case TokenTypes.LITERAL_THROW:      return THROW;
+        case TokenTypes.LITERAL_THROWS:     return THROWS;
+        case TokenTypes.LITERAL_TRANSIENT:  return TRANSIENT;
+        case TokenTypes.LITERAL_TRUE:       return TRUE;
+        case TokenTypes.LITERAL_TRY:        return TRY;
+        case TokenTypes.LITERAL_VOID:       return VOID;
+        case TokenTypes.LITERAL_VOLATILE:   return VOLATILE;
+        case TokenTypes.LITERAL_WHILE:      return WHILE__WHILE;
+        case TokenTypes.LNOT:               return LOGICAL_COMPLEMENT;
+        case TokenTypes.LOR:                return CONDITIONAL_OR;
+        case TokenTypes.LT:                 return LESS;
+        case TokenTypes.METHOD_CALL:        return L_PAREN__METH_INVOCATION;
+        case TokenTypes.MINUS:              return MINUS__ADDITIVE;
+        case TokenTypes.MINUS_ASSIGN:       return MINUS_ASSIGN;
+        case TokenTypes.MOD:                return MODULO;
+        case TokenTypes.MOD_ASSIGN:         return MODULO_ASSIGN;
+        case TokenTypes.NOT_EQUAL:          return NOT_EQUAL;
+        case TokenTypes.NUM_DOUBLE:         return DOUBLE_LITERAL;
+        case TokenTypes.NUM_FLOAT:          return FLOAT_LITERAL;
+        case TokenTypes.NUM_INT:            return INT_LITERAL;
+        case TokenTypes.NUM_LONG:           return LONG_LITERAL;
+        case TokenTypes.PACKAGE_DEF:        return PACKAGE;
+        case TokenTypes.PLUS:               return PLUS__ADDITIVE;
+        case TokenTypes.PLUS_ASSIGN:        return PLUS_ASSIGN;
+        case TokenTypes.POST_DEC:           return POST_DECR;
+        case TokenTypes.POST_INC:           return POST_INCR;
+        case TokenTypes.QUESTION:           return QUESTION__TERNARY;
+        case TokenTypes.SL:                 return LEFT_SHIFT;
+        case TokenTypes.SL_ASSIGN:          return LEFT_SHIFT_ASSIGN;
+        case TokenTypes.SR:                 return RIGHT_SHIFT;
+        case TokenTypes.SR_ASSIGN:          return RIGHT_SHIFT_ASSIGN;
+        case TokenTypes.STAR_ASSIGN:        return MULTIPLY_ASSIGN;
+        case TokenTypes.STATIC_IMPORT:      return IMPORT__STATIC_IMPORT;
+        case TokenTypes.STRING_LITERAL:     return STRING_LITERAL;
+        case TokenTypes.SUPER_CTOR_CALL:    return SUPER__CTOR_CALL;
+        case TokenTypes.TYPE_EXTENSION_AND: return AND__TYPE_BOUND;
+        case TokenTypes.TYPE_LOWER_BOUNDS:  return SUPER__TYPE_BOUND;
+        case TokenTypes.TYPE_UPPER_BOUNDS:  return EXTENDS__TYPE_BOUND;
+        case TokenTypes.TYPECAST:           return L_PAREN__CAST;
+        case TokenTypes.UNARY_PLUS:         return PLUS__UNARY;
+        case TokenTypes.UNARY_MINUS:        return MINUS__UNARY;
+        case TokenTypes.WILDCARD_TYPE:      return QUESTION__WILDCARD_TYPE;
+
         case TokenTypes.ARRAY_INIT:
             return firstChildType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ARRAY_INIT : L_CURLY__ARRAY_INIT;
     
         case TokenTypes.ASSIGN:
             return parentType == TokenTypes.VARIABLE_DEF ? ASSIGN__VAR_DECL : ASSIGN__ASSIGNMENT;
     
-        case TokenTypes.BAND_ASSIGN:  return AND_ASSIGN;
-        case TokenTypes.BOR_ASSIGN:   return OR_ASSIGN;
-        case TokenTypes.BSR_ASSIGN:   return UNSIGNED_RIGHT_SHIFT_ASSIGN;
-        case TokenTypes.BXOR_ASSIGN:  return XOR_ASSIGN;
-        case TokenTypes.DIV_ASSIGN:   return DIVIDE_ASSIGN;
-        case TokenTypes.MINUS_ASSIGN: return MINUS_ASSIGN;
-        case TokenTypes.MOD_ASSIGN:   return MODULO_ASSIGN;
-        case TokenTypes.PLUS_ASSIGN:  return PLUS_ASSIGN;
-        case TokenTypes.SL_ASSIGN:    return LEFT_SHIFT_ASSIGN;
-        case TokenTypes.SR_ASSIGN:    return RIGHT_SHIFT_ASSIGN;
-        case TokenTypes.STAR_ASSIGN:  return MULTIPLY_ASSIGN;
-    
         case TokenTypes.AT:
-            if (parentType == TokenTypes.ANNOTATION)     return AT__ANNO;
-            if (parentType == TokenTypes.ANNOTATION_DEF) return AT__ANNO_DECL;
-            assert false : "AT has unexpected parent '" + ast.getParent() + "'";
-            return null;
-    
-        case TokenTypes.BAND: return AND__EXPR;
-        case TokenTypes.BOR:  return OR;
-        case TokenTypes.BXOR: return XOR;
-        case TokenTypes.BNOT: return BITWISE_COMPLEMENT;
+            switch (parentType) {
 
-        case TokenTypes.LAND:     return CONDITIONAL_AND;
-        case TokenTypes.LOR:      return CONDITIONAL_OR;
-        case TokenTypes.LNOT:     return LOGICAL_COMPLEMENT;
-        case TokenTypes.TYPECAST: return L_PAREN__CAST;
+            case TokenTypes.ANNOTATION:     return AT__ANNO;
+            case TokenTypes.ANNOTATION_DEF: return AT__ANNO_DECL;
+            }
+            break;
     
         case TokenTypes.COLON:
-            if (parentType == TokenTypes.LITERAL_DEFAULT) return COLON__DEFAULT;
-            if (parentType == TokenTypes.LITERAL_CASE)    return COLON__CASE;
-            if (parentType == TokenTypes.FOR_EACH_CLAUSE) return COLON__ENHANCED_FOR;
+            switch (parentType) {
+
+            case TokenTypes.LITERAL_DEFAULT: return COLON__DEFAULT;
+            case TokenTypes.LITERAL_CASE:    return COLON__CASE;
+            case TokenTypes.FOR_EACH_CLAUSE: return COLON__ENHANCED_FOR;
+            }
             return COLON__TERNARY;
     
-        case TokenTypes.COMMA: return COMMA;
-
-        case TokenTypes.DEC:      return PRE_DECR;
-        case TokenTypes.INC:      return PRE_INCR;
-        case TokenTypes.POST_DEC: return POST_DECR;
-        case TokenTypes.POST_INC: return POST_INCR;
-    
         case TokenTypes.STAR: return parentType == TokenTypes.DOT ? STAR__TYPE_IMPORT_ON_DEMAND : MULTIPLY;
-        case TokenTypes.DIV:  return DIVIDE;
-        case TokenTypes.MOD:  return MODULO;
-    
-        case TokenTypes.PLUS:  return PLUS__ADDITIVE;
-        case TokenTypes.MINUS: return MINUS__ADDITIVE;
-    
-        case TokenTypes.UNARY_PLUS:  return PLUS__UNARY;
-        case TokenTypes.UNARY_MINUS: return MINUS__UNARY;
     
         case TokenTypes.DOT:
             if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return DOT__PACKAGE_DECL;
             if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT)      return DOT__IMPORT;
-            if (
-                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
-            ) return DOT__QUALIFIED_TYPE;
+            if (getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE) {
+                return DOT__QUALIFIED_TYPE;
+            }
             return DOT__SELECTOR;
     
-        case TokenTypes.EMPTY_STAT: return SEMI__EMPTY_STAT;
-    
-        case TokenTypes.LT:        return LESS;
-        case TokenTypes.LE:        return LESS_EQUAL;
-        case TokenTypes.EQUAL:     return EQUAL;
-        case TokenTypes.NOT_EQUAL: return NOT_EQUAL;
-        case TokenTypes.GE:        return GREATER_EQUAL;
-        case TokenTypes.GT:        return GREATER;
-    
         case TokenTypes.GENERIC_END:
-            if (parentType == TokenTypes.TYPE_PARAMETERS) {
-                return (
-                    grandparentType == TokenTypes.METHOD_DEF
-                ) ? R_ANGLE__METH_DECL_TYPE_PARAMS : R_ANGLE__TYPE_ARGS;
-            }
-            if (parentType == TokenTypes.TYPE_ARGUMENTS) {
+            switch (parentType) {
+
+            case TokenTypes.TYPE_PARAMETERS:
+                return grandparentType == TokenTypes.METHOD_DEF ? R_ANGLE__METH_DECL_TYPE_PARAMS : R_ANGLE__TYPE_ARGS;
+
+            case TokenTypes.TYPE_ARGUMENTS:
                 return (
                     grandparentType == TokenTypes.TYPE
                     || grandparentType == TokenTypes.LITERAL_NEW
@@ -1133,16 +1262,17 @@ class Whitespace extends Check {
                     || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
                 ) ? R_ANGLE__TYPE_ARGS : R_ANGLE__METH_INVOCATION_TYPE_ARGS;
             }
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
+            break;
             
         case TokenTypes.GENERIC_START:
-            if (parentType == TokenTypes.TYPE_PARAMETERS) {
+            switch (parentType) {
+
+            case TokenTypes.TYPE_PARAMETERS:
                 return (
                     grandparentType == TokenTypes.METHOD_DEF
                 ) ? L_ANGLE__METH_DECL_TYPE_PARAMS : L_ANGLE__TYPE_ARGS;
-            }
-            if (parentType == TokenTypes.TYPE_ARGUMENTS) {
+
+            case TokenTypes.TYPE_ARGUMENTS:
                 return (
                     grandparentType == TokenTypes.TYPE
                     || grandparentType == TokenTypes.LITERAL_NEW
@@ -1150,21 +1280,25 @@ class Whitespace extends Check {
                     || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
                 ) ? L_ANGLE__TYPE_ARGS : L_ANGLE__METH_INVOCATION_TYPE_ARGS;
             }
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
+            break;
     
         case TokenTypes.IDENT:
-            if (
-                parentType == TokenTypes.CLASS_DEF
-                || parentType == TokenTypes.INTERFACE_DEF
-                || parentType == TokenTypes.ANNOTATION_DEF
-                || parentType == TokenTypes.ENUM_DEF
-            ) return NAME__TYPE_DECL;
-            if (parentType == TokenTypes.ANNOTATION)           return NAME__ANNO;
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return NAME__ANNO_ELEM_DECL;
-            if (parentType == TokenTypes.VARIABLE_DEF)         return NAME__LOCAL_VAR_DECL;
-            if (parentType == TokenTypes.CTOR_DEF)             return NAME__CTOR_DECL;
-            if (parentType == TokenTypes.METHOD_DEF)           return NAME__METH_DECL;
+            switch (parentType) {
+            
+            case TokenTypes.ANNOTATION:                   return NAME__ANNO;
+            case TokenTypes.ANNOTATION_FIELD_DEF:         return NAME__ANNO_ELEM_DECL;
+            case TokenTypes.VARIABLE_DEF:                 return NAME__LOCAL_VAR_DECL;
+            case TokenTypes.CTOR_DEF:                     return NAME__CTOR_DECL;
+            case TokenTypes.METHOD_DEF:                   return NAME__METH_DECL;
+            case TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR: return NAME__ANNO_MEMBER;
+            case TokenTypes.PARAMETER_DEF:                return NAME__PARAM;
+
+            case TokenTypes.CLASS_DEF:
+            case TokenTypes.INTERFACE_DEF:
+            case TokenTypes.ANNOTATION_DEF:
+            case TokenTypes.ENUM_DEF:
+                return NAME__TYPE_DECL;
+            }
             if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return NAME__PACKAGE_DECL;
             if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) {
                 return ast.getNextSibling() == null ? NAME__IMPORT_TYPE : NAME__IMPORT_COMPONENT;
@@ -1176,29 +1310,33 @@ class Whitespace extends Check {
             if (
                 getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
             ) return NAME__QUALIFIED_TYPE;
-            if (parentType == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR) return NAME__ANNO_MEMBER;
-            if (parentType == TokenTypes.PARAMETER_DEF) return NAME__PARAM;
             return NAME__AMBIGUOUS;
     
         case TokenTypes.LCURLY:
-            if (parentType == TokenTypes.OBJBLOCK && (
-                grandparentType == TokenTypes.CLASS_DEF
-                || grandparentType == TokenTypes.INTERFACE_DEF
-                || grandparentType == TokenTypes.ANNOTATION_DEF
-                || grandparentType == TokenTypes.ENUM_DEF
-            )) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_TYPE_DECL : L_CURLY__TYPE_DECL;
-            if (
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW
-            ) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ANON_CLASS : L_CURLY__ANON_CLASS;
-            if (
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
-            ) return L_CURLY__ENUM_CONST;
-            if (
-                parentType == TokenTypes.ARRAY_INIT
-            ) return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ARRAY_INIT : L_CURLY__ARRAY_INIT;
-            if (parentType == TokenTypes.LITERAL_SWITCH) return L_CURLY__SWITCH;
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
+            switch (parentType) {
+            
+            case TokenTypes.LITERAL_SWITCH: return L_CURLY__SWITCH;
+
+            case TokenTypes.OBJBLOCK:
+                switch (grandparentType) {
+                
+                case TokenTypes.ENUM_CONSTANT_DEF: return L_CURLY__ENUM_CONST;
+
+                case TokenTypes.CLASS_DEF:
+                case TokenTypes.INTERFACE_DEF:
+                case TokenTypes.ANNOTATION_DEF:
+                case TokenTypes.ENUM_DEF:
+                    return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_TYPE_DECL : L_CURLY__TYPE_DECL;
+
+                case TokenTypes.LITERAL_NEW:
+                    return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ANON_CLASS : L_CURLY__ANON_CLASS;
+                }
+                break;
+
+            case TokenTypes.ARRAY_INIT:
+                return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ARRAY_INIT : L_CURLY__ARRAY_INIT;
+            }
+            break;
     
         case TokenTypes.ANNOTATION_ARRAY_INIT:
             return (
@@ -1206,197 +1344,137 @@ class Whitespace extends Check {
                 ? L_CURLY__EMPTY_ANNO_ARRAY_INIT
                 : L_CURLY__ANNO_ARRAY_INIT
             );
-    
-        case TokenTypes.INDEX_OP: return L_BRACK__INDEX;
 
-        case TokenTypes.IMPLEMENTS_CLAUSE: return IMPLEMENTS;
-    
-        case TokenTypes.LITERAL_BYTE:    return BYTE;
-        case TokenTypes.LITERAL_SHORT:   return SHORT;
-        case TokenTypes.LITERAL_INT:     return INT;
-        case TokenTypes.LITERAL_LONG:    return LONG;
-        case TokenTypes.LITERAL_CHAR:    return CHAR;
-        case TokenTypes.LITERAL_FLOAT:   return FLOAT;
-        case TokenTypes.LITERAL_DOUBLE:  return DOUBLE;
-        case TokenTypes.LITERAL_BOOLEAN: return BOOLEAN;
-        case TokenTypes.LITERAL_VOID:    return VOID;
+        case TokenTypes.LITERAL_RETURN:
+            return firstChildType == TokenTypes.SEMI ? RETURN__NO_EXPR : RETURN__EXPR;
 
-        case TokenTypes.CHAR_LITERAL:   return CHAR_LITERAL;
-        case TokenTypes.LITERAL_FALSE:  return FALSE;
-        case TokenTypes.LITERAL_TRUE:   return TRUE;
-        case TokenTypes.LITERAL_NULL:   return NULL;
-        case TokenTypes.NUM_DOUBLE:     return DOUBLE_LITERAL;
-        case TokenTypes.NUM_FLOAT:      return FLOAT_LITERAL;
-        case TokenTypes.NUM_INT:        return INT_LITERAL;
-        case TokenTypes.NUM_LONG:       return LONG_LITERAL;
-        case TokenTypes.STRING_LITERAL: return STRING_LITERAL;
-
-        case TokenTypes.IMPORT: return IMPORT;
-
-        case TokenTypes.DO_WHILE:         return WHILE__DO;
-        case TokenTypes.LITERAL_ASSERT:   return ASSERT;
-        case TokenTypes.LITERAL_BREAK:    return BREAK;
-        case TokenTypes.LITERAL_CASE:     return CASE;
-        case TokenTypes.LITERAL_CATCH:    return CATCH;
-        case TokenTypes.LITERAL_CONTINUE: return CONTINUE;
-        case TokenTypes.LITERAL_DO:       return DO;
-        case TokenTypes.LITERAL_ELSE:     return ELSE;
-        case TokenTypes.LITERAL_FINALLY:  return FINALLY;
-        case TokenTypes.LITERAL_FOR:      return FOR;
-        case TokenTypes.LITERAL_IF:       return IF;
-        case TokenTypes.LITERAL_SWITCH:   return SWITCH;
-        case TokenTypes.LITERAL_THROW:    return THROW;
-        case TokenTypes.LITERAL_TRY:      return TRY;
-        case TokenTypes.LITERAL_RETURN:   return firstChildType == TokenTypes.SEMI ? RETURN__NO_EXPR : RETURN__EXPR;
-        case TokenTypes.LITERAL_WHILE:    return WHILE__WHILE;
-    
         case TokenTypes.LITERAL_CLASS: 
             return parentType == TokenTypes.CLASS_DEF ? CLASS__CLASS_DECL : CLASS__CLASS_LITERAL;
 
-        case TokenTypes.LITERAL_INTERFACE: return INTERFACE;
-        case TokenTypes.ENUM:              return ENUM;
-    
         case TokenTypes.LITERAL_DEFAULT:
             return (
                 parentType == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR || parentType == TokenTypes.ANNOTATION_FIELD_DEF
             ) ? DEFAULT__ANNO_ELEM : DEFAULT__SWITCH;
-    
-        case TokenTypes.LITERAL_INSTANCEOF: return INSTANCEOF;
-        case TokenTypes.LITERAL_NEW:        return NEW;
-        case TokenTypes.LITERAL_SUPER:      return SUPER__EXPR;
-        case TokenTypes.LITERAL_THIS:       return THIS__EXPR;
-        case TokenTypes.LITERAL_THROWS:     return THROWS;
 
-        case TokenTypes.ABSTRACT:             return ABSTRACT;
-        case TokenTypes.FINAL:                return FINAL;
-        case TokenTypes.LITERAL_NATIVE:       return NATIVE;
-        case TokenTypes.LITERAL_PRIVATE:      return PRIVATE;
-        case TokenTypes.LITERAL_PROTECTED:    return PROTECTED;
-        case TokenTypes.LITERAL_PUBLIC:       return PUBLIC;
-        case TokenTypes.LITERAL_STATIC:       return STATIC__MOD;
-        case TokenTypes.LITERAL_SYNCHRONIZED: return SYNCHRONIZED;
-        case TokenTypes.LITERAL_TRANSIENT:    return TRANSIENT;
-        case TokenTypes.LITERAL_VOLATILE:     return VOLATILE;
-    
-        case TokenTypes.PACKAGE_DEF:   return PACKAGE;
-        case TokenTypes.STATIC_IMPORT: return IMPORT__STATIC_IMPORT;
-        case TokenTypes.STATIC_INIT:   ast.setText("static"); return STATIC__STATIC_INIT;
+        case TokenTypes.LITERAL_STATIC:
+            return parentType == TokenTypes.STATIC_IMPORT ? STATIC__STATIC_IMPORT : STATIC__MOD;
+
+        case TokenTypes.LITERAL_SYNCHRONIZED:
+            return parentType == TokenTypes.SLIST ? SYNCHRONIZED__SYNCHRONIZED : SYNCHRONIZED__MOD;
+        
+        case TokenTypes.STATIC_INIT:
+            ast.setText("static");
+            return STATIC__STATIC_INIT;
     
         case TokenTypes.LPAREN:
-            if (parentType == TokenTypes.ANNOTATION) return L_PAREN__ANNO;
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return L_PAREN__ANNO_ELEM_DECL;
-            if (nextSiblingType == TokenTypes.PARAMETERS) return L_PAREN__PARAMS;
-            if (
-                parentType == TokenTypes.SUPER_CTOR_CALL || parentType == TokenTypes.LITERAL_NEW
-            ) return L_PAREN__METH_INVOCATION;
-            if (parentType == TokenTypes.LITERAL_DO) return L_PAREN__DO_WHILE;
-            if (parentType == TokenTypes.LITERAL_IF) return L_PAREN__IF;
-            if (parentType == TokenTypes.LITERAL_FOR) {
+            switch (parentType) {
+            
+            case TokenTypes.ANNOTATION:           return L_PAREN__ANNO;
+            case TokenTypes.ANNOTATION_FIELD_DEF: return L_PAREN__ANNO_ELEM_DECL;
+            case TokenTypes.LITERAL_DO:           return L_PAREN__DO_WHILE;
+            case TokenTypes.LITERAL_IF:           return L_PAREN__IF;
+            case TokenTypes.LITERAL_CATCH:        return L_PAREN__CATCH;
+
+            case TokenTypes.SUPER_CTOR_CALL:
+            case TokenTypes.LITERAL_NEW:
+                return L_PAREN__METH_INVOCATION;
+
+            case TokenTypes.LITERAL_FOR:
                 return ast.getNextSibling().getFirstChild() == null ? L_PAREN__FOR_NO_INIT : L_PAREN__FOR;
             }
-            if (parentType == TokenTypes.LITERAL_CATCH) return L_PAREN__CATCH;
+
+            if (nextSiblingType == TokenTypes.PARAMETERS) return L_PAREN__PARAMS;
+
             return L_PAREN__PARENTHESIZED;
-    
-        case TokenTypes.METHOD_CALL: return L_PAREN__METH_INVOCATION;
-    
-        case TokenTypes.QUESTION: return QUESTION__TERNARY;
 
         case TokenTypes.RBRACK:
-            if (parentType == TokenTypes.ARRAY_DECLARATOR) return R_BRACK__ARRAY_DECL;
-            if (parentType == TokenTypes.INDEX_OP)         return R_BRACK__INDEX;
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
+            switch (parentType) {
+
+            case TokenTypes.ARRAY_DECLARATOR: return R_BRACK__ARRAY_DECL;
+            case TokenTypes.INDEX_OP:         return R_BRACK__INDEX;
+            }
+            break;
     
         case TokenTypes.RCURLY:
-            if (
-                parentType == TokenTypes.SLIST
-                && grandparentType == TokenTypes.LITERAL_CATCH
-            ) return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_CATCH : R_CURLY__CATCH;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_SYNCHRONIZED
-            ) return R_CURLY__SYNCHRONIZED;
-            if (
-                parentType == TokenTypes.OBJBLOCK
-                && (
-                    grandparentType == TokenTypes.CLASS_DEF
-                    || grandparentType == TokenTypes.INTERFACE_DEF
-                    || grandparentType == TokenTypes.ANNOTATION_DEF
-                    || grandparentType == TokenTypes.ENUM_DEF
-                )
-            ) return previousSiblingType == TokenTypes.LCURLY ? R_CURLY__EMPTY_TYPE_DECL : R_CURLY__TYPE_DECL;
-            if (
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.LITERAL_NEW 
-            ) return previousSiblingType == TokenTypes.LCURLY ? R_CURLY__EMPTY_ANON_CLASS : R_CURLY__ANON_CLASS;
-            if (
-                parentType == TokenTypes.OBJBLOCK && grandparentType == TokenTypes.ENUM_CONSTANT_DEF
-            ) return R_CURLY__ENUM_CONST_DECL;
-            if (
-                parentType == TokenTypes.SLIST
-                && (grandparentType == TokenTypes.CTOR_DEF || grandparentType == TokenTypes.METHOD_DEF)
-            ) return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_METH_DECL : R_CURLY__METH_DECL;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_FOR
-            ) return R_CURLY__FOR;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_IF
-            ) return R_CURLY__IF;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_ELSE
-            ) return R_CURLY__IF;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_WHILE
-            ) return R_CURLY__WHILE;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_DO
-            ) return R_CURLY__DO;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_TRY
-            ) return R_CURLY__TRY;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LITERAL_FINALLY
-            ) return R_CURLY__FINALLY;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.LABELED_STAT
-            ) return R_CURLY__LABELED_STAT;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.SLIST
-            ) return R_CURLY__BLOCK;
-            if (parentType == TokenTypes.LITERAL_SWITCH) return R_CURLY__SWITCH;
-            if (parentType == TokenTypes.ARRAY_INIT) {
+            switch (parentType) {
+
+            case TokenTypes.LITERAL_SWITCH: return R_CURLY__SWITCH;
+
+            case TokenTypes.ANNOTATION_ARRAY_INIT:
+                return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_ANNO_ARRAY_INIT : R_CURLY__ANNO_ARRAY_INIT;
+
+            case TokenTypes.ARRAY_INIT:
                 return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_ARRAY_INIT : R_CURLY__ARRAY_INIT;
-            } 
-            if (parentType == TokenTypes.ANNOTATION_ARRAY_INIT) {
-                return (
-                    ast.getPreviousSibling() == null
-                    ? R_CURLY__EMPTY_ANNO_ARRAY_INIT
-                    : R_CURLY__ANNO_ARRAY_INIT
-                );
+
+            case TokenTypes.OBJBLOCK:
+                switch (grandparentType) {
+
+                case TokenTypes.ENUM_CONSTANT_DEF: return R_CURLY__ENUM_CONST_DECL;
+
+                case TokenTypes.CLASS_DEF:
+                case TokenTypes.INTERFACE_DEF:
+                case TokenTypes.ANNOTATION_DEF:
+                case TokenTypes.ENUM_DEF:
+                    return previousSiblingType == TokenTypes.LCURLY ? R_CURLY__EMPTY_TYPE_DECL : R_CURLY__TYPE_DECL;
+
+                case TokenTypes.LITERAL_NEW:
+                    return previousSiblingType == TokenTypes.LCURLY ? R_CURLY__EMPTY_ANON_CLASS : R_CURLY__ANON_CLASS;
+                }
+                break;
+
+            case TokenTypes.SLIST:
+                switch (grandparentType) {
+                
+                case TokenTypes.INSTANCE_INIT:        return R_CURLY__INSTANCE_INIT;
+                case TokenTypes.LABELED_STAT:         return R_CURLY__LABELED_STAT;
+                case TokenTypes.LITERAL_DO:           return R_CURLY__DO;
+                case TokenTypes.LITERAL_ELSE:         return R_CURLY__IF;
+                case TokenTypes.LITERAL_FINALLY:      return R_CURLY__FINALLY;
+                case TokenTypes.LITERAL_FOR:          return R_CURLY__FOR;
+                case TokenTypes.LITERAL_IF:           return R_CURLY__IF;
+                case TokenTypes.LITERAL_SYNCHRONIZED: return R_CURLY__SYNCHRONIZED;
+                case TokenTypes.LITERAL_TRY:          return R_CURLY__TRY;
+                case TokenTypes.LITERAL_WHILE:        return R_CURLY__WHILE;
+                case TokenTypes.SLIST:                return R_CURLY__BLOCK;
+                case TokenTypes.STATIC_INIT:          return R_CURLY__STATIC_INIT;
+
+                case TokenTypes.CTOR_DEF:
+                case TokenTypes.METHOD_DEF:
+                    return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_METH_DECL : R_CURLY__METH_DECL;
+
+                case TokenTypes.ARRAY_INIT:
+                    return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_ARRAY_INIT : R_CURLY__ARRAY_INIT;
+
+                case TokenTypes.LITERAL_CATCH:
+                    return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_CATCH : R_CURLY__CATCH;
+                }
             }
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.STATIC_INIT
-            ) return R_CURLY__STATIC_INIT;
-            if (
-                parentType == TokenTypes.SLIST && grandparentType == TokenTypes.INSTANCE_INIT
-            ) return R_CURLY__INSTANCE_INIT;
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
+            break;
     
         case TokenTypes.RPAREN:
-            if (parentType == TokenTypes.ANNOTATION) return R_PAREN__ANNO;
-            if (parentType == TokenTypes.ANNOTATION_FIELD_DEF) return R_PAREN__ANNO_ELEM_DECL;
-            if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) return R_PAREN__PARAMS;
-            if (
-                parentType == TokenTypes.SUPER_CTOR_CALL
-                || parentType == TokenTypes.LITERAL_NEW
-                || parentType == TokenTypes.METHOD_CALL
-            ) return R_PAREN__METH_INVOCATION;
-            if (parentType == TokenTypes.LITERAL_IF) return R_PAREN__IF;
-            if (parentType == TokenTypes.LITERAL_DO) return R_PAREN__DO_WHILE;
-            if (parentType == TokenTypes.LITERAL_FOR) {
+            switch (parentType) {
+
+            case TokenTypes.ANNOTATION:           return R_PAREN__ANNO;
+            case TokenTypes.ANNOTATION_FIELD_DEF: return R_PAREN__ANNO_ELEM_DECL;
+            case TokenTypes.LITERAL_CATCH:        return R_PAREN__CATCH;
+            case TokenTypes.LITERAL_DO:           return R_PAREN__DO_WHILE;
+            case TokenTypes.LITERAL_IF:           return R_PAREN__IF;
+
+            case TokenTypes.CTOR_DEF:
+            case TokenTypes.METHOD_DEF:
+                return R_PAREN__PARAMS;
+
+            case TokenTypes.SUPER_CTOR_CALL:
+            case TokenTypes.LITERAL_NEW:
+            case TokenTypes.METHOD_CALL:
+                return R_PAREN__METH_INVOCATION;
+
+            case TokenTypes.LITERAL_FOR:
                 return ast.getPreviousSibling().getFirstChild() == null ? R_PAREN__FOR_NO_UPDATE : R_PAREN__FOR;
             }
-            if (parentType == TokenTypes.LITERAL_CATCH) return R_PAREN__CATCH;
+
             if (previousSiblingType == TokenTypes.TYPE) return R_PAREN__CAST;
+
             return R_PAREN__PARENTHESIZED;
     
         case TokenTypes.SEMI:
@@ -1454,26 +1532,29 @@ class Whitespace extends Check {
                 if (grandparentType == TokenTypes.OBJBLOCK) return SEMI__FIELD_DECL;
                 break;
             }
-            assert false : "'" + ast + "' has unexpected parent '" + ast.getParent() + "'";
-            return null;
+            break;
     
         case TokenTypes.SLIST:
-            if (parentType == TokenTypes.STATIC_INIT) return L_CURLY__STATIC_INIT;
-            if (parentType == TokenTypes.INSTANCE_INIT) return L_CURLY__INSTANCE_INIT;
-            if (parentType == TokenTypes.LITERAL_IF) return L_CURLY__IF;
-            if (parentType == TokenTypes.LITERAL_ELSE) return R_CURLY__ELSE;
-            if (parentType == TokenTypes.LITERAL_DO) return L_CURLY__DO;
-            if (parentType == TokenTypes.LITERAL_WHILE) return L_CURLY__WHILE;
-            if (parentType == TokenTypes.LITERAL_FOR) return L_CURLY__FOR;
-            if (parentType == TokenTypes.LITERAL_TRY) return L_CURLY__TRY;
-            if (parentType == TokenTypes.LITERAL_CATCH) { 
+            switch (parentType) {
+
+            case TokenTypes.STATIC_INIT:          return L_CURLY__STATIC_INIT;
+            case TokenTypes.INSTANCE_INIT:        return L_CURLY__INSTANCE_INIT;
+            case TokenTypes.LITERAL_IF:           return L_CURLY__IF;
+            case TokenTypes.LITERAL_ELSE:         return R_CURLY__ELSE;
+            case TokenTypes.LITERAL_DO:           return L_CURLY__DO;
+            case TokenTypes.LITERAL_WHILE:        return L_CURLY__WHILE;
+            case TokenTypes.LITERAL_FOR:          return L_CURLY__FOR;
+            case TokenTypes.LITERAL_TRY:          return L_CURLY__TRY;
+            case TokenTypes.LITERAL_FINALLY:      return L_CURLY__FINALLY;
+            case TokenTypes.LITERAL_SYNCHRONIZED: return L_CURLY__SYNCHRONIZED;
+            case TokenTypes.LABELED_STAT:         return L_CURLY__LABELED_STAT;
+            case TokenTypes.SLIST:                return L_CURLY__BLOCK;
+
+            case TokenTypes.LITERAL_CATCH: 
                 return firstChildType == TokenTypes.RCURLY ? L_CURLY__EMPTY_CATCH : L_CURLY__CATCH;
-            }
-            if (parentType == TokenTypes.LITERAL_FINALLY) return L_CURLY__FINALLY;
-            if (parentType == TokenTypes.LITERAL_SYNCHRONIZED) return L_CURLY__SYNCHRONIZED;
-            if (parentType == TokenTypes.LABELED_STAT) return L_CURLY__LABELED_STAT;
-            if (parentType == TokenTypes.SLIST) return L_CURLY__BLOCK;
-            if (parentType == TokenTypes.CTOR_DEF || parentType == TokenTypes.METHOD_DEF) {
+
+            case TokenTypes.CTOR_DEF:
+            case TokenTypes.METHOD_DEF:
                 return (
                     firstChildType == TokenTypes.RCURLY
                     ? JavaElement.L_CURLY__EMPTY_METH_DECL
@@ -1481,20 +1562,7 @@ class Whitespace extends Check {
                 );
             }
             return null; // Not a 'physical' token.
-    
-        case TokenTypes.SL:                return LEFT_SHIFT;
-        case TokenTypes.SR:                return RIGHT_SHIFT;
-        case TokenTypes.BSR:               return UNSIGNED_RIGHT_SHIFT;
-        case TokenTypes.ELLIPSIS:          return ELLIPSIS;
-        case TokenTypes.CTOR_CALL:         return THIS__CTOR_CALL;
-        case TokenTypes.SUPER_CTOR_CALL:   return SUPER__CTOR_CALL;
-        case TokenTypes.TYPE_UPPER_BOUNDS: return EXTENDS__TYPE_BOUND;
-        case TokenTypes.TYPE_LOWER_BOUNDS: return SUPER__TYPE_BOUND;
-        case TokenTypes.WILDCARD_TYPE:     return QUESTION__WILDCARD_TYPE;
-        case TokenTypes.EXTENDS_CLAUSE:    return EXTENDS__TYPE;
-        case TokenTypes.LABELED_STAT:      return COLON__LABELED_STAT;
             
-        // These are the 'virtual' tokens, i.e. token which are not uniquely related to a physical token:
         case TokenTypes.ANNOTATION:
         case TokenTypes.ANNOTATION_DEF:
         case TokenTypes.ANNOTATION_FIELD_DEF:
@@ -1525,20 +1593,31 @@ class Whitespace extends Check {
         case TokenTypes.TYPE:
         case TokenTypes.TYPE_ARGUMENT:
         case TokenTypes.TYPE_ARGUMENTS:
-        case TokenTypes.TYPE_EXTENSION_AND:
         case TokenTypes.TYPE_PARAMETER:
         case TokenTypes.TYPE_PARAMETERS:
         case TokenTypes.VARIABLE_DEF:
+            // These are the 'virtual' tokens, i.e. token which are not uniquely related to a physical token.
             return null;
     
         case TokenTypes.EOF:
-            assert false : "Unexpected token '" + ast + "'";
-            return null;
-    
-        default:
-            assert false : "Unexpected DetailAST " + ast;
+            assert false : "Unexpected token '" + ast + "' (" + TokenTypes.getTokenName(ast.getType()) + ')';
             return null;
         }
+
+        assert false : (
+            "'"
+            + ast
+            + "' (type '"
+            + TokenTypes.getTokenName(ast.getType())
+            + "') has unexpected parent type '"
+            + TokenTypes.getTokenName(parentType)
+            + "' and/or grandparent type '"
+            + TokenTypes.getTokenName(grandparentType)
+            + "'"
+        );
+
+        return null;
+
     }
     private static final Pattern LINE_PREFIX = Pattern.compile("\\s*");
     private static final Pattern LINE_SUFFIX = Pattern.compile("\\s*(?://.*)?");
