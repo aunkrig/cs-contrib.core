@@ -137,7 +137,7 @@ class Whitespace extends Check {
         DOUBLE_LITERAL,
         /** 'meth(Object<font color="red">...</font> o)' */
         ELLIPSIS,
-        /** 'if (...) { ... } <font color="red">else</font> { ... } */
+        /** 'if (...) { ... } <font color="red">else</font> { ... }' */
         ELSE,
         /** 'public <font color="red">enum</font> Color { RED, BLUE, GREEN }' */
         ENUM,
@@ -311,7 +311,7 @@ class Whitespace extends Check {
         MINUS_ASSIGN,
         /** 'a <font color="red">%</font> b' */
         MODULO,
-        /** 'a <font color="red">%=</font> b'*/
+        /** 'a <font color="red">%=</font> b' */
         MODULO_ASSIGN,
         /** 'a <font color="red">*</font> b' */
         MULTIPLY,
@@ -360,11 +360,11 @@ class Whitespace extends Check {
         NULL,
         /** 'a <font color="red">|</font> b' */
         OR,
-        /** 'a <font color="red">|=</font> b'*/
+        /** 'a <font color="red">|=</font> b' */
         OR_ASSIGN,
         /** '<font color="red">package</font> ...;' */
         PACKAGE,
-        /** 'a <font color="red">+</font> b',  */
+        /** 'a <font color="red">+</font> b' */
         PLUS__ADDITIVE,
         /** '<font color="red">+</font>(a + b)' */
         PLUS__UNARY,
@@ -473,7 +473,7 @@ class Whitespace extends Check {
         R_PAREN__CAST,
         /** 'try { ... } catch (Exception e<font color="red">)</font> {' */
         R_PAREN__CATCH,
-        /** 'do { ... } while (...<font color="red">)</font>; */
+        /** 'do { ... } while (...<font color="red">)</font>;' */
         R_PAREN__DO_WHILE,
         /** 'for (int i = 0; i &lt; 10; i++<font color="red">)</font> {' */
         R_PAREN__FOR,
@@ -493,9 +493,9 @@ class Whitespace extends Check {
         RETURN__NO_EXPR,
         /** 'a <font color="red">>></font> 3' */
         RIGHT_SHIFT,
-        /** 'a <font color="red">>>=</font> 2'*/
+        /** 'a <font color="red">>>=</font> 2' */
         RIGHT_SHIFT_ASSIGN,
-        /** 'abstract meth(int x)<font color="red">;</font> */
+        /** 'abstract meth(int x)<font color="red">;</font>' */
         SEMI__ABSTRACT_METH_DECL,
         /** 'interface @MyAnno { String engineer()<font color="red">;</font> }' */
         SEMI__ANNO_ELEM_DECL,
@@ -515,7 +515,7 @@ class Whitespace extends Check {
         SEMI__FOR_INIT_NO_CONDITION,
         /** 'for (...;<font color="red">;</font>) {' */
         SEMI__FOR_NO_CONDITION_NO_UPDATE,
-        /** 'for (...;<font color="red">;</font> i++) {'*/
+        /** 'for (...;<font color="red">;</font> i++) {' */
         SEMI__FOR_NO_CONDITION_UPDATE,
         /** 'for (<font color="red">;</font> ...; ...) {' */
         SEMI__FOR_NO_INIT_CONDITION,
@@ -575,7 +575,7 @@ class Whitespace extends Check {
         TRY,
         /** 'a <font color="red">>>></font> 3' */
         UNSIGNED_RIGHT_SHIFT,
-        /** 'a <font color="red">>>>=</font> 2'*/
+        /** 'a <font color="red">>>>=</font> 2' */
         UNSIGNED_RIGHT_SHIFT_ASSIGN,
         /** '<font color="red">void</font> meth() {'<br/>'<font color="red">void</font>.class' */
         VOID,
@@ -587,7 +587,7 @@ class Whitespace extends Check {
         WHILE__WHILE,
         /** 'a <font color="red">^</font> b' */
         XOR,
-        /** 'a <font color="red">^=</font> b'*/
+        /** 'a <font color="red">^=</font> b' */
         XOR_ASSIGN,
 
         // CHECKSTYLE __:OFF
