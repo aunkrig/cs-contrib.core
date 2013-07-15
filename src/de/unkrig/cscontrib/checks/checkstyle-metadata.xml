@@ -285,7 +285,7 @@
         xor_assign
 ">
                 <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceBefore.desc</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$JavaElement"/>
+                <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement"/>
             </property-metadata>
 
             <property-metadata
@@ -356,7 +356,7 @@
         star__type_import_on_demand
 ">
                 <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceBefore.desc</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$JavaElement"/>
+                <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement"/>
             </property-metadata>
 
             <property-metadata
@@ -504,7 +504,7 @@
         xor_assign
 ">
                 <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceAfter.desc</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$JavaElement"/>
+                <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement"/>
             </property-metadata>
 
             <property-metadata
@@ -567,7 +567,7 @@
         this__ctor_call
 ">
                 <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceAfter.desc</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.Whitespace$JavaElement"/>
+                <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement"/>
             </property-metadata>
 
             <message-key key="de.unkrig.cscontrib.checks.Whitespace.preceded"/>
