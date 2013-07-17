@@ -1053,6 +1053,7 @@ class WrapAndIndent extends Check {
         case POST_INC:
         case UNARY_MINUS:
         case UNARY_PLUS:
+        case ARRAY_DECLARATOR:
             {
                 DetailAST c = checkParenthesizedExpression(expression.getFirstChild(), inline);
                 assert c == null;
@@ -1080,6 +1081,7 @@ class WrapAndIndent extends Check {
         case LITERAL_CHAR:
         case LITERAL_FLOAT:
         case LITERAL_DOUBLE:
+        case LITERAL_VOID:
             {
                 DetailAST c = expression.getFirstChild();
                 assert c == null : Integer.toString(expression.getChildCount());
