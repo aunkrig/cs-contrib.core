@@ -57,7 +57,10 @@ class WrapAndIndent2 extends AbstractDocumentResolution {
             document.replace(
                 from,
                 markerStart - from,
-                c == '@' || c == '(' || c == '.' || c2 == ')' || c2 == ',' || c2 == ';' ? "" : " "
+                (
+                    c == '@' || c == '(' || c == '[' || c == '.'
+                    || c2 == ')' || c2 == ',' || c2 == ';' || c2 == '[' || c2 == ']'
+                ) ? "" : " "
             );
         } catch (BadLocationException ble) {
             CheckstyleLog.log(ble);
