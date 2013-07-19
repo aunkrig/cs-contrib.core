@@ -85,9 +85,14 @@ class WrapAndIndent extends Check {
     private int     wrapDoBeforeLCurly;
     private int     wrapArrayInitBeforeLCurly;
     private int     wrapAnonClassDeclBeforeLCurly;
+    private int     wrapBeforeBinaryOperator         = WRAP;
+    private int     wrapAfterBinaryOperator;
 
-    // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
+    // CONFIGURATION SETTERS
+    // CHECKSTYLE JavadocMethod:OFF
+    // CHECKSTYLE LineLength:OFF
     public void setBasicOffset(int value)                          { this.basicOffset = value; }
+
     public void setAllowOneLineClassDecl(boolean value)            { this.allowOneLineClassDecl            = value; }
     public void setAllowOneLineInterfaceDecl(boolean value)        { this.allowOneLineInterfaceDecl        = value; }
     public void setAllowOneLineEnumDecl(boolean value)             { this.allowOneLineEnumDecl             = value; }
@@ -95,6 +100,7 @@ class WrapAndIndent extends Check {
     public void setAllowOneLineCtorDecl(boolean value)             { this.allowOneLineClassDecl            = value; }
     public void setAllowOneLineMethDecl(boolean value)             { this.allowOneLineMethDecl             = value; }
     public void setAllowOneLineSwitchBlockStmtGroup(boolean value) { this.allowOneLineSwitchBlockStmtGroup = value; }
+
     public void setWrapClassDeclBeforeClass(String value)          { this.wrapClassDeclBeforeClass         = toWrap(value); }
     public void setWrapInterfaceDeclBeforeInterface(String value)  { this.wrapInterfaceDeclBeforeInterface = toWrap(value); }
     public void setWrapEnumDeclBeforeEnum(String value)            { this.wrapEnumDeclBeforeEnum           = toWrap(value); }
@@ -103,16 +109,24 @@ class WrapAndIndent extends Check {
     public void setWrapCtorDeclBeforeName(String value)            { this.wrapCtorDeclBeforeName           = toWrap(value); }
     public void setWrapMethDeclBeforeName(String value)            { this.wrapMethDeclBeforeName           = toWrap(value); }
     public void setWrapLocVarDeclBeforeName(String value)          { this.wrapLocVarDeclBeforeName         = toWrap(value); }
+
     public void setWrapTypeDeclBeforeLCurly(String value)          { this.wrapTypeDeclBeforeLCurly         = toWrap(value); }
     public void setWrapCtorDeclBeforeLCurly(String value)          { this.wrapCtorDeclBeforeLCurly         = toWrap(value); }
     public void setWrapMethodDeclBeforeLCurly(String value)        { this.wrapMethodDeclBeforeLCurly       = toWrap(value); }
     public void setWrapDoBeforeLCurly(String value)                { this.wrapDoBeforeLCurly               = toWrap(value); }
     public void setWrapArrayInitBeforeLCurly(String value)         { this.wrapArrayInitBeforeLCurly        = toWrap(value); }
     public void setWrapAnonClassDeclBeforeLCurly(String value)     { this.wrapAnonClassDeclBeforeLCurly    = toWrap(value); }
-    // END CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:ON
+    public void setWrapBeforeBinaryOperator(String value)          { this.wrapBeforeBinaryOperator         = toWrap(value); }
+    public void setWrapAfterBinaryOperator(String value)           { this.wrapAfterBinaryOperator          = toWrap(value); }
+    // CHECKSTYLE LineLength:ON
+    // CHECKSTYLE MethodCheck:ON
+    // END CONFIGURATION SETTERS
 
-    public static class
-    WrapOptionProvider implements IOptionProvider {
+    /**
+     * For a more compact notation in 'checkstyle-metadata.xml' we define this {@link IOptionProvider}.
+     */
+    public static
+    class WrapOptionProvider implements IOptionProvider {
 
         private static final List<String>
         WRAP_OPTIONS = Collections.unmodifiableList(Arrays.asList("always", "optional", "never"));
@@ -202,7 +216,7 @@ class WrapAndIndent extends Check {
             IMPLEMENTS_CLAUSE,
             IMPORT,
 //            INC,
-            INDEX_OP,
+//            INDEX_OP,
             INSTANCE_INIT,
             INTERFACE_DEF,
             LABELED_STAT,
@@ -509,6 +523,7 @@ class WrapAndIndent extends Check {
                     boolean inline;
                     switch (ast.getParent().getType()) {
 
+                    case INDEX_OP:                     // a[#]
                     case ANNOTATION:                   // @SuppressWarnings(#)
                     case ANNOTATION_ARRAY_INIT:        // @SuppressWarnings({ "rawtypes", "unchecked" })
                     case ANNOTATION_MEMBER_VALUE_PAIR: // @Author(@Name(first = "Joe", last = "Hacker"))
@@ -528,7 +543,6 @@ class WrapAndIndent extends Check {
 
                     case ARRAY_DECLARATOR:     // new String[#]
                     case ARRAY_INIT:           // int[] a = { # }
-                    case INDEX_OP:             // a[#]
                     case LITERAL_DO:           // do { ... } while (#)
                     case LITERAL_IF:           // if (#)
                     case LITERAL_SWITCH:       // switch (#)
@@ -593,17 +607,6 @@ class WrapAndIndent extends Check {
 
                 IDENT,
                 WRAP | ANY,
-                END
-            );
-            break;
-
-        case INDEX_OP:
-            checkChildren(
-                ast,
-
-                ANY,
-                INDENT | EXPR,
-                UNINDENT | RBRACK,
                 END
             );
             break;
@@ -851,7 +854,11 @@ class WrapAndIndent extends Check {
             checkChildren(
                 ast,
 
-                LPAREN,
+                FORK + 3,
+                ANY,
+                DOT,
+
+/* 3 */         LPAREN,
                 INDENT_IF_CHILDREN | ELIST,
                 UNINDENT | RPAREN,
                 SEMI,
@@ -928,6 +935,7 @@ class WrapAndIndent extends Check {
         case GT:
         case IDENT:
         case INC:
+        case INDEX_OP:
         case LAND:
         case LCURLY:
         case LE:
@@ -1065,6 +1073,7 @@ class WrapAndIndent extends Check {
      */
     private void
     checkExpression(DetailAST expression, boolean inline) {
+
         switch (expression.getType()) {
 
         // Ternary operation
@@ -1076,6 +1085,19 @@ class WrapAndIndent extends Check {
                 c = c.getNextSibling();
                 c = checkParenthesizedExpression(c, inline);
                 assert c == null;
+            }
+            break;
+
+        case INDEX_OP:
+            {
+                DetailAST c = checkParenthesizedExpression(expression.getFirstChild(), inline);
+                assert c != null;
+                checkSameLine(getRightmostDescendant(expression.getFirstChild()), expression);
+                checkSameLine(expression, getLeftmostDescendant(c));
+                c = checkParenthesizedExpression(c, inline);
+                assert c != null;
+                assert c.getType() == RBRACK;
+                checkSameLine(expression, c);
             }
             break;
 
@@ -1129,6 +1151,57 @@ class WrapAndIndent extends Check {
                     + TokenTypes.getTokenName(expression.getType())
                     + "' missing"
                 );
+
+                // Check wrapping and alignment of LHS and operator.
+                switch (inline ? 0 : this.wrapBeforeBinaryOperator) {
+                case 0:
+                    checkSameLine(getRightmostDescendant(c.getPreviousSibling()), expression);
+                    break;
+                case WRAP:
+                    if (getRightmostDescendant(expression.getFirstChild()).getLineNo() != expression.getLineNo()) {
+                        checkAlignment(expression, getLeftmostDescendant(expression.getFirstChild()).getColumnNo());
+                    } else {
+                        checkSameLine(getRightmostDescendant(c.getPreviousSibling()), expression);
+                    }
+                    break;
+                case MUST_WRAP:
+                    if (getRightmostDescendant(expression.getFirstChild()).getLineNo() == expression.getLineNo()) {
+                        log(expression, "Must wrap line before ''{0}''", expression.getText());
+                    } else {
+                        checkAlignment(expression, getLeftmostDescendant(expression.getFirstChild()).getColumnNo());
+                    }
+                    break;
+                }
+
+                // Check wrapping and alignment of operator and RHS.
+                switch (inline ? 0 : this.wrapAfterBinaryOperator) {
+                case 0:
+                    checkSameLine(expression, getLeftmostDescendant(c));
+                    break;
+                case WRAP:
+                    if (expression.getLineNo() != getLeftmostDescendant(c).getLineNo()) {
+                        checkAlignment(
+                            getLeftmostDescendant(c),
+                            getLeftmostDescendant(expression.getFirstChild()).getColumnNo()
+                        );
+                    } else {
+                        checkSameLine(expression, getLeftmostDescendant(c));
+                    }
+                case MUST_WRAP:
+                    if (expression.getLineNo() == getLeftmostDescendant(c).getLineNo()) {
+                        log(
+                            getLeftmostDescendant(c),
+                            "Must wrap line before ''{0}''",
+                            getLeftmostDescendant(c).getText()
+                        );
+                    } else {
+                        checkAlignment(
+                            getLeftmostDescendant(c),
+                            getLeftmostDescendant(expression.getFirstChild()).getColumnNo()
+                        );
+                    }
+                }
+
                 c = checkParenthesizedExpression(c, inline);
                 assert c == null : (
                     getFileContents().getFilename()
@@ -1148,16 +1221,23 @@ class WrapAndIndent extends Check {
         // Unary operations
         case BNOT:
         case DEC:
+        case EXPR:
         case INC:
         case LNOT:
         case POST_DEC:
         case POST_INC:
         case UNARY_MINUS:
         case UNARY_PLUS:
-        case ARRAY_DECLARATOR:
             {
                 DetailAST c = checkParenthesizedExpression(expression.getFirstChild(), inline);
                 assert c == null;
+            }
+            break;
+
+        case ARRAY_DECLARATOR:
+            {
+                DetailAST c = checkParenthesizedExpression(expression.getFirstChild(), inline);
+                assert c.getType() == RBRACK;
             }
             break;
 
@@ -1219,7 +1299,6 @@ class WrapAndIndent extends Check {
         case LITERAL_NEW:
         case ARRAY_INIT:
         case TYPECAST:
-        case INDEX_OP:
 
             // Checked by "visitToken()".
             ;
@@ -1418,7 +1497,7 @@ class WrapAndIndent extends Check {
                     break;
 
                 case 1:
-                    checkSameLine(previousAst, child);
+                    checkSameLine(previousAst, getLeftmostDescendant(child));
                     break;
 
                 case 2:
