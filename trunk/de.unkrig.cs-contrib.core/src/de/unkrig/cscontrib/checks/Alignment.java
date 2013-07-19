@@ -106,12 +106,12 @@ class Alignment extends Check {
         return new int[] { VARIABLE_DEF, PARAMETER_DEF, METHOD_DEF, CTOR_DEF, CASE_GROUP, EXPR };
     }
 
-    private DetailAST previousFieldDeclaration         = null;
-    private DetailAST previousParameterDeclaration     = null;
-    private DetailAST previousLocalVariableDeclaration = null;
-    private DetailAST previousMethodDeclaration        = null;
-    private DetailAST previousCaseGroup                = null;
-    private DetailAST previousAssignment               = null;
+    private DetailAST previousFieldDeclaration;
+    private DetailAST previousParameterDeclaration;
+    private DetailAST previousLocalVariableDeclaration;
+    private DetailAST previousMethodDeclaration;
+    private DetailAST previousCaseGroup;
+    private DetailAST previousAssignment;
 
     @Override public void
     visitToken(DetailAST ast) {
