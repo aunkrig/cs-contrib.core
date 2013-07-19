@@ -532,7 +532,7 @@ enum JavaElement {
     STRING_LITERAL,
     /** '<font color="red">super</font>(x, y);' */
     SUPER__CTOR_CALL,
-    /** '<font color="red">super</font>.meth();' */
+    /** '<font color="red">super</font>.meth();'<br>'outer.<font color="red">super</font>.meth();' */
     SUPER__EXPR,
     /** 'List&lt;T <font color="red">super</font> MyClass>' */
     SUPER__TYPE_BOUND,
