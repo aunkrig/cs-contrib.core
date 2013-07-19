@@ -28,6 +28,12 @@ package de.unkrig.cscontrib.checks;
 
 import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import net.sf.eclipsecs.core.config.meta.IOptionProvider;
+
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
@@ -41,8 +47,6 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 @NotNullByDefault(false) public
 class WrapAndIndent extends Check {
 
-    /** How many spaces to use for new indentation level. */
-    private int basicOffset = 4;
 
     /** May be ORed to the {@link TokenTypes}. */
     private static final int OPTIONAL           = 0x80000000;
@@ -58,15 +62,75 @@ class WrapAndIndent extends Check {
     private static final int BRANCH  = 900;
     private static final int END     = 996;
 
-    // CONFIGURATION SETTERS AND GETTERS -- CHECKSTYLE MethodCheck:OFF
+    // CONFIGURATION VARIABLES
+    private int     basicOffset                      = 4;
+    private boolean allowOneLineClassDecl            = true;
+    private boolean allowOneLineInterfaceDecl        = true;
+    private boolean allowOneLineEnumDecl             = true;
+    private boolean allowOneLineAnnoDecl             = true;
+    private boolean allowOneLineCtorDecl             = true;
+    private boolean allowOneLineMethDecl             = true;
+    private boolean allowOneLineSwitchBlockStmtGroup = true;
+    private int     wrapClassDeclBeforeClass         = MUST_WRAP;
+    private int     wrapInterfaceDeclBeforeInterface = MUST_WRAP;
+    private int     wrapEnumDeclBeforeEnum           = MUST_WRAP;
+    private int     wrapAnnoDeclBeforeAt             = MUST_WRAP;
+    private int     wrapFieldDeclBeforeName          = WRAP;
+    private int     wrapCtorDeclBeforeName           = MUST_WRAP;
+    private int     wrapMethDeclBeforeName           = MUST_WRAP;
+    private int     wrapLocVarDeclBeforeName         = WRAP;
 
-    public void
-    setBasicOffset(int basicOffset) { this.basicOffset = basicOffset; }
+    // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
+    public void setBasicOffset(int value)                          { this.basicOffset = value; }
+    public void setAllowOneLineClassDecl(boolean value)            { this.allowOneLineClassDecl            = value; }
+    public void setAllowOneLineInterfaceDecl(boolean value)        { this.allowOneLineInterfaceDecl        = value; }
+    public void setAllowOneLineEnumDecl(boolean value)             { this.allowOneLineEnumDecl             = value; }
+    public void setAllowOneLineAnnoDecl(boolean value)             { this.allowOneLineAnnoDecl             = value; }
+    public void setAllowOneLineCtorDecl(boolean value)             { this.allowOneLineClassDecl            = value; }
+    public void setAllowOneLineMethDecl(boolean value)             { this.allowOneLineMethDecl             = value; }
+    public void setAllowOneLineSwitchBlockStmtGroup(boolean value) { this.allowOneLineSwitchBlockStmtGroup = value; }
+    public void setWrapClassDeclBeforeClass(String value)          { this.wrapClassDeclBeforeClass         = toWrap(value); }
+    public void setWrapInterfaceDeclBeforeInterface(String value)  { this.wrapInterfaceDeclBeforeInterface = toWrap(value); }
+    public void setWrapEnumDeclBeforeEnum(String value)            { this.wrapEnumDeclBeforeEnum           = toWrap(value); }
+    public void setWrapAnnoDeclBeforeAt(String value)              { this.wrapAnnoDeclBeforeAt             = toWrap(value); }
+    public void setWrapFieldDeclBeforeName(String value)           { this.wrapFieldDeclBeforeName          = toWrap(value); }
+    public void setWrapCtorDeclBeforeName(String value)            { this.wrapCtorDeclBeforeName           = toWrap(value); }
+    public void setWrapMethDeclBeforeName(String value)            { this.wrapMethDeclBeforeName           = toWrap(value); }
+    public void setWrapLocVarDeclBeforeName(String value)          { this.wrapLocVarDeclBeforeName         = toWrap(value); }
+    // END CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:ON
 
-    public int
-    getBasicOffset() { return this.basicOffset; }
+    public static class
+    WrapOptionProvider implements IOptionProvider {
 
-    // END CONFIGURATION SETTERS AND GETTERS -- CHECKSTYLE MethodCheck:ON
+        private static final List<String>
+        WRAP_OPTIONS = Collections.unmodifiableList(Arrays.asList("always", "optional", "never"));
+
+        @Override public List<String>
+        getOptions() { return WRAP_OPTIONS; }
+    }
+
+    private static int
+    toWrap(String value) {
+        return (
+            "always".equals(value) ? MUST_WRAP :
+            "optional".equals(value) ? WRAP :
+            "never".equals(value) ? 0 :
+            throwException(RuntimeException.class, Integer.class, "Invalid string value '" + value + "'")
+        );
+    }
+
+    private static <ET extends Exception, RT> RT
+    throwException(Class<ET> exceptionType, Class<RT> returnType, String message) throws ET {
+        ET exception;
+
+        try {
+            exception = exceptionType.getConstructor(String.class).newInstance(message);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        throw exception;
+    }
 
     @Override public int[]
     getDefaultTokens() {
@@ -297,11 +361,12 @@ class WrapAndIndent extends Check {
             break;
 
         case ANNOTATION_DEF:
+            if (this.allowOneLineAnnoDecl && isSingleLine(ast)) break;
             checkChildren(
                 ast,
 
                 MODIFIERS,
-                MUST_WRAP | AT,
+                this.wrapAnnoDeclBeforeAt | AT,
                 LITERAL_INTERFACE,
                 IDENT,
                 OBJBLOCK,
@@ -342,12 +407,12 @@ class WrapAndIndent extends Check {
             break;
 
         case CLASS_DEF:
-            if (isSingleLine(ast)) break;
+            if (this.allowOneLineClassDecl && isSingleLine(ast)) break;
             checkChildren(
                 ast,
 
                 MODIFIERS,
-                LITERAL_CLASS | MUST_WRAP,
+                this.wrapClassDeclBeforeClass | LITERAL_CLASS,
                 IDENT,
 
                 FORK + 5,
@@ -377,12 +442,12 @@ class WrapAndIndent extends Check {
             break;
 
         case CTOR_DEF:
-            if (isSingleLine(ast)) break;
+            if (this.allowOneLineCtorDecl && isSingleLine(ast)) break;
             checkChildren(
                 ast,
 
                 MODIFIERS,
-                IDENT | MUST_WRAP,
+                this.wrapCtorDeclBeforeName | IDENT,
 
                 LPAREN,
                 INDENT_IF_CHILDREN | PARAMETERS,
@@ -410,12 +475,12 @@ class WrapAndIndent extends Check {
             break;
 
         case ENUM_DEF:
-            if (isSingleLine(ast)) break;
+            if (this.allowOneLineEnumDecl && isSingleLine(ast)) break;
             checkChildren(
                 ast,
 
                 MODIFIERS,
-                ENUM | MUST_WRAP,
+                this.wrapEnumDeclBeforeEnum | ENUM,
                 IDENT,
                 OBJBLOCK,
                 END
@@ -492,12 +557,12 @@ class WrapAndIndent extends Check {
             break;
 
         case INTERFACE_DEF:
-            if (isSingleLine(ast)) break;
+            if (this.allowOneLineInterfaceDecl && isSingleLine(ast)) break;
             checkChildren(
                 ast,
 
                 MODIFIERS,
-                LITERAL_INTERFACE | MUST_WRAP,
+                this.wrapInterfaceDeclBeforeInterface | LITERAL_INTERFACE,
                 IDENT,
                 FORK + 5,
                 TYPE_PARAMETERS,
@@ -628,7 +693,7 @@ class WrapAndIndent extends Check {
             break;
 
         case METHOD_DEF:
-            if (isSingleLine(ast)) break;
+            if (this.allowOneLineMethDecl && isSingleLine(ast)) break;
             checkChildren(
                 ast,
 
@@ -638,7 +703,7 @@ class WrapAndIndent extends Check {
 
 /* 3 */         TYPE,
 
-                IDENT | MUST_WRAP,
+                this.wrapMethDeclBeforeName | IDENT,
 
                 LPAREN,
                 INDENT_IF_CHILDREN | PARAMETERS,
@@ -734,6 +799,7 @@ class WrapAndIndent extends Check {
             // Single-line case group?
             if (
                 ast.getParent().getType() == TokenTypes.CASE_GROUP
+                && this.allowOneLineSwitchBlockStmtGroup
                 && isSingleLine(ast)
                 && ast.getParent().getLineNo() == ast.getLineNo()
             ) return;
@@ -786,7 +852,11 @@ class WrapAndIndent extends Check {
 
                 MODIFIERS,
                 TYPE,
-                WRAP | IDENT,
+                (
+                    ast.getParent().getType() == OBJBLOCK
+                    ? this.wrapFieldDeclBeforeName
+                    : this.wrapLocVarDeclBeforeName
+                ) | IDENT,
                 FORK + 5,
                 ASSIGN,
 /* 5 */         FORK + 7,
