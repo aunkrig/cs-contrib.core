@@ -49,6 +49,9 @@ class ZeroParameterSuperconstructorInvocation extends Check {
 
     @Override public void
     visitToken(DetailAST ast) {
+        assert ast != null;
+
+        @SuppressWarnings("unused") AstDumper dumper = new AstDumper(ast);
 
         // Find the constructor body.
         DetailAST statementList = ast.findFirstToken(TokenTypes.SLIST);
@@ -57,8 +60,12 @@ class ZeroParameterSuperconstructorInvocation extends Check {
         DetailAST superconstructorCall = statementList.findFirstToken(TokenTypes.SUPER_CTOR_CALL);
         if (superconstructorCall == null) return;
 
+        // Check whether this is a qualified SUPER call.
+        DetailAST lparen = superconstructorCall.getFirstChild();
+        if (lparen.getType() != TokenTypes.LPAREN) return;
+
         // Find the argument list.
-        DetailAST arguments = superconstructorCall.findFirstToken(TokenTypes.ELIST);
+        DetailAST arguments = lparen.getNextSibling();
 
         // Determine the argument count.
         int argumentCount = arguments.getChildCount(TokenTypes.EXPR);
