@@ -688,16 +688,69 @@
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapAndIndent"/>
             <description>%de.unkrig.cscontrib.checks.WrapAndIndent.desc</description>
+
             <property-metadata name="basicOffset" datatype="Integer" default-value="4">
                 <description>%de.unkrig.cscontrib.checks.WrapAndIndent.basicOffset</description>
             </property-metadata>
+            <property-metadata name="allowOneLineClassDecl" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineClassDecl</description>
+            </property-metadata>
+            <property-metadata name="allowOneLineInterfaceDecl" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineInterfaceDecl</description>
+            </property-metadata>
+            <property-metadata name="allowOneLineEnumDecl" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineEnumDecl</description>
+            </property-metadata>
+            <property-metadata name="allowOneLineAnnoDecl" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineAnnoDecl</description>
+            </property-metadata>
+            <property-metadata name="allowOneLineCtorDecl" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineCtorDecl</description>
+            </property-metadata>
+            <property-metadata name="allowOneLineMethDecl" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineMethDecl</description>
+            </property-metadata>
+            <property-metadata name="allowOneLineSwitchBlockStmtGroup" datatype="Boolean" default-value="true">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineSwitchBlockStmtGroup</description>
+            </property-metadata>
+            <property-metadata name="wrapClassDeclBeforeClass" datatype="SingleSelect" default-value="always">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapClassDeclBeforeClass</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapInterfaceDeclBeforeInterface" datatype="SingleSelect" default-value="always">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapInterfaceDeclBeforeInterface</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapEnumDeclBeforeEnum" datatype="SingleSelect" default-value="always">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapEnumDeclBeforeEnum</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapAnnoDeclBeforeAt" datatype="SingleSelect" default-value="always">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapAnnoDeclBeforeAt</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapFieldDeclBeforeName" datatype="SingleSelect" default-value="optional">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapFieldDeclBeforeName</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapCtorDeclBeforeName" datatype="SingleSelect" default-value="always">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapCtorDeclBeforeName</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapMethDeclBeforeName" datatype="SingleSelect" default-value="always">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapMethDeclBeforeName</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapLocVarDeclBeforeName" datatype="SingleSelect" default-value="optional">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapLocVarDeclBeforeName</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
 
-            <message-key key="Must wrap line before ''{0}''"/>
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1"/>
-
-            <message-key key="''{0}'' must appear on same line as ''{1}''"/>
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2"/>
 
+            <message-key key="Must wrap line before ''{0}''"/>
+            <message-key key="''{0}'' must appear on same line as ''{1}''"/>
             <message-key key="''{0}'' must appear in column {1}, not {2}"/>
         </rule-metadata>
     </rule-group-metadata>
