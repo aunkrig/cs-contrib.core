@@ -1153,52 +1153,54 @@ class WrapAndIndent extends Check {
                 );
 
                 // Check wrapping and alignment of LHS and operator.
-                switch (inline ? 0 : this.wrapBeforeBinaryOperator) {
-                case 0:
-                    checkSameLine(getRightmostDescendant(c.getPreviousSibling()), expression);
-                    break;
-                case WRAP:
-                    if (getRightmostDescendant(expression.getFirstChild()).getLineNo() != expression.getLineNo()) {
-                        checkAlignment(expression, getLeftmostDescendant(expression.getFirstChild()).getColumnNo());
-                    } else {
-                        checkSameLine(getRightmostDescendant(c.getPreviousSibling()), expression);
+                {
+                    DetailAST lhs = getRightmostDescendant(c.getPreviousSibling());
+                    switch (inline ? 0 : this.wrapBeforeBinaryOperator) {
+                    case 0:
+                        checkSameLine(lhs, expression);
+                        break;
+                    case WRAP:
+                        if (lhs.getLineNo() != expression.getLineNo()) {
+                            int indentation = getLeftmostDescendant(expression.getFirstChild()).getColumnNo();
+                            checkAlignment(expression, indentation);
+                        } else {
+                            checkSameLine(lhs, expression);
+                        }
+                        break;
+                    case MUST_WRAP:
+                        if (lhs.getLineNo() == expression.getLineNo()) {
+                            log(expression, "Must wrap line before ''{0}''", expression.getText());
+                        } else {
+                            int indentation = getLeftmostDescendant(expression.getFirstChild()).getColumnNo();
+                            checkAlignment(expression, indentation);
+                        }
+                        break;
                     }
-                    break;
-                case MUST_WRAP:
-                    if (getRightmostDescendant(expression.getFirstChild()).getLineNo() == expression.getLineNo()) {
-                        log(expression, "Must wrap line before ''{0}''", expression.getText());
-                    } else {
-                        checkAlignment(expression, getLeftmostDescendant(expression.getFirstChild()).getColumnNo());
-                    }
-                    break;
                 }
 
                 // Check wrapping and alignment of operator and RHS.
-                switch (inline ? 0 : this.wrapAfterBinaryOperator) {
-                case 0:
-                    checkSameLine(expression, getLeftmostDescendant(c));
-                    break;
-                case WRAP:
-                    if (expression.getLineNo() != getLeftmostDescendant(c).getLineNo()) {
-                        checkAlignment(
-                            getLeftmostDescendant(c),
-                            getLeftmostDescendant(expression.getFirstChild()).getColumnNo()
-                        );
-                    } else {
-                        checkSameLine(expression, getLeftmostDescendant(c));
-                    }
-                case MUST_WRAP:
-                    if (expression.getLineNo() == getLeftmostDescendant(c).getLineNo()) {
-                        log(
-                            getLeftmostDescendant(c),
-                            "Must wrap line before ''{0}''",
-                            getLeftmostDescendant(c).getText()
-                        );
-                    } else {
-                        checkAlignment(
-                            getLeftmostDescendant(c),
-                            getLeftmostDescendant(expression.getFirstChild()).getColumnNo()
-                        );
+                {
+                    DetailAST rhs = getLeftmostDescendant(c);
+                    switch (inline ? 0 : this.wrapAfterBinaryOperator) {
+                    case 0:
+                        checkSameLine(expression, rhs);
+                        break;
+                    case WRAP:
+                        if (expression.getLineNo() != rhs.getLineNo()) {
+                            int indentation = getLeftmostDescendant(expression.getFirstChild()).getColumnNo();
+                            checkAlignment(rhs, indentation);
+                        } else {
+                            checkSameLine(expression, rhs);
+                        }
+                        break;
+                    case MUST_WRAP:
+                        if (expression.getLineNo() == rhs.getLineNo()) {
+                            log(rhs, "Must wrap line before ''{0}''", rhs.getText());
+                        } else {
+                            int indentation = getLeftmostDescendant(expression.getFirstChild()).getColumnNo();
+                            checkAlignment(rhs, indentation);
+                        }
+                        break;
                     }
                 }
 
