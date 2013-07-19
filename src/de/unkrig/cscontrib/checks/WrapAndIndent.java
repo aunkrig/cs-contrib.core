@@ -79,6 +79,12 @@ class WrapAndIndent extends Check {
     private int     wrapCtorDeclBeforeName           = MUST_WRAP;
     private int     wrapMethDeclBeforeName           = MUST_WRAP;
     private int     wrapLocVarDeclBeforeName         = WRAP;
+    private int     wrapTypeDeclBeforeLCurly;
+    private int     wrapCtorDeclBeforeLCurly;
+    private int     wrapMethodDeclBeforeLCurly;
+    private int     wrapDoBeforeLCurly;
+    private int     wrapArrayInitBeforeLCurly;
+    private int     wrapAnonClassDeclBeforeLCurly;
 
     // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
     public void setBasicOffset(int value)                          { this.basicOffset = value; }
@@ -97,6 +103,12 @@ class WrapAndIndent extends Check {
     public void setWrapCtorDeclBeforeName(String value)            { this.wrapCtorDeclBeforeName           = toWrap(value); }
     public void setWrapMethDeclBeforeName(String value)            { this.wrapMethDeclBeforeName           = toWrap(value); }
     public void setWrapLocVarDeclBeforeName(String value)          { this.wrapLocVarDeclBeforeName         = toWrap(value); }
+    public void setWrapTypeDeclBeforeLCurly(String value)          { this.wrapTypeDeclBeforeLCurly         = toWrap(value); }
+    public void setWrapCtorDeclBeforeLCurly(String value)          { this.wrapCtorDeclBeforeLCurly         = toWrap(value); }
+    public void setWrapMethodDeclBeforeLCurly(String value)        { this.wrapMethodDeclBeforeLCurly       = toWrap(value); }
+    public void setWrapDoBeforeLCurly(String value)                { this.wrapDoBeforeLCurly               = toWrap(value); }
+    public void setWrapArrayInitBeforeLCurly(String value)         { this.wrapArrayInitBeforeLCurly        = toWrap(value); }
+    public void setWrapAnonClassDeclBeforeLCurly(String value)     { this.wrapAnonClassDeclBeforeLCurly    = toWrap(value); }
     // END CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:ON
 
     public static class
@@ -144,7 +156,7 @@ class WrapAndIndent extends Check {
             ANNOTATION_MEMBER_VALUE_PAIR,
             ARRAY_DECLARATOR,
             ARRAY_INIT,
-//            ASSIGN,
+            ASSIGN,  // To check 'int[] ia = { 1, 2, 3 };'.
 //            AT,
 //            BAND,
 //            BAND_ASSIGN,
@@ -369,7 +381,7 @@ class WrapAndIndent extends Check {
                 this.wrapAnnoDeclBeforeAt | AT,
                 LITERAL_INTERFACE,
                 IDENT,
-                OBJBLOCK,
+                this.wrapTypeDeclBeforeLCurly | OBJBLOCK,
                 END
             );
             break;
@@ -424,7 +436,7 @@ class WrapAndIndent extends Check {
 /* 7 */         FORK + 9,
                 WRAP | IMPLEMENTS_CLAUSE,
 
-/* 9 */         OBJBLOCK,
+/* 9 */         this.wrapTypeDeclBeforeLCurly | OBJBLOCK,
                 END
             );
             break;
@@ -456,7 +468,7 @@ class WrapAndIndent extends Check {
                 FORK + 7,
                 WRAP | LITERAL_THROWS,
 
-/* 7 */         SLIST,
+/* 7 */         this.wrapCtorDeclBeforeLCurly | SLIST,
                 END
             );
             break;
@@ -482,7 +494,7 @@ class WrapAndIndent extends Check {
                 MODIFIERS,
                 this.wrapEnumDeclBeforeEnum | ENUM,
                 IDENT,
-                OBJBLOCK,
+                this.wrapTypeDeclBeforeLCurly | OBJBLOCK,
                 END
             );
             break;
@@ -570,7 +582,7 @@ class WrapAndIndent extends Check {
 /* 5 */         FORK + 7,
                 WRAP | EXTENDS_CLAUSE,
 
-/* 7 */         OBJBLOCK,
+/* 7 */         this.wrapTypeDeclBeforeLCurly | OBJBLOCK,
                 END
             );
             break;
@@ -600,7 +612,7 @@ class WrapAndIndent extends Check {
             checkChildren(
                 ast,
 
-                SLIST,
+                this.wrapDoBeforeLCurly | SLIST,
                 DO_WHILE,
                 LPAREN,
                 INDENT | EXPR,
@@ -666,12 +678,13 @@ class WrapAndIndent extends Check {
 /* 3 */         FORK + 8,
                 ARRAY_DECLARATOR,
                 FORK + 7,
-                ARRAY_INIT,
+                this.wrapArrayInitBeforeLCurly | ARRAY_INIT,
 /* 7 */         END,
+
 /* 8 */         LPAREN,
                 INDENT_IF_CHILDREN | ELIST,
                 UNINDENT | RPAREN,
-                OBJBLOCK | OPTIONAL,
+                this.wrapAnonClassDeclBeforeLCurly | OBJBLOCK | OPTIONAL,
                 END
             );
             break;
@@ -713,7 +726,7 @@ class WrapAndIndent extends Check {
                 WRAP | LITERAL_THROWS,
 
 /* 10 */        FORK + 13,
-                SLIST,
+                this.wrapMethodDeclBeforeLCurly | SLIST,
                 END,
 
 /* 13 */        SEMI,
@@ -769,7 +782,7 @@ class WrapAndIndent extends Check {
 /* 8 */         FORK + 14,
                 INDENT | VARIABLE_DEF,
 /* 10 */        FORK + 8,
-                COMMA,
+                COMMA,                  // int a = 3, b = 7;
                 VARIABLE_DEF,
                 BRANCH + 10,
 
@@ -859,15 +872,33 @@ class WrapAndIndent extends Check {
                 ) | IDENT,
                 FORK + 5,
                 ASSIGN,
+
 /* 5 */         FORK + 7,
                 SEMI, // Field declarations DO have a SEMI, local variable declarations DON'T!?
+
 /* 7 */         END
             );
             break;
 
+        case ASSIGN:
+            if (ast.getChildCount() == 1) {
+
+                // A field or local variable initialization.
+                checkChildren(
+                    ast,
+    
+                    FORK + 3,
+                    this.wrapArrayInitBeforeLCurly | ARRAY_INIT,
+                    END,
+    
+/* 3 */             ANY,
+                    END
+                );
+            }
+            break;
+
         // Those which were not registered for.
         case ABSTRACT:
-        case ASSIGN:
         case AT:
         case BAND:
         case BAND_ASSIGN:

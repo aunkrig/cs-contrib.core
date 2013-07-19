@@ -745,6 +745,30 @@
                 <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapLocVarDeclBeforeName</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
             </property-metadata>
+            <property-metadata name="wrapTypeDeclBeforeLCurly" datatype="SingleSelect" default-value="never">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapTypeDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapCtorDeclBeforeLCurly" datatype="SingleSelect" default-value="never">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapCtorDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapMethodDeclBeforeLCurly" datatype="SingleSelect" default-value="never">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapMethodDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapDoBeforeLCurly" datatype="SingleSelect" default-value="never">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapDoBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapArrayInitBeforeLCurly" datatype="SingleSelect" default-value="never">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapArrayInitBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapAnonClassDeclBeforeLCurly" datatype="SingleSelect" default-value="never">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapAnonClassDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1"/>
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2"/>
