@@ -267,7 +267,6 @@
         semi__type_decl,
         static__static_import,
         static__static_init,
-        super__ctor_call,
         super__type_bound,
         switch,
         synchronized__mod,
@@ -337,6 +336,7 @@
         r_paren__for_no_update,
         r_paren__if,
         r_paren__params,
+        r_paren__parenthesized,
         semi__abstract_meth_decl,
         semi__anno_elem_decl,
         semi__enum_decl,
@@ -767,6 +767,14 @@
             </property-metadata>
             <property-metadata name="wrapAnonClassDeclBeforeLCurly" datatype="SingleSelect" default-value="never">
                 <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapAnonClassDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapBeforeBinaryOperator" datatype="SingleSelect" default-value="optional">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapBeforeBinaryOperator</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapAfterBinaryOperator" datatype="SingleSelect" default-value="never">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapAfterBinaryOperator</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
             </property-metadata>
 
