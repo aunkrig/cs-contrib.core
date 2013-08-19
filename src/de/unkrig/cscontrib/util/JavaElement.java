@@ -35,7 +35,10 @@ public
 enum JavaElement {
 
     // CHECKSTYLE __:OFF
-    /** '<font color="red">abstract</font>' */
+    /**
+     * '<font color="red">abstract</font> class MyClass { ... }'<br/>
+     * '<font color="red">abstract</font> myMethod(...) { ... }'
+     */
     ABSTRACT,
     /** 'a <font color="red">&amp;</font> b' */
     AND__EXPR,
