@@ -26,9 +26,10 @@
 
 package de.unkrig.cscontrib.ui.quickfixes;
 
-import net.sf.eclipsecs.core.util.CheckstyleLog;
+import java.text.MessageFormat;
+import java.text.ParseException;
+import java.util.Arrays;
 
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
 
@@ -37,44 +38,35 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.checks.WrapAndIndent;
 
 /**
- * Quickfix for {@link WrapAndIndent#MESSAGE_KEY__0_MUST_APPEAR_ON_SAME_LINE_AS_1}.
+ * Quickfix for {@link WrapAndIndent#MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2}.
  */
 @NotNullByDefault(false) public
-class WrapAndIndent2 extends AbstractDocumentResolution {
+class WrapAndIndent3 extends AbstractDocumentResolution {
+
+    private static final MessageFormat
+    MF = new MessageFormat(WrapAndIndent.MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2);
 
     @Override protected boolean
     canFixMessageKey(String messageKey) {
-        return WrapAndIndent.MESSAGE_KEY__0_MUST_APPEAR_ON_SAME_LINE_AS_1.equals(messageKey);
+        return WrapAndIndent.MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2.equals(messageKey);
     }
 
     @Override protected void
     resolve(String messageKey, @NotNull IDocument document, int markerStart) {
+        System.err.println("messageKey=" + messageKey);
         try {
-            char c = 0;
-            int  from;
-            for (from = markerStart; from > 0; from--) {
-                c = document.getChar(from - 1);
-                if (!Character.isWhitespace(c)) break;
-            }
-            char c2 = document.getChar(markerStart);
-            document.replace(
-                from,
-                markerStart - from,
-                (
-                    c == '@' || c == '(' || c == '[' || c == '.'
-                    || c2 == ')' || c2 == ',' || c2 == ';' || c2 == '[' || c2 == ']'
-                ) ? "" : " "
-            );
-        } catch (BadLocationException ble) {
-            CheckstyleLog.log(ble);
+            Object[] result = MF.parse(messageKey);
+            System.err.println("result=" + Arrays.toString(result));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
     @Override public String
-    getDescription() { return Messages.WrapAndIndentQuickfix2_description; }
+    getDescription() { return Messages.WrapAndIndentQuickfix3_description; }
 
     @Override public String
-    getLabel() { return Messages.WrapAndIndentQuickfix2_label; }
+    getLabel() { return Messages.WrapAndIndentQuickfix3_label; }
 
     @Override public Image
     getImage() { return /*PluginImages.getImage(PluginImages.CORRECTION_ADD)*/null; }

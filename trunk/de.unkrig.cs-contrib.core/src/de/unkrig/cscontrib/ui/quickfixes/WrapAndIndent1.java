@@ -35,14 +35,17 @@ import org.eclipse.swt.graphics.Image;
 
 import de.unkrig.commons.nullanalysis.NotNull;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
+import de.unkrig.cscontrib.checks.WrapAndIndent;
 
-/***/
+/**
+ * Quickfix for {@link WrapAndIndent#MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1}
+ */
 @NotNullByDefault(false) public
 class WrapAndIndent1 extends AbstractDocumentResolution {
 
     @Override protected boolean
     canFixMessageKey(String messageKey) {
-        return "Must wrap line before ''{0}''".equals(messageKey);
+        return WrapAndIndent.MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1.equals(messageKey);
     }
 
     @Override protected void

@@ -47,6 +47,43 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 @NotNullByDefault(false) public
 class WrapAndIndent extends Check {
 
+    /**
+     * Message keys as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
+     * <dl>
+     *   <dt><code>{0}</code>
+     *   <dd>Text of token <i>before</i> the (missing) line break
+     *   <dt><code>{1}</code>
+     *   <dd>Text of token <i>after</i> the (missing) line break
+     * </dl>
+     */
+    public static final String
+    MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1 = "Must wrap line before ''{1}''";
+
+    /**
+     * Message keys as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
+     * <dl>
+     *   <dt><code>{0}</code>
+     *   <dd>Text of token <i>before</i> the (unwanted) line break
+     *   <dt><code>{1}</code>
+     *   <dd>Text of token <i>after</i> the (unwanted) line break
+     * </dl>
+     */
+    public static final String
+    MESSAGE_KEY__0_MUST_APPEAR_ON_SAME_LINE_AS_1 = "''{0}'' must appear on same line as ''{1}''";
+
+    /**
+     * Message keys as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
+     * <dl>
+     *   <dt><code>{0}</code>
+     *   <dd>Text the vertically misaligned token
+     *   <dt><code>{1}</code>
+     *   <dd>Current (wrong) column number of the token
+     *   <dt><code>{2}</code>
+     *   <dd>Correct column number of the token
+     * </dl>
+     */
+    public static final String
+    MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2 = "''{0}'' must appear in column {1}, not {2}";
 
     /** May be ORed to the {@link TokenTypes}. */
     private static final int OPTIONAL           = 0x80000000;
@@ -1169,7 +1206,7 @@ class WrapAndIndent extends Check {
                         break;
                     case MUST_WRAP:
                         if (lhs.getLineNo() == expression.getLineNo()) {
-                            log(expression, "Must wrap line before ''{0}''", expression.getText());
+                            log(expression, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, lhs.getText(), expression.getText());
                         } else {
                             int indentation = getLeftmostDescendant(expression.getFirstChild()).getColumnNo();
                             checkAlignment(expression, indentation);
@@ -1195,7 +1232,7 @@ class WrapAndIndent extends Check {
                         break;
                     case MUST_WRAP:
                         if (expression.getLineNo() == rhs.getLineNo()) {
-                            log(rhs, "Must wrap line before ''{0}''", rhs.getText());
+                            log(rhs, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, expression.getText(), rhs.getText());
                         } else {
                             int indentation = getLeftmostDescendant(expression.getFirstChild()).getColumnNo();
                             checkAlignment(rhs, indentation);
@@ -1515,7 +1552,7 @@ class WrapAndIndent extends Check {
                                 // Allow multiple children in the same line.
                                 ;
                             } else {
-                                log(l, "Must wrap line before ''{0}''", l.getText());
+                                log(l, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, previousAst.getText(), l.getText());
                             }
                         } else {
                             checkAlignment(
@@ -1555,7 +1592,7 @@ class WrapAndIndent extends Check {
                     ;
                 } else
                 if (child.getLineNo() == previousAst.getLineNo()) {
-                    log(child, "Must wrap line before ''{0}''", child.getText());
+                    log(child, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, previousAst.getText(), child.getText());
                 } else
                 {
                     checkAlignment(child, indentation);
@@ -1575,7 +1612,7 @@ class WrapAndIndent extends Check {
     private void
     checkIndented(DetailAST previous, DetailAST next) {
         if (next.getLineNo() == previous.getLineNo()) {
-            log(next, "Must wrap line before ''{0}''", next.getText());
+            log(next, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, previous.getText(), next.getText());
         } else {
             checkAlignment(next, calculateIndentation(previous) + this.basicOffset);
         }
@@ -1588,7 +1625,7 @@ class WrapAndIndent extends Check {
     private void
     checkUnindented(DetailAST previous, DetailAST next) {
         if (next.getLineNo() == previous.getLineNo()) {
-            log(next, "Must wrap line before ''{0}''", next.getText());
+            log(next, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, previous.getText(), next.getText());
         } else {
             checkAlignment(next, calculateIndentation(previous) - this.basicOffset);
         }
@@ -1600,18 +1637,21 @@ class WrapAndIndent extends Check {
     private void
     checkAligned(DetailAST previous, DetailAST next) {
         if (next.getLineNo() == previous.getLineNo()) {
-            log(next, "Must wrap line before ''{0}''", next.getText());
+            log(next, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, previous.getText(), next.getText());
         } else {
             checkAlignment(next, calculateIndentation(previous));
         }
     }
 
+    /**
+     * Checks that {@code left} and {@code right} appear in the same line.
+     */
     private void
     checkSameLine(DetailAST left, DetailAST right) {
         if (left.getLineNo() != right.getLineNo()) {
             log(
                 right,
-                "''{0}'' must appear on same line as ''{1}''",
+                MESSAGE_KEY__0_MUST_APPEAR_ON_SAME_LINE_AS_1,
                 right.getText(),
                 left.getText()
             );
@@ -1633,7 +1673,7 @@ class WrapAndIndent extends Check {
         if (actualColumnNo != targetColumnNo) {
             log(
                 ast,
-                "''{0}'' must appear in column {1}, not {2}",
+                MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2,
                 ast.getText(),
                 targetColumnNo + 1,
                 actualColumnNo + 1
