@@ -209,7 +209,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
     public
     SuppressionLine() {}
 
-    // CONFIGURATION SETTERS AND GETTERS -- CHECKSTYLE MethodCheck:OFF
+    // CONFIGURATION SETTERS AND GETTERS -- CHECKSTYLE JavadocMethod:OFF
 
     public void
     setOffFormat(String offFormat) throws ConversionException {
@@ -260,7 +260,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
         this.moduleIdFormat = moduleIdFormat;
     }
 
-    // END CONFIGURATION SETTERS AND GETTERS -- CHECKSTYLE MethodCheck:ON
+    // END CONFIGURATION SETTERS AND GETTERS -- CHECKSTYLE JavadocMethod:ON
 
     /** @return the FileContents for this filter. */
     public FileContents
