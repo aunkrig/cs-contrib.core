@@ -30,7 +30,11 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.Arrays;
 
+import net.sf.eclipsecs.core.util.CheckstyleLog;
+
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 
 import de.unkrig.commons.nullanalysis.NotNull;
@@ -60,6 +64,37 @@ class WrapAndIndent3 extends AbstractDocumentResolution {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        // TODO: This code always WRAPS, and never INDENTS or UNINDENTS.
+        try {
+            int lineNumber = document.getLineOfOffset(markerStart); // Zero-based
+            System.err.println("lineNumber=" + lineNumber);
+            if (lineNumber >= 1) {
+                IRegion li1 = document.getLineInformation(lineNumber - 1);
+                System.err.println("li1=" + li1);
+                IRegion li2 = document.getLineInformation(lineNumber);
+                System.err.println("li2=" + li2);
+
+                int offset1;
+                for (offset1 = li1.getOffset(); offset1 < li1.getOffset() + li1.getLength(); offset1++) {
+                    if (!Character.isWhitespace(document.getChar(offset1))) break;
+                }
+                
+                int offset2;
+                for (offset2 = li2.getOffset(); offset2 < li2.getOffset() + li2.getLength(); offset2++) {
+                    if (!Character.isWhitespace(document.getChar(offset2))) break;
+                }
+
+                document.replace(
+                    li2.getOffset(),
+                    offset2 - li2.getOffset(),
+                    document.get(li1.getOffset(), offset1 - li1.getOffset())
+                );
+            }
+        } catch (BadLocationException ble) {
+            CheckstyleLog.log(ble);
+        }
+
     }
 
     @Override public String

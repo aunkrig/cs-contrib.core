@@ -56,7 +56,7 @@ class WrapAndIndent extends Check {
      *   <dd>Text of token <i>after</i> the (missing) line break
      * </dl>
      */
-    public static final String
+    public static final String // SUPPRESS CHECKSTYLE ConstantName
     MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1 = "Must wrap line before ''{1}''";
 
     /**
@@ -68,7 +68,7 @@ class WrapAndIndent extends Check {
      *   <dd>Text of token <i>after</i> the (unwanted) line break
      * </dl>
      */
-    public static final String
+    public static final String // SUPPRESS CHECKSTYLE ConstantName
     MESSAGE_KEY__0_MUST_APPEAR_ON_SAME_LINE_AS_1 = "''{0}'' must appear on same line as ''{1}''";
 
     /**
@@ -82,7 +82,7 @@ class WrapAndIndent extends Check {
      *   <dd>Correct column number of the token
      * </dl>
      */
-    public static final String
+    public static final String // SUPPRESS CHECKSTYLE ConstantName
     MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2 = "''{0}'' must appear in column {1}, not {2}";
 
     /** May be ORed to the {@link TokenTypes}. */
@@ -1198,18 +1198,17 @@ class WrapAndIndent extends Check {
                         break;
                     case WRAP:
                         if (lhs.getLineNo() != expression.getLineNo()) {
-                            int indentation = getLeftmostDescendant(expression.getFirstChild()).getColumnNo();
-                            checkAlignment(expression, indentation);
+                            checkWrapped(getLeftmostDescendant(expression.getFirstChild()), expression);
                         } else {
                             checkSameLine(lhs, expression);
                         }
                         break;
                     case MUST_WRAP:
+                        checkWrapped(lhs, getLeftmostDescendant(expression.getFirstChild()));
                         if (lhs.getLineNo() == expression.getLineNo()) {
                             log(expression, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, lhs.getText(), expression.getText());
                         } else {
-                            int indentation = getLeftmostDescendant(expression.getFirstChild()).getColumnNo();
-                            checkAlignment(expression, indentation);
+                            checkWrapped(getLeftmostDescendant(expression.getFirstChild()), expression);
                         }
                         break;
                     }
@@ -1224,8 +1223,7 @@ class WrapAndIndent extends Check {
                         break;
                     case WRAP:
                         if (expression.getLineNo() != rhs.getLineNo()) {
-                            int indentation = getLeftmostDescendant(expression.getFirstChild()).getColumnNo();
-                            checkAlignment(rhs, indentation);
+                            checkWrapped(getLeftmostDescendant(expression.getFirstChild()), rhs);
                         } else {
                             checkSameLine(expression, rhs);
                         }
@@ -1234,8 +1232,7 @@ class WrapAndIndent extends Check {
                         if (expression.getLineNo() == rhs.getLineNo()) {
                             log(rhs, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, expression.getText(), rhs.getText());
                         } else {
-                            int indentation = getLeftmostDescendant(expression.getFirstChild()).getColumnNo();
-                            checkAlignment(rhs, indentation);
+                            checkWrapped(getLeftmostDescendant(expression.getFirstChild()), rhs);
                         }
                         break;
                     }
@@ -1330,7 +1327,7 @@ class WrapAndIndent extends Check {
                 ) {
                     checkSameLine(getRightmostDescendant(arguments), rparen);
                 } else {
-                    checkAligned(getLeftmostDescendant(expression), rparen);
+                    checkWrapped(getLeftmostDescendant(expression), rparen);
                 }
             }
             break;
@@ -1448,7 +1445,6 @@ class WrapAndIndent extends Check {
         }
 
         DetailAST previousAst = ast;
-        int       indentation = calculateIndentation(previousAst);
         int       mode        = 0;
         for (;;) {
             int tokenType = args[idx++];
@@ -1527,10 +1523,11 @@ class WrapAndIndent extends Check {
                             mode = 1;
                         } else {
                             mode = 2;
-                            checkAlignment(
-                                c,
-                                child.getType() == CASE_GROUP ? indentation : indentation + this.basicOffset
-                            );
+                            if (child.getType() == CASE_GROUP) {
+                                checkWrapped(ast, c);
+                            } else {
+                                checkIndented(ast, c);
+                            }
                         }
                     }
                     break;
@@ -1555,10 +1552,11 @@ class WrapAndIndent extends Check {
                                 log(l, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, previousAst.getText(), l.getText());
                             }
                         } else {
-                            checkAlignment(
-                                l,
-                                child.getType() == CASE_GROUP ? indentation : indentation + this.basicOffset
-                            );
+                            if (child.getType() == CASE_GROUP) {
+                                checkWrapped(ast, l);
+                            } else {
+                                checkIndented(ast, l);
+                            }
                         }
                     }
                     break;
@@ -1568,7 +1566,7 @@ class WrapAndIndent extends Check {
 
                 case 0:
                     if (previousAst.getLineNo() != child.getLineNo()) {
-                        checkAligned(ast, child);
+                        checkWrapped(ast, child);
                     }
                     break;
 
@@ -1577,25 +1575,22 @@ class WrapAndIndent extends Check {
                     break;
 
                 case 2:
-                    checkAligned(ast, child);
+                    checkWrapped(ast, child);
                     break;
                 }
                 mode = 0;
             } else if ((tokenType & WRAP) != 0) {
                 assert mode == 0;
                 if (child.getLineNo() != previousAst.getLineNo()) {
-                    checkAlignment(child, indentation);
+                    checkWrapped(previousAst, child);
                 }
             } else if ((tokenType & MUST_WRAP) != 0) {
                 assert mode == 0;
                 if (previousAst.getType() == MODIFIERS) {
                     ;
                 } else
-                if (child.getLineNo() == previousAst.getLineNo()) {
-                    log(child, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, previousAst.getText(), child.getText());
-                } else
                 {
-                    checkAlignment(child, indentation);
+                    checkWrapped(previousAst, child);
                 }
             } else {
                 checkSameLine(previousAst, getLeftmostDescendant(child));
@@ -1635,7 +1630,7 @@ class WrapAndIndent extends Check {
      * Checks that the line where {@code next} occurs is indented exactly as the line where {@code previous} occurs.
      */
     private void
-    checkAligned(DetailAST previous, DetailAST next) {
+    checkWrapped(DetailAST previous, DetailAST next) {
         if (next.getLineNo() == previous.getLineNo()) {
             log(next, MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1, previous.getText(), next.getText());
         } else {
