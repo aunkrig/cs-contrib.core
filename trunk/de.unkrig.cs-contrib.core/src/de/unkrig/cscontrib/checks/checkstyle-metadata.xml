@@ -277,7 +277,6 @@
         try,
         unsigned_right_shift,
         unsigned_right_shift_assign,
-        void,
         while__do,
         while__while,
         xor,
