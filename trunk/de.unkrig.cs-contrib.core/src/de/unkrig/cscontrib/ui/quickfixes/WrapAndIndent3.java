@@ -26,9 +26,12 @@
 
 package de.unkrig.cscontrib.ui.quickfixes;
 
+import java.util.Arrays;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 
 import de.unkrig.commons.nullanalysis.NotNull;
@@ -57,50 +60,54 @@ class WrapAndIndent3 extends AbstractDocumentResolution {
 //        int    wrongColumnNumber   = Integer.parseInt((String) arguments[2]) - 1;
 
         try {
+
+            IRegion lineInformation = document.getLineInformationOfOffset(markerStart);
+            String  line            = document.get(lineInformation.getOffset(), lineInformation.getLength());
+            int     tokenIndex      = markerStart - lineInformation.getOffset();
+
             {
-                String actualText = document.get(markerStart, text.length());
+                String actualText = line.substring(tokenIndex, tokenIndex + text.length());
                 if (!text.equals(actualText)) {
                     throw Activator.coreException("Actual text is '" + actualText + "' instead of '" + text + "'");
                 }
             }
 
-             // Zero-based
-
-            int offset, indentation = 0;
-            for (
-                offset = document.getLineInformation(document.getLineOfOffset(markerStart)).getOffset();
-                offset < markerStart;
-                offset++
-            ) {
-                char c = document.getChar(offset);
+            int     indentation        = 0;
+            boolean tokenIsFirstInLine = true;
+            int     i;
+            for (i = 0; i < tokenIndex; i++) {
+                char c = line.charAt(i);
                 if (c == ' ') {
-                    if (indentation == correctColumnNumber) break;
                     indentation++;
                 } else
                 if (c == '\t') {
-                    int newIndentation = indentation - (indentation % 4) + 4;
-                    if (newIndentation > correctColumnNumber) break;
-                    indentation = newIndentation;
+                    indentation = indentation - (indentation % 4) + 4;
                 } else
                 {
+                    tokenIsFirstInLine = false;
                     break;
                 }
             }
 
-            String s;
-            if (indentation == correctColumnNumber) {
-                s = "";
+            if (tokenIsFirstInLine) {
+                document.replace(lineInformation.getOffset(), i, string(' ', correctColumnNumber));
             } else {
-                StringBuilder sb = new StringBuilder();
-                for (; indentation < correctColumnNumber; indentation++) sb.append(' ');
-                s = sb.toString();
+                document.replace(markerStart, 0, document.getLineDelimiter(0) + string(' ', correctColumnNumber));
             }
-
-            document.replace(offset, markerStart - offset, s);
         } catch (BadLocationException ble) {
             throw Activator.coreException(ble);
         }
 
+    }
+
+    private static String
+    string(char c, int n) {
+        if (n < 80) {
+            return "                                                                                ".substring(0, n);
+        }
+        char[] ca = new char[n];
+        Arrays.fill(ca, c);
+        return new String(ca);
     }
 
     @Override public String
