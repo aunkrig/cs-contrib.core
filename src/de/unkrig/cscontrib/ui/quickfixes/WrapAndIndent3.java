@@ -26,19 +26,14 @@
 
 package de.unkrig.cscontrib.ui.quickfixes;
 
-import java.text.MessageFormat;
-import java.text.ParseException;
-import java.util.Arrays;
-
-import net.sf.eclipsecs.core.util.CheckstyleLog;
-
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 
 import de.unkrig.commons.nullanalysis.NotNull;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
+import de.unkrig.cscontrib.Activator;
 import de.unkrig.cscontrib.checks.WrapAndIndent;
 
 /**
@@ -47,52 +42,63 @@ import de.unkrig.cscontrib.checks.WrapAndIndent;
 @NotNullByDefault(false) public
 class WrapAndIndent3 extends AbstractDocumentResolution {
 
-    private static final MessageFormat
-    MF = new MessageFormat(WrapAndIndent.MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2);
-
     @Override protected boolean
     canFixMessageKey(String messageKey) {
         return WrapAndIndent.MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2.equals(messageKey);
     }
 
     @Override protected void
-    resolve(String messageKey, @NotNull IDocument document, int markerStart) {
-        System.err.println("messageKey=" + messageKey);
+    resolve(String messageKey, Object[] arguments, @NotNull IDocument document, int markerStart) throws CoreException {
+
+        assert WrapAndIndent.MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2.equals(messageKey);
+
+        String text                = (String) arguments[0];
+        int    correctColumnNumber = Integer.parseInt((String) arguments[1]) - 1;
+//        int    wrongColumnNumber   = Integer.parseInt((String) arguments[2]) - 1;
+
         try {
-            Object[] result = MF.parse(messageKey);
-            System.err.println("result=" + Arrays.toString(result));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        // TODO: This code always WRAPS, and never INDENTS or UNINDENTS.
-        try {
-            int lineNumber = document.getLineOfOffset(markerStart); // Zero-based
-            System.err.println("lineNumber=" + lineNumber);
-            if (lineNumber >= 1) {
-                IRegion li1 = document.getLineInformation(lineNumber - 1);
-                System.err.println("li1=" + li1);
-                IRegion li2 = document.getLineInformation(lineNumber);
-                System.err.println("li2=" + li2);
-
-                int offset1;
-                for (offset1 = li1.getOffset(); offset1 < li1.getOffset() + li1.getLength(); offset1++) {
-                    if (!Character.isWhitespace(document.getChar(offset1))) break;
+            {
+                String actualText = document.get(markerStart, text.length());
+                if (!text.equals(actualText)) {
+                    throw Activator.coreException("Actual text is '" + actualText + "' instead of '" + text + "'");
                 }
-                
-                int offset2;
-                for (offset2 = li2.getOffset(); offset2 < li2.getOffset() + li2.getLength(); offset2++) {
-                    if (!Character.isWhitespace(document.getChar(offset2))) break;
-                }
-
-                document.replace(
-                    li2.getOffset(),
-                    offset2 - li2.getOffset(),
-                    document.get(li1.getOffset(), offset1 - li1.getOffset())
-                );
             }
+
+             // Zero-based
+
+            int offset, indentation = 0;
+            for (
+                offset = document.getLineInformation(document.getLineOfOffset(markerStart)).getOffset();
+                offset < markerStart;
+                offset++
+            ) {
+                char c = document.getChar(offset);
+                if (c == ' ') {
+                    if (indentation == correctColumnNumber) break;
+                    indentation++;
+                } else
+                if (c == '\t') {
+                    int newIndentation = indentation - (indentation % 4) + 4;
+                    if (newIndentation > correctColumnNumber) break;
+                    indentation = newIndentation;
+                } else
+                {
+                    break;
+                }
+            }
+
+            String s;
+            if (indentation == correctColumnNumber) {
+                s = "";
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (; indentation < correctColumnNumber; indentation++) sb.append(' ');
+                s = sb.toString();
+            }
+
+            document.replace(offset, markerStart - offset, s);
         } catch (BadLocationException ble) {
-            CheckstyleLog.log(ble);
+            throw Activator.coreException(ble);
         }
 
     }
