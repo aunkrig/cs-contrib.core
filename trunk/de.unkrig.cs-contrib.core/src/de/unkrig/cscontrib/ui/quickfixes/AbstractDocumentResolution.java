@@ -26,9 +26,10 @@
 
 package de.unkrig.cscontrib.ui.quickfixes;
 
+import java.text.MessageFormat;
+import java.text.ParsePosition;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import net.sf.eclipsecs.core.builder.CheckstyleMarker;
@@ -46,7 +47,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.source.Annotation;
@@ -141,10 +141,6 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
 
         ITextFileBufferManager bufferManager = null;
         try {
-            @SuppressWarnings("unused") Map<String, Object> attributes = marker.getAttributes(); // TODO: DEBUG
-
-            IProgressMonitor monitor = new NullProgressMonitor();
-
             bufferManager = FileBuffers.getTextFileBufferManager();
             bufferManager.connect(path, LocationKind.NORMALIZE, null);
 
@@ -157,11 +153,34 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
 
             if (annotation == null) return;
 
+            String   messageKey;
+            Object[] arguments;
+            {
+                messageKey = marker.getAttribute(CheckstyleMarker.MESSAGE_KEY, null);
+
+                String message;
+                {
+                    Object o = marker.getAttribute("message");
+                    if (!(o instanceof String)) return;
+                    message = (String) o;
+                }
+
+                MessageFormat messageFormat = new MessageFormat(messageKey);
+                arguments = messageFormat.parse(message, new ParsePosition(0));
+                if (arguments == null) {
+                    int idx = message.indexOf(": ");
+                    if (idx != -1) {
+                        arguments = messageFormat.parse(message.substring(idx + 2), new ParsePosition(0));
+                    }
+                }
+            }
+
             // Invoke the quickfix.
             IDocument document = textFileBuffer.getDocument();
             assert document != null;
             this.resolve(
-                marker.getAttribute(CheckstyleMarker.MESSAGE_KEY, null),
+                messageKey,
+                arguments,
                 document,
                 annotationModel.getPosition(annotation).getOffset()
             );
@@ -169,7 +188,7 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
             annotation.markDeleted(true);
 
             // commit changes to underlying file
-            if (this.autoCommit) textFileBuffer.commit(monitor, false);
+            if (this.autoCommit) textFileBuffer.commit(new NullProgressMonitor(), false);
         } catch (CoreException e) {
             CheckstyleLog.log(e, Messages.AbstractASTResolution_msgErrorQuickfix);
         } catch (MalformedTreeException e) {
@@ -190,7 +209,7 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
      * Derived classes must implement this.
      */
     protected abstract void
-    resolve(String messageKey, @NotNull IDocument document, int markerStart);
+    resolve(String messageKey, Object[] arguments, @NotNull IDocument document, int markerStart) throws CoreException;
 
     /**
      * @return The annotation related to the given {@code marker}, or {@code null}
