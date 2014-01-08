@@ -45,6 +45,20 @@
         </rule-metadata>
     </rule-group-metadata>
 
+    <!-- CppCommentAlignment -->
+<!--
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.CppCommentAlignment"
+            parent="TreeWalker"
+            name="%de.unkrig.cscontrib.checks.CppCommentAlignment.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.CppCommentAlignment"/>
+            <description>%de.unkrig.cscontrib.checks.CppCommentAlignment.desc</description>
+            <message-key key="C++ comment is misaligned"/>
+        </rule-metadata>
+    </rule-group-metadata>
+-->
     <!-- FileContentsHolder -->
 
     <rule-group-metadata name="%Other.group" priority="1">
