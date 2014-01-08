@@ -276,7 +276,7 @@ class AstUtil {
 
             case TokenTypes.TYPE_ARGUMENTS:
                 return (
-                    grandparentType == TokenTypes.TYPE
+                    getAncestorWithTypeNot(ast, TokenTypes.TYPE_ARGUMENTS, TokenTypes.DOT) == TokenTypes.TYPE
                     || grandparentType == TokenTypes.LITERAL_NEW
                     || grandparentType == TokenTypes.EXTENDS_CLAUSE
                     || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
@@ -294,7 +294,7 @@ class AstUtil {
 
             case TokenTypes.TYPE_ARGUMENTS:
                 return (
-                    grandparentType == TokenTypes.TYPE
+                    getAncestorWithTypeNot(ast, TokenTypes.TYPE_ARGUMENTS, TokenTypes.DOT) == TokenTypes.TYPE
                     || grandparentType == TokenTypes.LITERAL_NEW
                     || grandparentType == TokenTypes.EXTENDS_CLAUSE
                     || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
