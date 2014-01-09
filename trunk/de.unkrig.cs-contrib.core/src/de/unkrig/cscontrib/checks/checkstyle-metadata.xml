@@ -46,7 +46,7 @@
     </rule-group-metadata>
 
     <!-- CppCommentAlignment -->
-<!--
+
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.CppCommentAlignment"
@@ -55,10 +55,10 @@
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.CppCommentAlignment"/>
             <description>%de.unkrig.cscontrib.checks.CppCommentAlignment.desc</description>
-            <message-key key="C++ comment is misaligned"/>
+            <message-key key="C++ comment must appear on column {0}, not {1}"/>
         </rule-metadata>
     </rule-group-metadata>
--->
+
     <!-- FileContentsHolder -->
 
     <rule-group-metadata name="%Other.group" priority="1">
@@ -296,7 +296,7 @@
         xor,
         xor_assign
 ">
-                <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceBefore.desc</description>
+                <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceBefore</description>
                 <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement"/>
             </property-metadata>
 
@@ -368,7 +368,7 @@
         semi__static_import,
         star__type_import_on_demand
 ">
-                <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceBefore.desc</description>
+                <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceBefore</description>
                 <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement"/>
             </property-metadata>
 
@@ -516,7 +516,7 @@
         xor,
         xor_assign
 ">
-                <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceAfter.desc</description>
+                <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceAfter</description>
                 <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement"/>
             </property-metadata>
 
@@ -579,7 +579,7 @@
         super__expr,
         this__ctor_call
 ">
-                <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceAfter.desc</description>
+                <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceAfter</description>
                 <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement"/>
             </property-metadata>
 
