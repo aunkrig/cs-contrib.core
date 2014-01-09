@@ -40,11 +40,11 @@ import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 
 /**
- * Checks whether C++ comments are correctly aligned.
+ * Verifies that C++ comments are correctly aligned.
  * <p>
  * C++ comments must appear on the same column iff
  * <ul>
- *   <li>They appear in immediately consecutive lines
+ *   <li>They appear in immediately consecutive lines, and
  *   <li>All of these lines are of the same {@link LineKind kind}
  * </ul>
  */
