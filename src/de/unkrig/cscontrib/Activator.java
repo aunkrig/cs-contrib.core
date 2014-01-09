@@ -89,16 +89,19 @@ class Activator extends AbstractUIPlugin {
         }
     }
 
+    /** @return A {@link CoreException} repreenting the {@code message} */
     public static CoreException
     coreException(String message) {
         return new CoreException(new Status(Status.ERROR, Activator.PLUGIN_ID, message));
     }
 
+    /** @return A {@link CoreException} repreenting the {@link Throwable} */
     public static CoreException
     coreException(Throwable t) {
         return new CoreException(new Status(Status.ERROR, Activator.PLUGIN_ID, null, t));
     }
 
+    /** @return A {@link CoreException} repreenting the {@code message} and {@link Throwable} */
     public static CoreException
     coreException(String message, Throwable t) {
         return new CoreException(new Status(Status.ERROR, Activator.PLUGIN_ID, message, t));

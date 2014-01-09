@@ -69,7 +69,7 @@ class InnerAssignment extends Check {
         // Assignment statement?
         if (parent.getType() == EXPR && (
             grandparent.getType() == SLIST           // { ... a = b
-            || (                                                // if (...) a = b
+            || (                                     // if (...) a = b
                 parent.getPreviousSibling() != null
                 && parent.getPreviousSibling().getType() == RPAREN
             )
