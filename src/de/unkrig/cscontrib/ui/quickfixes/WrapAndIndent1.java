@@ -28,6 +28,7 @@ package de.unkrig.cscontrib.ui.quickfixes;
 
 import net.sf.eclipsecs.core.util.CheckstyleLog;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -49,7 +50,7 @@ class WrapAndIndent1 extends AbstractDocumentResolution {
     }
 
     @Override protected void
-    resolve(String messageKey, Object[] arguments, @NotNull IDocument document, int markerStart) {
+    resolve(String messageKey, Object[] arguments, @NotNull IDocument document, int markerStart, IResource resource) {
         try {
             IRegion lineInfo = document.getLineInformationOfOffset(markerStart);
             String  line     = document.get(lineInfo.getOffset(), lineInfo.getLength());
