@@ -182,7 +182,8 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
                 messageKey,
                 arguments,
                 document,
-                annotationModel.getPosition(annotation).getOffset()
+                annotationModel.getPosition(annotation).getOffset(),
+                marker.getResource()
             );
 
             annotation.markDeleted(true);
@@ -206,10 +207,15 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
     }
 
     /**
-     * Derived classes must implement this.
+     * @param messageKey  Identifies the event that needs to be fixed
+     * @param arguments   The argument values in the message
+     * @param document    The document that needs to be modified by the quickfix
+     * @param markerStart The offset within the document where the event occurred
+     * @param resource    The underlying resource
      */
     protected abstract void
-    resolve(String messageKey, Object[] arguments, @NotNull IDocument document, int markerStart) throws CoreException;
+    resolve(String messageKey, Object[] arguments, @NotNull IDocument document, int markerStart, IResource resource)
+    throws CoreException;
 
     /**
      * @return The annotation related to the given {@code marker}, or {@code null}

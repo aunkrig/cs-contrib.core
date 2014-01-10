@@ -26,9 +26,10 @@
 
 package de.unkrig.cscontrib.ui.quickfixes;
 
-import java.util.Arrays;
-
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -43,7 +44,7 @@ import de.unkrig.cscontrib.checks.WrapAndIndent;
  * Quickfix for {@link WrapAndIndent#MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2}.
  */
 @NotNullByDefault(false) public
-class WrapAndIndent3 extends AbstractDocumentResolution {
+class WrapAndIndent3 extends AbstractJavaResolution {
 
     @Override protected boolean
     canFixMessageKey(String messageKey) {
@@ -51,7 +52,8 @@ class WrapAndIndent3 extends AbstractDocumentResolution {
     }
 
     @Override protected void
-    resolve(String messageKey, Object[] arguments, @NotNull IDocument document, int markerStart) throws CoreException {
+    resolve(String messageKey, Object[] arguments, @NotNull IDocument document, int markerStart, IResource resource)
+    throws CoreException {
 
         assert WrapAndIndent.MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2.equals(messageKey);
 
@@ -72,42 +74,26 @@ class WrapAndIndent3 extends AbstractDocumentResolution {
                 }
             }
 
-            int     indentation        = 0;
-            boolean tokenIsFirstInLine = true;
-            int     i;
-            for (i = 0; i < tokenIndex; i++) {
-                char c = line.charAt(i);
-                if (c == ' ') {
-                    indentation++;
-                } else
-                if (c == '\t') {
-                    indentation = indentation - (indentation % 4) + 4;
-                } else
-                {
-                    tokenIsFirstInLine = false;
-                    break;
-                }
+            IJavaProject javaProject = JavaCore.create(resource.getProject());
+
+            int preceedingSpace; // Index of the whitespace before the token.
+            for (preceedingSpace = tokenIndex; preceedingSpace > 0; preceedingSpace--) {
+                if (!Character.isWhitespace(line.charAt(preceedingSpace - 1))) break;
             }
 
-            if (tokenIsFirstInLine) {
-                document.replace(lineInformation.getOffset(), i, string(' ', correctColumnNumber));
-            } else {
-                document.replace(markerStart, 0, document.getLineDelimiter(0) + string(' ', correctColumnNumber));
+            String s = space(line.substring(0, preceedingSpace), correctColumnNumber, javaProject);
+            if (s == null) {
+                s = document.getLineDelimiter(0) + space("", correctColumnNumber, javaProject);
             }
+            document.replace(
+                lineInformation.getOffset() + preceedingSpace,
+                tokenIndex - preceedingSpace,
+                s
+            );
         } catch (BadLocationException ble) {
             throw Activator.coreException(ble);
         }
 
-    }
-
-    private static String
-    string(char c, int n) {
-        if (n < 80) {
-            return "                                                                                ".substring(0, n);
-        }
-        char[] ca = new char[n];
-        Arrays.fill(ca, c);
-        return new String(ca);
     }
 
     @Override public String
