@@ -27,6 +27,7 @@
 package de.unkrig.cscontrib.filters;
 
 import java.lang.ref.WeakReference;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.*;
 
@@ -129,27 +130,33 @@ class SuppressionLine extends AutomaticBean implements Filter {
         compareTo(Tag that) { return this.lineNo - that.lineNo; }
 
         /**
-         * Determines whether the source of an audit event
-         * matches the text of this tag.
+         * Determines whether the audit event matches this tag.
          *
-         * @param event the <code>AuditEvent</code> to check.
-         * @return      {@code true} if the source of {@code event} matches the text of this tag.
+         * @param event The {@link AuditEvent} to check
+         * @return      Whether the source of the {@code event} matches this tag
          */
-        public boolean
+        private boolean
         isMatch(AuditEvent event) {
+
+            // Match event's 'source name' against 'checkNameRegex'.
             if (
                 this.checkNameRegex != null
                 && this.checkNameRegex.matcher(event.getSourceName()).find()
             ) return true;
+
+            // Match event's message against 'checkMessageRegex'.
             if (
                 this.messageRegex != null
-                && this.messageRegex.matcher(event.getMessage()).find()
+                && this.messageRegex.matcher(getEventMessage(event)).find()
             ) return true;
+
+            // Match event's 'module ID' against 'moduleIdRegex'.
             if (
                 this.moduleIdRegex != null
                 && event.getModuleId() != null
                 && this.moduleIdRegex.matcher(event.getModuleId()).find()
             ) return true;
+
             return false;
         }
 
@@ -177,6 +184,29 @@ class SuppressionLine extends AutomaticBean implements Filter {
 
         @Override public final String
         toString() { return "Tag[line=" + this.getLine() + "; on=" + this.isOn() + "; text='" + this.getText() + "']"; }
+    }
+
+    /**
+     * {@link AuditEvent#getMessage()} eventually invokes {@link MessageFormat#format(String, Object...)}, and does
+     * not catch {@link IllegalArgumentException}. This method wraps {@link IllegalArgumentException} so that the
+     * ill-formed format appears in the exception message.
+     */
+    private static String
+    getEventMessage(AuditEvent event) {
+        try {
+            return event.getMessage();
+        } catch (RuntimeException e) {
+            throw new RuntimeException((
+                event.getFileName()
+                + ' '
+                + event.getLine()
+                + ':'
+                + event.getColumn()
+                + ": Localizing '"
+                + event.getLocalizedMessage().getKey()
+                + "'"
+            ), e);
+        }
     }
 
     /** Control all checks */
