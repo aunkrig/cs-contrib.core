@@ -27,14 +27,18 @@
 package de.unkrig.cscontrib.checks;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.ConversionException;
 
 import com.google.common.collect.ImmutableMap;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
+import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
@@ -44,99 +48,287 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
  * <p>
  * C++ comments must appear on the same column iff
  * <ul>
- *   <li>They appear in immediately consecutive lines, and
- *   <li>All of these lines are of the same {@link LineKind kind}
+ *   <li>They designate AST siblings, and
+ *   <li>They appear in immediately consecutive lines
  * </ul>
+ * Examples for AST siblings are the arguments in an invocation, or the operands of an arithmetic expression.
  */
 @NotNullByDefault(false) public
 class CppCommentAlignment extends AbstractFormatCheck {
+
+    private ImmutableMap<Integer /*lineNumber*/, TextBlock> cppComments;
 
     public
     CppCommentAlignment() throws ConversionException { super("^[\\s\\}\\);]*$"); }
 
     @Override public int[]
-    getDefaultTokens() { return new int[0]; }
-
-    @Override public void
-    visitToken(DetailAST ast) { throw new IllegalStateException("visitToken() shouldn't be called."); }
+    getDefaultTokens() {
+        return new int[] {
+            TokenTypes.ABSTRACT,
+            TokenTypes.ANNOTATION,
+            TokenTypes.ANNOTATION_ARRAY_INIT,
+            TokenTypes.ANNOTATION_DEF,
+            TokenTypes.ANNOTATION_FIELD_DEF,
+            TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR,
+            TokenTypes.ANNOTATIONS,
+            TokenTypes.ARRAY_DECLARATOR,
+            TokenTypes.ARRAY_INIT,
+            TokenTypes.ASSIGN,
+            TokenTypes.AT,
+            TokenTypes.BAND,
+            TokenTypes.BAND_ASSIGN,
+            TokenTypes.BNOT,
+            TokenTypes.BOR,
+            TokenTypes.BOR_ASSIGN,
+            TokenTypes.BSR,
+            TokenTypes.BSR_ASSIGN,
+            TokenTypes.BXOR,
+            TokenTypes.BXOR_ASSIGN,
+            TokenTypes.CASE_GROUP,
+            TokenTypes.CHAR_LITERAL,
+            TokenTypes.CLASS_DEF,
+            TokenTypes.COLON,
+            TokenTypes.COMMA,
+            TokenTypes.CTOR_CALL,
+            TokenTypes.CTOR_DEF,
+            TokenTypes.DEC,
+            TokenTypes.DIV,
+            TokenTypes.DIV_ASSIGN,
+            TokenTypes.DO_WHILE,
+            TokenTypes.DOT,
+            TokenTypes.ELIST,
+            TokenTypes.ELLIPSIS,
+            TokenTypes.EMPTY_STAT,
+            TokenTypes.ENUM,
+            TokenTypes.ENUM_CONSTANT_DEF,
+            TokenTypes.ENUM_DEF,
+            TokenTypes.EOF,
+            TokenTypes.EQUAL,
+//            TokenTypes.EXPR, // Pseudo token, e.g. EXPR { '(' '+' ')' }
+            TokenTypes.EXTENDS_CLAUSE,
+            TokenTypes.FINAL,
+            TokenTypes.FOR_CONDITION,
+            TokenTypes.FOR_EACH_CLAUSE,
+            TokenTypes.FOR_INIT,
+            TokenTypes.FOR_ITERATOR,
+            TokenTypes.GE,
+            TokenTypes.GENERIC_END,
+            TokenTypes.GENERIC_START,
+            TokenTypes.GT,
+            TokenTypes.IDENT,
+            TokenTypes.IMPLEMENTS_CLAUSE,
+            TokenTypes.IMPORT,
+            TokenTypes.INC,
+            TokenTypes.INDEX_OP,
+            TokenTypes.INSTANCE_INIT,
+            TokenTypes.INTERFACE_DEF,
+            TokenTypes.LABELED_STAT,
+            TokenTypes.LAND,
+            TokenTypes.LCURLY,
+            TokenTypes.LE,
+            TokenTypes.LITERAL_ASSERT,
+            TokenTypes.LITERAL_BOOLEAN,
+            TokenTypes.LITERAL_BREAK,
+            TokenTypes.LITERAL_BYTE,
+            TokenTypes.LITERAL_CASE,
+            TokenTypes.LITERAL_CATCH,
+            TokenTypes.LITERAL_CHAR,
+            TokenTypes.LITERAL_CLASS,
+            TokenTypes.LITERAL_CONTINUE,
+            TokenTypes.LITERAL_DEFAULT,
+            TokenTypes.LITERAL_DO,
+            TokenTypes.LITERAL_DOUBLE,
+            TokenTypes.LITERAL_ELSE,
+            TokenTypes.LITERAL_FALSE,
+            TokenTypes.LITERAL_FINALLY,
+            TokenTypes.LITERAL_FLOAT,
+            TokenTypes.LITERAL_FOR,
+            TokenTypes.LITERAL_IF,
+            TokenTypes.LITERAL_INSTANCEOF,
+            TokenTypes.LITERAL_INT,
+            TokenTypes.LITERAL_INTERFACE,
+            TokenTypes.LITERAL_LONG,
+            TokenTypes.LITERAL_NATIVE,
+//            TokenTypes.LITERAL_NEW, // Irrelevant: "new { FormalParameter'(' ELIST ')' }
+            TokenTypes.LITERAL_NULL,
+            TokenTypes.LITERAL_PRIVATE,
+            TokenTypes.LITERAL_PROTECTED,
+            TokenTypes.LITERAL_PUBLIC,
+            TokenTypes.LITERAL_RETURN,
+            TokenTypes.LITERAL_SHORT,
+            TokenTypes.LITERAL_STATIC,
+            TokenTypes.LITERAL_SUPER,
+            TokenTypes.LITERAL_SWITCH,
+            TokenTypes.LITERAL_SYNCHRONIZED,
+            TokenTypes.LITERAL_THIS,
+            TokenTypes.LITERAL_THROW,
+            TokenTypes.LITERAL_THROWS,
+            TokenTypes.LITERAL_TRANSIENT,
+            TokenTypes.LITERAL_TRUE,
+            TokenTypes.LITERAL_TRY,
+            TokenTypes.LITERAL_VOID,
+            TokenTypes.LITERAL_VOLATILE,
+            TokenTypes.LITERAL_WHILE,
+            TokenTypes.LNOT,
+            TokenTypes.LOR,
+            TokenTypes.LPAREN,
+            TokenTypes.LT,
+//            TokenTypes.METHOD_CALL  METHOD_CALL { meth ELIST ')' }
+            TokenTypes.METHOD_DEF,
+            TokenTypes.MINUS,
+            TokenTypes.MINUS_ASSIGN,
+            TokenTypes.MOD,
+            TokenTypes.MOD_ASSIGN,
+            TokenTypes.MODIFIERS,
+            TokenTypes.NOT_EQUAL,
+            TokenTypes.NUM_DOUBLE,
+            TokenTypes.NUM_FLOAT,
+            TokenTypes.NUM_INT,
+            TokenTypes.NUM_LONG,
+            TokenTypes.OBJBLOCK,
+            TokenTypes.PACKAGE_DEF,
+            TokenTypes.PARAMETER_DEF,
+            TokenTypes.PARAMETERS,
+            TokenTypes.PLUS,
+            TokenTypes.PLUS_ASSIGN,
+            TokenTypes.POST_DEC,
+            TokenTypes.POST_INC,
+            TokenTypes.QUESTION,
+            TokenTypes.RBRACK,
+            TokenTypes.RCURLY,
+            TokenTypes.RESOURCE,
+            TokenTypes.RESOURCE_SPECIFICATION,
+            TokenTypes.RESOURCES,
+            TokenTypes.RPAREN,
+            TokenTypes.SEMI,
+            TokenTypes.SL,
+            TokenTypes.SL_ASSIGN,
+            TokenTypes.SLIST,
+            TokenTypes.SR,
+            TokenTypes.SR_ASSIGN,
+            TokenTypes.STAR,
+            TokenTypes.STAR_ASSIGN,
+            TokenTypes.STATIC_IMPORT,
+            TokenTypes.STATIC_INIT,
+            TokenTypes.STRICTFP,
+            TokenTypes.STRING_LITERAL,
+            TokenTypes.SUPER_CTOR_CALL,
+            TokenTypes.TYPE,
+            TokenTypes.TYPE_ARGUMENT,
+            TokenTypes.TYPE_ARGUMENTS,
+            TokenTypes.TYPE_EXTENSION_AND,
+            TokenTypes.TYPE_LOWER_BOUNDS,
+            TokenTypes.TYPE_PARAMETER,
+            TokenTypes.TYPE_PARAMETERS,
+            TokenTypes.TYPE_UPPER_BOUNDS,
+            TokenTypes.TYPECAST,
+            TokenTypes.UNARY_MINUS,
+            TokenTypes.UNARY_PLUS,
+//            TokenTypes.VARIABLE_DEF,  // Pseudo token, e.g. VARIABLE_DEF { MODIFIERS TYPE name init }
+            TokenTypes.WILDCARD_TYPE,
+        };
+    }
 
     @Override public void
     beginTree(DetailAST ast) {
-        String[]                         lines       = getFileContents().getLines();
-        ImmutableMap<Integer, TextBlock> cppComments = getFileContents().getCppComments();
+        this.cppComments = getFileContents().getCppComments();
+    }
 
-        LINES:
-        for (int lineNo = 0;;) {
-            int           maxCppCommentColNo;
-            LineKind      lineKind;
-            List<Integer> cppCommentColNos = new ArrayList<Integer>();
+    @Override public void
+    visitToken(DetailAST ast) {
+        this.debug("ast=" + ast);
+        if (ast.getChildCount() <= 1) return;
+        
+        List<DetailAST> children = this.getChildren(ast);
 
-            // Find next C++ comment.
-            for (;; lineNo++) {
+        Map<Integer /*lineNo*/, Integer /*colNo*/> commentCoordinates = new HashMap<Integer, Integer>();
 
-                if (lineNo >= lines.length) break LINES;
+        int prevLineNo = Integer.MAX_VALUE;
+        for (DetailAST child : children) {
+            this.debug("lchild=" + child);
 
-                TextBlock cppComment = cppComments.get(lineNo + 1);
-                if (cppComment != null) {
-                    maxCppCommentColNo = cppComment.getStartColNo();
-                    lineKind           = getLineKind(lines[lineNo]);
-                    cppCommentColNos.add(maxCppCommentColNo);
-                    break;
-                }
+            int lineNo = child.getLineNo();
+
+            // Special case "CASE_GROUP { 'case' 'case' SLIST }".
+            if (child.getType() == TokenTypes.SLIST) continue;
+
+            TextBlock tb = this.cppComments.get(lineNo);
+            if (tb == null) continue;
+
+            if (tb.getStartLineNo() - 1 > prevLineNo) {
+                analyze(commentCoordinates);
+                commentCoordinates.clear();
+                prevLineNo = Integer.MAX_VALUE;
+                continue;
             }
 
-            // Find C++ comments in consecutive lines of same kind.
-            for (lineNo++; lineNo < lines.length; lineNo++) {
+            if (commentCoordinates.containsKey(lineNo)) continue;
 
-                TextBlock cppComment = cppComments.get(lineNo + 1);
-                if (cppComment == null) break;
+            commentCoordinates.put(lineNo, tb.getStartColNo());
+            prevLineNo = lineNo;
+        }
+        analyze(commentCoordinates);
+    }
+    
+    private void
+    analyze(Map<Integer /*lineNo*/, Integer /*colNo*/> commentCoordinates) {
 
-                if (getLineKind(lines[lineNo]) != lineKind) break;
+        if (commentCoordinates.size() <= 1) return;
 
-                int cppCommentColNo = cppComment.getStartColNo();
-                if (cppCommentColNo > maxCppCommentColNo) maxCppCommentColNo = cppCommentColNo;
-                cppCommentColNos.add(cppCommentColNo);
-            }
+        int maxCommentColNo = 0;
+        for (Integer commentColNo : commentCoordinates.values()) {
+            if (commentColNo > maxCommentColNo) maxCommentColNo = commentColNo;
+        }
 
-            // Log misaligned C++ comments.
-            for (int i = 0; i < cppCommentColNos.size(); i++) {
-                int cppCommentColNo = cppCommentColNos.get(i);
-                if (cppCommentColNo != maxCppCommentColNo) {
-                    log(
-                        lineNo - cppCommentColNos.size() + i + 1,
-                        cppCommentColNo,
-                        "C++ comment must appear on column {0}, not {1}",
-                        maxCppCommentColNo + 1,
-                        cppCommentColNo + 1
-                    );
-                }
+        for (Entry<Integer /*lineNo*/, Integer /*colNo*/> e : commentCoordinates.entrySet()) {
+            Integer commentLineNo = e.getKey();
+            Integer commentColNo  = e.getValue();
+            if (commentColNo != maxCommentColNo) {
+                log(
+                    commentLineNo,
+                    commentColNo,
+                    "C++ comment must appear on column {0}, not {1}",
+                    maxCommentColNo + 1,
+                    commentColNo  + 1
+                );
             }
         }
     }
 
-    /** @see {@link #BARE_CPP_COMMENT}, {@link #SWITCH_LABEL_AND_CPP_COMMENT}, {@link #OTHER} */
-    enum LineKind {
+    /**
+     * Returns the children of the given node, but with somtimes flattened, e.g. "(a + b) + (c + d)" is
+     * "a + b + c + d".
+     */
+    private List<DetailAST>
+    getChildren(DetailAST ast) {
 
-        /** A line which contains only a C++ comment. */
-        BARE_CPP_COMMENT,
+        {
+            DetailAST parent = ast.getParent();
+            if (parent != null && parent.getText().equals(ast.getText())) return Collections.emptyList();
+        }
 
-        /** A line which contains only a switch label ('case x:' or 'default:') and a C++ comment. */
-        SWITCH_LABEL_AND_CPP_COMMENT,
+        List<DetailAST> result = new ArrayList<DetailAST>();
+        getChildren2(ast, result);
+        return result;
+    }
+    
+    private void
+    getChildren2(DetailAST ast, List<DetailAST> result) {
 
-        /** Any other line. */
-        OTHER,
+        for (DetailAST child = ast.getFirstChild(); child != null; child = child.getNextSibling()) {
+            this.debug("child=" + child);
+            
+            if (child.getText().equals(ast.getText())) {
+                this.getChildren2(child, result);
+                continue;
+            }
+            
+            result.add(child);
+        }
     }
 
-    private LineKind
-    getLineKind(String line) {
-        return (
-            BARE_CPP_COMMENT_LINE_PATTERN.matcher(line).matches()             ? LineKind.BARE_CPP_COMMENT :
-            SWITCH_LABEL_AND_CPP_COMMENT_LINE_PATTERN.matcher(line).matches() ? LineKind.SWITCH_LABEL_AND_CPP_COMMENT :
-            LineKind.OTHER
-        );
+    private void
+    debug(String text) {
+        ;
     }
-    private static final Pattern
-    BARE_CPP_COMMENT_LINE_PATTERN = Pattern.compile("\\s*//.*");
-    private static final Pattern
-    SWITCH_LABEL_AND_CPP_COMMENT_LINE_PATTERN = Pattern.compile("\\s*(?:case\\b[^:]*|default\\s*):\\s*//.*");
 }
