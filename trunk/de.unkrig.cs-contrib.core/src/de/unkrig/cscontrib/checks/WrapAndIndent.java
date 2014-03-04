@@ -134,7 +134,7 @@ class WrapAndIndent extends Check {
     public void setAllowOneLineInterfaceDecl(boolean value)        { this.allowOneLineInterfaceDecl        = value; }
     public void setAllowOneLineEnumDecl(boolean value)             { this.allowOneLineEnumDecl             = value; }
     public void setAllowOneLineAnnoDecl(boolean value)             { this.allowOneLineAnnoDecl             = value; }
-    public void setAllowOneLineCtorDecl(boolean value)             { this.allowOneLineClassDecl            = value; }
+    public void setAllowOneLineCtorDecl(boolean value)             { this.allowOneLineCtorDecl             = value; }
     public void setAllowOneLineMethDecl(boolean value)             { this.allowOneLineMethDecl             = value; }
     public void setAllowOneLineSwitchBlockStmtGroup(boolean value) { this.allowOneLineSwitchBlockStmtGroup = value; }
 
