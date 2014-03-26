@@ -774,6 +774,14 @@
                 <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapDoBeforeLCurly</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
             </property-metadata>
+            <property-metadata name="wrapTryBeforeCatch" datatype="SingleSelect" default-value="optional">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapTryBeforeCatch</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
+            <property-metadata name="wrapTryBeforeFinally" datatype="SingleSelect" default-value="optional">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapTryBeforeFinally</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
             <property-metadata name="wrapArrayInitBeforeLCurly" datatype="SingleSelect" default-value="never">
                 <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapArrayInitBeforeLCurly</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
