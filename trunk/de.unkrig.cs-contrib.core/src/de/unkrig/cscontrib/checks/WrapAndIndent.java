@@ -120,6 +120,8 @@ class WrapAndIndent extends Check {
     private int     wrapCtorDeclBeforeLCurly;
     private int     wrapMethodDeclBeforeLCurly;
     private int     wrapDoBeforeLCurly;
+    private int     wrapTryBeforeCatch               = WRAP;
+    private int     wrapTryBeforeFinally             = WRAP;
     private int     wrapArrayInitBeforeLCurly;
     private int     wrapAnonClassDeclBeforeLCurly;
     private int     wrapBeforeBinaryOperator         = WRAP;
@@ -151,6 +153,8 @@ class WrapAndIndent extends Check {
     public void setWrapCtorDeclBeforeLCurly(String value)          { this.wrapCtorDeclBeforeLCurly         = toWrap(value); }
     public void setWrapMethodDeclBeforeLCurly(String value)        { this.wrapMethodDeclBeforeLCurly       = toWrap(value); }
     public void setWrapDoBeforeLCurly(String value)                { this.wrapDoBeforeLCurly               = toWrap(value); }
+    public void setWrapTryBeforeCatch(String value)                { this.wrapTryBeforeCatch               = toWrap(value); }
+    public void setWrapTryBeforeFinally(String value)              { this.wrapTryBeforeFinally             = toWrap(value); }
     public void setWrapArrayInitBeforeLCurly(String value)         { this.wrapArrayInitBeforeLCurly        = toWrap(value); }
     public void setWrapAnonClassDeclBeforeLCurly(String value)     { this.wrapAnonClassDeclBeforeLCurly    = toWrap(value); }
     public void setWrapBeforeBinaryOperator(String value)          { this.wrapBeforeBinaryOperator         = toWrap(value); }
@@ -941,7 +945,21 @@ class WrapAndIndent extends Check {
             }
             break;
 
-        // Those which were not registered for.
+        case LITERAL_TRY:
+            checkChildren(
+                ast,
+
+                SLIST,
+                FORK + 5,
+/* 2 */         this.wrapTryBeforeCatch | LITERAL_CATCH,
+                FORK + 2,
+                FORK + 6,
+/* 5 */         this.wrapTryBeforeFinally | LITERAL_FINALLY,
+/* 6 */         END
+            );
+            break;
+
+            // Those which were not registered for.
         case ABSTRACT:
         case AT:
         case BAND:
@@ -1073,7 +1091,6 @@ class WrapAndIndent extends Check {
         case LITERAL_SYNCHRONIZED:
         case LITERAL_THROW:
         case LITERAL_THROWS:
-        case LITERAL_TRY:
         case PACKAGE_DEF:
         case PARAMETER_DEF:
         case STATIC_INIT:
