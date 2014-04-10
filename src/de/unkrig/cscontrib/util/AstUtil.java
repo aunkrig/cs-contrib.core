@@ -102,7 +102,7 @@ class AstUtil {
      */
     @Nullable public static JavaElement
     toJavaElement(DetailAST ast) {
-    
+
         final int parentType, grandparentType, previousSiblingType, nextSiblingType, firstChildType;
         {
             DetailAST parent = ast.getParent();
@@ -114,17 +114,17 @@ class AstUtil {
                 DetailAST grandparent = parent.getParent();
                 grandparentType = grandparent == null ? -1 : grandparent.getType();
             }
-    
+
             DetailAST previousSibling = ast.getPreviousSibling();
             previousSiblingType = previousSibling == null ? -1 : previousSibling.getType();
-            
+
             DetailAST nextSibling = ast.getNextSibling();
             nextSiblingType = nextSibling == null ? -1 : nextSibling.getType();
-    
+
             DetailAST firstChild = ast.getFirstChild();
             firstChildType = firstChild == null ? -1 : firstChild.getType();
         }
-    
+
         // Find out how this token is to be checked.
         switch (ast.getType()) {
 
@@ -237,10 +237,10 @@ class AstUtil {
 
         case TokenTypes.ARRAY_INIT:
             return firstChildType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ARRAY_INIT : L_CURLY__ARRAY_INIT;
-    
+
         case TokenTypes.ASSIGN:
             return parentType == TokenTypes.VARIABLE_DEF ? ASSIGN__VAR_DECL : ASSIGN__ASSIGNMENT;
-    
+
         case TokenTypes.AT:
             switch (parentType) {
 
@@ -248,7 +248,7 @@ class AstUtil {
             case TokenTypes.ANNOTATION_DEF: return AT__ANNO_DECL;
             }
             break;
-    
+
         case TokenTypes.COLON:
             switch (parentType) {
 
@@ -257,9 +257,9 @@ class AstUtil {
             case TokenTypes.FOR_EACH_CLAUSE: return COLON__ENHANCED_FOR;
             }
             return COLON__TERNARY;
-    
+
         case TokenTypes.STAR: return parentType == TokenTypes.DOT ? STAR__TYPE_IMPORT_ON_DEMAND : MULTIPLY;
-    
+
         case TokenTypes.DOT:
             if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return DOT__PACKAGE_DECL;
             if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT)      return DOT__IMPORT;
@@ -267,7 +267,7 @@ class AstUtil {
                 return DOT__QUALIFIED_TYPE;
             }
             return DOT__SELECTOR;
-    
+
         case TokenTypes.GENERIC_END:
             switch (parentType) {
 
@@ -275,15 +275,18 @@ class AstUtil {
                 return grandparentType == TokenTypes.METHOD_DEF ? R_ANGLE__METH_DECL_TYPE_PARAMS : R_ANGLE__TYPE_ARGS;
 
             case TokenTypes.TYPE_ARGUMENTS:
-                return (
-                    getAncestorWithTypeNot(ast, TokenTypes.TYPE_ARGUMENTS, TokenTypes.DOT) == TokenTypes.TYPE
-                    || grandparentType == TokenTypes.LITERAL_NEW
-                    || grandparentType == TokenTypes.EXTENDS_CLAUSE
-                    || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
-                ) ? R_ANGLE__TYPE_ARGS : R_ANGLE__METH_INVOCATION_TYPE_ARGS;
+                {
+                    int tt = AstUtil.getAncestorWithTypeNot(ast, TokenTypes.TYPE_ARGUMENTS, TokenTypes.DOT);
+                    return (
+                        tt == TokenTypes.TYPE
+                        || tt == TokenTypes.LITERAL_NEW
+                        || tt == TokenTypes.EXTENDS_CLAUSE
+                        || tt == TokenTypes.IMPLEMENTS_CLAUSE
+                    ) ? R_ANGLE__TYPE_ARGS : R_ANGLE__METH_INVOCATION_TYPE_ARGS;
+                }
             }
             break;
-            
+
         case TokenTypes.GENERIC_START:
             switch (parentType) {
 
@@ -301,10 +304,10 @@ class AstUtil {
                 ) ? L_ANGLE__TYPE_ARGS : L_ANGLE__METH_INVOCATION_TYPE_ARGS;
             }
             break;
-    
+
         case TokenTypes.IDENT:
             switch (parentType) {
-            
+
             case TokenTypes.ANNOTATION:                   return NAME__ANNO;
             case TokenTypes.ANNOTATION_FIELD_DEF:         return NAME__ANNO_ELEM_DECL;
             case TokenTypes.VARIABLE_DEF:                 return NAME__LOCAL_VAR_DECL;
@@ -331,15 +334,15 @@ class AstUtil {
                 getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
             ) return NAME__QUALIFIED_TYPE;
             return NAME__AMBIGUOUS;
-    
+
         case TokenTypes.LCURLY:
             switch (parentType) {
-            
+
             case TokenTypes.LITERAL_SWITCH: return L_CURLY__SWITCH;
 
             case TokenTypes.OBJBLOCK:
                 switch (grandparentType) {
-                
+
                 case TokenTypes.ENUM_CONSTANT_DEF: return L_CURLY__ENUM_CONST;
 
                 case TokenTypes.CLASS_DEF:
@@ -357,7 +360,7 @@ class AstUtil {
                 return nextSiblingType == TokenTypes.RCURLY ? L_CURLY__EMPTY_ARRAY_INIT : L_CURLY__ARRAY_INIT;
             }
             break;
-    
+
         case TokenTypes.ANNOTATION_ARRAY_INIT:
             return (
                 firstChildType == TokenTypes.RCURLY
@@ -368,7 +371,7 @@ class AstUtil {
         case TokenTypes.LITERAL_RETURN:
             return firstChildType == TokenTypes.SEMI ? RETURN__NO_EXPR : RETURN__EXPR;
 
-        case TokenTypes.LITERAL_CLASS: 
+        case TokenTypes.LITERAL_CLASS:
             return parentType == TokenTypes.CLASS_DEF ? CLASS__CLASS_DECL : CLASS__CLASS_LITERAL;
 
         case TokenTypes.LITERAL_DEFAULT:
@@ -381,14 +384,14 @@ class AstUtil {
 
         case TokenTypes.LITERAL_SYNCHRONIZED:
             return parentType == TokenTypes.SLIST ? SYNCHRONIZED__SYNCHRONIZED : SYNCHRONIZED__MOD;
-        
+
         case TokenTypes.STATIC_INIT:
             ast.setText("static");
             return STATIC__STATIC_INIT;
-    
+
         case TokenTypes.LPAREN:
             switch (parentType) {
-            
+
             case TokenTypes.ANNOTATION:           return L_PAREN__ANNO;
             case TokenTypes.ANNOTATION_FIELD_DEF: return L_PAREN__ANNO_ELEM_DECL;
             case TokenTypes.LITERAL_DO:           return L_PAREN__DO_WHILE;
@@ -414,7 +417,7 @@ class AstUtil {
             case TokenTypes.INDEX_OP:         return R_BRACK__INDEX;
             }
             break;
-    
+
         case TokenTypes.RCURLY:
             switch (parentType) {
 
@@ -444,7 +447,7 @@ class AstUtil {
 
             case TokenTypes.SLIST:
                 switch (grandparentType) {
-                
+
                 case TokenTypes.INSTANCE_INIT:        return R_CURLY__INSTANCE_INIT;
                 case TokenTypes.LABELED_STAT:         return R_CURLY__LABELED_STAT;
                 case TokenTypes.LITERAL_DO:           return R_CURLY__DO;
@@ -470,7 +473,7 @@ class AstUtil {
                 }
             }
             break;
-    
+
         case TokenTypes.RPAREN:
             switch (parentType) {
 
@@ -496,7 +499,7 @@ class AstUtil {
             if (previousSiblingType == TokenTypes.TYPE) return R_PAREN__CAST;
 
             return R_PAREN__PARENTHESIZED;
-    
+
         case TokenTypes.SEMI:
             switch (parentType) {
 
@@ -553,7 +556,7 @@ class AstUtil {
                 break;
             }
             break;
-    
+
         case TokenTypes.SLIST:
             switch (parentType) {
 
@@ -570,7 +573,7 @@ class AstUtil {
             case TokenTypes.LABELED_STAT:         return L_CURLY__LABELED_STAT;
             case TokenTypes.SLIST:                return L_CURLY__BLOCK;
 
-            case TokenTypes.LITERAL_CATCH: 
+            case TokenTypes.LITERAL_CATCH:
                 return firstChildType == TokenTypes.RCURLY ? L_CURLY__EMPTY_CATCH : L_CURLY__CATCH;
 
             case TokenTypes.CTOR_DEF:
@@ -582,7 +585,7 @@ class AstUtil {
                 );
             }
             return null; // Not a 'physical' token.
-            
+
         case TokenTypes.ANNOTATION:
         case TokenTypes.ANNOTATION_DEF:
         case TokenTypes.ANNOTATION_FIELD_DEF:
@@ -618,7 +621,7 @@ class AstUtil {
         case TokenTypes.VARIABLE_DEF:
             // These are the 'virtual' tokens, i.e. token which are not uniquely related to a physical token.
             return null;
-    
+
         case TokenTypes.EOF:
             assert false : "Unexpected token '" + ast + "' (" + TokenTypes.getTokenName(ast.getType()) + ')';
             return null;
@@ -659,9 +662,9 @@ class AstUtil {
     private static int
     getAncestorWithTypeNot(DetailAST ast, int tokenType1, int tokenType2) {
         for (DetailAST a = ast.getParent();; a = a.getParent()) {
-            
+
             if (a == null) return -1;
-            
+
             int t = a.getType();
             if (t != tokenType1 && t != tokenType2) return t;
         }
