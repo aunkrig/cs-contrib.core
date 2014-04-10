@@ -69,7 +69,8 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
     private RuleMetadata metadata;
 
     // ICheckstyleMarkerResolution declares this method AFTER version 5.6.0.
-    @SuppressWarnings("all") /**@Override*/ public void // SUPPRESS CHECKSTYLE JavadocMethod
+    // SUPPRESS CHECKSTYLE JavadocMethod
+    @Override @SuppressWarnings("all") /**@Override*/ public void
     setRuleMetaData(RuleMetadata metadata) {
         this.metadata = metadata;
     }
@@ -149,7 +150,7 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
             IAnnotationModel annotationModel = textFileBuffer.getAnnotationModel();
             assert annotationModel != null : "Text file buffer is disconnected";
 
-            MarkerAnnotation annotation = getMarkerAnnotation(annotationModel, marker);
+            MarkerAnnotation annotation = this.getMarkerAnnotation(annotationModel, marker);
 
             if (annotation == null) return;
 

@@ -26,11 +26,11 @@
 
 package de.unkrig.cscontrib.checks;
 
-import com.puppycrawl.tools.checkstyle.api.*;
+import com.puppycrawl.tools.checkstyle.api.Check;
+import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
-
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
 
 /**
  * Assignments in expressions must be parenthesized, like "a = (b = c)" or "while ((a = b))".
@@ -43,18 +43,18 @@ class InnerAssignment extends Check {
     @Override public int[]
     getDefaultTokens() {
         return new int[] {
-            ASSIGN,            // "="
-            DIV_ASSIGN,        // "/="
-            PLUS_ASSIGN,       // "+="
-            MINUS_ASSIGN,      // "-="
-            STAR_ASSIGN,       // "*="
-            MOD_ASSIGN,        // "%="
-            SR_ASSIGN,         // ">>="
-            BSR_ASSIGN,        // ">>>="
-            SL_ASSIGN,         // "<<="
-            BXOR_ASSIGN,       // "^="
-            BOR_ASSIGN,        // "|="
-            BAND_ASSIGN,       // "&="
+            TokenTypes.ASSIGN,            // "="
+            TokenTypes.DIV_ASSIGN,        // "/="
+            TokenTypes.PLUS_ASSIGN,       // "+="
+            TokenTypes.MINUS_ASSIGN,      // "-="
+            TokenTypes.STAR_ASSIGN,       // "*="
+            TokenTypes.MOD_ASSIGN,        // "%="
+            TokenTypes.SR_ASSIGN,         // ">>="
+            TokenTypes.BSR_ASSIGN,        // ">>>="
+            TokenTypes.SL_ASSIGN,         // "<<="
+            TokenTypes.BXOR_ASSIGN,       // "^="
+            TokenTypes.BOR_ASSIGN,        // "|="
+            TokenTypes.BAND_ASSIGN,       // "&="
         };
     }
 
@@ -64,39 +64,39 @@ class InnerAssignment extends Check {
         DetailAST grandparent = parent.getParent();
 
         // Field or variable initializer?
-        if (parent.getType() == VARIABLE_DEF) return; // int a = 3;
+        if (parent.getType() == TokenTypes.VARIABLE_DEF) return; // int a = 3;
 
         // Assignment statement?
-        if (parent.getType() == EXPR && (
-            grandparent.getType() == SLIST           // { ... a = b
-            || (                                     // if (...) a = b
+        if (parent.getType() == TokenTypes.EXPR && (
+            grandparent.getType() == TokenTypes.SLIST           // { ... a = b
+            || (                                                // if (...) a = b
                 parent.getPreviousSibling() != null
-                && parent.getPreviousSibling().getType() == RPAREN
+                && parent.getPreviousSibling().getType() == TokenTypes.RPAREN
             )
-            || grandparent.getType() == LITERAL_ELSE // if (...) {...} else a = b
-            || (                                     // for (...; ...; a += b)
-                grandparent.getType() == ELIST
-                && grandparent.getParent().getType() == FOR_ITERATOR
+            || grandparent.getType() == TokenTypes.LITERAL_ELSE // if (...) {...} else a = b
+            || (                                                // for (...; ...; a += b)
+                grandparent.getType() == TokenTypes.ELIST
+                && grandparent.getParent().getType() == TokenTypes.FOR_ITERATOR
             )
-            || (                                     // for (a = b; ...; ...)
-                grandparent.getType() == ELIST
-                && grandparent.getParent().getType() == FOR_INIT
+            || (                                                // for (a = b; ...; ...)
+                grandparent.getType() == TokenTypes.ELIST
+                && grandparent.getParent().getType() == TokenTypes.FOR_INIT
             )
         )) return;
 
         // For iterator?
         if (
-            parent.getType() == EXPR
-            && grandparent.getType() == ELIST
-            && grandparent.getParent().getType() == FOR_ITERATOR
+            parent.getType() == TokenTypes.EXPR
+            && grandparent.getType() == TokenTypes.ELIST
+            && grandparent.getParent().getType() == TokenTypes.FOR_ITERATOR
         ) return; // for (...; ...; a += b)
 
         // Parenthesized assignment?
-        if (ast.getPreviousSibling() != null && ast.getPreviousSibling().getType() == LPAREN) return;
+        if (ast.getPreviousSibling() != null && ast.getPreviousSibling().getType() == TokenTypes.LPAREN) return;
 
         // Annotation member-value pair?
         if (parent.getType() == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR) return;
 
-        log(ast.getLineNo(), ast.getColumnNo(), "Assignments in expressions must be parenthesized");
+        this.log(ast.getLineNo(), ast.getColumnNo(), "Assignments in expressions must be parenthesized");
     }
 }

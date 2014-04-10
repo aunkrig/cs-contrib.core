@@ -26,15 +26,19 @@
 
 package de.unkrig.cscontrib.checks;
 
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
-import static de.unkrig.cscontrib.util.AstUtil.grandparentTypeIs;
-import static de.unkrig.cscontrib.util.AstUtil.parentTypeIs;
-import static de.unkrig.cscontrib.util.AstUtil.previousSiblingTypeIs;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.CASE_GROUP;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.CTOR_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.EXPR;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.METHOD_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.PARAMETER_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.VARIABLE_DEF;
 
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
+import de.unkrig.cscontrib.util.AstUtil;
 
 /**
  * Checks that field/parameter/variable names are aligned in one-per-line declarations.
@@ -103,7 +107,14 @@ class Alignment extends Check {
 
     @Override public int[]
     getDefaultTokens() {
-        return new int[] { VARIABLE_DEF, PARAMETER_DEF, METHOD_DEF, CTOR_DEF, CASE_GROUP, EXPR };
+        return new int[] {
+            TokenTypes.CASE_GROUP,
+            TokenTypes.CTOR_DEF,
+            TokenTypes.EXPR,
+            TokenTypes.METHOD_DEF,
+            TokenTypes.PARAMETER_DEF,
+            TokenTypes.VARIABLE_DEF,
+        };
     }
 
     private DetailAST previousFieldDeclaration;
@@ -123,12 +134,12 @@ class Alignment extends Check {
 
         case VARIABLE_DEF:
             if (
-                !previousSiblingTypeIs(ast, COMMA)
-                && grandparentTypeIs(ast, CLASS_DEF, INTERFACE_DEF, ENUM_DEF)
+                !AstUtil.previousSiblingTypeIs(ast, TokenTypes.COMMA)
+                && AstUtil.grandparentTypeIs(ast, TokenTypes.CLASS_DEF, TokenTypes.INTERFACE_DEF, TokenTypes.ENUM_DEF)
             ) {
 
                 // First declarator in a field declaration.
-                checkDeclarationAlignment(
+                this.checkDeclarationAlignment(
                     this.previousFieldDeclaration,
                     ast,
                     this.applyToFieldName,
@@ -139,12 +150,12 @@ class Alignment extends Check {
             }
 
             if (
-                !previousSiblingTypeIs(ast, COMMA)
-                && parentTypeIs(ast, SLIST)
+                !AstUtil.previousSiblingTypeIs(ast, TokenTypes.COMMA)
+                && AstUtil.parentTypeIs(ast, TokenTypes.SLIST)
             ) {
 
                 // First declarator in a local variable declaration in block (not in a FOR initializer).
-                checkDeclarationAlignment(
+                this.checkDeclarationAlignment(
                     this.previousLocalVariableDeclaration,
                     ast,
                     this.applyToLocalVariableName,
@@ -157,29 +168,29 @@ class Alignment extends Check {
 
         case PARAMETER_DEF:
             // Parameter declaration.
-            checkDeclarationAlignment(this.previousParameterDeclaration, ast, this.applyToParameterName, false);
+            this.checkDeclarationAlignment(this.previousParameterDeclaration, ast, this.applyToParameterName, false);
             this.previousParameterDeclaration = ast;
             break;
 
         case METHOD_DEF:
         case CTOR_DEF:
             // Method or constructor declaration.
-            checkMethodDefinitionAlignment(this.previousMethodDeclaration, ast);
+            this.checkMethodDefinitionAlignment(this.previousMethodDeclaration, ast);
             this.previousMethodDeclaration = ast;
             break;
 
         case CASE_GROUP:
             if (this.applyToCaseGroupStatements) {
-                checkCaseGroupLignment(this.previousCaseGroup, ast);
+                this.checkCaseGroupLignment(this.previousCaseGroup, ast);
                 this.previousCaseGroup = ast;
             }
             break;
 
         case EXPR:
-            if (this.applyToAssignments && ast.getParent().getType() == SLIST) {
+            if (this.applyToAssignments && ast.getParent().getType() == TokenTypes.SLIST) {
                 DetailAST ass = ast.getFirstChild();
-                if (ass.getType() >= ASSIGN && ass.getType() <= BOR_ASSIGN) {
-                    checkTokenAlignment(this.previousAssignment, ass);
+                if (ass.getType() >= TokenTypes.ASSIGN && ass.getType() <= TokenTypes.BOR_ASSIGN) {
+                    this.checkTokenAlignment(this.previousAssignment, ass);
                     this.previousAssignment = ass;
                 }
             }
@@ -191,14 +202,14 @@ class Alignment extends Check {
         if (previous == null) return;
 
         DetailAST casE = current.getFirstChild();
-        if (casE.getType() != LITERAL_CASE) return;
+        if (casE.getType() != TokenTypes.LITERAL_CASE) return;
         DetailAST slist = casE.getNextSibling();
-        if (slist.getType() != SLIST) return;
+        if (slist.getType() != TokenTypes.SLIST) return;
         if (slist.getChildCount() == 0) return;
 
-        checkTokenAlignment(
-            getLeftmostDescendant(previous.getFirstChild().getNextSibling()),
-            getLeftmostDescendant(slist.getFirstChild())
+        this.checkTokenAlignment(
+            Alignment.getLeftmostDescendant(previous.getFirstChild().getNextSibling()),
+            Alignment.getLeftmostDescendant(slist.getFirstChild())
         );
     }
 
@@ -233,17 +244,17 @@ class Alignment extends Check {
 
         // Check vertical alignment of names.
         if (applyToName) {
-            checkTokenAlignment(
-                previousDeclaration.findFirstToken(IDENT),
-                currentDeclaration.findFirstToken(IDENT)
+            this.checkTokenAlignment(
+                previousDeclaration.findFirstToken(TokenTypes.IDENT),
+                currentDeclaration.findFirstToken(TokenTypes.IDENT)
             );
         }
 
         // Check vertical alignment of initializers.
         if (applyToInitializer) {
-            checkTokenAlignment(
-                previousDeclaration.findFirstToken(ASSIGN),
-                currentDeclaration.findFirstToken(ASSIGN)
+            this.checkTokenAlignment(
+                previousDeclaration.findFirstToken(TokenTypes.ASSIGN),
+                currentDeclaration.findFirstToken(TokenTypes.ASSIGN)
             );
         }
     }
@@ -259,17 +270,17 @@ class Alignment extends Check {
 
         // Check vertical alignment of names.
         if (this.applyToMethodName) {
-            checkTokenAlignment(
-                previousDefinition.findFirstToken(IDENT),
-                currentDefinition.findFirstToken(IDENT)
+            this.checkTokenAlignment(
+                previousDefinition.findFirstToken(TokenTypes.IDENT),
+                currentDefinition.findFirstToken(TokenTypes.IDENT)
             );
         }
 
         // Check vertical alignment of initializers.
         if (this.applyToMethodBody) {
-            checkTokenAlignment(
-                previousDefinition.findFirstToken(SLIST),
-                currentDefinition.findFirstToken(SLIST)
+            this.checkTokenAlignment(
+                previousDefinition.findFirstToken(TokenTypes.SLIST),
+                currentDefinition.findFirstToken(TokenTypes.SLIST)
             );
         }
     }
@@ -285,7 +296,7 @@ class Alignment extends Check {
 
             // The name in the current declaration is not vertically aligned with the name in the declaration in the
             // preceding line.
-            log(
+            this.log(
                 currentToken,
                 "''{0}'' should be aligned with ''{1}'' in line {2,number,#}",
                 currentToken.getText(),
@@ -298,7 +309,7 @@ class Alignment extends Check {
     getLeftmostDescendant(DetailAST ast) {
         for (;;) {
             DetailAST tmp = ast.getFirstChild();
-            if (tmp == null && ast.getType() == MODIFIERS) tmp = ast.getNextSibling();
+            if (tmp == null && ast.getType() == TokenTypes.MODIFIERS) tmp = ast.getNextSibling();
             if (
                 tmp == null
                 || tmp.getLineNo() > ast.getLineNo()

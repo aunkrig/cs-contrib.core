@@ -44,7 +44,7 @@ class ZeroParameterSuperconstructorInvocation extends AbstractASTResolution {
     handleGetCorrectingASTVisitor(final IRegion lineInfo, final int markerStartOffset) {
 
         return new ASTVisitor() {
-            
+
             @Override public void
             endVisit(SuperConstructorInvocation node) {
 //                int lhsEnd   = node.getLeftHandSide().getStartPosition() + node.getLeftHandSide().getLength();
@@ -55,7 +55,7 @@ class ZeroParameterSuperconstructorInvocation extends AbstractASTResolution {
 //                    ZeroParameterSuperconstructorInvocation.this.replace(node, parenthesize(node));
 //                }
                 if (
-                    containsPosition(lineInfo, node.getStartPosition())
+                    ZeroParameterSuperconstructorInvocation.this.containsPosition(lineInfo, node.getStartPosition())
                     && node.arguments().isEmpty()
                 ) {
                     node.delete();

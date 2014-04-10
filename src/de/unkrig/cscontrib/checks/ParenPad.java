@@ -29,7 +29,8 @@ package de.unkrig.cscontrib.checks;
 import java.util.regex.Pattern;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
-import com.puppycrawl.tools.checkstyle.checks.whitespace.*;
+import com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption;
+import com.puppycrawl.tools.checkstyle.checks.whitespace.ParenPadCheck;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 
@@ -56,20 +57,20 @@ class ParenPad extends ParenPadCheck {
 
     @Override protected void
     processLeft(DetailAST ast) {
-        final String line  = getLines()[ast.getLineNo() - 1];
+        final String line  = this.getLines()[ast.getLineNo() - 1];
         final int    after = ast.getColumnNo() + 1;
 
         String rest = line.substring(after);
         if (
-            getAbstractOption() == PadOption.NOSPACE
-            && !NOSPACE_PATTERN.matcher(rest).matches()
+            this.getAbstractOption() == PadOption.NOSPACE
+            && !ParenPad.NOSPACE_PATTERN.matcher(rest).matches()
         ) {
-            log(ast.getLineNo(), after, "''{0}'' is followed by whitespace", "(");
+            this.log(ast.getLineNo(), after, "''{0}'' is followed by whitespace", "(");
         } else if (
-            getAbstractOption() == PadOption.SPACE
-            && !SPACE_PATTERN.matcher(rest).matches()
+            this.getAbstractOption() == PadOption.SPACE
+            && !ParenPad.SPACE_PATTERN.matcher(rest).matches()
         ) {
-            log(ast.getLineNo(), after, "''{0}'' is not followed by whitespace", "(");
+            this.log(ast.getLineNo(), after, "''{0}'' is not followed by whitespace", "(");
         }
     }
 }

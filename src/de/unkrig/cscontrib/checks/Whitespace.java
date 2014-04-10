@@ -435,14 +435,16 @@ class Whitespace extends Check {
         SUPER__EXPR,
         THIS__CTOR_CALL
     );
-    
+
     // BEGIN CONFIGURATION SETTERS
-    // CHECKSTYLE JavadocMethod:OFF
-    public void setWhitespaceBefore(String[] sa)   { this.whitespaceBefore   = toEnumSet(sa, JavaElement.class); }
-    public void setNoWhitespaceBefore(String[] sa) { this.noWhitespaceBefore = toEnumSet(sa, JavaElement.class); }
-    public void setWhitespaceAfter(String[] sa)    { this.whitespaceAfter    = toEnumSet(sa, JavaElement.class); }
-    public void setNoWhitespaceAfter(String[] sa)  { this.noWhitespaceAfter  = toEnumSet(sa, JavaElement.class); }
-    // CHECKSTYLE JavadocMethod:ON
+
+    // SUPPRESS CHECKSTYLE JavadocMethod:5
+    // SUPPRESS CHECKSTYLE LineLength:4
+    public void setWhitespaceBefore(String[] sa)   { this.whitespaceBefore   = Whitespace.toEnumSet(sa, JavaElement.class); }
+    public void setNoWhitespaceBefore(String[] sa) { this.noWhitespaceBefore = Whitespace.toEnumSet(sa, JavaElement.class); }
+    public void setWhitespaceAfter(String[] sa)    { this.whitespaceAfter    = Whitespace.toEnumSet(sa, JavaElement.class); }
+    public void setNoWhitespaceAfter(String[] sa)  { this.noWhitespaceAfter  = Whitespace.toEnumSet(sa, JavaElement.class); }
+
     // END CONFIGURATION SETTERS
 
     private static <E extends Enum<E>> E
@@ -457,7 +459,7 @@ class Whitespace extends Check {
     private static <E extends Enum<E>> EnumSet<E>
     toEnumSet(String[] values, Class<E> enumClass) {
         EnumSet<E> result = EnumSet.noneOf(enumClass);
-        for (String value : values) result.add(toEnum(value, enumClass));
+        for (String value : values) result.add(Whitespace.toEnum(value, enumClass));
         return result;
     }
 
@@ -472,9 +474,9 @@ class Whitespace extends Check {
         if (javaElement == null) {
             return;
         }
-    
+
 //        log(ast, "CHECK {0}={1} => {2}", ast, ast.getType(), whitespaceable);
-    
+
         boolean mustBeWhitespaceBefore    = this.whitespaceBefore.contains(javaElement);
         boolean mustNotBeWhitespaceBefore = this.noWhitespaceBefore.contains(javaElement);
 
@@ -489,19 +491,19 @@ class Whitespace extends Check {
             && !mustNotBeWhitespaceAfter
         ) return;
 
-        final String line = getLines()[ast.getLineNo() - 1];
+        final String line = this.getLines()[ast.getLineNo() - 1];
 
         // Check whitespace BEFORE token.
         if (mustBeWhitespaceBefore || mustNotBeWhitespaceBefore) {
             int before = ast.getColumnNo() - 1;
 
-            if (before > 0 && !LINE_PREFIX.matcher(line).region(0, before).matches()) {
+            if (before > 0 && !Whitespace.LINE_PREFIX.matcher(line).region(0, before).matches()) {
                 boolean isWhitespace = Character.isWhitespace(line.charAt(before));
                 if (mustBeWhitespaceBefore && !isWhitespace) {
-                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.notPreceded", ast.getText(), javaElement);
+                    this.log(ast, "de.unkrig.cscontrib.checks.Whitespace.notPreceded", ast.getText(), javaElement);
                 } else
                 if (mustNotBeWhitespaceBefore && isWhitespace) {
-                    log(ast, "de.unkrig.cscontrib.checks.Whitespace.preceded", ast.getText(), javaElement);
+                    this.log(ast, "de.unkrig.cscontrib.checks.Whitespace.preceded", ast.getText(), javaElement);
                 }
             }
         }
@@ -510,10 +512,10 @@ class Whitespace extends Check {
         if (mustBeWhitespaceAfter || mustNotBeWhitespaceAfter) {
             int after = ast.getColumnNo() + ast.getText().length();
 
-            if (after < line.length() && !LINE_SUFFIX.matcher(line).region(after, line.length()).matches()) {
+            if (after < line.length() && !Whitespace.LINE_SUFFIX.matcher(line).region(after, line.length()).matches()) {
                 boolean isWhitespace = Character.isWhitespace(line.charAt(after));
                 if (mustBeWhitespaceAfter && !isWhitespace) {
-                    log(
+                    this.log(
                         ast.getLineNo(),
                         after,
                         "de.unkrig.cscontrib.checks.Whitespace.notFollowed",
@@ -522,7 +524,7 @@ class Whitespace extends Check {
                     );
                 } else
                 if (mustNotBeWhitespaceAfter && isWhitespace) {
-                    log(
+                    this.log(
                         ast.getLineNo(),
                         after,
                         "de.unkrig.cscontrib.checks.Whitespace.followed",

@@ -39,7 +39,7 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
  *     Foo(int a, int b) {
  *         super(); // <===
  *     }
- * }</pre> 
+ * }</pre>
  */
 @NotNullByDefault(false) public
 class ZeroParameterSuperconstructorInvocation extends Check {
@@ -72,7 +72,7 @@ class ZeroParameterSuperconstructorInvocation extends Check {
 
         // Complain about redundant zero-parameter superconstructor invocation.
         if (argumentCount == 0) {
-            log(superconstructorCall, "Redundant invocation of zero-parameter superconstructor");
+            this.log(superconstructorCall, "Redundant invocation of zero-parameter superconstructor");
         }
     }
 }
