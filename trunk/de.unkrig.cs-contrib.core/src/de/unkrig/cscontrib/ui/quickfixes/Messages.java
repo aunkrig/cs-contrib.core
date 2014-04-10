@@ -36,11 +36,11 @@ class Messages extends NLS {
 
     private
     Messages() {}
-    
+
     private static final String BUNDLE_NAME = "de.unkrig.cscontrib.ui.quickfixes.messages"; //$NON-NLS-1$
 
     static {
-        NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+        NLS.initializeMessages(Messages.BUNDLE_NAME, Messages.class);
     }
 
     // CHECKSTYLE StaticVariableNameCheck:OFF

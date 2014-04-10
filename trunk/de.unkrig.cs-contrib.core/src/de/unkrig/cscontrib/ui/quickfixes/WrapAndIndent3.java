@@ -81,9 +81,9 @@ class WrapAndIndent3 extends AbstractJavaResolution {
                 if (!Character.isWhitespace(line.charAt(preceedingSpace - 1))) break;
             }
 
-            String s = space(line.substring(0, preceedingSpace), correctColumnNumber, javaProject);
+            String s = this.space(line.substring(0, preceedingSpace), correctColumnNumber, javaProject);
             if (s == null) {
-                s = document.getLineDelimiter(0) + space("", correctColumnNumber, javaProject);
+                s = document.getLineDelimiter(0) + this.space("", correctColumnNumber, javaProject);
             }
             document.replace(
                 lineInformation.getOffset() + preceedingSpace,

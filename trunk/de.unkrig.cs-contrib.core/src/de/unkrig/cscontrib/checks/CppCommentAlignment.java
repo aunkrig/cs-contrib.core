@@ -237,14 +237,14 @@ class CppCommentAlignment extends AbstractFormatCheck {
 
     @Override public void
     beginTree(DetailAST ast) {
-        this.cppComments = getFileContents().getCppComments();
+        this.cppComments = this.getFileContents().getCppComments();
     }
 
     @Override public void
     visitToken(DetailAST ast) {
         this.debug("ast=" + ast);
         if (ast.getChildCount() <= 1) return;
-        
+
         List<DetailAST> children = this.getChildren(ast);
 
         Map<Integer /*lineNo*/, Integer /*colNo*/> commentCoordinates = new HashMap<Integer, Integer>();
@@ -262,7 +262,7 @@ class CppCommentAlignment extends AbstractFormatCheck {
             if (tb == null || tb.getStartColNo() == 1) continue;
 
             if (tb.getStartLineNo() - 1 > prevLineNo) {
-                analyze(commentCoordinates);
+                this.analyze(commentCoordinates);
                 commentCoordinates.clear();
                 prevLineNo = Integer.MAX_VALUE;
                 continue;
@@ -273,9 +273,9 @@ class CppCommentAlignment extends AbstractFormatCheck {
             commentCoordinates.put(lineNo, tb.getStartColNo());
             prevLineNo = lineNo;
         }
-        analyze(commentCoordinates);
+        this.analyze(commentCoordinates);
     }
-    
+
     private void
     analyze(Map<Integer /*lineNo*/, Integer /*colNo*/> commentCoordinates) {
 
@@ -290,7 +290,7 @@ class CppCommentAlignment extends AbstractFormatCheck {
             Integer commentLineNo = e.getKey();
             Integer commentColNo  = e.getValue();
             if (commentColNo != maxCommentColNo) {
-                log(
+                this.log(
                     commentLineNo,
                     commentColNo,
                     "C++ comment must appear on column {0}, not {1}",
@@ -314,21 +314,21 @@ class CppCommentAlignment extends AbstractFormatCheck {
         }
 
         List<DetailAST> result = new ArrayList<DetailAST>();
-        getChildren2(ast, result);
+        this.getChildren2(ast, result);
         return result;
     }
-    
+
     private void
     getChildren2(DetailAST ast, List<DetailAST> result) {
 
         for (DetailAST child = ast.getFirstChild(); child != null; child = child.getNextSibling()) {
             this.debug("child=" + child);
-            
+
             if (child.getText().equals(ast.getText())) {
                 this.getChildren2(child, result);
                 continue;
             }
-            
+
             result.add(child);
         }
     }

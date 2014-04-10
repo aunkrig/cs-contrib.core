@@ -28,13 +28,19 @@ package de.unkrig.cscontrib.filters;
 
 import java.lang.ref.WeakReference;
 import java.text.MessageFormat;
-import java.util.*;
-import java.util.regex.*;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.beanutils.ConversionException;
 
 import com.google.common.collect.Lists;
-import com.puppycrawl.tools.checkstyle.api.*;
+import com.puppycrawl.tools.checkstyle.api.AuditEvent;
+import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
+import com.puppycrawl.tools.checkstyle.api.FileContents;
+import com.puppycrawl.tools.checkstyle.api.Filter;
+import com.puppycrawl.tools.checkstyle.api.Utils;
 import com.puppycrawl.tools.checkstyle.checks.FileContentsHolder;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
@@ -86,15 +92,21 @@ class SuppressionLine extends AutomaticBean implements Filter {
             // Expand regex for check and message
             // Does not intern Patterns with Utils.getPattern()
             try {
-                Pattern regex = on ? onRegex : offRegex;
-                if (checkNameFormat != null) {
-                    this.checkNameRegex = Pattern.compile(expandFromLine(text, checkNameFormat, regex));
+                Pattern regex = on ? SuppressionLine.this.onRegex : SuppressionLine.this.offRegex;
+                if (SuppressionLine.this.checkNameFormat != null) {
+                    this.checkNameRegex = Pattern.compile(
+                        this.expandFromLine(text, SuppressionLine.this.checkNameFormat, regex)
+                    );
                 }
-                if (messageFormat != null) {
-                    this.messageRegex = Pattern.compile(expandFromLine(text, messageFormat, regex));
+                if (SuppressionLine.this.messageFormat != null) {
+                    this.messageRegex = Pattern.compile(
+                        this.expandFromLine(text, SuppressionLine.this.messageFormat, regex)
+                    );
                 }
-                if (moduleIdFormat != null) {
-                    this.moduleIdRegex = Pattern.compile(expandFromLine(text, moduleIdFormat, regex));
+                if (SuppressionLine.this.moduleIdFormat != null) {
+                    this.moduleIdRegex = Pattern.compile(
+                        this.expandFromLine(text, SuppressionLine.this.moduleIdFormat, regex)
+                    );
                 }
             } catch (final PatternSyntaxException e) {
                 throw new ConversionException("unable to parse expanded line " + e.getPattern(), e);
@@ -147,7 +159,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
             // Match event's message against 'checkMessageRegex'.
             if (
                 this.messageRegex != null
-                && this.messageRegex.matcher(getEventMessage(event)).find()
+                && this.messageRegex.matcher(SuppressionLine.getEventMessage(event)).find()
             ) return true;
 
             // Match event's 'module ID' against 'moduleIdRegex'.
@@ -305,7 +317,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
     setFileContents(FileContents fileContents) {
         this.fileContentsReference = new WeakReference<FileContents>(fileContents);
     }
-    
+
     @Override public boolean
     accept(AuditEvent event) {
 
@@ -321,9 +333,9 @@ class SuppressionLine extends AutomaticBean implements Filter {
         }
         if (this.getFileContents() != currentContents) {
             this.setFileContents(currentContents);
-            processMagicLines();
+            this.processMagicLines();
         }
-        final Tag matchTag = findNearestMatch(event);
+        final Tag matchTag = this.findNearestMatch(event);
         if ((matchTag != null) && !matchTag.isOn()) {
             return false;
         }
@@ -356,7 +368,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
         this.magicLines.clear();
         String[] lines = this.getFileContents().getLines();
         for (int lineNo = 0; lineNo < lines.length; ++lineNo) {
-            checkMagicness(lines[lineNo], lineNo);
+            this.checkMagicness(lines[lineNo], lineNo);
         }
     }
 
@@ -372,13 +384,13 @@ class SuppressionLine extends AutomaticBean implements Filter {
         if (this.offRegex != null) {
             final Matcher offMatcher = this.offRegex.matcher(text);
             if (offMatcher.find()) {
-                addTag(offMatcher.group(0), line, false);
+                this.addTag(offMatcher.group(0), line, false);
             }
         }
         if (this.onRegex != null) {
             final Matcher onMatcher = this.onRegex.matcher(text);
             if (onMatcher.find()) {
-                addTag(onMatcher.group(0), line, true);
+                this.addTag(onMatcher.group(0), line, true);
             }
         }
     }

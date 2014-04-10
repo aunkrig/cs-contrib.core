@@ -37,7 +37,7 @@ import de.unkrig.commons.nullanalysis.Nullable;
 public
 class AstDumper {
 
-    private DetailAST ast;
+    private final DetailAST ast;
 
     AstDumper(DetailAST ast) {
         this.ast = ast;
@@ -46,7 +46,7 @@ class AstDumper {
     @Override @Nullable public String
     toString() {
         StringBuilder sb = new StringBuilder();
-        dumpSiblings("", this.ast, sb);
+        AstDumper.dumpSiblings("", this.ast, sb);
         return sb.toString();
     }
 
@@ -54,7 +54,7 @@ class AstDumper {
     dumpSiblings(String prefix, @Nullable DetailAST sibling, StringBuilder sb) {
         for (; sibling != null; sibling = sibling.getNextSibling()) {
             sb.append(prefix).append(sibling).append(TokenTypes.getTokenName(sibling.getType())).append('\n');
-            dumpSiblings(prefix + "  ", sibling.getFirstChild(), sb);
+            AstDumper.dumpSiblings(prefix + "  ", sibling.getFirstChild(), sb);
         }
     }
 }

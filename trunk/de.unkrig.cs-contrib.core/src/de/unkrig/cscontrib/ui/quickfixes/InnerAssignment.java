@@ -51,7 +51,7 @@ class InnerAssignment extends AbstractASTResolution {
     handleGetCorrectingASTVisitor(final IRegion lineInfo, final int markerStartOffset) {
 
         return new ASTVisitor() {
-            
+
             @Override public void
             endVisit(Assignment node) {
                 int lhsEnd   = node.getLeftHandSide().getStartPosition() + node.getLeftHandSide().getLength();
@@ -59,7 +59,7 @@ class InnerAssignment extends AbstractASTResolution {
                 if (markerStartOffset >= lhsEnd && markerStartOffset < rhsStart) {
 
                     // Marker begins BETWEEN the LHS and the RHS... THIS is the assignment to parenthesize!
-                    InnerAssignment.this.replace(node, parenthesize(node));
+                    InnerAssignment.this.replace(node, this.parenthesize(node));
                 }
             }
 

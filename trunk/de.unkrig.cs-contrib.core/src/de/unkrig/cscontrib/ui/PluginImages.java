@@ -49,12 +49,13 @@ class PluginImages {
     /**
      * An icon that visualized the addition of an element.
      */
-    public static final ImageDescriptor CORRECTION_ADD = getImageDescriptor("icons/add_correction.gif");
-    
+    public static final ImageDescriptor CORRECTION_ADD = PluginImages.getImageDescriptor("icons/add_correction.gif");
+
     /**
      * An icon that visualized the removal of an element.
      */
-    public static final ImageDescriptor CORRECTION_REMOVE = getImageDescriptor("icons/remove_correction.gif");
+    public static final ImageDescriptor
+    CORRECTION_REMOVE = PluginImages.getImageDescriptor("icons/remove_correction.gif");
 
     private static ImageDescriptor
     getImageDescriptor(String name) {
@@ -68,18 +69,18 @@ class PluginImages {
 
     /**
      * Gets an image from a given descriptor.
-     * 
+     *
      * @param descriptor the descriptor
      * @return the image
      */
     public static Image
     getImage(ImageDescriptor descriptor) {
 
-        Image image = CACHED_IMAGES.get(descriptor);
+        Image image = PluginImages.CACHED_IMAGES.get(descriptor);
         if (image == null) {
             image = descriptor.createImage();
             assert image != null : "Image could not be created from descriptor '" + descriptor + "'";
-            CACHED_IMAGES.put(descriptor, image);
+            PluginImages.CACHED_IMAGES.put(descriptor, image);
         }
         return image;
     }
@@ -89,8 +90,8 @@ class PluginImages {
      */
     public static void
     clearCachedImages() {
-        for (Image image : CACHED_IMAGES.values()) image.dispose();
+        for (Image image : PluginImages.CACHED_IMAGES.values()) image.dispose();
 
-        CACHED_IMAGES.clear();
+        PluginImages.CACHED_IMAGES.clear();
     }
 }

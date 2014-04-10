@@ -26,16 +26,19 @@
 
 package de.unkrig.cscontrib;
 
-import java.util.*;
+import java.util.Dictionary;
 
 import net.sf.eclipsecs.ui.CheckstyleUIPlugin;
 
-import org.eclipse.core.runtime.*;
-import org.eclipse.jface.dialogs.*;
-import org.eclipse.swt.widgets.*;
-import org.eclipse.ui.*;
-import org.eclipse.ui.plugin.*;
-import org.osgi.framework.*;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 
@@ -67,12 +70,12 @@ class Activator extends AbstractUIPlugin {
         Dictionary<?, ?> headers = Platform.getBundle(CheckstyleUIPlugin.PLUGIN_ID).getHeaders();
         if (headers.get("Export-Package") == null || !"registered".equals(headers.get("Eclipse-BuddyPolicy"))) {
             Display.getDefault().asyncExec(new Runnable() {
-                
+
                 @Override public void
                 run() {
                     MessageDialog.openWarning(
                         PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                        PLUGIN_ID,
+                        Activator.PLUGIN_ID,
                         (
                             "The 'net.sf.eclipsecs.ui' plugin has a bug that thwarts the quickfixes of "
                             + "'de.unkrig.cscontrib' from functioning. The manifest of the 'net.sf.eclipsecs.ui' "
@@ -92,18 +95,18 @@ class Activator extends AbstractUIPlugin {
     /** @return A {@link CoreException} repreenting the {@code message} */
     public static CoreException
     coreException(String message) {
-        return new CoreException(new Status(Status.ERROR, Activator.PLUGIN_ID, message));
+        return new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID, message));
     }
 
     /** @return A {@link CoreException} repreenting the {@link Throwable} */
     public static CoreException
     coreException(Throwable t) {
-        return new CoreException(new Status(Status.ERROR, Activator.PLUGIN_ID, null, t));
+        return new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID, null, t));
     }
 
     /** @return A {@link CoreException} repreenting the {@code message} and {@link Throwable} */
     public static CoreException
     coreException(String message, Throwable t) {
-        return new CoreException(new Status(Status.ERROR, Activator.PLUGIN_ID, message, t));
+        return new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID, message, t));
     }
 }

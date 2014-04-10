@@ -26,16 +26,30 @@
 
 package de.unkrig.cscontrib.checks;
 
-import java.util.*;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.ANNOTATION_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.ANNOTATION_FIELD_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.CLASS_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.ENUM_CONSTANT_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.ENUM_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.INTERFACE_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.METHOD_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.PACKAGE_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.PARAMETER_DEF;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.TYPE_PARAMETER;
+import static com.puppycrawl.tools.checkstyle.api.TokenTypes.VARIABLE_DEF;
+
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.beanutils.ConversionException;
 
-import com.puppycrawl.tools.checkstyle.api.*;
+import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.FullIdent;
+import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
-
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.*;
 
 /**
  * Checks that particular Java elements are declared with a name that matches or does not match a configurable REGEX.
@@ -122,7 +136,7 @@ class NameSpelling extends AbstractFormatCheck {
             this.requiredModifiers.add(TokenTypes.getTokenId("LITERAL_" + modifier.toUpperCase()));
         }
     }
-    
+
     public final void
     setMissingModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
@@ -153,25 +167,25 @@ class NameSpelling extends AbstractFormatCheck {
         int[] tokenIds = new int[20];
         int   idx      = 0;
 
-        if (this.elements.contains(Elements.ANNOTATION))       tokenIds[idx++] = ANNOTATION_DEF;
-        if (this.elements.contains(Elements.ANNOTATION_FIELD)) tokenIds[idx++] = ANNOTATION_FIELD_DEF;
-        if (this.elements.contains(Elements.CLASS))            tokenIds[idx++] = CLASS_DEF;
-        if (this.elements.contains(Elements.ENUM))             tokenIds[idx++] = ENUM_DEF;
-        if (this.elements.contains(Elements.ENUM_CONSTANT))    tokenIds[idx++] = ENUM_CONSTANT_DEF;
-        if (this.elements.contains(Elements.INTERFACE))        tokenIds[idx++] = INTERFACE_DEF;
-        if (this.elements.contains(Elements.METHOD))           tokenIds[idx++] = METHOD_DEF;
-        if (this.elements.contains(Elements.PACKAGE))          tokenIds[idx++] = PACKAGE_DEF;
-        if (this.elements.contains(Elements.TYPE_PARAMETER))   tokenIds[idx++] = TYPE_PARAMETER;
+        if (this.elements.contains(Elements.ANNOTATION))       tokenIds[idx++] = TokenTypes.ANNOTATION_DEF;
+        if (this.elements.contains(Elements.ANNOTATION_FIELD)) tokenIds[idx++] = TokenTypes.ANNOTATION_FIELD_DEF;
+        if (this.elements.contains(Elements.CLASS))            tokenIds[idx++] = TokenTypes.CLASS_DEF;
+        if (this.elements.contains(Elements.ENUM))             tokenIds[idx++] = TokenTypes.ENUM_DEF;
+        if (this.elements.contains(Elements.ENUM_CONSTANT))    tokenIds[idx++] = TokenTypes.ENUM_CONSTANT_DEF;
+        if (this.elements.contains(Elements.INTERFACE))        tokenIds[idx++] = TokenTypes.INTERFACE_DEF;
+        if (this.elements.contains(Elements.METHOD))           tokenIds[idx++] = TokenTypes.METHOD_DEF;
+        if (this.elements.contains(Elements.PACKAGE))          tokenIds[idx++] = TokenTypes.PACKAGE_DEF;
+        if (this.elements.contains(Elements.TYPE_PARAMETER))   tokenIds[idx++] = TokenTypes.TYPE_PARAMETER;
         if (
             this.elements.contains(Elements.CATCH_PARAMETER)
             || this.elements.contains(Elements.FORMAL_PARAMETER)
-        ) tokenIds[idx++] = PARAMETER_DEF;
+        ) tokenIds[idx++] = TokenTypes.PARAMETER_DEF;
         if (
             this.elements.contains(Elements.LOCAL_VARIABLE)
             || this.elements.contains(Elements.FOR_VARIABLE)
             || this.elements.contains(Elements.FOREACH_VARIABLE)
             || this.elements.contains(Elements.FIELD)
-        ) tokenIds[idx++] = VARIABLE_DEF;
+        ) tokenIds[idx++] = TokenTypes.VARIABLE_DEF;
 
         int[] result = new int[idx];
         System.arraycopy(tokenIds, 0, result, 0, idx);
@@ -226,8 +240,8 @@ class NameSpelling extends AbstractFormatCheck {
                 {
                     int parentType = ast.getParent().getType();
                     element = (
-                        parentType == PARAMETERS      ? Elements.FORMAL_PARAMETER
-                        : parentType == LITERAL_CATCH ? Elements.CATCH_PARAMETER
+                        parentType == TokenTypes.PARAMETERS      ? Elements.FORMAL_PARAMETER
+                        : parentType == TokenTypes.LITERAL_CATCH ? Elements.CATCH_PARAMETER
                         : null
                     );
                 }
@@ -237,10 +251,10 @@ class NameSpelling extends AbstractFormatCheck {
                 {
                     int parentType = ast.getParent().getType();
                     element = (
-                        parentType == SLIST             ? Elements.LOCAL_VARIABLE
-                        : parentType == FOR_INIT        ? Elements.FOR_VARIABLE
-                        : parentType == FOR_EACH_CLAUSE ? Elements.FOREACH_VARIABLE
-                        : parentType == OBJBLOCK        ? Elements.FIELD
+                        parentType == TokenTypes.SLIST             ? Elements.LOCAL_VARIABLE
+                        : parentType == TokenTypes.FOR_INIT        ? Elements.FOR_VARIABLE
+                        : parentType == TokenTypes.FOR_EACH_CLAUSE ? Elements.FOREACH_VARIABLE
+                        : parentType == TokenTypes.OBJBLOCK        ? Elements.FIELD
                         : null
                     );
                 }
@@ -272,8 +286,8 @@ class NameSpelling extends AbstractFormatCheck {
             case LOCAL_VARIABLE:
             case METHOD:
             case TYPE_PARAMETER:
-                modifiersAst = ast.findFirstToken(MODIFIERS);
-                nameAst      = ast.findFirstToken(IDENT);
+                modifiersAst = ast.findFirstToken(TokenTypes.MODIFIERS);
+                nameAst      = ast.findFirstToken(TokenTypes.IDENT);
                 break;
 
             case PACKAGE:
@@ -303,34 +317,34 @@ class NameSpelling extends AbstractFormatCheck {
             switch (this.option) {
 
             case REQUIRE:
-                if (!getRegexp().matcher(fullName.getText()).find()) {
-                    log(
+                if (!this.getRegexp().matcher(fullName.getText()).find()) {
+                    this.log(
                         fullName.getLineNo(),
                         fullName.getColumnNo(),
                         "{0} ''{1}'' does not comply with ''{2}''",
                         element.toString(),
                         fullName.getText(),
-                        getFormat()
+                        this.getFormat()
                     );
                 }
                 break;
 
             case FORBID:
-                if (getRegexp().matcher(fullName.getText()).find()) {
-                    log(
+                if (this.getRegexp().matcher(fullName.getText()).find()) {
+                    this.log(
                         fullName.getLineNo(),
                         fullName.getColumnNo(),
                         "{0} ''{1}'' must not match ''{2}''",
                         element.toString(),
                         fullName.getText(),
-                        getFormat()
+                        this.getFormat()
                     );
                 }
                 break;
             }
         } catch (RuntimeException rte) {
             throw new RuntimeException(
-                getFileContents().getFilename() + ":" + ast.getLineNo() + "x" + ast.getColumnNo(),
+                this.getFileContents().getFilename() + ":" + ast.getLineNo() + "x" + ast.getColumnNo(),
                 rte
             );
         }

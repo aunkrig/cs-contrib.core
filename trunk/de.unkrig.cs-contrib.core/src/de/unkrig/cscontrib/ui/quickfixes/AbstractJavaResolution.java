@@ -54,7 +54,11 @@ class AbstractJavaResolution extends AbstractDocumentResolution {
 
         if (correctColumnNumber < prefix.length()) return null;
 
-        int tabWidth = getCoreOption(javaProject, DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE, 4);
+        int tabWidth = AbstractJavaResolution.getCoreOption(
+            javaProject,
+            DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE,
+            4
+        );
 
         int cn = 0;
         for (int i = 0; i < prefix.length(); i++) {
@@ -67,8 +71,12 @@ class AbstractJavaResolution extends AbstractDocumentResolution {
             if (cn > correctColumnNumber) return null;
         }
 
-        StringBuilder sb      = new StringBuilder();
-        String        tabChar = getCoreOption(javaProject, DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
+        String tabChar = AbstractJavaResolution.getCoreOption(
+            javaProject,
+            DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR
+        );
+
+        StringBuilder sb = new StringBuilder();
         if (JavaCore.SPACE.equals(tabChar)) {
             for (; cn < correctColumnNumber; cn++) sb.append(' ');
         } else
@@ -104,7 +112,7 @@ class AbstractJavaResolution extends AbstractDocumentResolution {
     private static int
     getCoreOption(IJavaProject javaProject, String key, int defaulT) {
         try {
-            return Integer.parseInt(getCoreOption(javaProject, key));
+            return Integer.parseInt(AbstractJavaResolution.getCoreOption(javaProject, key));
         } catch (NumberFormatException e) {
             return defaulT;
         }

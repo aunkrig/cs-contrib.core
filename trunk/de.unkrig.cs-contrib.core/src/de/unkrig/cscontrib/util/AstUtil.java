@@ -261,9 +261,9 @@ class AstUtil {
         case TokenTypes.STAR: return parentType == TokenTypes.DOT ? STAR__TYPE_IMPORT_ON_DEMAND : MULTIPLY;
 
         case TokenTypes.DOT:
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return DOT__PACKAGE_DECL;
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT)      return DOT__IMPORT;
-            if (getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE) {
+            if (AstUtil.getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return DOT__PACKAGE_DECL;
+            if (AstUtil.getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT)      return DOT__IMPORT;
+            if (AstUtil.getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE) {
                 return DOT__QUALIFIED_TYPE;
             }
             return DOT__SELECTOR;
@@ -297,7 +297,7 @@ class AstUtil {
 
             case TokenTypes.TYPE_ARGUMENTS:
                 return (
-                    getAncestorWithTypeNot(ast, TokenTypes.TYPE_ARGUMENTS, TokenTypes.DOT) == TokenTypes.TYPE
+                    AstUtil.getAncestorWithTypeNot(ast, TokenTypes.TYPE_ARGUMENTS, TokenTypes.DOT) == TokenTypes.TYPE
                     || grandparentType == TokenTypes.LITERAL_NEW
                     || grandparentType == TokenTypes.EXTENDS_CLAUSE
                     || grandparentType == TokenTypes.IMPLEMENTS_CLAUSE
@@ -322,16 +322,18 @@ class AstUtil {
             case TokenTypes.ENUM_DEF:
                 return NAME__TYPE_DECL;
             }
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) return NAME__PACKAGE_DECL;
-            if (getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) {
+            if (AstUtil.getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.PACKAGE_DEF) {
+                return NAME__PACKAGE_DECL;
+            }
+            if (AstUtil.getAncestorWithTypeNot(ast, TokenTypes.DOT) == TokenTypes.IMPORT) {
                 return ast.getNextSibling() == null ? NAME__IMPORT_TYPE : NAME__IMPORT_COMPONENT;
             }
             if (
-                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.TYPE
-                || getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.LITERAL_NEW
+                AstUtil.getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.TYPE
+                || AstUtil.getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR) == TokenTypes.LITERAL_NEW
             ) return NAME__SIMPLE_TYPE;
             if (
-                getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
+                AstUtil.getAncestorWithTypeNot(ast, TokenTypes.ARRAY_DECLARATOR, TokenTypes.DOT) == TokenTypes.TYPE
             ) return NAME__QUALIFIED_TYPE;
             return NAME__AMBIGUOUS;
 
