@@ -249,7 +249,7 @@ class CppCommentAlignment extends AbstractFormatCheck {
 
         Map<Integer /*lineNo*/, Integer /*colNo*/> commentCoordinates = new HashMap<Integer, Integer>();
 
-        int prevLineNo = Integer.MAX_VALUE;
+        int prevLineNo = Integer.MAX_VALUE; // SUPPRESS CHECKSTYLE UsageDistance
         for (DetailAST child : children) {
             this.debug("lchild=" + child);
 
