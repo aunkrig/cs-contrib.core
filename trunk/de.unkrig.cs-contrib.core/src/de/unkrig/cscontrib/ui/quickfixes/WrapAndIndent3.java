@@ -57,9 +57,9 @@ class WrapAndIndent3 extends AbstractJavaResolution {
 
         assert WrapAndIndent.MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2.equals(messageKey);
 
-        String text                = (String) arguments[0];
-        int    correctColumnNumber = Integer.parseInt((String) arguments[1]) - 1;
-//        int    wrongColumnNumber   = Integer.parseInt((String) arguments[2]) - 1;
+        final String text                = (String) arguments[0];
+        final int    correctColumnNumber = Integer.parseInt((String) arguments[1]) - 1;
+//        int          wrongColumnNumber   = Integer.parseInt((String) arguments[2]) - 1;
 
         try {
 

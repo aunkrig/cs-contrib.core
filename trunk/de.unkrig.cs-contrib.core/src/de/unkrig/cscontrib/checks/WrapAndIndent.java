@@ -1426,8 +1426,7 @@ class WrapAndIndent extends Check {
 
         @SuppressWarnings("unused") AstDumper dumper = new AstDumper(previous); // For debugging
 
-        int       parenthesisCount = 1;
-        DetailAST next             = previous.getNextSibling();
+        DetailAST next = previous.getNextSibling();
         for (;;) {
             if (next.getType() != TokenTypes.LPAREN) {
                 break;
@@ -1451,12 +1450,6 @@ class WrapAndIndent extends Check {
         }
 
         previous = next;
-        for (int i = 1; i < parenthesisCount; ++i) {
-            assert previous.getType() == TokenTypes.RPAREN;
-            next = next.getNextSibling();
-            this.checkSameLine(previous, next);
-            previous = next;
-        }
         assert next.getType() == TokenTypes.RPAREN;
         return next.getNextSibling();
     }
@@ -1484,7 +1477,7 @@ class WrapAndIndent extends Check {
         }
 
         DetailAST previousAst = ast;
-        int       mode        = 0;
+        int       mode        = 0; // SUPPRESS CHECKSTYLE UsageDistance
         for (;;) {
             int tokenType = args[idx++];
 
