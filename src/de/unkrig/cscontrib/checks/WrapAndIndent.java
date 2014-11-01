@@ -108,6 +108,7 @@ class WrapAndIndent extends Check {
     private boolean allowOneLineCtorDecl             = true;
     private boolean allowOneLineMethDecl             = true;
     private boolean allowOneLineSwitchBlockStmtGroup = true;
+    private int     wrapPackageDeclBeforePackage     = WrapAndIndent.MUST_WRAP;
     private int     wrapClassDeclBeforeClass         = WrapAndIndent.MUST_WRAP;
     private int     wrapInterfaceDeclBeforeInterface = WrapAndIndent.MUST_WRAP;
     private int     wrapEnumDeclBeforeEnum           = WrapAndIndent.MUST_WRAP;
@@ -141,6 +142,7 @@ class WrapAndIndent extends Check {
     public void setAllowOneLineSwitchBlockStmtGroup(boolean value) { this.allowOneLineSwitchBlockStmtGroup = value; }
 
     public void setWrapClassDeclBeforeClass(String value)          { this.wrapClassDeclBeforeClass         = WrapAndIndent.toWrap(value); }
+    public void setWrapPackageDeclBeforePackage(String value)      { this.wrapPackageDeclBeforePackage     = WrapAndIndent.toWrap(value); }
     public void setWrapInterfaceDeclBeforeInterface(String value)  { this.wrapInterfaceDeclBeforeInterface = WrapAndIndent.toWrap(value); }
     public void setWrapEnumDeclBeforeEnum(String value)            { this.wrapEnumDeclBeforeEnum           = WrapAndIndent.toWrap(value); }
     public void setWrapAnnoDeclBeforeAt(String value)              { this.wrapAnnoDeclBeforeAt             = WrapAndIndent.toWrap(value); }
@@ -928,6 +930,36 @@ class WrapAndIndent extends Check {
             );
             break;
 
+        // The AST of a PACKAGE declaration is quite extraordinary and thus difficult to check.
+        //
+        //    package                    [1x0]   [3x0]
+        //        ANNOTATIONS            [1x15]  [2x0]
+        //            ANNOTATION                 [2x0]
+        //                @                      [2x0]
+        //                SuppressWarnings       [2x1]
+        //                (                      [2x17]
+        //                EXPR                   [2x18]
+        //                    "null"             [2x18]
+        //                )                      [2x24]
+        //        .                      [1x17]  [3x17]
+        //            .                  [1x12]  [3x12]
+        //                foo1           [1x8]   [3x8]
+        //                foo2           [1x13]  [3x13]
+        //            foo3               [1x18]  [3x18]
+        //        ;                      [1x22]  [3x22]
+        //    import                     [3x0]   [5x0]
+        case PACKAGE_DEF:
+            this.checkSameLine(ast, WrapAndIndent.getLeftmostDescendant(ast.getFirstChild().getNextSibling()));
+            if (ast.getFirstChild().getFirstChild() == null) break; // No annotation(s)
+            if (this.wrapPackageDeclBeforePackage == 0) {
+                this.checkSameLine(ast, ast.getFirstChild().getFirstChild().getFirstChild());
+                break;
+            }
+            if (this.wrapPackageDeclBeforePackage == WrapAndIndent.WRAP && this.isSingleLine(ast)) break;
+            this.checkWrapped(ast.getFirstChild().getFirstChild().getFirstChild(), ast);
+            this.checkSameLine(ast, ast.getFirstChild().getNextSibling().getNextSibling());
+            break;
+
         case ASSIGN:
             if (ast.getChildCount() == 1) {
 
@@ -1094,7 +1126,6 @@ class WrapAndIndent extends Check {
         case LITERAL_SYNCHRONIZED:
         case LITERAL_THROW:
         case LITERAL_THROWS:
-        case PACKAGE_DEF:
         case PARAMETER_DEF:
         case STATIC_INIT:
         case STATIC_IMPORT:
