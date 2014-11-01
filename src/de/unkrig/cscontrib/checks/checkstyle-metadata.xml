@@ -726,6 +726,10 @@
             <property-metadata name="allowOneLineSwitchBlockStmtGroup" datatype="Boolean" default-value="true">
                 <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineSwitchBlockStmtGroup</description>
             </property-metadata>
+            <property-metadata name="wrapPackageDeclBeforePackage" datatype="SingleSelect" default-value="always">
+                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapPackageDeclBeforePackage</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
+            </property-metadata>
             <property-metadata name="wrapClassDeclBeforeClass" datatype="SingleSelect" default-value="always">
                 <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapClassDeclBeforeClass</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider"/>
