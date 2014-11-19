@@ -516,16 +516,20 @@ class WrapAndIndent extends Check {
                 ast,
 
                 TokenTypes.MODIFIERS,
-                this.wrapCtorDeclBeforeName | TokenTypes.IDENT,
+
+                WrapAndIndent.FORK + 3,
+                TokenTypes.TYPE_PARAMETERS,
+
+/* 3 */         this.wrapCtorDeclBeforeName | TokenTypes.IDENT,
 
                 TokenTypes.LPAREN,
                 WrapAndIndent.INDENT_IF_CHILDREN | TokenTypes.PARAMETERS,
                 WrapAndIndent.UNINDENT | TokenTypes.RPAREN,
 
-                WrapAndIndent.FORK + 7,
+                WrapAndIndent.FORK + 9,
                 WrapAndIndent.WRAP | TokenTypes.LITERAL_THROWS,
 
-/* 7 */         this.wrapCtorDeclBeforeLCurly | TokenTypes.SLIST,
+/* 9 */         this.wrapCtorDeclBeforeLCurly | TokenTypes.SLIST,
                 WrapAndIndent.END
             );
             break;
