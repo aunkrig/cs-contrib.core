@@ -25,12 +25,10 @@
  */
 
 /**
- * Various quickfixes.
+ * Quick fixes related to the 'de.unkrig.cscontrib.checks'.
  */
-@NotNullByDefault package de.unkrig.cscontrib.ui.quickfixes;
+@NotNullByDefault
+package de.unkrig.cscontrib.ui.quickfixes;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 
-/**
- * Quick fixes related to the 'de.unkrig.cscontrib.checks'.
- */

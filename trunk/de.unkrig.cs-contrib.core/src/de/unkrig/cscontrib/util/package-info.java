@@ -27,4 +27,8 @@
 /**
  * This package declares various CHECKSTYLE-related helper types.
  */
-@de.unkrig.commons.nullanalysis.NotNullByDefault package de.unkrig.cscontrib.util;
+@NotNullByDefault
+package de.unkrig.cscontrib.util;
+
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
