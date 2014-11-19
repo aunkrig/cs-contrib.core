@@ -27,5 +27,8 @@
 /**
  * Main package of the plugin.
  */
-@de.unkrig.commons.nullanalysis.NotNullByDefault package de.unkrig.cscontrib;
+@NotNullByDefault
+package de.unkrig.cscontrib;
+
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
 

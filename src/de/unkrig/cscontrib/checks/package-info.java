@@ -25,10 +25,10 @@
  */
 
 /**
- * Various checks.
- */
-@de.unkrig.commons.nullanalysis.NotNullByDefault package de.unkrig.cscontrib.checks;
-
-/**
  * This package declares checks that go beyond the capabilities of standard CHECKSTYLE.
  */
+@NotNullByDefault
+package de.unkrig.cscontrib.checks;
+
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+

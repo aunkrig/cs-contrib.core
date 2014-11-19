@@ -27,4 +27,8 @@
 /**
  * CHECKSTYLE filters.
  */
-@de.unkrig.commons.nullanalysis.NotNullByDefault package de.unkrig.cscontrib.filters;
+@NotNullByDefault
+package de.unkrig.cscontrib.filters;
+
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+

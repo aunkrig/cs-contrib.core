@@ -27,4 +27,8 @@
 /**
  * Types related to the user interface of this plugin.
  */
-@de.unkrig.commons.nullanalysis.NotNullByDefault package de.unkrig.cscontrib.ui;
+@NotNullByDefault
+package de.unkrig.cscontrib.ui;
+
+import de.unkrig.commons.nullanalysis.NotNullByDefault;
+
