@@ -272,7 +272,10 @@ class AstUtil {
             switch (parentType) {
 
             case TokenTypes.TYPE_PARAMETERS:
-                return grandparentType == TokenTypes.METHOD_DEF ? R_ANGLE__METH_DECL_TYPE_PARAMS : R_ANGLE__TYPE_ARGS;
+                return (
+                    grandparentType == TokenTypes.METHOD_DEF
+                    || grandparentType == TokenTypes.CTOR_DEF
+                ) ? R_ANGLE__METH_DECL_TYPE_PARAMS : R_ANGLE__TYPE_ARGS;
 
             case TokenTypes.TYPE_ARGUMENTS:
                 {
@@ -293,6 +296,7 @@ class AstUtil {
             case TokenTypes.TYPE_PARAMETERS:
                 return (
                     grandparentType == TokenTypes.METHOD_DEF
+                    || grandparentType == TokenTypes.CTOR_DEF
                 ) ? L_ANGLE__METH_DECL_TYPE_PARAMS : L_ANGLE__TYPE_ARGS;
 
             case TokenTypes.TYPE_ARGUMENTS:
