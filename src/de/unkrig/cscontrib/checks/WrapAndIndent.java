@@ -1108,6 +1108,7 @@ class WrapAndIndent extends Check {
                 }
                 break;
             }
+            /*FALLTHROUGH*/
         case ANNOTATION_FIELD_DEF:
         case ANNOTATION_MEMBER_VALUE_PAIR:
         case ANNOTATIONS:
