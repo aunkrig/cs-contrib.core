@@ -28,9 +28,10 @@ package de.unkrig.cscontrib.checks;
 
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
-import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
+import de.unkrig.cscontrib.LocalTokenType;
+import de.unkrig.cscontrib.util.AstUtil;
 
 /**
  * Assignments in expressions must be parenthesized, like "a = (b = c)" or "while ((a = b))".
@@ -42,60 +43,56 @@ class InnerAssignment extends Check {
 
     @Override public int[]
     getDefaultTokens() {
-        return new int[] {
-            TokenTypes.ASSIGN,            // "="
-            TokenTypes.DIV_ASSIGN,        // "/="
-            TokenTypes.PLUS_ASSIGN,       // "+="
-            TokenTypes.MINUS_ASSIGN,      // "-="
-            TokenTypes.STAR_ASSIGN,       // "*="
-            TokenTypes.MOD_ASSIGN,        // "%="
-            TokenTypes.SR_ASSIGN,         // ">>="
-            TokenTypes.BSR_ASSIGN,        // ">>>="
-            TokenTypes.SL_ASSIGN,         // "<<="
-            TokenTypes.BXOR_ASSIGN,       // "^="
-            TokenTypes.BOR_ASSIGN,        // "|="
-            TokenTypes.BAND_ASSIGN,       // "&="
-        };
+        return LocalTokenType.delocalize(new LocalTokenType[] {
+            LocalTokenType.ASSIGN,            // "="
+            LocalTokenType.DIV_ASSIGN,        // "/="
+            LocalTokenType.PLUS_ASSIGN,       // "+="
+            LocalTokenType.MINUS_ASSIGN,      // "-="
+            LocalTokenType.STAR_ASSIGN,       // "*="
+            LocalTokenType.MOD_ASSIGN,        // "%="
+            LocalTokenType.SR_ASSIGN,         // ">>="
+            LocalTokenType.BSR_ASSIGN,        // ">>>="
+            LocalTokenType.SL_ASSIGN,         // "<<="
+            LocalTokenType.BXOR_ASSIGN,       // "^="
+            LocalTokenType.BOR_ASSIGN,        // "|="
+            LocalTokenType.BAND_ASSIGN,       // "&="
+        });
     }
 
     @Override public void
     visitToken(DetailAST ast) {
-        DetailAST parent      = ast.getParent();
-        DetailAST grandparent = parent.getParent();
+        assert ast != null;
 
         // Field or variable initializer?
-        if (parent.getType() == TokenTypes.VARIABLE_DEF) return; // int a = 3;
+        if (AstUtil.parentTypeIs(ast, LocalTokenType.VARIABLE_DEF)) return; // int a = 3;
 
         // Assignment statement?
-        if (parent.getType() == TokenTypes.EXPR && (
-            grandparent.getType() == TokenTypes.SLIST           // { ... a = b
-            || (                                                // if (...) a = b
-                parent.getPreviousSibling() != null
-                && parent.getPreviousSibling().getType() == TokenTypes.RPAREN
+        if (AstUtil.parentTypeIs(ast, LocalTokenType.EXPR) && (
+            AstUtil.grandParentTypeIs(ast, LocalTokenType.SLIST)           // { ... a = b
+            || AstUtil.previousUncleTypeIs(ast, LocalTokenType.RPAREN)     // if (...) a = b
+            || AstUtil.grandParentTypeIs(ast, LocalTokenType.LITERAL_ELSE) // if (...) {...} else a = b
+            || (                                                           // for (...; ...; a += b)
+                AstUtil.grandParentTypeIs(ast, LocalTokenType.ELIST)
+                && AstUtil.grandGrandParentTypeIs(ast, LocalTokenType.FOR_ITERATOR)
             )
-            || grandparent.getType() == TokenTypes.LITERAL_ELSE // if (...) {...} else a = b
-            || (                                                // for (...; ...; a += b)
-                grandparent.getType() == TokenTypes.ELIST
-                && grandparent.getParent().getType() == TokenTypes.FOR_ITERATOR
-            )
-            || (                                                // for (a = b; ...; ...)
-                grandparent.getType() == TokenTypes.ELIST
-                && grandparent.getParent().getType() == TokenTypes.FOR_INIT
+            || (                                                           // for (a = b; ...; ...)
+                AstUtil.grandParentTypeIs(ast, LocalTokenType.ELIST)
+                && AstUtil.grandGrandParentTypeIs(ast, LocalTokenType.FOR_INIT)
             )
         )) return;
 
         // For iterator?
         if (
-            parent.getType() == TokenTypes.EXPR
-            && grandparent.getType() == TokenTypes.ELIST
-            && grandparent.getParent().getType() == TokenTypes.FOR_ITERATOR
+            AstUtil.parentTypeIs(ast, LocalTokenType.EXPR)
+            && AstUtil.grandParentTypeIs(ast, LocalTokenType.ELIST)
+            && AstUtil.grandGrandParentTypeIs(ast, LocalTokenType.FOR_ITERATOR)
         ) return; // for (...; ...; a += b)
 
         // Parenthesized assignment?
-        if (ast.getPreviousSibling() != null && ast.getPreviousSibling().getType() == TokenTypes.LPAREN) return;
+        if (ast.getPreviousSibling() != null && AstUtil.previousSiblingTypeIs(ast, LocalTokenType.LPAREN)) return;
 
         // Annotation member-value pair?
-        if (parent.getType() == TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR) return;
+        if (AstUtil.parentTypeIs(ast, LocalTokenType.ANNOTATION_MEMBER_VALUE_PAIR)) return;
 
         this.log(ast.getLineNo(), ast.getColumnNo(), "Assignments in expressions must be parenthesized");
     }

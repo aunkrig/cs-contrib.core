@@ -26,18 +26,12 @@
 
 package de.unkrig.cscontrib.checks;
 
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.CASE_GROUP;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.CTOR_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.EXPR;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.METHOD_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.PARAMETER_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.VARIABLE_DEF;
 
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
-import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
+import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
 
 /**
@@ -108,12 +102,12 @@ class Alignment extends Check {
     @Override public int[]
     getDefaultTokens() {
         return new int[] {
-            TokenTypes.CASE_GROUP,
-            TokenTypes.CTOR_DEF,
-            TokenTypes.EXPR,
-            TokenTypes.METHOD_DEF,
-            TokenTypes.PARAMETER_DEF,
-            TokenTypes.VARIABLE_DEF,
+            LocalTokenType.CASE_GROUP.delocalize(),
+            LocalTokenType.CTOR_DEF.delocalize(),
+            LocalTokenType.EXPR.delocalize(),
+            LocalTokenType.METHOD_DEF.delocalize(),
+            LocalTokenType.PARAMETER_DEF.delocalize(),
+            LocalTokenType.VARIABLE_DEF.delocalize(),
         };
     }
 
@@ -130,12 +124,17 @@ class Alignment extends Check {
 
         @SuppressWarnings("unused") AstDumper ad = new AstDumper(ast);
 
-        switch (ast.getType()) {
+        switch (LocalTokenType.localize(ast.getType())) {
 
         case VARIABLE_DEF:
             if (
-                !AstUtil.previousSiblingTypeIs(ast, TokenTypes.COMMA)
-                && AstUtil.grandparentTypeIs(ast, TokenTypes.CLASS_DEF, TokenTypes.INTERFACE_DEF, TokenTypes.ENUM_DEF)
+                !AstUtil.previousSiblingTypeIs(ast, LocalTokenType.COMMA)
+                && AstUtil.grandParentTypeIs(
+                    ast,
+                    LocalTokenType.CLASS_DEF,
+                    LocalTokenType.INTERFACE_DEF,
+                    LocalTokenType.ENUM_DEF
+                )
             ) {
 
                 // First declarator in a field declaration.
@@ -150,8 +149,8 @@ class Alignment extends Check {
             }
 
             if (
-                !AstUtil.previousSiblingTypeIs(ast, TokenTypes.COMMA)
-                && AstUtil.parentTypeIs(ast, TokenTypes.SLIST)
+                !AstUtil.previousSiblingTypeIs(ast, LocalTokenType.COMMA)
+                && AstUtil.parentTypeIs(ast, LocalTokenType.SLIST)
             ) {
 
                 // First declarator in a local variable declaration in block (not in a FOR initializer).
@@ -187,13 +186,31 @@ class Alignment extends Check {
             break;
 
         case EXPR:
-            if (this.applyToAssignments && ast.getParent().getType() == TokenTypes.SLIST) {
-                DetailAST ass = ast.getFirstChild();
-                if (ass.getType() >= TokenTypes.ASSIGN && ass.getType() <= TokenTypes.BOR_ASSIGN) {
+            if (this.applyToAssignments && AstUtil.parentTypeIs(ast, LocalTokenType.SLIST)) {
+                DetailAST      ass   = ast.getFirstChild();
+                LocalTokenType fcltt = LocalTokenType.localize(ass.getType());
+                if (
+                    fcltt == LocalTokenType.ASSIGN
+                    || fcltt == LocalTokenType.PLUS_ASSIGN
+                    || fcltt == LocalTokenType.MINUS_ASSIGN
+                    || fcltt == LocalTokenType.STAR_ASSIGN
+                    || fcltt == LocalTokenType.DIV_ASSIGN
+                    || fcltt == LocalTokenType.MOD_ASSIGN
+                    || fcltt == LocalTokenType.SR_ASSIGN
+                    || fcltt == LocalTokenType.BSR_ASSIGN
+                    || fcltt == LocalTokenType.SL_ASSIGN
+                    || fcltt == LocalTokenType.BAND_ASSIGN
+                    || fcltt == LocalTokenType.BXOR_ASSIGN
+                    || fcltt == LocalTokenType.BOR_ASSIGN
+                ) {
                     this.checkTokenAlignment(this.previousAssignment, ass);
                     this.previousAssignment = ass;
                 }
             }
+            break;
+
+        default:
+            throw new IllegalStateException(ast.toString());
         }
     }
 
@@ -202,9 +219,9 @@ class Alignment extends Check {
         if (previous == null) return;
 
         DetailAST casE = current.getFirstChild();
-        if (casE.getType() != TokenTypes.LITERAL_CASE) return;
+        if (LocalTokenType.localize(casE.getType()) != LocalTokenType.LITERAL_CASE) return;
         DetailAST slist = casE.getNextSibling();
-        if (slist.getType() != TokenTypes.SLIST) return;
+        if (LocalTokenType.localize(slist.getType()) != LocalTokenType.SLIST) return;
         if (slist.getChildCount() == 0) return;
 
         this.checkTokenAlignment(
@@ -245,16 +262,16 @@ class Alignment extends Check {
         // Check vertical alignment of names.
         if (applyToName) {
             this.checkTokenAlignment(
-                previousDeclaration.findFirstToken(TokenTypes.IDENT),
-                currentDeclaration.findFirstToken(TokenTypes.IDENT)
+                previousDeclaration.findFirstToken(LocalTokenType.IDENT.delocalize()),
+                currentDeclaration.findFirstToken(LocalTokenType.IDENT.delocalize())
             );
         }
 
         // Check vertical alignment of initializers.
         if (applyToInitializer) {
             this.checkTokenAlignment(
-                previousDeclaration.findFirstToken(TokenTypes.ASSIGN),
-                currentDeclaration.findFirstToken(TokenTypes.ASSIGN)
+                previousDeclaration.findFirstToken(LocalTokenType.ASSIGN.delocalize()),
+                currentDeclaration.findFirstToken(LocalTokenType.ASSIGN.delocalize())
             );
         }
     }
@@ -271,16 +288,16 @@ class Alignment extends Check {
         // Check vertical alignment of names.
         if (this.applyToMethodName) {
             this.checkTokenAlignment(
-                previousDefinition.findFirstToken(TokenTypes.IDENT),
-                currentDefinition.findFirstToken(TokenTypes.IDENT)
+                previousDefinition.findFirstToken(LocalTokenType.IDENT.delocalize()),
+                currentDefinition.findFirstToken(LocalTokenType.IDENT.delocalize())
             );
         }
 
         // Check vertical alignment of initializers.
         if (this.applyToMethodBody) {
             this.checkTokenAlignment(
-                previousDefinition.findFirstToken(TokenTypes.SLIST),
-                currentDefinition.findFirstToken(TokenTypes.SLIST)
+                previousDefinition.findFirstToken(LocalTokenType.SLIST.delocalize()),
+                currentDefinition.findFirstToken(LocalTokenType.SLIST.delocalize())
             );
         }
     }
@@ -308,13 +325,19 @@ class Alignment extends Check {
     private static DetailAST
     getLeftmostDescendant(DetailAST ast) {
         for (;;) {
+
             DetailAST tmp = ast.getFirstChild();
-            if (tmp == null && ast.getType() == TokenTypes.MODIFIERS) tmp = ast.getNextSibling();
+            if (
+                tmp == null
+                && LocalTokenType.localize(ast.getType()) == LocalTokenType.MODIFIERS
+            ) tmp = ast.getNextSibling();
+
             if (
                 tmp == null
                 || tmp.getLineNo() > ast.getLineNo()
                 || (tmp.getLineNo() == ast.getLineNo() && tmp.getColumnNo() > ast.getColumnNo())
             ) return ast;
+
             ast = tmp;
         }
     }

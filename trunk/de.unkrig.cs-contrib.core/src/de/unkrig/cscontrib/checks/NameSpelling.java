@@ -26,30 +26,21 @@
 
 package de.unkrig.cscontrib.checks;
 
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.ANNOTATION_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.ANNOTATION_FIELD_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.CLASS_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.ENUM_CONSTANT_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.ENUM_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.INTERFACE_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.METHOD_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.PACKAGE_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.PARAMETER_DEF;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.TYPE_PARAMETER;
-import static com.puppycrawl.tools.checkstyle.api.TokenTypes.VARIABLE_DEF;
-
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.beanutils.ConversionException;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FullIdent;
-import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
+import de.unkrig.cscontrib.LocalTokenType;
+import de.unkrig.cscontrib.util.AstUtil;
 
 /**
  * Checks that particular Java elements are declared with a name that matches or does not match a configurable REGEX.
@@ -65,12 +56,12 @@ class NameSpelling extends AbstractFormatCheck {
     /**
      * Apply only to declarations which have these modifiers
      */
-    private final Set<Integer> requiredModifiers = new HashSet<Integer>();
+    private final Set<LocalTokenType> requiredModifiers = new HashSet<LocalTokenType>();
 
     /**
      * Apply only to declarations which do not have these modifiers
      */
-    private final Set<Integer> missingModifiers = new HashSet<Integer>();
+    private final Set<LocalTokenType> missingModifiers = new HashSet<LocalTokenType>();
 
     /**
      * Whether to REQUIRE or FORBID that names match
@@ -133,14 +124,14 @@ class NameSpelling extends AbstractFormatCheck {
     public final void
     setRequiredModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
-            this.requiredModifiers.add(TokenTypes.getTokenId("LITERAL_" + modifier.toUpperCase()));
+            this.requiredModifiers.add(LocalTokenType.valueOf("LITERAL_" + modifier.toUpperCase()));
         }
     }
 
     public final void
     setMissingModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
-            this.missingModifiers.add(TokenTypes.getTokenId("LITERAL_" + modifier.toUpperCase()));
+            this.missingModifiers.add(LocalTokenType.valueOf("LITERAL_" + modifier.toUpperCase()));
         }
     }
 
@@ -164,32 +155,33 @@ class NameSpelling extends AbstractFormatCheck {
     getDefaultTokens() {
 
         // Calculate the minimal set of tokens required to perform the check.
-        int[] tokenIds = new int[20];
-        int   idx      = 0;
+        List<LocalTokenType> tokens = new ArrayList<LocalTokenType>();
 
-        if (this.elements.contains(Elements.ANNOTATION))       tokenIds[idx++] = TokenTypes.ANNOTATION_DEF;
-        if (this.elements.contains(Elements.ANNOTATION_FIELD)) tokenIds[idx++] = TokenTypes.ANNOTATION_FIELD_DEF;
-        if (this.elements.contains(Elements.CLASS))            tokenIds[idx++] = TokenTypes.CLASS_DEF;
-        if (this.elements.contains(Elements.ENUM))             tokenIds[idx++] = TokenTypes.ENUM_DEF;
-        if (this.elements.contains(Elements.ENUM_CONSTANT))    tokenIds[idx++] = TokenTypes.ENUM_CONSTANT_DEF;
-        if (this.elements.contains(Elements.INTERFACE))        tokenIds[idx++] = TokenTypes.INTERFACE_DEF;
-        if (this.elements.contains(Elements.METHOD))           tokenIds[idx++] = TokenTypes.METHOD_DEF;
-        if (this.elements.contains(Elements.PACKAGE))          tokenIds[idx++] = TokenTypes.PACKAGE_DEF;
-        if (this.elements.contains(Elements.TYPE_PARAMETER))   tokenIds[idx++] = TokenTypes.TYPE_PARAMETER;
+        if (this.elements.contains(Elements.ANNOTATION))       tokens.add(LocalTokenType.ANNOTATION_DEF);
+        if (this.elements.contains(Elements.ANNOTATION_FIELD)) tokens.add(LocalTokenType.ANNOTATION_FIELD_DEF);
+        if (this.elements.contains(Elements.CLASS))            tokens.add(LocalTokenType.CLASS_DEF);
+        if (this.elements.contains(Elements.ENUM))             tokens.add(LocalTokenType.ENUM_DEF);
+        if (this.elements.contains(Elements.ENUM_CONSTANT))    tokens.add(LocalTokenType.ENUM_CONSTANT_DEF);
+        if (this.elements.contains(Elements.INTERFACE))        tokens.add(LocalTokenType.INTERFACE_DEF);
+        if (this.elements.contains(Elements.METHOD))           tokens.add(LocalTokenType.METHOD_DEF);
+        if (this.elements.contains(Elements.PACKAGE))          tokens.add(LocalTokenType.PACKAGE_DEF);
+        if (this.elements.contains(Elements.TYPE_PARAMETER))   tokens.add(LocalTokenType.TYPE_PARAMETER);
+
         if (
             this.elements.contains(Elements.CATCH_PARAMETER)
             || this.elements.contains(Elements.FORMAL_PARAMETER)
-        ) tokenIds[idx++] = TokenTypes.PARAMETER_DEF;
+        ) tokens.add(LocalTokenType.PARAMETER_DEF);
+
         if (
             this.elements.contains(Elements.LOCAL_VARIABLE)
             || this.elements.contains(Elements.FOR_VARIABLE)
             || this.elements.contains(Elements.FOREACH_VARIABLE)
             || this.elements.contains(Elements.FIELD)
-        ) tokenIds[idx++] = TokenTypes.VARIABLE_DEF;
+        ) tokens.add(LocalTokenType.VARIABLE_DEF);
 
-        int[] result = new int[idx];
-        System.arraycopy(tokenIds, 0, result, 0, idx);
-        return result;
+        LocalTokenType[] tokensArray = tokens.toArray(new LocalTokenType[tokens.size()]);
+        assert tokensArray != null;
+        return LocalTokenType.delocalize(tokensArray);
     }
 
     @Override public void
@@ -198,7 +190,7 @@ class NameSpelling extends AbstractFormatCheck {
 
             // Determine the element type from the given AST.
             Elements element;
-            switch (ast.getType()) {
+            switch (LocalTokenType.localize(ast.getType())) {
 
             case ANNOTATION_DEF:
                 element = Elements.ANNOTATION;
@@ -237,27 +229,21 @@ class NameSpelling extends AbstractFormatCheck {
                 break;
 
             case PARAMETER_DEF:
-                {
-                    int parentType = ast.getParent().getType();
-                    element = (
-                        parentType == TokenTypes.PARAMETERS      ? Elements.FORMAL_PARAMETER
-                        : parentType == TokenTypes.LITERAL_CATCH ? Elements.CATCH_PARAMETER
-                        : null
-                    );
-                }
+                element = (
+                    AstUtil.parentTypeIs(ast, LocalTokenType.PARAMETERS)      ? Elements.FORMAL_PARAMETER
+                    : AstUtil.parentTypeIs(ast, LocalTokenType.LITERAL_CATCH) ? Elements.CATCH_PARAMETER
+                    : null
+                );
                 break;
 
             case VARIABLE_DEF:
-                {
-                    int parentType = ast.getParent().getType();
-                    element = (
-                        parentType == TokenTypes.SLIST             ? Elements.LOCAL_VARIABLE
-                        : parentType == TokenTypes.FOR_INIT        ? Elements.FOR_VARIABLE
-                        : parentType == TokenTypes.FOR_EACH_CLAUSE ? Elements.FOREACH_VARIABLE
-                        : parentType == TokenTypes.OBJBLOCK        ? Elements.FIELD
-                        : null
-                    );
-                }
+                element = (
+                    AstUtil.parentTypeIs(ast, LocalTokenType.SLIST)             ? Elements.LOCAL_VARIABLE
+                    : AstUtil.parentTypeIs(ast, LocalTokenType.FOR_INIT)        ? Elements.FOR_VARIABLE
+                    : AstUtil.parentTypeIs(ast, LocalTokenType.FOR_EACH_CLAUSE) ? Elements.FOREACH_VARIABLE
+                    : AstUtil.parentTypeIs(ast, LocalTokenType.OBJBLOCK)        ? Elements.FIELD
+                    : null
+                );
                 break;
 
             default:
@@ -286,8 +272,8 @@ class NameSpelling extends AbstractFormatCheck {
             case LOCAL_VARIABLE:
             case METHOD:
             case TYPE_PARAMETER:
-                modifiersAst = ast.findFirstToken(TokenTypes.MODIFIERS);
-                nameAst      = ast.findFirstToken(TokenTypes.IDENT);
+                modifiersAst = ast.findFirstToken(LocalTokenType.MODIFIERS.delocalize());
+                nameAst      = ast.findFirstToken(LocalTokenType.IDENT.delocalize());
                 break;
 
             case PACKAGE:
@@ -304,11 +290,11 @@ class NameSpelling extends AbstractFormatCheck {
                 assert this.requiredModifiers.isEmpty() : "Must not set 'requiredModifiers' for element 'package'";
                 assert this.missingModifiers.isEmpty() : "Must not set 'missingModifiers' for element 'package'";
             } else {
-                for (Integer modifier : this.requiredModifiers) {
-                    if (modifiersAst.findFirstToken(modifier) == null) return;
+                for (LocalTokenType modifier : this.requiredModifiers) {
+                    if (modifiersAst.findFirstToken(modifier.delocalize()) == null) return;
                 }
-                for (Integer modifier : this.missingModifiers) {
-                    if (modifiersAst.findFirstToken(modifier) != null) return;
+                for (LocalTokenType modifier : this.missingModifiers) {
+                    if (modifiersAst.findFirstToken(modifier.delocalize()) != null) return;
                 }
             }
 

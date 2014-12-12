@@ -27,10 +27,10 @@
 package de.unkrig.cscontrib.checks;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
-import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
+import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
 
 /**
@@ -49,61 +49,61 @@ class WhitespaceAround extends WhitespaceAroundCheck {
 
     @Override public void
     visitToken(DetailAST ast) {
-        switch (ast.getType()) {
+        switch (LocalTokenType.localize(ast.getType())) {
 
-        case TokenTypes.LCURLY:
+        case LCURLY:
 
             // Conditionally allow empty type body.
             if (
                 this.allowEmptyTypes
-                && AstUtil.nextSiblingTypeIs(ast, TokenTypes.RCURLY)
-                && AstUtil.parentTypeIs(ast, TokenTypes.OBJBLOCK)
-                && AstUtil.grandparentTypeIs(
+                && AstUtil.nextSiblingTypeIs(ast, LocalTokenType.RCURLY)
+                && AstUtil.parentTypeIs(ast, LocalTokenType.OBJBLOCK)
+                && AstUtil.grandParentTypeIs(
                     ast,
-                    TokenTypes.CLASS_DEF,
-                    TokenTypes.INTERFACE_DEF,
-                    TokenTypes.LITERAL_NEW,
-                    TokenTypes.ANNOTATION_DEF
+                    LocalTokenType.CLASS_DEF,
+                    LocalTokenType.INTERFACE_DEF,
+                    LocalTokenType.LITERAL_NEW,
+                    LocalTokenType.ANNOTATION_DEF
                 )
             ) return;
             break;
 
-        case TokenTypes.SLIST:
+        case SLIST:
 
             // Conditionally allow empty catch block.
             if (
                 this.allowEmptyCatches
-                && AstUtil.parentTypeIs(ast, TokenTypes.LITERAL_CATCH)
-                && AstUtil.firstChildTypeIs(ast, TokenTypes.RCURLY)
+                && AstUtil.parentTypeIs(ast, LocalTokenType.LITERAL_CATCH)
+                && AstUtil.firstChildTypeIs(ast, LocalTokenType.RCURLY)
             ) return;
             break;
 
-        case TokenTypes.RCURLY:
+        case RCURLY:
 
             // Check for anonymous class instantiation; unconditionally allow "}.".
             if (
-                AstUtil.parentTypeIs(ast, TokenTypes.OBJBLOCK)
-                && AstUtil.grandparentTypeIs(ast, TokenTypes.LITERAL_NEW)
+                AstUtil.parentTypeIs(ast, LocalTokenType.OBJBLOCK)
+                && AstUtil.grandParentTypeIs(ast, LocalTokenType.LITERAL_NEW)
             ) return;
 
             // Conditionally allow empty catch block.
             if (
                 this.allowEmptyCatches
-                && AstUtil.parentTypeIs(ast, TokenTypes.SLIST)
-                && AstUtil.grandparentTypeIs(ast, TokenTypes.LITERAL_CATCH)
+                && AstUtil.parentTypeIs(ast, LocalTokenType.SLIST)
+                && AstUtil.grandParentTypeIs(ast, LocalTokenType.LITERAL_CATCH)
             ) return;
 
             // Conditionally allow empty class or interface body.
             if (
                 this.allowEmptyTypes
-                && AstUtil.parentTypeIs(ast, TokenTypes.OBJBLOCK)
-                && AstUtil.grandparentTypeIs(
+                && AstUtil.parentTypeIs(ast, LocalTokenType.OBJBLOCK)
+                && AstUtil.grandParentTypeIs(
                     ast,
-                    TokenTypes.CLASS_DEF,
-                    TokenTypes.INTERFACE_DEF,
-                    TokenTypes.ANNOTATION_DEF
+                    LocalTokenType.CLASS_DEF,
+                    LocalTokenType.INTERFACE_DEF,
+                    LocalTokenType.ANNOTATION_DEF
                 )
-                && AstUtil.previousSiblingTypeIs(ast, TokenTypes.LCURLY)
+                && AstUtil.previousSiblingTypeIs(ast, LocalTokenType.LCURLY)
             ) return;
             break;
 
