@@ -37,9 +37,9 @@ import de.unkrig.commons.nullanalysis.Nullable;
 public
 class AstDumper {
 
-    private final DetailAST ast;
+    @Nullable private final DetailAST ast;
 
-    AstDumper(DetailAST ast) {
+    AstDumper(@Nullable DetailAST ast) {
         this.ast = ast;
     }
 

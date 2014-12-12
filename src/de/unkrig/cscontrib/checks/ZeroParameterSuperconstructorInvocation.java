@@ -28,9 +28,9 @@ package de.unkrig.cscontrib.checks;
 
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
-import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
+import de.unkrig.cscontrib.LocalTokenType;
 
 /**
  * Checks for redundant zero-parameter superconstructor invocations:
@@ -45,7 +45,7 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 class ZeroParameterSuperconstructorInvocation extends Check {
 
     @Override public int[]
-    getDefaultTokens() { return new int[] { TokenTypes.CTOR_DEF }; }
+    getDefaultTokens() { return new int[] { LocalTokenType.CTOR_DEF.delocalize() }; }
 
     @Override public void
     visitToken(DetailAST ast) {
@@ -54,21 +54,21 @@ class ZeroParameterSuperconstructorInvocation extends Check {
         @SuppressWarnings("unused") AstDumper dumper = new AstDumper(ast);
 
         // Find the constructor body.
-        DetailAST statementList = ast.findFirstToken(TokenTypes.SLIST);
+        DetailAST statementList = ast.findFirstToken(LocalTokenType.SLIST.delocalize());
 
         // Find the superconstructor call.
-        DetailAST superconstructorCall = statementList.findFirstToken(TokenTypes.SUPER_CTOR_CALL);
+        DetailAST superconstructorCall = statementList.findFirstToken(LocalTokenType.SUPER_CTOR_CALL.delocalize());
         if (superconstructorCall == null) return;
 
         // Check whether this is a qualified SUPER call.
         DetailAST lparen = superconstructorCall.getFirstChild();
-        if (lparen.getType() != TokenTypes.LPAREN) return;
+        if (lparen.getType() != LocalTokenType.LPAREN.delocalize()) return;
 
         // Find the argument list.
         DetailAST arguments = lparen.getNextSibling();
 
         // Determine the argument count.
-        int argumentCount = arguments.getChildCount(TokenTypes.EXPR);
+        int argumentCount = arguments.getChildCount(LocalTokenType.EXPR.delocalize());
 
         // Complain about redundant zero-parameter superconstructor invocation.
         if (argumentCount == 0) {
