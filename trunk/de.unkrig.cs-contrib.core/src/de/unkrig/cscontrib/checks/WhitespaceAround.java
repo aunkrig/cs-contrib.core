@@ -43,8 +43,16 @@ class WhitespaceAround extends WhitespaceAroundCheck {
     private boolean allowEmptyTypes;
 
     // CONFIGURATION SETTERS -- CHECKSTYLE JavadocMethod:OFF
-    public void setAllowEmptyCatches(boolean value) { this.allowEmptyCatches = value; }
-    public void setAllowEmptyTypes(boolean value)   { this.allowEmptyTypes   = value; }
+
+    public void
+    setAllowEmptyCatches(boolean value) { this.allowEmptyCatches = value; }
+
+    @Override public void
+    setAllowEmptyTypes(boolean value) {
+        super.setAllowEmptyTypes(value);
+        this.allowEmptyTypes   = value;
+    }
+
     // END CONFIGURATION SETTERS -- CHECKSTYLE JavadocMethod:ON
 
     @Override public void

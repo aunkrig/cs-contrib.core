@@ -243,6 +243,7 @@ class AstUtil {
             return parentType == LocalTokenType.VARIABLE_DEF ? ASSIGN__VAR_DECL : ASSIGN__ASSIGNMENT;
 
         case AT:
+            assert parentType != null;
             switch (parentType) {
 
             case ANNOTATION:     return AT__ANNO;
@@ -252,6 +253,7 @@ class AstUtil {
             break;
 
         case COLON:
+            assert parentType != null;
             switch (parentType) {
 
             case LITERAL_DEFAULT: return COLON__DEFAULT;
@@ -277,6 +279,7 @@ class AstUtil {
             return DOT__SELECTOR;
 
         case GENERIC_END:
+            assert parentType != null;
             switch (parentType) {
 
             case TYPE_PARAMETERS:
@@ -306,6 +309,7 @@ class AstUtil {
             break;
 
         case GENERIC_START:
+            assert parentType != null;
             switch (parentType) {
 
             case TYPE_PARAMETERS:
@@ -332,6 +336,7 @@ class AstUtil {
             break;
 
         case IDENT:
+            assert parentType != null;
             switch (parentType) {
 
             case ANNOTATION:                   return NAME__ANNO;
@@ -372,11 +377,13 @@ class AstUtil {
             }
 
         case LCURLY:
+            assert parentType != null;
             switch (parentType) {
 
             case LITERAL_SWITCH: return L_CURLY__SWITCH;
 
             case OBJBLOCK:
+                assert grandParentType != null;
                 switch (grandParentType) {
 
                 case ENUM_CONSTANT_DEF: return L_CURLY__ENUM_CONST;
@@ -433,6 +440,7 @@ class AstUtil {
             return STATIC__STATIC_INIT;
 
         case LPAREN:
+            assert parentType != null;
             switch (parentType) {
 
             case ANNOTATION:           return L_PAREN__ANNO;
@@ -454,6 +462,7 @@ class AstUtil {
             }
 
         case RBRACK:
+            assert parentType != null;
             switch (parentType) {
 
             case ARRAY_DECLARATOR: return R_BRACK__ARRAY_DECL;
@@ -463,6 +472,7 @@ class AstUtil {
             break;
 
         case RCURLY:
+            assert parentType != null;
             switch (parentType) {
 
             case LITERAL_SWITCH: return R_CURLY__SWITCH;
@@ -474,6 +484,7 @@ class AstUtil {
                 return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_ARRAY_INIT : R_CURLY__ARRAY_INIT;
 
             case OBJBLOCK:
+                assert grandParentType != null;
                 switch (grandParentType) {
 
                 case ENUM_CONSTANT_DEF: return R_CURLY__ENUM_CONST_DECL;
@@ -497,6 +508,7 @@ class AstUtil {
                 break;
 
             case SLIST:
+                assert grandParentType != null;
                 switch (grandParentType) {
 
                 case INSTANCE_INIT:        return R_CURLY__INSTANCE_INIT;
@@ -533,6 +545,7 @@ class AstUtil {
             break;
 
         case RPAREN:
+            assert parentType != null;
             switch (parentType) {
 
             case ANNOTATION:           return R_PAREN__ANNO;
@@ -559,6 +572,7 @@ class AstUtil {
             }
 
         case SEMI:
+            assert parentType != null;
             switch (parentType) {
 
             case PACKAGE_DEF:          return SEMI__PACKAGE_DECL;
@@ -619,6 +633,7 @@ class AstUtil {
             break;
 
         case SLIST:
+            assert parentType != null;
             switch (parentType) {
 
             case STATIC_INIT:          return L_CURLY__STATIC_INIT;
