@@ -279,8 +279,12 @@ enum LocalTokenType {
      * @return The {@link LocalTokenType} corresponding with the given {@link TokenTypes} constant, or {@code null}
      *         iff {@code tt} is a token type that was introduced <i>after</i> CheckStyle 6.1
      */
-    @Nullable public static LocalTokenType
-    localize(int tt) { return LocalTokenType.TO_LOCAL.get(tt); }
+    public static LocalTokenType
+    localize(int tt) {
+        LocalTokenType ltt = LocalTokenType.TO_LOCAL.get(tt);
+        assert ltt != null;
+        return ltt;
+    }
 
     /**
      * @return The {@link TokenTypes} corresponding with the given {@link LocalTokenType} constant, or -1
