@@ -661,9 +661,8 @@ class AstUtil {
                 );
 
             default:
-                assert false : parentType;
+                return null; // Not a 'physical' token.
             }
-            return null; // Not a 'physical' token.
 
         case ANNOTATION:
         case ANNOTATION_DEF:
