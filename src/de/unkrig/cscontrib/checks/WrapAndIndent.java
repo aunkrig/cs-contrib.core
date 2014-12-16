@@ -61,7 +61,9 @@ import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.UNINDENT;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.eclipsecs.core.config.meta.IOptionProvider;
 
@@ -604,7 +606,7 @@ class WrapAndIndent extends Check {
             break;
 
         case ANNOTATION_DEF:
-            if (this.allowOneLineAnnoDecl && this.isSingleLine(ast)) break;
+            if (this.allowOneLineAnnoDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
 
@@ -667,7 +669,7 @@ class WrapAndIndent extends Check {
             break;
 
         case CLASS_DEF:
-            if (this.allowOneLineClassDecl && this.isSingleLine(ast)) break;
+            if (this.allowOneLineClassDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
 
@@ -711,7 +713,7 @@ class WrapAndIndent extends Check {
             break;
 
         case CTOR_DEF:
-            if (this.allowOneLineCtorDecl && this.isSingleLine(ast)) break;
+            if (this.allowOneLineCtorDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
 
@@ -759,7 +761,7 @@ class WrapAndIndent extends Check {
             break;
 
         case ENUM_DEF:
-            if (this.allowOneLineEnumDecl && this.isSingleLine(ast)) break;
+            if (this.allowOneLineEnumDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
 
@@ -844,7 +846,7 @@ class WrapAndIndent extends Check {
             break;
 
         case INTERFACE_DEF:
-            if (this.allowOneLineInterfaceDecl && this.isSingleLine(ast)) break;
+            if (this.allowOneLineInterfaceDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
 
@@ -1010,7 +1012,7 @@ class WrapAndIndent extends Check {
             break;
 
         case METHOD_DEF:
-            if (this.allowOneLineMethDecl && this.isSingleLine(ast)) break;
+            if (this.allowOneLineMethDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
 
@@ -1145,7 +1147,7 @@ class WrapAndIndent extends Check {
             if (
                 ast.getParent().getType() == LocalTokenType.CASE_GROUP.delocalize()
                 && this.allowOneLineSwitchBlockStmtGroup
-                && this.isSingleLine(ast)
+                && WrapAndIndent.isSingleLine(ast)
                 && ast.getParent().getLineNo() == ast.getLineNo()
             ) return;
 
@@ -1261,7 +1263,7 @@ class WrapAndIndent extends Check {
                 this.checkSameLine(ast, ast.getFirstChild().getFirstChild().getFirstChild());
                 break;
             }
-            if (this.wrapPackageDeclBeforePackage == MAY_WRAP && this.isSingleLine(ast)) break;
+            if (this.wrapPackageDeclBeforePackage == MAY_WRAP && WrapAndIndent.isSingleLine(ast)) break;
             this.checkWrapped(ast.getFirstChild().getFirstChild().getFirstChild(), ast);
             this.checkSameLine(ast, ast.getFirstChild().getNextSibling().getNextSibling());
             break;
@@ -1470,7 +1472,7 @@ class WrapAndIndent extends Check {
         }
     }
 
-    private boolean
+    private static boolean
     isSingleLine(DetailAST ast) {
         return (
             WrapAndIndent.getLeftmostDescendant(ast).getLineNo()
@@ -1873,6 +1875,7 @@ class WrapAndIndent extends Check {
 
                 case OPTIONAL:
                     tokenType = args[idx++];
+                    while (WrapAndIndent.SKIPPABLES.contains(tokenType)) tokenType = args[idx++];
                     if (
                         child != null
                         && (tokenType == ANY || tokenType == LocalTokenType.localize(child.getType()))
@@ -1904,12 +1907,8 @@ class WrapAndIndent extends Check {
                         DO_BRANCH:
                         for (int i = destination;; i++) {
                             Object da = args[i];
-                            if (da == MAY_INDENT) {
+                            if (WrapAndIndent.SKIPPABLES.contains(da)) {
                                 ;
-                            } else
-                            if (da == ANY) {
-                                doBranch = child != null;
-                                break DO_BRANCH;
                             } else
                             if (da == END) {
                                 doBranch = child == null;
@@ -1922,12 +1921,8 @@ class WrapAndIndent extends Check {
                             {
                                 for (int j = idx;; j++) {
                                     Object na = args[j];
-                                    if (na == MAY_INDENT || na == MAY_WRAP || na == LABEL1) {
+                                    if (WrapAndIndent.SKIPPABLES.contains(na)) {
                                         ;
-                                    } else
-                                    if (na == ANY) {
-                                        doBranch = child == null;
-                                        break DO_BRANCH;
                                     } else
                                     if (na == END) {
                                         doBranch = child != null;
@@ -1935,6 +1930,15 @@ class WrapAndIndent extends Check {
                                     } else
                                     if (na instanceof LocalTokenType) {
                                         doBranch = child == null || ((LocalTokenType) na).delocalize() != child.getType();
+                                        break DO_BRANCH;
+                                    } else
+                                    if (na == ANY) {
+                                        assert da != ANY;
+                                        doBranch = child == null;
+                                        break DO_BRANCH;
+                                    } else
+                                    if (da == ANY) {
+                                        doBranch = child != null;
                                         break DO_BRANCH;
                                     } else
                                     {
@@ -2130,6 +2134,16 @@ class WrapAndIndent extends Check {
                 throw new AssertionError(tokenType);
             }
         }
+    }
+    private static final Set<Object> SKIPPABLES;
+    static {
+        Set<Object> ss = new HashSet<Object>();
+        ss.addAll(Arrays.asList(
+            MAY_INDENT, UNINDENT, INDENT_IF_CHILDREN,
+            MAY_WRAP,  MUST_WRAP, NO_WRAP,
+            LABEL1, LABEL2, LABEL3, LABEL4, LABEL5, LABEL6, LABEL7, LABEL8, LABEL9
+        ));
+        SKIPPABLES = Collections.unmodifiableSet(ss);
     }
 
     /**
