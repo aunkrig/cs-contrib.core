@@ -220,11 +220,12 @@ enum LocalTokenType {
 
     // CHECKSTYLE JavadocVariable:ON
 
-    private LocalTokenType() {
+    private
+    LocalTokenType() {
 
         // Find the corresponding constant in 'TokenTypes'.
         try {
-            this.delocalized = (Integer) TokenTypes.class.getField(this.toString()).get(null);
+            this.delocalized = (Integer) TokenTypes.class.getField(this.name()).get(null);
         } catch (Exception e) {
             throw new ExceptionInInitializerError(e);
         }
