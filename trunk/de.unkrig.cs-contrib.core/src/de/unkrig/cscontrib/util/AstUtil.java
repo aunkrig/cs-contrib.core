@@ -362,10 +362,10 @@ class AstUtil {
                     return ast.getNextSibling() == null ? NAME__IMPORT_TYPE : NAME__IMPORT_COMPONENT;
                 }
 
-                if (
-                    AstUtil.getAncestorWithTypeNot(ast, LocalTokenType.ARRAY_DECLARATOR) == LocalTokenType.TYPE
-                    || AstUtil.getAncestorWithTypeNot(ast, LocalTokenType.ARRAY_DECLARATOR) == LocalTokenType.LITERAL_NEW
-                ) return NAME__SIMPLE_TYPE;
+                {
+                    LocalTokenType a = AstUtil.getAncestorWithTypeNot(ast, LocalTokenType.ARRAY_DECLARATOR);
+                    if (a == LocalTokenType.TYPE || a == LocalTokenType.LITERAL_NEW) return NAME__SIMPLE_TYPE;
+                }
 
                 if (AstUtil.getAncestorWithTypeNot(
                     ast,
