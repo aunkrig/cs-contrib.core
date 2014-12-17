@@ -26,15 +26,11 @@
 
 package de.unkrig.cscontrib;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
-
-import de.unkrig.commons.nullanalysis.Nullable;
 
 /**
  * An internal ('local') representation of CheckStyle's {@link TokenTypes}. The reason being is that the values of the
@@ -45,7 +41,7 @@ public
 enum LocalTokenType {
     // CHECKSTYLE JavadocVariable:OFF
 
-    // The following tokens exist both in CHECKSTYLE 5.7 and 6.1:
+    // The following tokens exist in CHECKSTYLE versions 5.6 ... 5.8 and 6.0 ... 6.1.:
 
     ABSTRACT,
     ANNOTATION,
@@ -210,74 +206,44 @@ enum LocalTokenType {
     VARIABLE_DEF,
     WILDCARD_TYPE,
 
-    // The following token types were removed somewhere between CHECKSTYLE 5.7, 6.1:
+    // These three token types were added in CheckStyle version 5.9:
+    //   METHOD_REF
+    //   DOUBLE_COLON
+    //   LAMBDA
 
-//    BLOCK,
-//    ESC,
-//    EXPONENT,
-//    FLOAT_SUFFIX,
-//    HEX_DIGIT,
-//    LBRACK,
-//    LITERAL_EXTENDS,
-//    LITERAL_IMPLEMENTS,
-//    LITERAL_IMPORT,
-//    LITERAL_PACKAGE,
-//    ML_COMMENT,
-//    NULL_TREE_LOOKAHEAD,
-//    SL_COMMENT,
-//    VOCAB,
-//    WS,
+    // These three token types were added in CheckStyle version 6.0:
+    //   SINGLE_LINE_COMMENT
+    //   BLOCK_COMMENT_BEGIN
+    //   BLOCK_COMMENT_END
+    //   COMMENT_CONTENT
     ;
 
     // CHECKSTYLE JavadocVariable:ON
 
+    private LocalTokenType() {
+
+        // Find the corresponding constant in 'TokenTypes'.
+        try {
+            this.delocalized = (Integer) TokenTypes.class.getField(this.toString()).get(null);
+        } catch (Exception e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+    private final int delocalized;
+
     private static final Map<Integer, LocalTokenType> TO_LOCAL;
-    private static final Map<LocalTokenType, Integer> FROM_LOCAL;
     static {
         Map<Integer, LocalTokenType> toLocal   = new HashMap<Integer, LocalTokenType>();
-        Map<LocalTokenType, Integer> fromLocal = new HashMap<LocalTokenType, Integer>();
 
-        for (Field f : TokenTypes.class.getFields()) {
-            String tn = LocalTokenType.notNull(f.getName());
-
-            // Skip fields which are obviously not a token type.
-            // Notice: Intentionally do not check for const'ness, because that could change in future CHECKSTYLE
-            // versions.
-            if (
-                !Modifier.isStatic(f.getModifiers())
-                || !LocalTokenType.isConstantName(tn)
-                || f.getType() != Integer.TYPE
-            ) continue;
-
-            // Find the LocalTokenType corresponding with the TokenType.
-            LocalTokenType ltt;
-            try {
-                ltt = LocalTokenType.valueOf(tn);
-            } catch (IllegalArgumentException iae) {
-
-                // Ignore any tokens that newer CHECKSTYLE versions add.
-                continue;
-            }
-
-            Integer tt;
-            try {
-                tt = (Integer) f.get(null);
-            } catch (Exception e) {
-                throw new ExceptionInInitializerError(e);
-            }
-
-            // Populate the maps.
-            toLocal.put(tt, ltt);
-            fromLocal.put(ltt, tt);
+        for (LocalTokenType ltt : LocalTokenType.values()) {
+            toLocal.put(ltt.delocalized, ltt);
         }
 
-        TO_LOCAL   = LocalTokenType.notNull(Collections.unmodifiableMap(toLocal));
-        FROM_LOCAL = LocalTokenType.notNull(Collections.unmodifiableMap(fromLocal));
+        TO_LOCAL = Collections.unmodifiableMap(toLocal);
     }
 
     /**
-     * @return The {@link LocalTokenType} corresponding with the given {@link TokenTypes} constant, or {@code null}
-     *         iff {@code tt} is a token type that was introduced <i>after</i> CheckStyle 6.1
+     * @return The {@link LocalTokenType} corresponding with the given {@link TokenTypes} constant
      */
     public static LocalTokenType
     localize(int tt) {
@@ -291,12 +257,9 @@ enum LocalTokenType {
      *         iff {@code ltt} has no counterpart in this CheckStyle version
      */
     public int
-    delocalize() {
-        Integer result = LocalTokenType.FROM_LOCAL.get(this);
-        return result == null ? -1 : result;
-    }
+    delocalize() { return this.delocalized; }
 
-    /** @return The value of the constant delcared in {@link TokenTypes} that maps the given {@code ltt} */
+    /** @return The values of the constants declared in {@link TokenTypes} that map the given {@code ltts} */
     public static int[]
     delocalize(LocalTokenType[] ltts) {
 
@@ -309,24 +272,5 @@ enum LocalTokenType {
         }
 
         return tts;
-    }
-
-    private static boolean
-    isConstantName(String name) {
-
-        for (int i = 0; i < name.length(); i++) {
-            char c = name.charAt(i);
-            if (!Character.isUpperCase(c) && !Character.isDigit(c) && c != '_') return false;
-        }
-
-        return true;
-    }
-
-    private static <T> T
-    notNull(@Nullable T object) {
-
-        assert object != null : String.valueOf(object);
-
-        return object;
     }
 }
