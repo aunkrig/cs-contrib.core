@@ -150,7 +150,7 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
             IAnnotationModel annotationModel = textFileBuffer.getAnnotationModel();
             assert annotationModel != null : "Text file buffer is disconnected";
 
-            MarkerAnnotation annotation = this.getMarkerAnnotation(annotationModel, marker);
+            MarkerAnnotation annotation = AbstractDocumentResolution.getMarkerAnnotation(annotationModel, marker);
 
             if (annotation == null) return;
 
@@ -221,7 +221,7 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
     /**
      * @return The annotation related to the given {@code marker}, or {@code null}
      */
-    private MarkerAnnotation
+    private static MarkerAnnotation
     getMarkerAnnotation(@NotNull IAnnotationModel annotationModel, @NotNull IMarker marker) {
 
         for (
