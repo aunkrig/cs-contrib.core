@@ -244,7 +244,7 @@ class CppCommentAlignment extends AbstractFormatCheck {
 
     @Override public void
     visitToken(DetailAST ast) {
-        this.debug("ast=" + ast);
+
         if (ast.getChildCount() <= 1) return;
 
         List<DetailAST> children = this.getChildren(ast);
@@ -253,7 +253,6 @@ class CppCommentAlignment extends AbstractFormatCheck {
 
         int prevLineNo = Integer.MAX_VALUE; // SUPPRESS CHECKSTYLE UsageDistance
         for (DetailAST child : children) {
-            this.debug("lchild=" + child);
 
             int lineNo = child.getLineNo();
 
@@ -324,7 +323,6 @@ class CppCommentAlignment extends AbstractFormatCheck {
     getChildren2(DetailAST ast, List<DetailAST> result) {
 
         for (DetailAST child = ast.getFirstChild(); child != null; child = child.getNextSibling()) {
-            this.debug("child=" + child);
 
             if (child.getText().equals(ast.getText())) {
                 this.getChildren2(child, result);
@@ -333,10 +331,5 @@ class CppCommentAlignment extends AbstractFormatCheck {
 
             result.add(child);
         }
-    }
-
-    private void
-    debug(String text) {
-        ;
     }
 }
