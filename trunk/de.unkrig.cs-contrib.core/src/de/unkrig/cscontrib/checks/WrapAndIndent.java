@@ -26,38 +26,7 @@
 
 package de.unkrig.cscontrib.checks;
 
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.ANY;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.BRANCH1;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.BRANCH2;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.BRANCH3;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.BRANCH4;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.BRANCH5;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.BRANCH9;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.END;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.FORK1;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.FORK2;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.FORK3;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.FORK4;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.FORK5;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.FORK6;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.FORK7;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.FORK8;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.INDENT_IF_CHILDREN;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.LABEL1;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.LABEL2;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.LABEL3;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.LABEL4;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.LABEL5;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.LABEL6;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.LABEL7;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.LABEL8;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.LABEL9;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.MAY_INDENT;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.MAY_WRAP;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.MUST_WRAP;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.NO_WRAP;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.OPTIONAL;
-import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.UNINDENT;
+import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.*;
 
 import java.util.Arrays;
 import java.util.Collections;
