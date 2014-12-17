@@ -26,6 +26,7 @@
 
 package de.unkrig.cscontrib.checks;
 
+import static de.unkrig.cscontrib.LocalTokenType.*;
 import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.*;
 
 import java.util.Arrays;
@@ -50,7 +51,7 @@ import de.unkrig.cscontrib.LocalTokenType;
 class WrapAndIndent extends Check {
 
     /**
-     * Message keys as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
+     * Message key as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
      * <dl>
      *   <dt><code>{0}</code>
      *   <dd>Text of token <i>before</i> the (missing) line break
@@ -62,7 +63,7 @@ class WrapAndIndent extends Check {
     MESSAGE_KEY__MUST_WRAP_LINE_BEFORE_1 = "Must wrap line before ''{1}''";
 
     /**
-     * Message keys as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
+     * Message key as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
      * <dl>
      *   <dt><code>{0}</code>
      *   <dd>Text of token <i>before</i> the (unwanted) line break
@@ -74,7 +75,7 @@ class WrapAndIndent extends Check {
     MESSAGE_KEY__0_MUST_APPEAR_ON_SAME_LINE_AS_1 = "''{0}'' must appear on same line as ''{1}''";
 
     /**
-     * Message keys as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
+     * Message key as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
      * <dl>
      *   <dt><code>{0}</code>
      *   <dd>Text the vertically misaligned token
@@ -258,7 +259,7 @@ class WrapAndIndent extends Check {
     // CONFIGURATION SETTERS
     // CHECKSTYLE JavadocMethod:OFF
     // CHECKSTYLE LineLength:OFF
-    public void setBasicOffset(int value)                          { this.basicOffset = value; }
+    public void setBasicOffset(int value)                          { this.basicOffset                      = value; }
 
     public void setAllowOneLineClassDecl(boolean value)            { this.allowOneLineClassDecl            = value; }
     public void setAllowOneLineInterfaceDecl(boolean value)        { this.allowOneLineInterfaceDecl        = value; }
@@ -331,165 +332,165 @@ class WrapAndIndent extends Check {
     @Override public int[]
     getDefaultTokens() {
         return LocalTokenType.delocalize(new LocalTokenType[] {
-//            LocalTokenType.ABSTRACT,
-            LocalTokenType.ANNOTATION,
-            LocalTokenType.ANNOTATIONS,
-            LocalTokenType.ANNOTATION_ARRAY_INIT,
-            LocalTokenType.ANNOTATION_DEF,
-            LocalTokenType.ANNOTATION_FIELD_DEF,
-            LocalTokenType.ANNOTATION_MEMBER_VALUE_PAIR,
-            LocalTokenType.ARRAY_DECLARATOR,
-            LocalTokenType.ARRAY_INIT,
-            LocalTokenType.ASSIGN,  // To check 'int[] ia = { 1, 2, 3 };'.
-//            LocalTokenType.AT,
-//            LocalTokenType.BAND,
-//            LocalTokenType.BAND_ASSIGN,
-//            LocalTokenType.BNOT,
-//            LocalTokenType.BOR,
-//            LocalTokenType.BOR_ASSIGN,
-//            LocalTokenType.BSR,
-//            LocalTokenType.BSR_ASSIGN,
-//            LocalTokenType.BXOR,
-//            LocalTokenType.BXOR_ASSIGN,
-            LocalTokenType.CASE_GROUP,
-//            LocalTokenType.CHAR_LITERAL,
-            LocalTokenType.CLASS_DEF,
-//            LocalTokenType.COLON,
-//            LocalTokenType.COMMA,
-            LocalTokenType.CTOR_CALL,
-            LocalTokenType.CTOR_DEF,
-//            LocalTokenType.DEC,
-//            LocalTokenType.DIV,
-//            LocalTokenType.DIV_ASSIGN,
-            LocalTokenType.DOT,
-//            LocalTokenType.DO_WHILE,
-            LocalTokenType.ELIST,
-//            LocalTokenType.ELLIPSIS,
-//            LocalTokenType.EMPTY_STAT,
-//            LocalTokenType.ENUM,
-            LocalTokenType.ENUM_CONSTANT_DEF,
-            LocalTokenType.ENUM_DEF,
-//            LocalTokenType.EOF,
-//            LocalTokenType.EQUAL,
-            LocalTokenType.EXPR,
-            LocalTokenType.EXTENDS_CLAUSE,
-//            LocalTokenType.FINAL,
-            LocalTokenType.FOR_CONDITION,
-            LocalTokenType.FOR_EACH_CLAUSE,
-            LocalTokenType.FOR_INIT,
-            LocalTokenType.FOR_ITERATOR,
-//            LocalTokenType.GE,
-//            LocalTokenType.GENERIC_END,
-//            LocalTokenType.GENERIC_START,
-//            LocalTokenType.GT,
-//            LocalTokenType.IDENT,
-            LocalTokenType.IMPLEMENTS_CLAUSE,
-            LocalTokenType.IMPORT,
-//            LocalTokenType.INC,
-//            LocalTokenType.INDEX_OP,
-            LocalTokenType.INSTANCE_INIT,
-            LocalTokenType.INTERFACE_DEF,
-            LocalTokenType.LABELED_STAT,
-//            LocalTokenType.LAND,
-//            LocalTokenType.LCURLY,
-//            LocalTokenType.LE,
-            LocalTokenType.LITERAL_ASSERT,
-//            LocalTokenType.LITERAL_BOOLEAN,
-            LocalTokenType.LITERAL_BREAK,
-//            LocalTokenType.LITERAL_BYTE,
-            LocalTokenType.LITERAL_CASE,
-            LocalTokenType.LITERAL_CATCH,
-//            LocalTokenType.LITERAL_CHAR,
-//            LocalTokenType.LITERAL_CLASS,
-            LocalTokenType.LITERAL_CONTINUE,
-//            LocalTokenType.LITERAL_DEFAULT,
-            LocalTokenType.LITERAL_DO,
-//            LocalTokenType.LITERAL_DOUBLE,
-//            LocalTokenType.LITERAL_ELSE,
-//            LocalTokenType.LITERAL_FALSE,
-            LocalTokenType.LITERAL_FINALLY,
-//            LocalTokenType.LITERAL_FLOAT,
-            LocalTokenType.LITERAL_FOR,
-            LocalTokenType.LITERAL_IF,
-//            LocalTokenType.LITERAL_INSTANCEOF,
-//            LocalTokenType.LITERAL_INT,
-//            LocalTokenType.LITERAL_INTERFACE,
-//            LocalTokenType.LITERAL_LONG,
-//            LocalTokenType.LITERAL_NATIVE,
-            LocalTokenType.LITERAL_NEW,
-//            LocalTokenType.LITERAL_NULL,
-//            LocalTokenType.LITERAL_PRIVATE,
-//            LocalTokenType.LITERAL_PROTECTED,
-//            LocalTokenType.LITERAL_PUBLIC,
-            LocalTokenType.LITERAL_RETURN,
-//            LocalTokenType.LITERAL_SHORT,
-//            LocalTokenType.LITERAL_STATIC,
-//            LocalTokenType.LITERAL_SUPER,
-            LocalTokenType.LITERAL_SWITCH,
-            LocalTokenType.LITERAL_SYNCHRONIZED,
-//            LocalTokenType.LITERAL_THIS,
-            LocalTokenType.LITERAL_THROW,
-            LocalTokenType.LITERAL_THROWS,
-//            LocalTokenType.LITERAL_TRANSIENT,
-//            LocalTokenType.LITERAL_TRUE,
-            LocalTokenType.LITERAL_TRY,
-//            LocalTokenType.LITERAL_VOID,
-//            LocalTokenType.LITERAL_VOLATILE,
-            LocalTokenType.LITERAL_WHILE,
-//            LocalTokenType.LNOT,
-//            LocalTokenType.LOR,
-//            LocalTokenType.LPAREN,
-//            LocalTokenType.LT,
-//            LocalTokenType.METHOD_CALL,
-            LocalTokenType.METHOD_DEF,
-//            LocalTokenType.MINUS,
-//            LocalTokenType.MINUS_ASSIGN,
-//            LocalTokenType.MOD,
-            LocalTokenType.MODIFIERS,
-//            LocalTokenType.MOD_ASSIGN,
-//            LocalTokenType.NOT_EQUAL,
-//            LocalTokenType.NUM_DOUBLE,
-//            LocalTokenType.NUM_FLOAT,
-//            LocalTokenType.NUM_INT,
-//            LocalTokenType.NUM_LONG,
-            LocalTokenType.OBJBLOCK,
-            LocalTokenType.PACKAGE_DEF,
-            LocalTokenType.PARAMETERS,
-            LocalTokenType.PARAMETER_DEF,
-//            LocalTokenType.PLUS,
-//            LocalTokenType.PLUS_ASSIGN,
-//            LocalTokenType.POST_DEC,
-//            LocalTokenType.POST_INC,
-//            LocalTokenType.QUESTION,
-//            LocalTokenType.RBRACK,
-//            LocalTokenType.RCURLY,
-//            LocalTokenType.RPAREN,
-//            LocalTokenType.SEMI,
-//            LocalTokenType.SL,
-            LocalTokenType.SLIST,
-//            LocalTokenType.SL_ASSIGN,
-//            LocalTokenType.SR,
-//            LocalTokenType.SR_ASSIGN,
-//            LocalTokenType.STAR,
-//            LocalTokenType.STAR_ASSIGN,
-            LocalTokenType.STATIC_IMPORT,
-            LocalTokenType.STATIC_INIT,
-//            LocalTokenType.STRICTFP,
-//            LocalTokenType.STRING_LITERAL,
-            LocalTokenType.SUPER_CTOR_CALL,
-//            LocalTokenType.TYPE,
-//            LocalTokenType.TYPECAST,
-            LocalTokenType.TYPE_ARGUMENT,
-            LocalTokenType.TYPE_ARGUMENTS,
-//            LocalTokenType.TYPE_EXTENSION_AND,
-            LocalTokenType.TYPE_LOWER_BOUNDS,
-            LocalTokenType.TYPE_PARAMETER,
-            LocalTokenType.TYPE_PARAMETERS,
-            LocalTokenType.TYPE_UPPER_BOUNDS,
-//            LocalTokenType.UNARY_MINUS,
-//            LocalTokenType.UNARY_PLUS,
-            LocalTokenType.VARIABLE_DEF,
-//            LocalTokenType.WILDCARD_TYPE,
+//            ABSTRACT,
+            ANNOTATION,
+            ANNOTATIONS,
+            ANNOTATION_ARRAY_INIT,
+            ANNOTATION_DEF,
+            ANNOTATION_FIELD_DEF,
+            ANNOTATION_MEMBER_VALUE_PAIR,
+            ARRAY_DECLARATOR,
+            ARRAY_INIT,
+            ASSIGN,  // To check 'int[] ia = { 1, 2, 3 };'.
+//            AT,
+//            BAND,
+//            BAND_ASSIGN,
+//            BNOT,
+//            BOR,
+//            BOR_ASSIGN,
+//            BSR,
+//            BSR_ASSIGN,
+//            BXOR,
+//            BXOR_ASSIGN,
+            CASE_GROUP,
+//            CHAR_LITERAL,
+            CLASS_DEF,
+//            COLON,
+//            COMMA,
+            CTOR_CALL,
+            CTOR_DEF,
+//            DEC,
+//            DIV,
+//            DIV_ASSIGN,
+            DOT,
+//            DO_WHILE,
+            ELIST,
+//            ELLIPSIS,
+//            EMPTY_STAT,
+//            ENUM,
+            ENUM_CONSTANT_DEF,
+            ENUM_DEF,
+//            EOF,
+//            EQUAL,
+            EXPR,
+            EXTENDS_CLAUSE,
+//            FINAL,
+            FOR_CONDITION,
+            FOR_EACH_CLAUSE,
+            FOR_INIT,
+            FOR_ITERATOR,
+//            GE,
+//            GENERIC_END,
+//            GENERIC_START,
+//            GT,
+//            IDENT,
+            IMPLEMENTS_CLAUSE,
+            IMPORT,
+//            INC,
+//            INDEX_OP,
+            INSTANCE_INIT,
+            INTERFACE_DEF,
+            LABELED_STAT,
+//            LAND,
+//            LCURLY,
+//            LE,
+            LITERAL_ASSERT,
+//            LITERAL_BOOLEAN,
+            LITERAL_BREAK,
+//            LITERAL_BYTE,
+            LITERAL_CASE,
+            LITERAL_CATCH,
+//            LITERAL_CHAR,
+//            LITERAL_CLASS,
+            LITERAL_CONTINUE,
+//            LITERAL_DEFAULT,
+            LITERAL_DO,
+//            LITERAL_DOUBLE,
+//            LITERAL_ELSE,
+//            LITERAL_FALSE,
+            LITERAL_FINALLY,
+//            LITERAL_FLOAT,
+            LITERAL_FOR,
+            LITERAL_IF,
+//            LITERAL_INSTANCEOF,
+//            LITERAL_INT,
+//            LITERAL_INTERFACE,
+//            LITERAL_LONG,
+//            LITERAL_NATIVE,
+            LITERAL_NEW,
+//            LITERAL_NULL,
+//            LITERAL_PRIVATE,
+//            LITERAL_PROTECTED,
+//            LITERAL_PUBLIC,
+            LITERAL_RETURN,
+//            LITERAL_SHORT,
+//            LITERAL_STATIC,
+//            LITERAL_SUPER,
+            LITERAL_SWITCH,
+            LITERAL_SYNCHRONIZED,
+//            LITERAL_THIS,
+            LITERAL_THROW,
+            LITERAL_THROWS,
+//            LITERAL_TRANSIENT,
+//            LITERAL_TRUE,
+            LITERAL_TRY,
+//            LITERAL_VOID,
+//            LITERAL_VOLATILE,
+            LITERAL_WHILE,
+//            LNOT,
+//            LOR,
+//            LPAREN,
+//            LT,
+//            METHOD_CALL,
+            METHOD_DEF,
+//            MINUS,
+//            MINUS_ASSIGN,
+//            MOD,
+            MODIFIERS,
+//            MOD_ASSIGN,
+//            NOT_EQUAL,
+//            NUM_DOUBLE,
+//            NUM_FLOAT,
+//            NUM_INT,
+//            NUM_LONG,
+            OBJBLOCK,
+            PACKAGE_DEF,
+            PARAMETERS,
+            PARAMETER_DEF,
+//            PLUS,
+//            PLUS_ASSIGN,
+//            POST_DEC,
+//            POST_INC,
+//            QUESTION,
+//            RBRACK,
+//            RCURLY,
+//            RPAREN,
+//            SEMI,
+//            SL,
+            SLIST,
+//            SL_ASSIGN,
+//            SR,
+//            SR_ASSIGN,
+//            STAR,
+//            STAR_ASSIGN,
+            STATIC_IMPORT,
+            STATIC_INIT,
+//            STRICTFP,
+//            STRING_LITERAL,
+            SUPER_CTOR_CALL,
+//            TYPE,
+//            TYPECAST,
+            TYPE_ARGUMENT,
+            TYPE_ARGUMENTS,
+//            TYPE_EXTENSION_AND,
+            TYPE_LOWER_BOUNDS,
+            TYPE_PARAMETER,
+            TYPE_PARAMETERS,
+            TYPE_UPPER_BOUNDS,
+//            UNARY_MINUS,
+//            UNARY_PLUS,
+            VARIABLE_DEF,
+//            WILDCARD_TYPE,
         });
     }
 
@@ -504,73 +505,25 @@ class WrapAndIndent extends Check {
         case ANNOTATION:
             this.checkChildren(
                 ast,
-
-                LocalTokenType.AT,
-                FORK1,
-                LocalTokenType.DOT,
-                BRANCH2,
-
-                LABEL1,
-                LocalTokenType.IDENT,
-
-                LABEL2,
-                FORK3,
-                END,
-
-                LABEL3,
-                LocalTokenType.LPAREN,
-                BRANCH5,
-
-                LABEL4,
-                LocalTokenType.COMMA,
-
-                LABEL5,
-                FORK6,
-                MAY_INDENT,
-                LocalTokenType.ANNOTATION_MEMBER_VALUE_PAIR,
-                BRANCH9,
-
-                LABEL6,
-                FORK7,
-                MAY_INDENT,
-                LocalTokenType.ANNOTATION,
-                BRANCH9,
-
-                LABEL7,
-                FORK8,
-                MAY_INDENT,
-                LocalTokenType.EXPR,
-                BRANCH9,
-
-                LABEL8,
-                MAY_INDENT,
-                LocalTokenType.ANNOTATION_ARRAY_INIT,
-
-                LABEL9,
-                FORK4,
-                UNINDENT,
-                LocalTokenType.RPAREN,
-                END
+                AT, FORK1, DOT, BRANCH2,
+                LABEL1, IDENT,
+                LABEL2, FORK3, END,
+                LABEL3, LPAREN, BRANCH5,
+                LABEL4, COMMA,
+                LABEL5, FORK6, MAY_INDENT, ANNOTATION_MEMBER_VALUE_PAIR, BRANCH9,
+                LABEL6, FORK7, MAY_INDENT, ANNOTATION, BRANCH9,
+                LABEL7, FORK8, MAY_INDENT, EXPR, BRANCH9,
+                LABEL8, MAY_INDENT, ANNOTATION_ARRAY_INIT,
+                LABEL9, FORK4, UNINDENT, RPAREN, END
             );
             break;
 
         case ANNOTATION_ARRAY_INIT:
             this.checkChildren(
                 ast,
-
                 FORK2,
-
-                LABEL1,
-                MAY_INDENT,
-                LocalTokenType.EXPR,
-                FORK2,
-                LocalTokenType.COMMA,
-                FORK1,
-
-                LABEL2,
-                UNINDENT,
-                LocalTokenType.RCURLY,
-                END
+                LABEL1, MAY_INDENT, EXPR, FORK2, COMMA, FORK1,
+                LABEL2, UNINDENT, RCURLY, END
             );
             break;
 
@@ -578,62 +531,27 @@ class WrapAndIndent extends Check {
             if (this.allowOneLineAnnoDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
-
-                LocalTokenType.MODIFIERS,
-                this.wrapAnnoDeclBeforeAt,
-                LocalTokenType.AT,
-                LocalTokenType.LITERAL_INTERFACE,
-                LocalTokenType.IDENT,
-                this.wrapTypeDeclBeforeLCurly,
-                LocalTokenType.OBJBLOCK,
-                END
+                MODIFIERS, this.wrapAnnoDeclBeforeAt, AT, LITERAL_INTERFACE, IDENT, this.wrapTypeDeclBeforeLCurly, OBJBLOCK, END // SUPPRESS CHECKSTYLE LineLength
             );
             break;
 
         case ARRAY_INIT:
             this.checkChildren(
                 ast,
-
                 FORK2,
-
-                LABEL1,
-                MAY_INDENT,
-                ANY,
-                FORK2,
-                LocalTokenType.COMMA,
-                FORK1,
-
-                LABEL2,
-                UNINDENT,
-                LocalTokenType.RCURLY,
-                END
+                LABEL1, MAY_INDENT, ANY, FORK2, COMMA, FORK1,
+                LABEL2, UNINDENT, RCURLY, END
             );
             break;
 
         case CASE_GROUP:
             this.checkChildren(
                 ast,
-
-                FORK3,
-                LocalTokenType.LITERAL_CASE,        // case 1: case 2:
-
-                LABEL1,
-                FORK2,
-                MAY_WRAP,
-                LocalTokenType.LITERAL_CASE,
-                BRANCH1,
-
-                LABEL2,
-                FORK4,
-
-                LABEL3,
-                MAY_WRAP,
-                LocalTokenType.LITERAL_DEFAULT,
-
-                LABEL4,
-                INDENT_IF_CHILDREN,
-                LocalTokenType.SLIST,
-                END
+                FORK3, LITERAL_CASE,        // case 1: case 2:
+                LABEL1, FORK2, MAY_WRAP, LITERAL_CASE, BRANCH1,
+                LABEL2, FORK4,
+                LABEL3, MAY_WRAP, LITERAL_DEFAULT,
+                LABEL4, INDENT_IF_CHILDREN, SLIST, END
             );
             break;
 
@@ -641,43 +559,17 @@ class WrapAndIndent extends Check {
             if (this.allowOneLineClassDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
-
-                LocalTokenType.MODIFIERS,
-                this.wrapClassDeclBeforeClass,
-                LocalTokenType.LITERAL_CLASS,
-                LocalTokenType.IDENT,
-
-                FORK1,
-                LocalTokenType.TYPE_PARAMETERS,
-
-                LABEL1,
-                FORK2,
-                MAY_WRAP,
-                LocalTokenType.EXTENDS_CLAUSE,
-
-                LABEL2,
-                FORK3,
-                MAY_WRAP,
-                LocalTokenType.IMPLEMENTS_CLAUSE,
-
-                LABEL3,
-                this.wrapTypeDeclBeforeLCurly,
-                LocalTokenType.OBJBLOCK,
-                END
+                MODIFIERS, this.wrapClassDeclBeforeClass, LITERAL_CLASS, IDENT, FORK1, TYPE_PARAMETERS,
+                LABEL1, FORK2, MAY_WRAP, EXTENDS_CLAUSE,
+                LABEL2, FORK3, MAY_WRAP, IMPLEMENTS_CLAUSE,
+                LABEL3, this.wrapTypeDeclBeforeLCurly, OBJBLOCK, END
             );
             break;
 
         case CTOR_CALL:
             this.checkChildren(
                 ast,
-
-                LocalTokenType.LPAREN,
-                INDENT_IF_CHILDREN,
-                LocalTokenType.ELIST,
-                UNINDENT,
-                LocalTokenType.RPAREN,
-                LocalTokenType.SEMI,
-                END
+                LPAREN, INDENT_IF_CHILDREN, ELIST, UNINDENT, RPAREN, SEMI, END
             );
             break;
 
@@ -685,47 +577,18 @@ class WrapAndIndent extends Check {
             if (this.allowOneLineCtorDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
-
-                LocalTokenType.MODIFIERS,
-
-                FORK1,
-                LocalTokenType.TYPE_PARAMETERS,
-
-                LABEL1,
-                this.wrapCtorDeclBeforeName,
-                LocalTokenType.IDENT,
-
-                LocalTokenType.LPAREN,
-                INDENT_IF_CHILDREN,
-                LocalTokenType.PARAMETERS,
-                UNINDENT,
-                LocalTokenType.RPAREN,
-                FORK2,
-                MAY_WRAP,
-                LocalTokenType.LITERAL_THROWS,
-
-                LABEL2,
-                this.wrapCtorDeclBeforeLCurly,
-                LocalTokenType.SLIST,
-                END
+                MODIFIERS, FORK1, TYPE_PARAMETERS,
+                LABEL1, this.wrapCtorDeclBeforeName, IDENT, LPAREN, INDENT_IF_CHILDREN, PARAMETERS, UNINDENT, RPAREN, FORK2, MAY_WRAP, LITERAL_THROWS, // SUPPRESS CHECKSTYLE LineLength
+                LABEL2, this.wrapCtorDeclBeforeLCurly, SLIST, END
             );
             break;
 
         case ELIST:
             this.checkChildren(
                 ast,
-
                 FORK2,
-
-                LABEL1,
-                MAY_INDENT,
-                LocalTokenType.EXPR,
-                FORK2,
-                LocalTokenType.COMMA,
-                BRANCH1,
-
-                LABEL2,
-                END
+                LABEL1, MAY_INDENT, EXPR, FORK2, COMMA, BRANCH1,
+                LABEL2, END
             );
             break;
 
@@ -733,21 +596,14 @@ class WrapAndIndent extends Check {
             if (this.allowOneLineEnumDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
-
-                LocalTokenType.MODIFIERS,
-                this.wrapEnumDeclBeforeEnum,
-                LocalTokenType.ENUM,
-                LocalTokenType.IDENT,
-                this.wrapTypeDeclBeforeLCurly,
-                LocalTokenType.OBJBLOCK,
-                END
+                MODIFIERS, this.wrapEnumDeclBeforeEnum, ENUM, IDENT, this.wrapTypeDeclBeforeLCurly, OBJBLOCK, END
             );
             break;
 
         case EXPR:
             {
                 DetailAST child = ast.getFirstChild();
-                if (child.getType() == LocalTokenType.LPAREN.delocalize()) {
+                if (child.getType() == LPAREN.delocalize()) {
                     child = this.checkParenthesizedExpression(child, false);
                     assert child == null;
                 } else {
@@ -805,12 +661,7 @@ class WrapAndIndent extends Check {
         case FOR_EACH_CLAUSE:
             this.checkChildren(
                 ast,
-
-                LocalTokenType.VARIABLE_DEF,
-                MAY_WRAP,
-                LocalTokenType.COLON,
-                LocalTokenType.EXPR,
-                END
+                VARIABLE_DEF, MAY_WRAP, COLON, EXPR, END
             );
             break;
 
@@ -818,165 +669,61 @@ class WrapAndIndent extends Check {
             if (this.allowOneLineInterfaceDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
-
-                LocalTokenType.MODIFIERS,
-                this.wrapInterfaceDeclBeforeInterface,
-                LocalTokenType.LITERAL_INTERFACE,
-                LocalTokenType.IDENT,
-                FORK1,
-                LocalTokenType.TYPE_PARAMETERS,
-
-                LABEL1,
-                FORK2,
-                MAY_WRAP,
-                LocalTokenType.EXTENDS_CLAUSE,
-
-                LABEL2,
-                this.wrapTypeDeclBeforeLCurly,
-                LocalTokenType.OBJBLOCK,
-                END
+                MODIFIERS, this.wrapInterfaceDeclBeforeInterface, LITERAL_INTERFACE, IDENT, FORK1, TYPE_PARAMETERS,
+                LABEL1, FORK2, MAY_WRAP, EXTENDS_CLAUSE,
+                LABEL2, this.wrapTypeDeclBeforeLCurly, OBJBLOCK, END
             );
             break;
 
         case LABELED_STAT:
             this.checkChildren(
                 ast,
-
-                LocalTokenType.IDENT,
-                MAY_WRAP,
-                ANY,
-                END
+                IDENT, MAY_WRAP, ANY, END
             );
             break;
 
         case LITERAL_DO:
             this.checkChildren(
                 ast,
-
-                this.wrapDoBeforeLCurly,
-                LocalTokenType.SLIST,
-                LocalTokenType.DO_WHILE,
-                LocalTokenType.LPAREN,
-                MAY_INDENT,
-                LocalTokenType.EXPR,
-                UNINDENT,
-                LocalTokenType.RPAREN,
-                LocalTokenType.SEMI,
-                END
+                this.wrapDoBeforeLCurly, SLIST, DO_WHILE, LPAREN, MAY_INDENT, EXPR, UNINDENT, RPAREN, SEMI, END
             );
             break;
 
         case LITERAL_FOR:
             this.checkChildren(
                 ast,
-
-                LocalTokenType.LPAREN,
-                FORK1,
-                MAY_INDENT,
-                LocalTokenType.FOR_INIT,
-                LocalTokenType.SEMI,
-                MAY_INDENT,
-                LocalTokenType.FOR_CONDITION,
-                LocalTokenType.SEMI,
-                INDENT_IF_CHILDREN,
-                LocalTokenType.FOR_ITERATOR,
-                FORK2,
-
-                LABEL1,
-                MAY_INDENT,
-                LocalTokenType.FOR_EACH_CLAUSE,
-
-                LABEL2,
-                UNINDENT,
-                LocalTokenType.RPAREN,
-
-                FORK3,
-                LocalTokenType.EXPR,
-                LocalTokenType.SEMI,
-                END,
-
-                LABEL3,
-                ANY,
-                END
+                LPAREN, FORK1, MAY_INDENT, FOR_INIT, SEMI, MAY_INDENT, FOR_CONDITION, SEMI, INDENT_IF_CHILDREN, FOR_ITERATOR, FORK2, // SUPPRESS CHECKSTYLE LineLength
+                LABEL1, MAY_INDENT, FOR_EACH_CLAUSE,
+                LABEL2, UNINDENT, RPAREN, FORK3, EXPR, SEMI, END,
+                LABEL3, ANY, END
             );
             break;
 
         case LITERAL_IF:
             this.checkChildren(
                 ast,
-
-                LocalTokenType.LPAREN,
-                MAY_INDENT,
-                LocalTokenType.EXPR,
-                UNINDENT,
-                LocalTokenType.RPAREN,
-                FORK1,
-                LocalTokenType.EXPR,
-                LocalTokenType.SEMI,
-                END,
-
-                LABEL1,
-                ANY,
-                FORK2,
-                LocalTokenType.LITERAL_ELSE,
-
-                LABEL2,
-                END
+                LPAREN, MAY_INDENT, EXPR, UNINDENT, RPAREN, FORK1, EXPR, SEMI, END,
+                LABEL1, ANY, FORK2, LITERAL_ELSE,
+                LABEL2, END
             );
             break;
 
         case LITERAL_NEW:
             this.checkChildren(
                 ast,
-
-                ANY,
-                FORK1,
-                LocalTokenType.TYPE_ARGUMENTS,
-
-                LABEL1,
-                FORK3,
-                LocalTokenType.ARRAY_DECLARATOR,
-                FORK2,
-                this.wrapArrayInitBeforeLCurly,
-                LocalTokenType.ARRAY_INIT,
-
-                LABEL2,
-                END,
-
-                LABEL3,
-                LocalTokenType.LPAREN,
-                INDENT_IF_CHILDREN,
-                LocalTokenType.ELIST,
-                UNINDENT,
-                LocalTokenType.RPAREN,
-                OPTIONAL,
-                this.wrapAnonClassDeclBeforeLCurly,
-                LocalTokenType.OBJBLOCK,
-                END
+                ANY, FORK1, TYPE_ARGUMENTS,
+                LABEL1, FORK3, ARRAY_DECLARATOR, FORK2, this.wrapArrayInitBeforeLCurly, ARRAY_INIT,
+                LABEL2, END,
+                LABEL3, LPAREN, INDENT_IF_CHILDREN, ELIST, UNINDENT, RPAREN, OPTIONAL, this.wrapAnonClassDeclBeforeLCurly, OBJBLOCK, END // SUPPRESS CHECKSTYLE LineLength
             );
             break;
 
         case LITERAL_SWITCH:
             this.checkChildren(
                 ast,
-
-                LocalTokenType.LPAREN,
-                MAY_INDENT,
-                LocalTokenType.EXPR,
-                UNINDENT,
-                LocalTokenType.RPAREN,
-                LocalTokenType.LCURLY,
-                FORK2,
-
-                LABEL1,
-                MAY_INDENT,
-                LocalTokenType.CASE_GROUP,
-                FORK1,
-
-                LABEL2,
-                UNINDENT,
-                LocalTokenType.RCURLY,
-                END
+                LPAREN, MAY_INDENT, EXPR, UNINDENT, RPAREN, LCURLY, FORK2,
+                LABEL1, MAY_INDENT, CASE_GROUP, FORK1,
+                LABEL2, UNINDENT, RCURLY, END
             );
             break;
 
@@ -984,137 +731,56 @@ class WrapAndIndent extends Check {
             if (this.allowOneLineMethDecl && WrapAndIndent.isSingleLine(ast)) break;
             this.checkChildren(
                 ast,
-
-                LocalTokenType.MODIFIERS,
-                FORK1,
-                LocalTokenType.TYPE_PARAMETERS,
-
-                LABEL1,
-                LocalTokenType.TYPE,
-                this.wrapMethDeclBeforeName,
-                LocalTokenType.IDENT,
-                LocalTokenType.LPAREN,
-                INDENT_IF_CHILDREN,
-                LocalTokenType.PARAMETERS,
-                UNINDENT,
-                LocalTokenType.RPAREN,
-                FORK2,
-                MAY_WRAP,
-                LocalTokenType.LITERAL_THROWS,
-
-                LABEL2,
-                FORK3,
-                this.wrapMethodDeclBeforeLCurly,
-                LocalTokenType.SLIST,
-                END,
-
-                LABEL3,
-                LocalTokenType.SEMI,
-                END
+                MODIFIERS, FORK1, TYPE_PARAMETERS,
+                LABEL1, TYPE, this.wrapMethDeclBeforeName, IDENT, LPAREN, INDENT_IF_CHILDREN, PARAMETERS, UNINDENT, RPAREN, FORK2, MAY_WRAP, LITERAL_THROWS, // SUPPRESS CHECKSTYLE LineLength
+                LABEL2, FORK3, this.wrapMethodDeclBeforeLCurly, SLIST, END,
+                LABEL3, SEMI, END
             );
             break;
 
         case LITERAL_WHILE:
             this.checkChildren(
                 ast,
-
-                LocalTokenType.LPAREN,
-                MAY_INDENT,
-                LocalTokenType.EXPR,
-                UNINDENT,
-                LocalTokenType.RPAREN,
-                FORK1,
-
-                LocalTokenType.EXPR,
-                LocalTokenType.SEMI,
-                END,
-
-                LABEL1,
-                ANY,
-                END
+                LPAREN, MAY_INDENT, EXPR, UNINDENT, RPAREN, FORK1,  EXPR, SEMI, END,
+                LABEL1, ANY, END
             );
             break;
 
         case MODIFIERS:
             this.checkChildren(
                 ast,
-
                 FORK2,
-
-                LABEL1,
-                ANY,
-                FORK1,
-
-                LABEL2,
-                END
+                LABEL1, ANY, FORK1,
+                LABEL2, END
             );
             break;
 
         case OBJBLOCK:
             this.checkChildren(
                 ast,
-
-                LocalTokenType.LCURLY,
-                FORK3,
-
-                LABEL1,//2
-                MAY_INDENT,
-                LocalTokenType.ENUM_CONSTANT_DEF,
-                FORK2,
-                LocalTokenType.COMMA,
-                FORK1,
-
-                LABEL2,//8
-                FORK3,
-                MAY_INDENT,
-                LocalTokenType.SEMI,
-
-                LABEL3,//12
-                FORK5,
-                MAY_INDENT,
-                LocalTokenType.VARIABLE_DEF,
-
-                LABEL4,//16
-                FORK3,
-                LocalTokenType.COMMA,                  // int a = 3, b = 7;
-                LocalTokenType.VARIABLE_DEF,
-                BRANCH4,
-
-                LABEL5,//21
-                FORK6,
-                UNINDENT,
-                LocalTokenType.RCURLY,
-                END,
-
-                LABEL6,//26
-                MAY_INDENT,
-                ANY,
-                BRANCH2//29
+                LCURLY, FORK3,
+                LABEL1, MAY_INDENT, ENUM_CONSTANT_DEF, FORK2, COMMA, FORK1,
+                LABEL2, FORK3, MAY_INDENT, SEMI,
+                LABEL3, FORK5, MAY_INDENT, VARIABLE_DEF,
+                LABEL4, FORK3, COMMA, VARIABLE_DEF, BRANCH4,
+                LABEL5, FORK6, UNINDENT, RCURLY, END,
+                LABEL6, MAY_INDENT, ANY, BRANCH2
             );
             break;
 
         case PARAMETERS:
             this.checkChildren(
                 ast,
-
                 FORK2,
-
-                LABEL1,
-                MAY_INDENT,
-                LocalTokenType.PARAMETER_DEF,
-                FORK2,
-                LocalTokenType.COMMA,
-                BRANCH1,
-
-                LABEL2,
-                END
+                LABEL1, MAY_INDENT, PARAMETER_DEF, FORK2, COMMA, BRANCH1,
+                LABEL2, END
             );
             break;
 
         case SLIST:
             // Single-line case group?
             if (
-                ast.getParent().getType() == LocalTokenType.CASE_GROUP.delocalize()
+                ast.getParent().getType() == CASE_GROUP.delocalize()
                 && this.allowOneLineSwitchBlockStmtGroup
                 && WrapAndIndent.isSingleLine(ast)
                 && ast.getParent().getLineNo() == ast.getLineNo()
@@ -1122,89 +788,43 @@ class WrapAndIndent extends Check {
 
             this.checkChildren(
                 ast,
-
-                LABEL1,
-                FORK2,
-                MAY_INDENT,
-                LocalTokenType.EXPR,
-                LocalTokenType.SEMI,
-                BRANCH1,
-
-                LABEL2,
-                FORK5,
-                MAY_INDENT,
-                LocalTokenType.VARIABLE_DEF,
-
-                LABEL3,
-                FORK4,
-                LocalTokenType.COMMA,
-                LocalTokenType.VARIABLE_DEF,
-                BRANCH3,
-
-                LABEL4,
-                LocalTokenType.SEMI,
-                BRANCH1,
-
+                LABEL1, FORK2, MAY_INDENT, EXPR, SEMI, BRANCH1,
+                LABEL2, FORK5, MAY_INDENT, VARIABLE_DEF,
+                LABEL3, FORK4, COMMA, VARIABLE_DEF, BRANCH3,
+                LABEL4, SEMI, BRANCH1,
                 // SLIST in CASE_GROUP ends _without_ an RCURLY!
-                LABEL5,
-                FORK6,
-                END,
-
-                LABEL6,
-                FORK7,
-                UNINDENT,
-                LocalTokenType.RCURLY,
-                END,
-
-                LABEL7,
-                MAY_INDENT,
-                ANY,
-                BRANCH1,
-                0
+                LABEL5, FORK6, END,
+                LABEL6, FORK7, UNINDENT, RCURLY, END,
+                LABEL7, MAY_INDENT, ANY, BRANCH1
             );
             break;
 
         case SUPER_CTOR_CALL:
             this.checkChildren(
                 ast,
-
-                FORK1,
-                ANY,
-                LocalTokenType.DOT,
-
-                LABEL1,
-                LocalTokenType.LPAREN,
-                INDENT_IF_CHILDREN,
-                LocalTokenType.ELIST,
-                UNINDENT,
-                LocalTokenType.RPAREN,
-                LocalTokenType.SEMI,
-                END
+                FORK1, ANY, DOT,
+                LABEL1, LPAREN, INDENT_IF_CHILDREN, ELIST, UNINDENT, RPAREN, SEMI, END
             );
             break;
 
         case VARIABLE_DEF:
-            this.checkChildren(
-                ast,
-
-                LocalTokenType.MODIFIERS,
-                LocalTokenType.TYPE,
-                (
-                    ast.getParent().getType() == LocalTokenType.OBJBLOCK.delocalize()
-                    ? this.wrapFieldDeclBeforeName
-                    : this.wrapLocVarDeclBeforeName
-                ),
-                LocalTokenType.IDENT,
-                FORK1,
-                LocalTokenType.ASSIGN,
-
-                LABEL1,
-                FORK2,
-                LocalTokenType.SEMI, // Field declarations DO have a SEMI, local variable declarations DON'T!?
-
-                LABEL2,
-                END
-            );
+            if (ast.getParent().getType() == OBJBLOCK.delocalize()) {
+                this.checkChildren(
+                    ast,
+                    MODIFIERS, TYPE, this.wrapFieldDeclBeforeName, IDENT, FORK1, ASSIGN,
+                    // Field declarations DO have a SEMI, local variable declarations DON'T!?
+                    LABEL1, FORK2, SEMI,
+                    LABEL2, END
+                );
+            } else {
+                this.checkChildren(
+                    ast,
+                    MODIFIERS, TYPE, this.wrapLocVarDeclBeforeName, IDENT, FORK1, ASSIGN,
+                    // Field declarations DO have a SEMI, local variable declarations DON'T!?
+                    LABEL1, FORK2, SEMI,
+                    LABEL2, END
+                );
+            }
             break;
 
         // The AST of a PACKAGE declaration is quite extraordinary and thus difficult to check.
@@ -1243,15 +863,8 @@ class WrapAndIndent extends Check {
                 // A field or local variable initialization.
                 this.checkChildren(
                     ast,
-
-                    FORK1,
-                    this.wrapArrayInitBeforeLCurly,
-                    LocalTokenType.ARRAY_INIT,
-                    END,
-
-                    LABEL1,
-                    ANY,
-                    END
+                    FORK1, this.wrapArrayInitBeforeLCurly, ARRAY_INIT, END,
+                    LABEL1, ANY, END
                 );
             }
             break;
@@ -1259,22 +872,10 @@ class WrapAndIndent extends Check {
         case LITERAL_TRY:
             this.checkChildren(
                 ast,
-
-                LocalTokenType.SLIST,
-                FORK2,
-
-                LABEL1,
-                this.wrapTryBeforeCatch,
-                LocalTokenType.LITERAL_CATCH,
-                FORK1,
-                FORK3,
-
-                LABEL2,
-                this.wrapTryBeforeFinally,
-                LocalTokenType.LITERAL_FINALLY,
-
-                LABEL3,
-                END
+                SLIST, FORK2,
+                LABEL1, this.wrapTryBeforeCatch, LITERAL_CATCH, FORK1, FORK3,
+                LABEL2, this.wrapTryBeforeFinally, LITERAL_FINALLY,
+                LABEL3, END
             );
             break;
 
@@ -1385,7 +986,7 @@ class WrapAndIndent extends Check {
             PACKAGE_OR_IMPORT: {
                 for (DetailAST a = ast; a != null; a = a.getParent()) {
                     LocalTokenType aType = LocalTokenType.localize(a.getType());
-                    if (aType == LocalTokenType.PACKAGE_DEF || aType == LocalTokenType.IMPORT) break PACKAGE_OR_IMPORT;
+                    if (aType == PACKAGE_DEF || aType == IMPORT) break PACKAGE_OR_IMPORT;
                 }
                 break;
             }
@@ -1455,7 +1056,7 @@ class WrapAndIndent extends Check {
     private void
     checkExpression(DetailAST expression, boolean inline) {
 
-        if (expression.getType() == LocalTokenType.QUESTION.delocalize()) {
+        if (expression.getType() == QUESTION.delocalize()) {
             System.currentTimeMillis();
         }
         switch (LocalTokenType.localize(expression.getType())) {
@@ -1465,7 +1066,7 @@ class WrapAndIndent extends Check {
             {
                 DetailAST c = this.checkParenthesizedExpression(expression.getFirstChild(), inline);
                 c = this.checkParenthesizedExpression(c, inline);
-                assert c.getType() == LocalTokenType.COLON.delocalize();
+                assert c.getType() == COLON.delocalize();
                 c = c.getNextSibling();
                 c = this.checkParenthesizedExpression(c, inline);
                 assert c == null;
@@ -1480,7 +1081,7 @@ class WrapAndIndent extends Check {
                 this.checkSameLine(expression, WrapAndIndent.getLeftmostDescendant(c));
                 c = this.checkParenthesizedExpression(c, inline);
                 assert c != null;
-                assert c.getType() == LocalTokenType.RBRACK.delocalize();
+                assert c.getType() == RBRACK.delocalize();
                 this.checkSameLine(expression, c);
             }
             break;
@@ -1521,7 +1122,7 @@ class WrapAndIndent extends Check {
         case STAR_ASSIGN:
             {
                 DetailAST c = this.checkParenthesizedExpression(expression.getFirstChild(), inline);
-                if (c != null && c.getType() == LocalTokenType.TYPE_ARGUMENTS.delocalize()) {
+                if (c != null && c.getType() == TYPE_ARGUMENTS.delocalize()) {
 
                     // TYPE_ARGUMENTS checked by "visitToken()".
                     ;
@@ -1648,7 +1249,7 @@ class WrapAndIndent extends Check {
         case ARRAY_DECLARATOR:
             {
                 DetailAST c = this.checkParenthesizedExpression(expression.getFirstChild(), inline);
-                assert c.getType() == LocalTokenType.RBRACK.delocalize();
+                assert c.getType() == RBRACK.delocalize();
             }
             break;
 
@@ -1692,7 +1293,7 @@ class WrapAndIndent extends Check {
                 DetailAST arguments = method.getNextSibling();
                 DetailAST rparen    = arguments.getNextSibling();
 
-                assert rparen.getType() == LocalTokenType.RPAREN.delocalize();
+                assert rparen.getType() == RPAREN.delocalize();
                 assert rparen.getNextSibling() == null;
 
                 DetailAST firstArgument = arguments.getFirstChild();
@@ -1727,7 +1328,7 @@ class WrapAndIndent extends Check {
     getLeftmostDescendant(DetailAST ast) {
         for (;;) {
             DetailAST tmp = ast.getFirstChild();
-            if (tmp == null && ast.getType() == LocalTokenType.MODIFIERS.delocalize()) tmp = ast.getNextSibling();
+            if (tmp == null && ast.getType() == MODIFIERS.delocalize()) tmp = ast.getNextSibling();
             if (
                 tmp == null
                 || tmp.getLineNo() > ast.getLineNo()
@@ -1755,7 +1356,7 @@ class WrapAndIndent extends Check {
      */
     private DetailAST
     checkParenthesizedExpression(DetailAST previous, boolean inline) {
-        if (previous.getType() != LocalTokenType.LPAREN.delocalize()) {
+        if (previous.getType() != LPAREN.delocalize()) {
             this.checkExpression(previous, inline);
             return previous.getNextSibling();
         }
@@ -1764,7 +1365,7 @@ class WrapAndIndent extends Check {
 
         DetailAST next = previous.getNextSibling();
         for (;;) {
-            if (next.getType() != LocalTokenType.LPAREN.delocalize()) {
+            if (next.getType() != LPAREN.delocalize()) {
                 break;
             }
             this.checkSameLine(previous, next);
@@ -1786,7 +1387,7 @@ class WrapAndIndent extends Check {
         }
 
         previous = next;
-        assert next.getType() == LocalTokenType.RPAREN.delocalize();
+        assert next.getType() == RPAREN.delocalize();
         return next.getNextSibling();
     }
 
@@ -1810,13 +1411,13 @@ class WrapAndIndent extends Check {
             break;
 
         case SLIST:
-            if (ast.getParent().getType() == LocalTokenType.CASE_GROUP.delocalize()) {
+            if (ast.getParent().getType() == CASE_GROUP.delocalize()) {
                 ast = ast.getParent().getParent();
             }
             break;
 
         case PARAMETERS:
-            ast = ast.getParent().findFirstToken(LocalTokenType.IDENT.delocalize());
+            ast = ast.getParent().findFirstToken(IDENT.delocalize());
             break;
 
         case DOT:
@@ -1898,7 +1499,7 @@ class WrapAndIndent extends Check {
                                         break DO_BRANCH;
                                     } else
                                     if (na instanceof LocalTokenType) {
-                                        doBranch = child == null || ((LocalTokenType) na).delocalize() != child.getType();
+                                        doBranch = child == null || ((LocalTokenType) na).delocalize() != child.getType(); // SUPPRESS CHECKSTYLE LineLength
                                         break DO_BRANCH;
                                     } else
                                     if (na == ANY) {
@@ -1965,7 +1566,7 @@ class WrapAndIndent extends Check {
                     }
 
                     previousAst = WrapAndIndent.getRightmostDescendant(child);
-                    child = child.getNextSibling();
+                    child       = child.getNextSibling();
                     break;
 
                 case INDENT_IF_CHILDREN:
@@ -1984,7 +1585,7 @@ class WrapAndIndent extends Check {
                                 mode = 1;
                             } else {
                                 mode = 2;
-                                if (child.getType() == LocalTokenType.CASE_GROUP.delocalize()) {
+                                if (child.getType() == CASE_GROUP.delocalize()) {
                                     this.checkWrapped(ast, c);
                                 } else {
                                     this.checkIndented(ast, c);
@@ -2002,9 +1603,9 @@ class WrapAndIndent extends Check {
                             DetailAST l = WrapAndIndent.getLeftmostDescendant(child);
                             if (l.getLineNo() == previousAst.getLineNo()) {
                                 if (
-                                    ast.getType() == LocalTokenType.ARRAY_INIT.delocalize()
-                                    || ast.getType() == LocalTokenType.METHOD_CALL.delocalize()
-                                    || ast.getParent().getType() == LocalTokenType.ENUM_DEF.delocalize()
+                                    ast.getType() == ARRAY_INIT.delocalize()
+                                    || ast.getType() == METHOD_CALL.delocalize()
+                                    || ast.getParent().getType() == ENUM_DEF.delocalize()
                                 ) {
 
                                     // Allow multiple children in the same line.
@@ -2018,7 +1619,7 @@ class WrapAndIndent extends Check {
                                     );
                                 }
                             } else {
-                                if (child.getType() == LocalTokenType.CASE_GROUP.delocalize()) {
+                                if (child.getType() == CASE_GROUP.delocalize()) {
                                     this.checkWrapped(ast, l);
                                 } else {
                                     this.checkIndented(ast, l);
@@ -2060,7 +1661,7 @@ class WrapAndIndent extends Check {
 
                 case MUST_WRAP:
                     assert mode == 0;
-                    if (previousAst.getType() == LocalTokenType.MODIFIERS.delocalize()) {
+                    if (previousAst.getType() == MODIFIERS.delocalize()) {
                         ;
                     } else
                     {
@@ -2097,7 +1698,7 @@ class WrapAndIndent extends Check {
 
                 assert child != null;
                 previousAst = WrapAndIndent.getRightmostDescendant(child);
-                child = child.getNextSibling();
+                child       = child.getNextSibling();
             } else
             {
                 throw new AssertionError(tokenType);
