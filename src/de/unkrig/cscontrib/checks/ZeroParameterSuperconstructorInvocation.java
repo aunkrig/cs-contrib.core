@@ -40,6 +40,12 @@ import de.unkrig.cscontrib.LocalTokenType;
  *         super(); // <===
  *     }
  * }</pre>
+ *
+ * @cs-rule-group         %Coding.group
+ * @cs-rule-name          de.unkrig.ZeroParameterSuperconstructorInvocation
+ * @cs-rule-parent        TreeWalker
+ * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.ZeroParameterSuperconstructorInvocation
+ * @cs-message-key        Redundant invocation of zero-parameter superconstructor
  */
 @NotNullByDefault(false) public
 class ZeroParameterSuperconstructorInvocation extends Check {

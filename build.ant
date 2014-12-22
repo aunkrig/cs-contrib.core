@@ -1,0 +1,19 @@
+<project>
+	<target name="generate">
+		<echo message="${eclipse.home}" />
+		<javadoc
+			docletpath="../de.unkrig.doclet.cs/bin"
+			doclet="de.unkrig.doclet.cs.CsDoclet"
+		>
+			<arg value="-todir" /><arg file="src/de/unkrig/cscontrib/checks" />
+			<fileset dir="src" includes="**/checks/*.java" />
+			<fileset dir="src" includes="**/filters/*.java" />
+			<classpath>
+				<pathelement location="bin" />
+				<pathelement location="../de.unkrig.commons.nullanalysis/bin" />
+				<fileset dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
+				<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.core_*" />
+			</classpath>
+		</javadoc>
+	</target>
+</project>

@@ -28,6 +28,8 @@ package de.unkrig.cscontrib.checks;
 
 import java.util.regex.Pattern;
 
+import org.apache.commons.beanutils.ConversionException;
+
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.ParenPadCheck;
@@ -36,6 +38,16 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 
 /**
  * Enhanced version of "ParenPad": NOSPACE now allows '( // ...'.
+ * <p>
+ * <b>This check is superseded by 'de.unkrig.Whitespace'.</b>
+ *
+ * @cs-rule-group  %Whitespace.group
+ * @cs-rule-name   de.unkrig.ParenPad
+ * @cs-rule-parent TreeWalker
+ * @cs-message-key ''{0}'' is followed by whitespace
+ * @cs-message-key ''{0}'' is not followed by whitespace
+ * @cs-message-key ws.preceded
+ * @cs-message-key ws.notPreceded
  */
 @NotNullByDefault(false) public
 class ParenPad extends ParenPadCheck {
@@ -54,6 +66,28 @@ class ParenPad extends ParenPadCheck {
         + "|"
         + ""       // '(' + line-break
     );
+
+
+    /**
+     * @cs-property-name            option
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   nospace
+     * @cs-property-option-provider com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption
+     */
+    @Override public void
+    setOption(String option) throws ConversionException { super.setOption(option); }
+
+    /**
+     * @cs-property-name          tokens
+     * @cs-property-datatype      MultiCheck
+     * @cs-property-default-value CTOR_CALL,LPAREN,METHOD_CALL,RPAREN,SUPER_CTOR_CALL
+     * @cs-property-value-option  CTOR_CALL
+     * @cs-property-value-option  LPAREN
+     * @cs-property-value-option  METHOD_CALL
+     * @cs-property-value-option  RPAREN
+     * @cs-property-value-option  SUPER_CTOR_CALL
+     */
+    public void setTokens(int x) {}
 
     @Override protected void
     processLeft(DetailAST ast) {

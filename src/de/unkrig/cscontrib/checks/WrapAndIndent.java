@@ -46,6 +46,16 @@ import de.unkrig.cscontrib.LocalTokenType;
 
 /**
  * Statements must be uniformly wrapped and indented.
+ *
+ * @cs-rule-group         %Whitespace.group
+ * @cs-rule-name          de.unkrig.WrapAndIndent
+ * @cs-rule-parent        TreeWalker
+ * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1
+ * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2
+ * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3
+ * @cs-message-key        Must wrap line before ''{1}''
+ * @cs-message-key        ''{0}'' must appear on same line as ''{1}''
+ * @cs-message-key        ''{0}'' must appear in column {1}, not {2}
  */
 @NotNullByDefault(false) public
 class WrapAndIndent extends Check {
@@ -256,41 +266,245 @@ class WrapAndIndent extends Check {
     private Control wrapBeforeBinaryOperator         = MAY_WRAP;
     private Control wrapAfterBinaryOperator          = NO_WRAP;
 
-    // CONFIGURATION SETTERS
-    // CHECKSTYLE JavadocMethod:OFF
-    // CHECKSTYLE LineLength:OFF
-    public void setBasicOffset(int value)                          { this.basicOffset                      = value; }
+    // BEGIN CONFIGURATION SETTERS
 
-    public void setAllowOneLineClassDecl(boolean value)            { this.allowOneLineClassDecl            = value; }
-    public void setAllowOneLineInterfaceDecl(boolean value)        { this.allowOneLineInterfaceDecl        = value; }
-    public void setAllowOneLineEnumDecl(boolean value)             { this.allowOneLineEnumDecl             = value; }
-    public void setAllowOneLineAnnoDecl(boolean value)             { this.allowOneLineAnnoDecl             = value; }
-    public void setAllowOneLineCtorDecl(boolean value)             { this.allowOneLineCtorDecl             = value; }
-    public void setAllowOneLineMethDecl(boolean value)             { this.allowOneLineMethDecl             = value; }
-    public void setAllowOneLineSwitchBlockStmtGroup(boolean value) { this.allowOneLineSwitchBlockStmtGroup = value; }
+    /**
+     * @cs-property-name          basicOffset
+     * @cs-property-datatype      Integer
+     * @cs-property-default-value 4
+     */
+    public void
+    setBasicOffset(int value) { this.basicOffset = value; }
 
-    public void setWrapClassDeclBeforeClass(String value)          { this.wrapClassDeclBeforeClass         = WrapAndIndent.toWrap(value); }
-    public void setWrapPackageDeclBeforePackage(String value)      { this.wrapPackageDeclBeforePackage     = WrapAndIndent.toWrap(value); }
-    public void setWrapInterfaceDeclBeforeInterface(String value)  { this.wrapInterfaceDeclBeforeInterface = WrapAndIndent.toWrap(value); }
-    public void setWrapEnumDeclBeforeEnum(String value)            { this.wrapEnumDeclBeforeEnum           = WrapAndIndent.toWrap(value); }
-    public void setWrapAnnoDeclBeforeAt(String value)              { this.wrapAnnoDeclBeforeAt             = WrapAndIndent.toWrap(value); }
-    public void setWrapFieldDeclBeforeName(String value)           { this.wrapFieldDeclBeforeName          = WrapAndIndent.toWrap(value); }
-    public void setWrapCtorDeclBeforeName(String value)            { this.wrapCtorDeclBeforeName           = WrapAndIndent.toWrap(value); }
-    public void setWrapMethDeclBeforeName(String value)            { this.wrapMethDeclBeforeName           = WrapAndIndent.toWrap(value); }
-    public void setWrapLocVarDeclBeforeName(String value)          { this.wrapLocVarDeclBeforeName         = WrapAndIndent.toWrap(value); }
+    /**
+     * @cs-property-name          allowOneLineClassDecl
+     * @cs-property-datatype      Boolean
+     * @cs-property-default-value true
+     */
+    public void
+    setAllowOneLineClassDecl(boolean value) { this.allowOneLineClassDecl = value; }
 
-    public void setWrapTypeDeclBeforeLCurly(String value)          { this.wrapTypeDeclBeforeLCurly         = WrapAndIndent.toWrap(value); }
-    public void setWrapCtorDeclBeforeLCurly(String value)          { this.wrapCtorDeclBeforeLCurly         = WrapAndIndent.toWrap(value); }
-    public void setWrapMethodDeclBeforeLCurly(String value)        { this.wrapMethodDeclBeforeLCurly       = WrapAndIndent.toWrap(value); }
-    public void setWrapDoBeforeLCurly(String value)                { this.wrapDoBeforeLCurly               = WrapAndIndent.toWrap(value); }
-    public void setWrapTryBeforeCatch(String value)                { this.wrapTryBeforeCatch               = WrapAndIndent.toWrap(value); }
-    public void setWrapTryBeforeFinally(String value)              { this.wrapTryBeforeFinally             = WrapAndIndent.toWrap(value); }
-    public void setWrapArrayInitBeforeLCurly(String value)         { this.wrapArrayInitBeforeLCurly        = WrapAndIndent.toWrap(value); }
-    public void setWrapAnonClassDeclBeforeLCurly(String value)     { this.wrapAnonClassDeclBeforeLCurly    = WrapAndIndent.toWrap(value); }
-    public void setWrapBeforeBinaryOperator(String value)          { this.wrapBeforeBinaryOperator         = WrapAndIndent.toWrap(value); }
-    public void setWrapAfterBinaryOperator(String value)           { this.wrapAfterBinaryOperator          = WrapAndIndent.toWrap(value); }
-    // CHECKSTYLE LineLength:ON
-    // CHECKSTYLE MethodCheck:ON
+    /**
+     * @cs-property-name          allowOneLineInterfaceDecl
+     * @cs-property-datatype      Boolean
+     * @cs-property-default-value true
+     */
+    public void
+    setAllowOneLineInterfaceDecl(boolean value) { this.allowOneLineInterfaceDecl = value; }
+
+    /**
+     * @cs-property-name          allowOneLineEnumDecl
+     * @cs-property-datatype      Boolean
+     * @cs-property-default-value true
+     */
+    public void
+    setAllowOneLineEnumDecl(boolean value) { this.allowOneLineEnumDecl = value; }
+
+    /**
+     * @cs-property-name          allowOneLineAnnoDecl
+     * @cs-property-datatype      Boolean
+     * @cs-property-default-value true
+     */
+    public void
+    setAllowOneLineAnnoDecl(boolean value) { this.allowOneLineAnnoDecl = value; }
+
+    /**
+     * @cs-property-name          allowOneLineCtorDecl
+     * @cs-property-datatype      Boolean
+     * @cs-property-default-value true
+     */
+    public void
+    setAllowOneLineCtorDecl(boolean value) { this.allowOneLineCtorDecl = value; }
+
+    /**
+     * @cs-property-name          allowOneLineMethDecl
+     * @cs-property-datatype      Boolean
+     * @cs-property-default-value true
+     */
+    public void
+    setAllowOneLineMethDecl(boolean value) { this.allowOneLineMethDecl = value; }
+
+    /**
+     * @cs-property-name          allowOneLineSwitchBlockStmtGroup
+     * @cs-property-datatype      Boolean
+     * @cs-property-default-value true
+     */
+    public void
+    setAllowOneLineSwitchBlockStmtGroup(boolean value) { this.allowOneLineSwitchBlockStmtGroup = value; }
+
+    /**
+     * @cs-property-name            wrapPackageDeclBeforePackage
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   always
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapPackageDeclBeforePackage(String value) { this.wrapPackageDeclBeforePackage = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapClassDeclBeforeClass
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   always
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapClassDeclBeforeClass(String value) { this.wrapClassDeclBeforeClass = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapInterfaceDeclBeforeInterface
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   always
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapInterfaceDeclBeforeInterface(String value) {
+        this.wrapInterfaceDeclBeforeInterface = WrapAndIndent.toWrap(value);
+    }
+
+    /**
+     * @cs-property-name            wrapEnumDeclBeforeEnum
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   always
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapEnumDeclBeforeEnum(String value) { this.wrapEnumDeclBeforeEnum = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapAnnoDeclBeforeAt
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   always
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapAnnoDeclBeforeAt(String value) { this.wrapAnnoDeclBeforeAt = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapFieldDeclBeforeName
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   optional
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapFieldDeclBeforeName(String value) { this.wrapFieldDeclBeforeName = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapCtorDeclBeforeName
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   always
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapCtorDeclBeforeName(String value) { this.wrapCtorDeclBeforeName = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapMethDeclBeforeName
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   always
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapMethDeclBeforeName(String value) { this.wrapMethDeclBeforeName = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapLocVarDeclBeforeName
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   optional
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapLocVarDeclBeforeName(String value) { this.wrapLocVarDeclBeforeName = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapTypeDeclBeforeLCurly
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   never
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapTypeDeclBeforeLCurly(String value) { this.wrapTypeDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapCtorDeclBeforeLCurly
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   never
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapCtorDeclBeforeLCurly(String value) { this.wrapCtorDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapMethodDeclBeforeLCurly
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   never
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapMethodDeclBeforeLCurly(String value) { this.wrapMethodDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapDoBeforeLCurly
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   never
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapDoBeforeLCurly(String value) { this.wrapDoBeforeLCurly = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapTryBeforeCatch
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   optional
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapTryBeforeCatch(String value) { this.wrapTryBeforeCatch = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapTryBeforeFinally
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   optional
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapTryBeforeFinally(String value) { this.wrapTryBeforeFinally = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapArrayInitBeforeLCurly
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   never
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapArrayInitBeforeLCurly(String value) { this.wrapArrayInitBeforeLCurly = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapAnonClassDeclBeforeLCurly
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   never
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapAnonClassDeclBeforeLCurly(String value) { this.wrapAnonClassDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapBeforeBinaryOperator
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   optional
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapBeforeBinaryOperator(String value) { this.wrapBeforeBinaryOperator = WrapAndIndent.toWrap(value); }
+
+    /**
+     * @cs-property-name            wrapAfterBinaryOperator
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   never
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     */
+    public void
+    setWrapAfterBinaryOperator(String value) { this.wrapAfterBinaryOperator = WrapAndIndent.toWrap(value); }
+
     // END CONFIGURATION SETTERS
 
     /**

@@ -44,6 +44,12 @@ import de.unkrig.cscontrib.util.AstUtil;
 
 /**
  * Checks that particular Java elements are declared with a name that matches or does not match a configurable REGEX.
+ *
+ * @cs-rule-group         %Naming.group
+ * @cs-rule-name          de.unkrig.NameSpelling
+ * @cs-rule-parent        TreeWalker
+ * @cs-message-key        {0} ''{1}'' does not comply with ''{2}''
+ * @cs-message-key        {0} ''{1}'' must not match ''{2}''
  */
 @NotNullByDefault(false) public
 class NameSpelling extends AbstractFormatCheck {
@@ -104,8 +110,15 @@ class NameSpelling extends AbstractFormatCheck {
         toString() { return this.name; }
     }
 
-    // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
+    // BEGIN CONFIGURATION SETTERS
 
+    /**
+     * Elements to apply this check to.
+     *
+     * @cs-property-name            elements
+     * @cs-property-datatype        MultiCheck
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Elements
+     */
     public final void
     setElements(String[] elements) {
         for (final String element : elements) {
@@ -121,6 +134,13 @@ class NameSpelling extends AbstractFormatCheck {
         PUBLIC, PROTECTED, PRIVATE, STATIC, FINAL, VOLATILE, STRICTFP // SUPPRESS CHECKSTYLE JavadocVariable
     }
 
+    /**
+     * Apply only to declarations which have these modifiers.
+     *
+     * @cs-property-name            requiredModifiers
+     * @cs-property-datatype        MultiCheck
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Modifier
+     */
     public final void
     setRequiredModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
@@ -128,6 +148,13 @@ class NameSpelling extends AbstractFormatCheck {
         }
     }
 
+    /**
+     * Apply only to declarations which do not have these modifiers.
+     *
+     * @cs-property-name            missingModifiers
+     * @cs-property-datatype        MultiCheck
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Modifier
+     */
     public final void
     setMissingModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
@@ -140,6 +167,14 @@ class NameSpelling extends AbstractFormatCheck {
      */
     public enum Options { REQUIRE, FORBID } // SUPPRESS CHECKSTYLE JavadocVariable
 
+    /**
+     * Whether to REQUIRE or FORBID that names match.
+     *
+     * @cs-property-name            option
+     * @cs-property-datatype        SingleSelect
+     * @cs-property-default-value   REQUIRE
+     * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Options
+     */
     public final void
     setOption(String option) throws ConversionException {
         try {
@@ -149,7 +184,15 @@ class NameSpelling extends AbstractFormatCheck {
         }
     }
 
-    // END CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:ON
+    /**
+     * The pattern to match the name against.
+     *
+     * @cs-property-name     format
+     * @cs-property-datatype Regex
+     */
+    public void setFormat(int x) {}
+
+    // END CONFIGURATION SETTERS
 
     @Override public int[]
     getDefaultTokens() {
