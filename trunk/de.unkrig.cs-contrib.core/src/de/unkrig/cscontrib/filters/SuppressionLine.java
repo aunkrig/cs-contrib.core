@@ -45,7 +45,11 @@ import com.puppycrawl.tools.checkstyle.checks.FileContentsHolder;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 
-/***/
+/**
+ * @cs-rule-group        %Filters.group
+ * @cs-rule-parent       Checker
+ * @cs-rule-has-severity false
+ */
 @NotNullByDefault(false) public
 class SuppressionLine extends AutomaticBean implements Filter {
 
@@ -251,8 +255,13 @@ class SuppressionLine extends AutomaticBean implements Filter {
     public
     SuppressionLine() {}
 
-    // CONFIGURATION SETTERS AND GETTERS -- CHECKSTYLE JavadocMethod:OFF
+    // BEGIN CONFIGURATION SETTERS
 
+    /**
+     * @cs-property-name                   offFormat
+     * @cs-property-datatype               Regex
+     * @cs-property-override-default-value CHECKSTYLE (.+):OFF
+     */
     public void
     setOffFormat(String offFormat) throws ConversionException {
         try {
@@ -262,6 +271,11 @@ class SuppressionLine extends AutomaticBean implements Filter {
         }
     }
 
+    /**
+     * @cs-property-name                   onFormat
+     * @cs-property-datatype               Regex
+     * @cs-property-override-default-value CHECKSTYLE (.+):ON
+     */
     public void
     setOnFormat(String onFormat) throws ConversionException {
         try {
@@ -271,6 +285,11 @@ class SuppressionLine extends AutomaticBean implements Filter {
         }
     }
 
+    /**
+     * @cs-property-name                   checkNameFormat
+     * @cs-property-datatype               Regex
+     * @cs-property-override-default-value $1
+     */
     public void
     setCheckNameFormat(String checkNameFormat) throws ConversionException {
         try {
@@ -281,6 +300,11 @@ class SuppressionLine extends AutomaticBean implements Filter {
         this.checkNameFormat = checkNameFormat;
     }
 
+    /**
+     * @cs-property-name                   messageFormat
+     * @cs-property-datatype               Regex
+     * @cs-property-override-default-value $1
+     */
     public void
     setMessageFormat(String messageFormat) throws ConversionException {
         // check that format parses
@@ -292,6 +316,11 @@ class SuppressionLine extends AutomaticBean implements Filter {
         this.messageFormat = messageFormat;
     }
 
+    /**
+     * @cs-property-name                   moduleIdFormat
+     * @cs-property-datatype               Regex
+     * @cs-property-override-default-value $1
+     */
     public void
     setModuleIdFormat(String moduleIdFormat) throws ConversionException {
         try {
@@ -302,7 +331,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
         this.moduleIdFormat = moduleIdFormat;
     }
 
-    // END CONFIGURATION SETTERS AND GETTERS -- CHECKSTYLE JavadocMethod:ON
+    // END CONFIGURATION SETTERS
 
     /** @return the FileContents for this filter. */
     public FileContents

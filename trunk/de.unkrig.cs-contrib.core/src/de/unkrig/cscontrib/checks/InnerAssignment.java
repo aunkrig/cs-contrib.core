@@ -35,8 +35,14 @@ import de.unkrig.cscontrib.util.AstUtil;
 
 /**
  * Assignments in expressions must be parenthesized, like "a = (b = c)" or "while ((a = b))".
+ * <p>
+ * An enhanced version of 'InnerAssignment': It comes with a quickfix for ECLIPSE-CS.
  *
- * An enhanced version of 'InnerAssignment': It comes with a quickfix.
+ * @cs-rule-group         %Coding.group
+ * @cs-rule-name          de.unkrig.InnerAssignment
+ * @cs-rule-parent        TreeWalker
+ * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.InnerAssignment
+ * @cs-message-key        Assignments in expressions must be parenthesized
  */
 @NotNullByDefault(false) public
 class InnerAssignment extends Check {

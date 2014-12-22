@@ -53,6 +53,11 @@ import de.unkrig.cscontrib.util.AstUtil;
  *   <li>They appear in immediately consecutive lines
  * </ul>
  * Examples for AST siblings are the arguments in an invocation, or the operands of an arithmetic expression.
+ *
+ * @cs-rule-group  %Whitespace.group
+ * @cs-rule-name   de.unkrig.CppCommentAlignment
+ * @cs-rule-parent TreeWalker
+ * @cs-message-key C++ comment must appear on column {0}, not {1}
  */
 @NotNullByDefault(false) public
 class CppCommentAlignment extends AbstractFormatCheck {
