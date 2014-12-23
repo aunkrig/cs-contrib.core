@@ -139,7 +139,7 @@ class Alignment extends Check {
     }
 
     /**
-     * Check alignment of constructor and method <i>parameter</i> names.
+     * Check alignment of method (and constructor) parameter names.
      *
      * @cs-property-name          applyToParameterName
      * @cs-property-datatype      Boolean
