@@ -47,6 +47,7 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 
 /**
  * @cs-rule-group        %Filters.group
+ * @cs-rule-name         de.unkrig.SuppressionLine
  * @cs-rule-parent       Checker
  * @cs-rule-has-severity false
  */

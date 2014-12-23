@@ -140,9 +140,10 @@ class WhitespaceAround extends WhitespaceAroundCheck {
      * @cs-property-datatype      Boolean
      * @cs-property-default-value false
      */
-    @Override public void
+//    @Override
+    public void
     setAllowEmptyTypes(boolean value) {
-        super.setAllowEmptyTypes(value);
+//        super.setAllowEmptyTypes(value);
         this.allowEmptyTypes = value;
     }
 
