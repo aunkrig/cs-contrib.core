@@ -45,14 +45,19 @@ import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
 
 /**
- * Verifies that C++ comments are correctly aligned.
+ * Verifies that C++-style comments ('<code>// ...</code>') are correctly aligned.
  * <p>
- * C++ comments must appear on the same column iff
+ * C++-style comments must appear on the same column iff
  * <ul>
- *   <li>They designate AST siblings, and
- *   <li>They appear in immediately consecutive lines
+ *   <li>They appear in immediately consecutive lines, and
+ *   <li>All of these lines are of the same 'kind' (see below)
  * </ul>
- * Examples for AST siblings are the arguments in an invocation, or the operands of an arithmetic expression.
+ * Each line of code relates to one of the following 'kinds':
+ * <ul>
+ *   <li>A line which contains only a C++-style comment
+ *   <li>A line which contains only a switch label ('{@code case x:}' or '{@code default:}') and a C++-style comment
+ *   <li>Any other line
+ * </ul>
  *
  * @cs-rule-group  %Whitespace.group
  * @cs-rule-name   de.unkrig.CppCommentAlignment
