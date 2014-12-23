@@ -36,39 +36,42 @@ import de.unkrig.cscontrib.util.AstUtil;
 
 // SUPPRESS CHECKSTYLE LineLength:33
 /**
- * Verifies that Java elements are vertically aligned in immediately consecutive lines (and only there\!):
+ * Verifies that Java elements are vertically aligned in immediately consecutive lines (and only there!):
  * <pre>
- *     public class Main {
+ * public class Main {
+ *
+ *     int    <font color="red">x</font> = 7;
+ *     double <font color="red">xxx</font> = 7.0;              // Aligned field names
+ *
+ *     int y      <font color="red">=</font> 7;
+ *     double yyy <font color="red">=</font> 7.0;              // Aligned field initializers
+ *
+ *     public static void meth1(
+ *         String[] <font color="red">p1</font>,
+ *         int      <font color="red">p2</font>                // Aligned parameter names
+ *     ) {
  *
  *         int    <font color="red">x</font> = 7;
- *         double <font color="red">xxx</font> = 7.0;              // Aligned field names
+ *         double <font color="red">xxx</font> = 7.0;          // Aligned local variable names
  *
  *         int y      <font color="red">=</font> 7;
- *         double yyy <font color="red">=</font> 7.0;              // Aligned field initializers
+ *         double yyy <font color="red">=</font> 7.0;          // Aligned local variable initializers
  *
- *         public static void meth1(
- *             String[] <font color="red">p1</font>,
- *             int      <font color="red">p2</font>                // Aligned parameter names
- *         ) {
+ *         y   <font color="red">=</font> 8;
+ *         yyy <font color="red">=</font> 8.0;                 // Aligned assignments
  *
- *             int    <font color="red">x</font> = 7;
- *             double <font color="red">xxx</font> = 7.0;          // Aligned local variable names
- *
- *             int y      <font color="red">=</font> 7;
- *             double yyy <font color="red">=</font> 7.0;          // Aligned local variable initializers
- *
- *             y   <font color="red">=</font> 8;
- *             yyy <font color="red">=</font> 8.0;                 // Aligned assignments
- *
- *             switch (x) {
- *             case 1:  <font color="red">break;</font>
- *             default: <font color="red">x++;</font> return;      // Aligned case groups statements
- *             }
+ *         switch (x) {
+ *         case 1:  <font color="red">break;</font>
+ *         default: <font color="red">x++;</font> return;      // Aligned case groups statements
  *         }
+ *     }
  *
- *         public static void <font color="red">meth2</font>()  <font color="red">{}</font>
- *         public void        <font color="red">meth33</font>() <font color="red">{}</font> // Aligned method names and bodies
- *     }</pre>
+ *     public static void <font color="red">meth2</font>() {}
+ *     public void        <font color="red">meth33</font>() {} // Aligned method names
+ *
+ *     public static void meth4()  <font color="red">{}</font>
+ *     public void meth5()         <font color="red">{}</font> // Aligned method bodies
+ * }</pre>
  *
  * @cs-rule-group %Whitespace.group
  * @cs-rule-name  de.unkrig.Alignment
@@ -91,7 +94,7 @@ class Alignment extends Check {
     // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
 
     /**
-     * Check alignment of field names in declarations.
+     * Check alignment of first name in field declarations.
      *
      * @cs-property-name          applyToFieldName
      * @cs-property-datatype      Boolean
@@ -103,7 +106,7 @@ class Alignment extends Check {
     }
 
     /**
-     * Check alignment of '=' in field declarations.
+     * Check alignment of first '=' in field declarations.
      *
      * @cs-property-name          applyToFieldInitializer
      * @cs-property-datatype      Boolean
@@ -112,30 +115,6 @@ class Alignment extends Check {
     public void
     setApplyToFieldInitializer(boolean applyToFieldInitializer) {
         this.applyToFieldInitializer = applyToFieldInitializer;
-    }
-
-    /**
-     * Check alignment of local variable names in declarations.
-     *
-     * @cs-property-name          applyToLocalVariableName
-     * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
-     */
-    public void
-    setApplyToLocalVariableName(boolean applyToLocalVariableName) {
-        this.applyToLocalVariableName = applyToLocalVariableName;
-    }
-
-    /**
-     * Check alignment of '=' in local variable declarations.
-     *
-     * @cs-property-name          applyToLocalVariableInitializer
-     * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
-     */
-    public void
-    setApplyToLocalVariableInitializer(boolean applyToLocalVariableInitializer) {
-        this.applyToLocalVariableInitializer = applyToLocalVariableInitializer;
     }
 
     /**
@@ -148,6 +127,54 @@ class Alignment extends Check {
     public void
     setApplyToParameterName(boolean applyToParameterName) {
         this.applyToParameterName = applyToParameterName;
+    }
+
+    /**
+     * Check alignment of first name in local variable declarations.
+     *
+     * @cs-property-name          applyToLocalVariableName
+     * @cs-property-datatype      Boolean
+     * @cs-property-default-value true
+     */
+    public void
+    setApplyToLocalVariableName(boolean applyToLocalVariableName) {
+        this.applyToLocalVariableName = applyToLocalVariableName;
+    }
+
+    /**
+     * Check alignment of first '=' in local variable declarations.
+     *
+     * @cs-property-name          applyToLocalVariableInitializer
+     * @cs-property-datatype      Boolean
+     * @cs-property-default-value true
+     */
+    public void
+    setApplyToLocalVariableInitializer(boolean applyToLocalVariableInitializer) {
+        this.applyToLocalVariableInitializer = applyToLocalVariableInitializer;
+    }
+
+    /**
+     * Check alignment of '=' in assignments.
+     *
+     * @cs-property-name          applyToAssignments
+     * @cs-property-datatype      Boolean
+     * @cs-property-default-value true
+     */
+    public void
+    setApplyToAssignments(boolean applyToAssignments) {
+        this.applyToAssignments = applyToAssignments;
+    }
+
+    /**
+     * Check alignment of first statement in case groups.
+     *
+     * @cs-property-name          applyToCaseGroupStatements
+     * @cs-property-datatype      Boolean
+     * @cs-property-default-value true
+     */
+    public void
+    setApplyToCaseGroupStatements(boolean applyToCaseGroupStatements) {
+        this.applyToCaseGroupStatements = applyToCaseGroupStatements;
     }
 
     /**
@@ -172,30 +199,6 @@ class Alignment extends Check {
     public void
     setApplyToMethodBody(boolean applyToMethodBody) {
         this.applyToMethodBody = applyToMethodBody;
-    }
-
-    /**
-     * Check alignment of first statement in case groups.
-     *
-     * @cs-property-name          applyToCaseGroupStatements
-     * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
-     */
-    public void
-    setApplyToCaseGroupStatements(boolean applyToCaseGroupStatements) {
-        this.applyToCaseGroupStatements = applyToCaseGroupStatements;
-    }
-
-    /**
-     * Check alignment of '=' in assignments.
-     *
-     * @cs-property-name          applyToAssignments
-     * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
-     */
-    public void
-    setApplyToAssignments(boolean applyToAssignments) {
-        this.applyToAssignments = applyToAssignments;
     }
 
     // END CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:ON
