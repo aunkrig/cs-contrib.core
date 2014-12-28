@@ -33,7 +33,7 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 
 /**
- * Checks for redundant zero-parameter superconstructor invocations:
+ * Verifies that no constructor calls the zero-parameter superconstructor.
  * <pre>
  * class Foo extends Bar {
  *     Foo(int a, int b) {
@@ -45,10 +45,13 @@ import de.unkrig.cscontrib.LocalTokenType;
  * @cs-rule-name          de.unkrig.ZeroParameterSuperconstructorInvocation
  * @cs-rule-parent        TreeWalker
  * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.ZeroParameterSuperconstructorInvocation
- * @cs-message-key        Redundant invocation of zero-parameter superconstructor
  */
 @NotNullByDefault(false) public
 class ZeroParameterSuperconstructorInvocation extends Check {
+
+    /** @cs-message Redundant invocation of zero-parameter superconstructor */
+    public static final String
+    MESSAGE_KEY_INVOCATION = "de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation.invocation";
 
     @Override public int[]
     getDefaultTokens() { return new int[] { LocalTokenType.CTOR_DEF.delocalize() }; }
@@ -78,7 +81,7 @@ class ZeroParameterSuperconstructorInvocation extends Check {
 
         // Complain about redundant zero-parameter superconstructor invocation.
         if (argumentCount == 0) {
-            this.log(superconstructorCall, "Redundant invocation of zero-parameter superconstructor");
+            this.log(superconstructorCall, ZeroParameterSuperconstructorInvocation.MESSAGE_KEY_INVOCATION);
         }
     }
 }

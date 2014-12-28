@@ -76,10 +76,12 @@ import de.unkrig.cscontrib.util.AstUtil;
  * @cs-rule-group %Whitespace.group
  * @cs-rule-name  de.unkrig.Alignment
  * @cs-rule-parent TreeWalker
- * @cs-message-key ''{0}'' should be aligned with ''{1}'' in line {2,number,#}
  */
 @NotNullByDefault(false) public
 class Alignment extends Check {
+
+    /** @cs-message ''{0}'' should be aligned with ''{1}'' in line {2,number,#} */
+    public static final String MESSAGE_KEY_MISALIGNED = "de.unkrig.cscontrib.checks.Alignment.misaligned";
 
     private boolean applyToFieldName                = true;
     private boolean applyToFieldInitializer         = true;
@@ -419,7 +421,7 @@ class Alignment extends Check {
             // preceding line.
             this.log(
                 currentToken,
-                "''{0}'' should be aligned with ''{1}'' in line {2,number,#}",
+                Alignment.MESSAGE_KEY_MISALIGNED,
                 currentToken.getText(),
                 previousToken.getText(),
                 previousToken.getLineNo()

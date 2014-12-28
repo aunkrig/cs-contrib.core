@@ -43,36 +43,53 @@ import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
 
 /**
- * Checks that particular Java elements are declared with a name that matches or does not match a configurable REGEX.
+ * Verifies that the names of Java elements match, respectively no not match given patterns.
+ * <p>
+ * This check makes name checking more powerful, compared with CheckStyle's standard "Naming Conventions" checks:
+ * </p>
+ * <ul>
+ *   <li>Arbitrary sets of required/forbidden modifiers can be specified</li>
+ *   <li>
+ *     Name patterns can not only be enforced but also be forbidden (useful, e.g., to forbid certains styles of
+ *     hungarian notation)
+ *   </li>
+ *   <li>
+ *     Adds the possibility to check the names of annotations, annotation fields and {@code enum}s (which are missing
+ *     from the standard checks)
+ *   </li>
+ * </ul>
+ * <p>
+ *   This check supersedes all of the CheckStyle standard "Naming Conventions" checks:
+ * </p>
+ * <ul>
+ *   <li>Abstract Class Name</li>
+ *   <li>Class Type Parameter Name</li>
+ *   <li>Constant Names</li>
+ *   <li>Enum Values Name</li>
+ *   <li>Interface Type Parameter Name</li>
+ *   <li>Local Final Variable Names</li>
+ *   <li>Local Variable Names</li>
+ *   <li>Member Names</li>
+ *   <li>Method Names</li>
+ *   <li>Method Type Parameter Name</li>
+ *   <li>Package Names</li>
+ *   <li>Parameter Names</li>
+ *   <li>Static Variable Names</li>
+ *   <li>Type Names</li>
+ * </ul>
  *
  * @cs-rule-group         %Naming.group
  * @cs-rule-name          de.unkrig.NameSpelling
  * @cs-rule-parent        TreeWalker
- * @cs-message-key        {0} ''{1}'' does not comply with ''{2}''
- * @cs-message-key        {0} ''{1}'' must not match ''{2}''
  */
 @NotNullByDefault(false) public
 class NameSpelling extends AbstractFormatCheck {
 
-    /**
-     * Elements to apply this check to
-     */
-    private final EnumSet<Elements> elements = EnumSet.noneOf(Elements.class);
+    /** @cs-message {0} ''{1}'' does not comply with ''{2}'' */
+    public static final String MESSAGE_KEY_DOES_NOT_COMPLY = "de.unkrig.cscontrib.checks.NameSpelling.doesNotComply";
 
-    /**
-     * Apply only to declarations which have these modifiers
-     */
-    private final Set<LocalTokenType> requiredModifiers = new HashSet<LocalTokenType>();
-
-    /**
-     * Apply only to declarations which do not have these modifiers
-     */
-    private final Set<LocalTokenType> missingModifiers = new HashSet<LocalTokenType>();
-
-    /**
-     * Whether to REQUIRE or FORBID that names match
-     */
-    private Options option;
+    /** @cs-message {0} ''{1}'' must not match ''{2}'' */
+    public static final String MESSAGE_KEY_MUST_NOT_MATCH = "de.unkrig.cscontrib.checks.NameSpelling.mustNotMatch";
 
     public
     NameSpelling() { super(""); }
@@ -125,13 +142,33 @@ class NameSpelling extends AbstractFormatCheck {
             this.elements.add(Enum.valueOf(Elements.class, element.toUpperCase()));
         }
     }
+    private final EnumSet<Elements> elements = EnumSet.noneOf(Elements.class);
 
     /**
      * The 'option-provider' for the 'requiredModifiers' and 'missingModifiers' properties.
      */
     public
     enum Modifier {
-        PUBLIC, PROTECTED, PRIVATE, STATIC, FINAL, VOLATILE, STRICTFP // SUPPRESS CHECKSTYLE JavadocVariable
+
+        // SUPPRESS CHECKSTYLE JavadocVariable:11
+        PUBLIC(LocalTokenType.LITERAL_PUBLIC),
+        PROTECTED(LocalTokenType.LITERAL_PROTECTED),
+        PRIVATE(LocalTokenType.LITERAL_PRIVATE),
+        ABSTRACT(LocalTokenType.ABSTRACT),
+        STATIC(LocalTokenType.LITERAL_STATIC),
+        FINAL(LocalTokenType.FINAL),
+        SYNCHRONIZED(LocalTokenType.LITERAL_SYNCHRONIZED),
+        NATIVE(LocalTokenType.LITERAL_NATIVE),
+        TRANSIENT(LocalTokenType.LITERAL_TRANSIENT),
+        VOLATILE(LocalTokenType.LITERAL_VOLATILE),
+        STRICTFP(LocalTokenType.STRICTFP),
+        ;
+
+        private final LocalTokenType ltt;
+
+        Modifier(LocalTokenType ltt) { this.ltt = ltt; }
+
+        public LocalTokenType toLocalTokenType() { return this.ltt; }
     }
 
     /**
@@ -144,9 +181,10 @@ class NameSpelling extends AbstractFormatCheck {
     public final void
     setRequiredModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
-            this.requiredModifiers.add(LocalTokenType.valueOf("LITERAL_" + modifier.toUpperCase()));
+            this.requiredModifiers.add(Modifier.valueOf(modifier.toUpperCase()).toLocalTokenType());
         }
     }
+    private final Set<LocalTokenType> requiredModifiers = new HashSet<LocalTokenType>();
 
     /**
      * Apply only to declarations which do not have these modifiers.
@@ -158,9 +196,10 @@ class NameSpelling extends AbstractFormatCheck {
     public final void
     setMissingModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
-            this.missingModifiers.add(LocalTokenType.valueOf("LITERAL_" + modifier.toUpperCase()));
+            this.missingModifiers.add(Modifier.valueOf(modifier.toUpperCase()).toLocalTokenType());
         }
     }
+    private final Set<LocalTokenType> missingModifiers = new HashSet<LocalTokenType>();
 
     /**
      * Whether a name MUST match, or MUST NOT match.
@@ -168,11 +207,11 @@ class NameSpelling extends AbstractFormatCheck {
     public enum Options { REQUIRE, FORBID } // SUPPRESS CHECKSTYLE JavadocVariable
 
     /**
-     * Whether to REQUIRE or FORBID that names match.
+     * Whether to require or forbid that names match.
      *
      * @cs-property-name            option
      * @cs-property-datatype        SingleSelect
-     * @cs-property-default-value   REQUIRE
+     * @cs-property-default-value   require
      * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Options
      */
     public final void
@@ -183,6 +222,7 @@ class NameSpelling extends AbstractFormatCheck {
             throw new ConversionException(option, iae);
         }
     }
+    private Options option;
 
     /**
      * The pattern to match the name against.
@@ -350,7 +390,7 @@ class NameSpelling extends AbstractFormatCheck {
                     this.log(
                         fullName.getLineNo(),
                         fullName.getColumnNo(),
-                        "{0} ''{1}'' does not comply with ''{2}''",
+                        NameSpelling.MESSAGE_KEY_DOES_NOT_COMPLY,
                         element.toString(),
                         fullName.getText(),
                         this.getFormat()
@@ -363,7 +403,7 @@ class NameSpelling extends AbstractFormatCheck {
                     this.log(
                         fullName.getLineNo(),
                         fullName.getColumnNo(),
-                        "{0} ''{1}'' must not match ''{2}''",
+                        NameSpelling.MESSAGE_KEY_MUST_NOT_MATCH,
                         element.toString(),
                         fullName.getText(),
                         this.getFormat()

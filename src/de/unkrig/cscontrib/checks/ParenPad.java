@@ -37,20 +37,25 @@ import com.puppycrawl.tools.checkstyle.checks.whitespace.ParenPadCheck;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 
 /**
- * Enhanced version of "ParenPad": NOSPACE now allows '( // ...'.
+ * Enhanced version of "ParenPad": NOSPACE now allows "{@code ( // ...}".
  * <p>
- * <b>This check is superseded by 'de.unkrig.Whitespace'.</b>
+ *   <span style="color: red"><b>This check is superseded by {@code de.unkrig.Whitespace}.</b></span>
+ * </p>
  *
  * @cs-rule-group  %Whitespace.group
  * @cs-rule-name   de.unkrig.ParenPad
  * @cs-rule-parent TreeWalker
- * @cs-message-key ''{0}'' is followed by whitespace
- * @cs-message-key ''{0}'' is not followed by whitespace
- * @cs-message-key ws.preceded
- * @cs-message-key ws.notPreceded
  */
 @NotNullByDefault(false) public
 class ParenPad extends ParenPadCheck {
+
+    /** @cs-message ''{0}'' is followed by whitespace */
+    public static final String
+    MESSAGE_KEY_FOLLOWED_BY_WHITESPACE = "de.unkrig.cscontrib.checks.ParenPad.followedByWhitespace";
+
+    /** @cs-message ''{0}'' is not followed by whitespace */
+    public static final String
+    MESSAGE_KEY_NOT_FOLLOWED_BY_WHITESPACE = "de.unkrig.cscontrib.checks.ParenPad.notFollowedByWhitespace";
 
     private static final Pattern NOSPACE_PATTERN = Pattern.compile(
         "[^\\s].*"   // '(' + non-space
@@ -69,6 +74,8 @@ class ParenPad extends ParenPadCheck {
 
 
     /**
+     * Whether space is required or forbidden.
+     *
      * @cs-property-name            option
      * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   nospace
@@ -78,14 +85,16 @@ class ParenPad extends ParenPadCheck {
     setOption(String option) throws ConversionException { super.setOption(option); }
 
     /**
+     * Tokens to check.
+     *
      * @cs-property-name          tokens
      * @cs-property-datatype      MultiCheck
-     * @cs-property-default-value CTOR_CALL,LPAREN,METHOD_CALL,RPAREN,SUPER_CTOR_CALL
-     * @cs-property-value-option  CTOR_CALL
-     * @cs-property-value-option  LPAREN
-     * @cs-property-value-option  METHOD_CALL
-     * @cs-property-value-option  RPAREN
-     * @cs-property-value-option  SUPER_CTOR_CALL
+     * @cs-property-default-value ctor_call,lparen,method_call,rparen,super_ctor_call
+     * @cs-property-value-option  ctor_call
+     * @cs-property-value-option  lparen
+     * @cs-property-value-option  method_call
+     * @cs-property-value-option  rparen
+     * @cs-property-value-option  super_ctor_call
      */
     public void setTokens(int x) {}
 
@@ -99,12 +108,12 @@ class ParenPad extends ParenPadCheck {
             this.getAbstractOption() == PadOption.NOSPACE
             && !ParenPad.NOSPACE_PATTERN.matcher(rest).matches()
         ) {
-            this.log(ast.getLineNo(), after, "''{0}'' is followed by whitespace", "(");
+            this.log(ast.getLineNo(), after, ParenPad.MESSAGE_KEY_FOLLOWED_BY_WHITESPACE, "(");
         } else if (
             this.getAbstractOption() == PadOption.SPACE
             && !ParenPad.SPACE_PATTERN.matcher(rest).matches()
         ) {
-            this.log(ast.getLineNo(), after, "''{0}'' is not followed by whitespace", "(");
+            this.log(ast.getLineNo(), after, ParenPad.MESSAGE_KEY_NOT_FOLLOWED_BY_WHITESPACE, "(");
         }
     }
 }

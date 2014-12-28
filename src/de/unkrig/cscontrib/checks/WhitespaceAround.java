@@ -34,82 +34,107 @@ import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
 
 /**
- * An enhanced version of 'WhitespaceAround': Optionally ignores empty CATCH clauses and empty types.
+ * Verifies that a token is surrounded by whitespace.
+ * <p>
+ *   <span style="color: red"><b>This check is superseded by {@code de.unkrig.Whitespace}.</b></span>
+ * </p>
+ * <p>
+ *   Empty constructor bodies, method bodies, catch blocks and type bodies of the form
+ * </p>
+ * <pre>
+ * public MyClass() {}           // empty constructor body
+ *
+ * public void func() {}         // empty method body
+ *
+ * public void func() {
+ *     new Object() {
+ *         // ...
+ *     }.hashCode();             // No space between '}' and '.' -- always allowed
+ *     try {
+ *         // ...
+ *     } catch {}                // empty catch block
+ * }
+ *
+ * interface MyInterface {}      // emtpy type body
+ * </pre>
+ * <p>
+ *   may optionally be exempted from the policy using the allowEmptyMethods, allowEmptyConstructors, allowEmptyCatches
+ *   and allowEmptyTypes properties.
+ * </p>
  *
  * @cs-rule-group  %Whitespace.group
  * @cs-rule-name   de.unkrig.WhitespaceAround
  * @cs-rule-parent TreeWalker
- * @cs-message-key ws.notPreceded
- * @cs-message-key ws.notFollowed
  */
 @NotNullByDefault(false) public
 class WhitespaceAround extends WhitespaceAroundCheck {
 
-    private boolean allowEmptyCatches;
-    private boolean allowEmptyTypes;
+    // CONFIGURATION SETTERS
 
-    // CONFIGURATION SETTERS -- CHECKSTYLE JavadocMethod:OFF
-
-    // SUPPRESS CHECKSTYLE LineLength:4
+    // SUPPRESS CHECKSTYLE LineLength:6
     /**
+     * Tokens to check.
+     *
      * @cs-property-name          tokens
      * @cs-property-datatype      MultiCheck
-     * @cs-property-default-value ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,LITERAL_ASSERT,TYPE_EXTENSION_AND,WILDCARD_TYPE
-     * @cs-property-value-option  ASSIGN
-     * @cs-property-value-option  BAND
-     * @cs-property-value-option  BAND_ASSIGN
-     * @cs-property-value-option  BOR
-     * @cs-property-value-option  BOR_ASSIGN
-     * @cs-property-value-option  BSR
-     * @cs-property-value-option  BSR_ASSIGN
-     * @cs-property-value-option  BXOR
-     * @cs-property-value-option  BXOR_ASSIGN
-     * @cs-property-value-option  COLON
-     * @cs-property-value-option  DIV
-     * @cs-property-value-option  DIV_ASSIGN
-     * @cs-property-value-option  EQUAL
-     * @cs-property-value-option  GE
-     * @cs-property-value-option  GT
-     * @cs-property-value-option  LAND
-     * @cs-property-value-option  LCURLY
-     * @cs-property-value-option  LE
-     * @cs-property-value-option  LITERAL_ASSERT
-     * @cs-property-value-option  LITERAL_CATCH
-     * @cs-property-value-option  LITERAL_DO
-     * @cs-property-value-option  LITERAL_ELSE
-     * @cs-property-value-option  LITERAL_FINALLY
-     * @cs-property-value-option  LITERAL_FOR
-     * @cs-property-value-option  LITERAL_IF
-     * @cs-property-value-option  LITERAL_RETURN
-     * @cs-property-value-option  LITERAL_SYNCHRONIZED
-     * @cs-property-value-option  LITERAL_TRY
-     * @cs-property-value-option  LITERAL_WHILE
-     * @cs-property-value-option  LOR
-     * @cs-property-value-option  LT
-     * @cs-property-value-option  MINUS
-     * @cs-property-value-option  MINUS_ASSIGN
-     * @cs-property-value-option  MOD
-     * @cs-property-value-option  MOD_ASSIGN
-     * @cs-property-value-option  NOT_EQUAL
-     * @cs-property-value-option  PLUS
-     * @cs-property-value-option  PLUS_ASSIGN
-     * @cs-property-value-option  QUESTION
-     * @cs-property-value-option  RCURLY
-     * @cs-property-value-option  SL
-     * @cs-property-value-option  SLIST
-     * @cs-property-value-option  SL_ASSIGN
-     * @cs-property-value-option  SR
-     * @cs-property-value-option  SR_ASSIGN
-     * @cs-property-value-option  STAR
-     * @cs-property-value-option  STAR_ASSIGN
-     * @cs-property-value-option  LITERAL_ASSERT
-     * @cs-property-value-option  TYPE_EXTENSION_AND
-     * @cs-property-value-option  WILDCARD_TYPE
+     * @cs-property-default-value assign,band,band_assign,bor,bor_assign,bsr,bsr_assign,bxor,bxor_assign,colon,div,div_assign,equal,ge,gt,land,lcurly,le,literal_assert,literal_catch,literal_do,literal_else,literal_finally,literal_for,literal_if,literal_return,literal_synchronized,literal_try,literal_while,lor,lt,minus,minus_assign,mod,mod_assign,not_equal,plus,plus_assign,question,rcurly,sl,slist,sl_assign,sr,sr_assign,star,star_assign,literal_assert,type_extension_and,wildcard_type
+     * @cs-property-value-option  assign
+     * @cs-property-value-option  band
+     * @cs-property-value-option  band_assign
+     * @cs-property-value-option  bor
+     * @cs-property-value-option  bor_assign
+     * @cs-property-value-option  bsr
+     * @cs-property-value-option  bsr_assign
+     * @cs-property-value-option  bxor
+     * @cs-property-value-option  bxor_assign
+     * @cs-property-value-option  colon
+     * @cs-property-value-option  div
+     * @cs-property-value-option  div_assign
+     * @cs-property-value-option  equal
+     * @cs-property-value-option  ge
+     * @cs-property-value-option  gt
+     * @cs-property-value-option  land
+     * @cs-property-value-option  lcurly
+     * @cs-property-value-option  le
+     * @cs-property-value-option  literal_assert
+     * @cs-property-value-option  literal_catch
+     * @cs-property-value-option  literal_do
+     * @cs-property-value-option  literal_else
+     * @cs-property-value-option  literal_finally
+     * @cs-property-value-option  literal_for
+     * @cs-property-value-option  literal_if
+     * @cs-property-value-option  literal_return
+     * @cs-property-value-option  literal_synchronized
+     * @cs-property-value-option  literal_try
+     * @cs-property-value-option  literal_while
+     * @cs-property-value-option  lor
+     * @cs-property-value-option  lt
+     * @cs-property-value-option  minus
+     * @cs-property-value-option  minus_assign
+     * @cs-property-value-option  mod
+     * @cs-property-value-option  mod_assign
+     * @cs-property-value-option  not_equal
+     * @cs-property-value-option  plus
+     * @cs-property-value-option  plus_assign
+     * @cs-property-value-option  question
+     * @cs-property-value-option  rcurly
+     * @cs-property-value-option  sl
+     * @cs-property-value-option  slist
+     * @cs-property-value-option  sl_assign
+     * @cs-property-value-option  sr
+     * @cs-property-value-option  sr_assign
+     * @cs-property-value-option  star
+     * @cs-property-value-option  star_assign
+     * @cs-property-value-option  literal_assert
+     * @cs-property-value-option  type_extension_and
+     * @cs-property-value-option  wildcard_type
      */
     public void
     setTokens(int x) {}
 
     /**
+     * Allow empty constructor bodies.
+     *
      * @cs-property-name          allowEmptyConstructors
      * @cs-property-datatype      Boolean
      * @cs-property-default-value false
@@ -120,6 +145,8 @@ class WhitespaceAround extends WhitespaceAroundCheck {
     }
 
     /**
+     * Allow empty method bodies.
+     *
      * @cs-property-name          allowEmptyMethods
      * @cs-property-datatype      Boolean
      * @cs-property-default-value false
@@ -128,26 +155,34 @@ class WhitespaceAround extends WhitespaceAroundCheck {
     setAllowEmptyMethods(boolean value) { super.setAllowEmptyMethods(value); }
 
     /**
+     * Allow empty catch blocks.
+     *
      * @cs-property-name          allowEmptyCatches
      * @cs-property-datatype      Boolean
      * @cs-property-default-value false
      */
     public void
     setAllowEmptyCatches(boolean value) { this.allowEmptyCatches = value; }
+    private boolean allowEmptyCatches;
 
     /**
+     * Allow empty class and interface bodies.
+     *
      * @cs-property-name          allowEmptyTypes
      * @cs-property-datatype      Boolean
      * @cs-property-default-value false
      */
-//    @Override
+//    @Override  // CS 6 adds this method.
     public void
     setAllowEmptyTypes(boolean value) {
 //        super.setAllowEmptyTypes(value);
         this.allowEmptyTypes = value;
     }
+    private boolean allowEmptyTypes;
 
     /**
+     * Ignore the colon (":") token in enhanced {@code for} statements ("{@code for (x : y) ...}").
+     *
      * @cs-property-name          ignoreEnhancedForColon
      * @cs-property-datatype      Boolean
      * @cs-property-default-value false
@@ -155,7 +190,7 @@ class WhitespaceAround extends WhitespaceAroundCheck {
     @Override public void
     setIgnoreEnhancedForColon(boolean value) { super.setIgnoreEnhancedForColon(value); }
 
-    // END CONFIGURATION SETTERS -- CHECKSTYLE JavadocMethod:ON
+    // END CONFIGURATION SETTERS
 
     @Override public void
     visitToken(DetailAST ast) {

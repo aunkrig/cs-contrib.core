@@ -46,9 +46,20 @@ import com.puppycrawl.tools.checkstyle.checks.FileContentsHolder;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 
 /**
+ * Events (i.e. CheckStyle warnings) are switched off by a "magic line" ("offFormat") or back on by another magic line
+ * ("onFormat").
+ * <p>
+ *   After the "off" magic line, events do not show if at least one of the following conditions is true:
+ * </p>
+ * <ul>
+ *   <li>The 'checkNameFormat' (if set) is found in the check name (e.g. 'de.unkrig.cscontrib.checks.Alignment')
+ *   <li>The 'messageFormat' (if set) is found in the event message
+ *   <li>The 'moduleIdFormat' (if set) is found in the ID of the module that generated the event
+ * </ul>
+ *
  * @cs-rule-group        %Filters.group
  * @cs-rule-name         de.unkrig.SuppressionLine
- * @cs-rule-parent       Checker
+ * @cs-rule-parent       FileContentsHolder
  * @cs-rule-has-severity false
  */
 @NotNullByDefault(false) public
@@ -259,6 +270,8 @@ class SuppressionLine extends AutomaticBean implements Filter {
     // BEGIN CONFIGURATION SETTERS
 
     /**
+     * Line pattern to trigger filter to begin suppression.
+     *
      * @cs-property-name                   offFormat
      * @cs-property-datatype               Regex
      * @cs-property-override-default-value CHECKSTYLE (.+):OFF
@@ -273,6 +286,8 @@ class SuppressionLine extends AutomaticBean implements Filter {
     }
 
     /**
+     * Line pattern to trigger filter to end suppression.
+     *
      * @cs-property-name                   onFormat
      * @cs-property-datatype               Regex
      * @cs-property-override-default-value CHECKSTYLE (.+):ON
@@ -287,6 +302,8 @@ class SuppressionLine extends AutomaticBean implements Filter {
     }
 
     /**
+     * Check name pattern to suppress.
+     *
      * @cs-property-name                   checkNameFormat
      * @cs-property-datatype               Regex
      * @cs-property-override-default-value $1
@@ -302,6 +319,8 @@ class SuppressionLine extends AutomaticBean implements Filter {
     }
 
     /**
+     * Message pattern to suppress.
+     *
      * @cs-property-name                   messageFormat
      * @cs-property-datatype               Regex
      * @cs-property-override-default-value $1
@@ -318,6 +337,8 @@ class SuppressionLine extends AutomaticBean implements Filter {
     }
 
     /**
+     * Module ID pattern to suppress.
+     *
      * @cs-property-name                   moduleIdFormat
      * @cs-property-datatype               Regex
      * @cs-property-override-default-value $1
