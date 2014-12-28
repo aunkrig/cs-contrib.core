@@ -62,10 +62,12 @@ import de.unkrig.cscontrib.util.AstUtil;
  * @cs-rule-group  %Whitespace.group
  * @cs-rule-name   de.unkrig.CppCommentAlignment
  * @cs-rule-parent TreeWalker
- * @cs-message-key C++ comment must appear on column {0}, not {1}
  */
 @NotNullByDefault(false) public
 class CppCommentAlignment extends AbstractFormatCheck {
+
+    /** @cs-message C++ comment must appear on column {0}, not {1} */
+    public static final String MESSAGE_KEY_MISALIGNED = "de.unkrig.cscontrib.checks.CppCommentAlignment.misaligned";
 
     private ImmutableMap<Integer /*lineNumber*/, TextBlock> cppComments;
 
@@ -304,7 +306,7 @@ class CppCommentAlignment extends AbstractFormatCheck {
                 this.log(
                     commentLineNo,
                     commentColNo,
-                    "C++ comment must appear on column {0}, not {1}",
+                    CppCommentAlignment.MESSAGE_KEY_MISALIGNED,
                     maxCommentColNo + 1,
                     commentColNo  + 1
                 );

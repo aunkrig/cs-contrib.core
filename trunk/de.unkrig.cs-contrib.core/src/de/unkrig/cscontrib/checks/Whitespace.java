@@ -42,18 +42,48 @@ import de.unkrig.cscontrib.util.AstUtil;
 import de.unkrig.cscontrib.util.JavaElement;
 
 /**
- * An enhanced replacement for all other '*Whitespace*' checks.
+ * Verifies that tokens are, respectively are not preceded with (and/or followed by) whitespace.
+ * <p>
+ *   This check supersedes all of CheckStyle's whitespace-related checks:
+ * </p>
+ * <ul>
+ *   <li>Generic Whitespace</li>
+ *   <li>Empty For Initializer Pad</li>
+ *   <li>Empty For Iterator Pad</li>
+ *   <li>No Whitespace After</li>
+ *   <li>No Whitespace Before</li>
+ *   <li>Method Parameter Pad</li>
+ *   <li>Paren Pad</li>
+ *   <li>Typecast Paren Pad</li>
+ *   <li>Whitespace After</li>
+ *   <li>Whitespace Around</li>
+ * </ul>
+ * <p>
+ *   , as well as
+ * </p>
+ * <ul>
+ *   <li>de.unkrig.ParenPad</li>
+ *   <li>de.unkrig.WhitespaceAround</li>
+ * </ul>
  *
  * @cs-rule-group  %Whitespace.group
  * @cs-rule-name   de.unkrig.Whitespace
  * @cs-rule-parent TreeWalker
- * @cs-message-key de.unkrig.cscontrib.checks.Whitespace.preceded
- * @cs-message-key de.unkrig.cscontrib.checks.Whitespace.notPreceded
- * @cs-message-key de.unkrig.cscontrib.checks.Whitespace.followed
- * @cs-message-key de.unkrig.cscontrib.checks.Whitespace.notFollowed
  */
 @NotNullByDefault(false) public
 class Whitespace extends Check {
+
+    /** @cs-message ''{0}'' is followed by whitespace (option ''{1}'') */
+    public static final String MESSAGE_KEY_FOLLOWED = "de.unkrig.cscontrib.checks.Whitespace.followed";
+
+    /** @cs-message ''{0}'' is not followed by whitespace (option ''{1}'') */
+    public static final String MESSAGE_KEY_NOT_FOLLOWED = "de.unkrig.cscontrib.checks.Whitespace.notFollowed";
+
+    /** @cs-message ''{0}'' is preceded with whitespace (option ''{1}'') */
+    public static final String MESSAGE_KEY_PRECEDED = "de.unkrig.cscontrib.checks.Whitespace.preceded";
+
+    /** @cs-message ''{0}'' is not preceded with whitespace (option ''{1}'') */
+    public static final String MESSAGE_KEY_NOT_PRECEDED = "de.unkrig.cscontrib.checks.Whitespace.notPreceded";
 
     private EnumSet<JavaElement> whitespaceBefore = EnumSet.of(
         AND__EXPR,
@@ -446,8 +476,10 @@ class Whitespace extends Check {
 
     // BEGIN CONFIGURATION SETTERS
 
-    // SUPPRESS CHECKSTYLE LineLength:4
+    // SUPPRESS CHECKSTYLE LineLength:6
     /**
+     * The Java elements which must be preceded with whitespace (or a line break).
+     *
      * @cs-property-name            whitespaceBefore
      * @cs-property-datatype        MultiCheck
      * @cs-property-default-value   and__expr,and__type_bound,and_assign,assert,assign__assignment,assign__var_decl,break,case,catch,class__class_decl,colon__enhanced_for,colon__ternary,conditional_and,conditional_or,continue,default__anno_elem,default__switch,divide,divide_assign,do,else,enum,equal,extends__type,extends__type_bound,finally,for,greater,greater_equal,if,implements,import,import__static_import,instanceof,l_angle__meth_decl_type_params,l_curly__anon_class,l_curly__block,l_curly__catch,l_curly__do,l_curly__empty_anon_class,l_curly__empty_catch,l_curly__empty_meth_decl,l_curly__empty_type_decl,l_curly__enum_const,l_curly__finally,l_curly__for,l_curly__if,l_curly__instance_init,l_curly__labeled_stat,l_curly__meth_decl,l_curly__static_init,l_curly__switch,l_curly__synchronized,l_curly__try,l_curly__type_decl,l_curly__while,l_paren__catch,l_paren__do_while,l_paren__for,l_paren__for_no_init,l_paren__if,left_shift,left_shift_assign,less,less_equal,minus__additive,minus_assign,modulo,modulo_assign,multiply,multiply_assign,name__ctor_decl,name__meth_decl,name__param,name__type_decl,name__local_var_decl,not_equal,or,or_assign,package,plus__additive,plus_assign,question__ternary,r_curly__anno_array_init,r_curly__anon_class,r_curly__array_init,r_curly__block,r_curly__catch,r_curly__do,r_curly__else,r_curly__finally,r_curly__for,r_curly__if,r_curly__instance_init,r_curly__labeled_stat,r_curly__meth_decl,r_curly__static_init,r_curly__switch,r_curly__synchronized,r_curly__try,r_curly__type_decl,r_curly__while,return__expr,return__no_expr,right_shift,right_shift_assign,semi__type_decl,static__static_import,static__static_init,super__type_bound,switch,synchronized__mod,synchronized__synchronized,this__ctor_call,throw,throws,try,unsigned_right_shift,unsigned_right_shift_assign,while__do,while__while,xor,xor_assign
@@ -456,8 +488,10 @@ class Whitespace extends Check {
     public void
     setWhitespaceBefore(String[] sa) { this.whitespaceBefore = Whitespace.toEnumSet(sa, JavaElement.class); }
 
-    // SUPPRESS CHECKSTYLE LineLength:4
+    // SUPPRESS CHECKSTYLE LineLength:6
     /**
+     * The Java elements which must not be preceded with whitespace (or are preceded with a line break).
+     *
      * @cs-property-name            noWhitespaceBefore
      * @cs-property-datatype        MultiCheck
      * @cs-property-default-value   class__class_literal,colon__default,colon__case,colon__labeled_stat,comma,dot__import,dot__package_decl,dot__qualified_type,dot__selector,ellipsis,l_angle__meth_invocation_type_args,l_angle__type_args,l_angle__type_params,l_brack__array_decl,l_brack__index,l_paren__anno,l_paren__anno_elem_decl,l_paren__meth_invocation,l_paren__params,name__anno,post_decr,post_incr,r_angle__meth_decl_type_params,r_angle__meth_invocation_type_args,r_angle__type_args,r_angle__type_params,r_brack__array_decl,r_brack__index,r_curly__empty_anno_array_init,r_curly__empty_anon_class,r_curly__empty_array_init,r_curly__empty_catch,r_curly__empty_meth_decl,r_curly__empty_type_decl,r_curly__enum_const_decl,r_paren__anno,r_paren__anno_elem_decl,r_paren__meth_invocation,r_paren__cast,r_paren__catch,r_paren__do_while,r_paren__for,r_paren__for_no_update,r_paren__if,r_paren__params,r_paren__parenthesized,semi__abstract_meth_decl,semi__anno_elem_decl,semi__enum_decl,semi__field_decl,semi__for_condition_no_update,semi__for_condition_update,semi__for_init_condition,semi__for_init_no_condition,semi__for_no_condition_no_update,semi__for_no_condition_update,semi__for_no_init_condition,semi__for_no_init_no_condition,semi__import,semi__package_decl,semi__statement,semi__static_import,star__type_import_on_demand
@@ -466,8 +500,10 @@ class Whitespace extends Check {
     public void
     setNoWhitespaceBefore(String[] sa) { this.noWhitespaceBefore = Whitespace.toEnumSet(sa, JavaElement.class); }
 
-    // SUPPRESS CHECKSTYLE LineLength:4
+    // SUPPRESS CHECKSTYLE LineLength:6
     /**
+     * The Java elements which must be followed by whitespace (or a line break).
+     *
      * @cs-property-name            whitespaceAfter
      * @cs-property-datatype        MultiCheck
      * @cs-property-default-value   abstract,and__expr,and__type_bound,and_assign,assert,assign__assignment,assign__var_decl,case,catch,class__class_decl,colon__case,colon__default,colon__enhanced_for,colon__labeled_stat,colon__ternary,comma,conditional_and,conditional_or,default__anno_elem,divide,divide_assign,do,ellipsis,else,enum,equal,extends__type,extends__type_bound,final,finally,for,greater,greater_equal,if,implements,import,import__static_import,instanceof,interface,l_curly__anno_array_init,l_curly__anon_class,l_curly__array_init,l_curly__block,l_curly__catch,l_curly__do,l_curly__enum_const,l_curly__finally,l_curly__for,l_curly__if,l_curly__instance_init,l_curly__labeled_stat,l_curly__meth_decl,l_curly__static_init,l_curly__switch,l_curly__synchronized,l_curly__try,l_curly__type_decl,l_curly__while,left_shift,left_shift_assign,less,less_equal,minus__additive,minus_assign,modulo,modulo_assign,multiply,multiply_assign,name__anno_member,native,new,not_equal,or,or_assign,package,plus__additive,plus_assign,private,protected,public,question__ternary,r_angle__meth_decl_type_params,r_curly__block,r_curly__catch,r_curly__do,r_curly__else,r_curly__empty_catch,r_curly__empty_meth_decl,r_curly__empty_type_decl,r_curly__finally,r_curly__for,r_curly__if,r_curly__instance_init,r_curly__labeled_stat,r_curly__meth_decl,r_curly__static_init,r_curly__switch,r_curly__synchronized,r_curly__try,r_curly__type_decl,r_curly__while,r_paren__cast,r_paren__catch,r_paren__if,return__expr,right_shift,right_shift_assign,semi__abstract_meth_decl,semi__anno_elem_decl,semi__empty_stat,semi__enum_decl,semi__field_decl,semi__for_condition_update,semi__for_init_condition,semi__for_no_condition_update,semi__for_no_init_condition,semi__import,semi__package_decl,semi__statement,semi__static_import,semi__type_decl,static__mod,static__static_import,static__static_init,super__type_bound,switch,synchronized__mod,synchronized__synchronized,throw,throws,transient,try,unsigned_right_shift,unsigned_right_shift_assign,volatile,while__do,while__while,xor,xor_assign
@@ -476,8 +512,10 @@ class Whitespace extends Check {
     public void
     setWhitespaceAfter(String[] sa) { this.whitespaceAfter = Whitespace.toEnumSet(sa, JavaElement.class); }
 
-    // SUPPRESS CHECKSTYLE LineLength:4
+    // SUPPRESS CHECKSTYLE LineLength:6
     /**
+     * The Java elements which must not be followed by whitespace (or are followed by a line break).
+     *
      * @cs-property-name            noWhitespaceAfter
      * @cs-property-datatype        MultiCheck
      * @cs-property-default-value   at__anno,at__anno_decl,bitwise_complement,default__switch,dot__import,dot__package_decl,dot__qualified_type,dot__selector,l_angle__meth_decl_type_params,l_angle__meth_invocation_type_args,l_angle__type_args,l_angle__type_params,l_brack__array_decl,l_brack__index,l_curly__empty_anno_array_init,l_curly__empty_anon_class,l_curly__empty_array_init,l_curly__empty_catch,l_curly__empty_meth_decl,l_curly__empty_type_decl,l_paren__anno,l_paren__anno_elem_decl,l_paren__meth_invocation,l_paren__cast,l_paren__catch,l_paren__do_while,l_paren__for,l_paren__for_no_init,l_paren__if,l_paren__params,l_paren__parenthesized,logical_complement,minus__unary,name__anno_elem_decl,name__ctor_decl,name__import_component,name__import_type,name__meth_decl,name__package_decl,name__param,plus__unary,pre_decr,pre_incr,r_angle__meth_invocation_type_args,r_paren__do_while,return__no_expr,semi__for_condition_no_update,semi__for_init_no_condition,semi__for_no_condition_no_update,semi__for_no_init_no_condition,star__type_import_on_demand,super__ctor_call,super__expr,this__ctor_call
@@ -541,10 +579,10 @@ class Whitespace extends Check {
             if (before > 0 && !Whitespace.LINE_PREFIX.matcher(line).region(0, before).matches()) {
                 boolean isWhitespace = Character.isWhitespace(line.charAt(before));
                 if (mustBeWhitespaceBefore && !isWhitespace) {
-                    this.log(ast, "de.unkrig.cscontrib.checks.Whitespace.notPreceded", ast.getText(), javaElement);
+                    this.log(ast, Whitespace.MESSAGE_KEY_NOT_PRECEDED, ast.getText(), javaElement);
                 } else
                 if (mustNotBeWhitespaceBefore && isWhitespace) {
-                    this.log(ast, "de.unkrig.cscontrib.checks.Whitespace.preceded", ast.getText(), javaElement);
+                    this.log(ast, Whitespace.MESSAGE_KEY_PRECEDED, ast.getText(), javaElement);
                 }
             }
         }
@@ -556,22 +594,10 @@ class Whitespace extends Check {
             if (after < line.length() && !Whitespace.LINE_SUFFIX.matcher(line).region(after, line.length()).matches()) {
                 boolean isWhitespace = Character.isWhitespace(line.charAt(after));
                 if (mustBeWhitespaceAfter && !isWhitespace) {
-                    this.log(
-                        ast.getLineNo(),
-                        after,
-                        "de.unkrig.cscontrib.checks.Whitespace.notFollowed",
-                        ast.getText(),
-                        javaElement
-                    );
+                    this.log(ast.getLineNo(), after, Whitespace.MESSAGE_KEY_NOT_FOLLOWED, ast.getText(), javaElement);
                 } else
                 if (mustNotBeWhitespaceAfter && isWhitespace) {
-                    this.log(
-                        ast.getLineNo(),
-                        after,
-                        "de.unkrig.cscontrib.checks.Whitespace.followed",
-                        ast.getText(),
-                        javaElement
-                    );
+                    this.log(ast.getLineNo(), after, Whitespace.MESSAGE_KEY_FOLLOWED, ast.getText(), javaElement);
                 }
             }
         }

@@ -45,7 +45,7 @@ class WrapAndIndent2 extends AbstractDocumentResolution {
 
     @Override protected boolean
     canFixMessageKey(String messageKey) {
-        return WrapAndIndent.MESSAGE_KEY__0_MUST_APPEAR_ON_SAME_LINE_AS_1.equals(messageKey);
+        return WrapAndIndent.MESSAGE_KEY_MUST_JOIN.equals(messageKey);
     }
 
     @Override protected void

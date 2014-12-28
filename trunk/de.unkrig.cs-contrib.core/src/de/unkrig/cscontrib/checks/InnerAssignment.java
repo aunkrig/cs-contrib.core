@@ -36,16 +36,20 @@ import de.unkrig.cscontrib.util.AstUtil;
 /**
  * Assignments in expressions must be parenthesized, like "a = (b = c)" or "while ((a = b))".
  * <p>
- * An enhanced version of 'InnerAssignment': It comes with a quickfix for ECLIPSE-CS.
+ *   An enhanced version of 'InnerAssignment': It comes with a quickfix for ECLIPSE-CS.
+ * </p>
  *
  * @cs-rule-group         %Coding.group
  * @cs-rule-name          de.unkrig.InnerAssignment
  * @cs-rule-parent        TreeWalker
  * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.InnerAssignment
- * @cs-message-key        Assignments in expressions must be parenthesized
  */
 @NotNullByDefault(false) public
 class InnerAssignment extends Check {
+
+    /** @cs-message Assignments in expressions must be parenthesized */
+    public static final String
+    MESSAGE_KEY_MUST_PARENTHESIZE = "de.unkrig.cscontrib.checks.InnerAssignment.mustParenthesize";
 
     @Override public int[]
     getDefaultTokens() {
@@ -100,6 +104,6 @@ class InnerAssignment extends Check {
         // Annotation member-value pair?
         if (AstUtil.parentTypeIs(ast, LocalTokenType.ANNOTATION_MEMBER_VALUE_PAIR)) return;
 
-        this.log(ast.getLineNo(), ast.getColumnNo(), "Assignments in expressions must be parenthesized");
+        this.log(ast.getLineNo(), ast.getColumnNo(), InnerAssignment.MESSAGE_KEY_MUST_PARENTHESIZE);
     }
 }
