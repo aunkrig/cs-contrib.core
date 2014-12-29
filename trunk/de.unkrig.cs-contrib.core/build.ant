@@ -14,16 +14,17 @@
 	<target name="generate">
 
 		<javadoc
-			docletpath="../de.unkrig.doclet.cs/bin;bin;c:../net.sf.checkstyle-6.1/checkstyle-6.1/checkstyle-6.1-all.jar;../net.sf.eclipsecs.core-6.1/net.sf.eclipsecs.core-6.1.jar"
+			docletpath="../de.unkrig.doclet.cs/bin;bin;../net.sf.checkstyle-6.1/checkstyle-6.1/checkstyle-6.1-all.jar;../net.sf.eclipsecs.core-6.1/net.sf.eclipsecs.core-6.1.jar"
 			doclet="de.unkrig.doclet.cs.CsDoclet"
 			sourcepath="src"
 		>
-			<arg value="-checkstyle-metadata-dir" /><arg file="src"       />
-			<arg value="-mediawiki-dir"           /><arg file="mediawiki" />
+			<arg value="-checkstyle-metadata.properties-dir" /><arg file="src"       />
+			<arg value="-checkstyle-metadata.xml-dir"        /><arg file="src"       />
+			<arg value="-messages.properties-dir"            /><arg file="src"       />
+			<arg value="-mediawiki-dir"                      /><arg file="mediawiki" />
 			<package name="de.unkrig.cscontrib.checks" />
 			<package name="de.unkrig.cscontrib.filters" />
 			<classpath>
-				<pathelement location="bin" />
 				<pathelement location="../de.unkrig.commons.nullanalysis/bin" />
 				<fileset dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
 				<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.core_*" />
