@@ -677,8 +677,8 @@ class WrapAndIndent extends Check {
     private Control wrapArrayInitBeforeLCurly = NO_WRAP;
 
     /**
-     * Whether to wrap expressions before "{@code + - * / % &amp; | ^ << >> >>>}", assignment operators and/or "{@code
-     * . <= < == != >= > &amp;&amp; || instanceof}":
+     * Whether to wrap expressions before a binary operator ("{@code + - * / % &amp; | ^ << >> >>>}", assignment
+     * operators and/or "{@code . <= < == != >= > &amp;&amp; || instanceof}"):
      * <pre>
      * a
      * + b
@@ -686,8 +686,7 @@ class WrapAndIndent extends Check {
      * </pre>
      *
      * @cs-property-name            wrapBeforeBinaryOperator
-     * @cs-property-desc            Whether to wrap expression before "+ - * / % &amp; | ^ << >> >>>", assignment
-     *                              operators and/or ". <= < == != >= > &amp;&amp; || instanceof"
+     * @cs-property-desc            Whether to wrap expressions before binary operators
      * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   optional
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
@@ -697,8 +696,8 @@ class WrapAndIndent extends Check {
     private Control wrapBeforeBinaryOperator = MAY_WRAP;
 
     /**
-     * Whether to wrap expression after "{@code + - * / % && | ^ << >> >>>}", assignment operators and/or "{@code . <=
-     * < == != >= > &&&& || instanceof}":
+     * Whether to wrap expressions after a binary operator ("{@code + - * / % &amp; | ^ << >> >>>}", assignment
+     * operators and/or "{@code . <= < == != >= > &amp;&amp; || instanceof}"):
      * <pre>
      * a +
      * b +
@@ -706,8 +705,7 @@ class WrapAndIndent extends Check {
      * </pre>
      *
      * @cs-property-name            wrapAfterBinaryOperator
-     * @cs-property-desc            Whether to wrap expression after "{@code + - * / % && | ^ << >> >>>", assignment
-     *                              operators and/or "{@code . <= < == != >= > && || instanceof}"
+     * @cs-property-desc            Whether to wrap expressions after binary operators
      * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   never
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
