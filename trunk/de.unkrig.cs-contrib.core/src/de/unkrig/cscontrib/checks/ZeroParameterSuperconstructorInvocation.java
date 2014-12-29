@@ -42,7 +42,7 @@ import de.unkrig.cscontrib.LocalTokenType;
  * }</pre>
  *
  * @cs-rule-group         %Coding.group
- * @cs-rule-name          de.unkrig.ZeroParameterSuperconstructorInvocation
+ * @cs-rule-name          de.unkrig: Zero-parameter superconstructor invocation
  * @cs-rule-parent        TreeWalker
  * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.ZeroParameterSuperconstructorInvocation
  */

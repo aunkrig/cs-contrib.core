@@ -60,7 +60,7 @@ import de.unkrig.cscontrib.util.AstUtil;
  * </ul>
  *
  * @cs-rule-group  %Whitespace.group
- * @cs-rule-name   de.unkrig.CppCommentAlignment
+ * @cs-rule-name   de.unkrig: C++-style comment alignment
  * @cs-rule-parent TreeWalker
  */
 @NotNullByDefault(false) public

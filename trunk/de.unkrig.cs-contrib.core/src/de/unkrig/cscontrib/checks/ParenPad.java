@@ -43,7 +43,7 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
  * </p>
  *
  * @cs-rule-group  %Whitespace.group
- * @cs-rule-name   de.unkrig.ParenPad
+ * @cs-rule-name   de.unkrig: Parenthesis padding
  * @cs-rule-parent TreeWalker
  */
 @NotNullByDefault(false) public
