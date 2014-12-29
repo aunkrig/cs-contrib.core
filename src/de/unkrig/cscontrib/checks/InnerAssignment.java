@@ -40,7 +40,7 @@ import de.unkrig.cscontrib.util.AstUtil;
  * </p>
  *
  * @cs-rule-group         %Coding.group
- * @cs-rule-name          de.unkrig.InnerAssignment
+ * @cs-rule-name          de.unkrig: Inner assignment
  * @cs-rule-parent        TreeWalker
  * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.InnerAssignment
  */

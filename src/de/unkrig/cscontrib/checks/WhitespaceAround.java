@@ -63,7 +63,7 @@ import de.unkrig.cscontrib.util.AstUtil;
  * </p>
  *
  * @cs-rule-group  %Whitespace.group
- * @cs-rule-name   de.unkrig.WhitespaceAround
+ * @cs-rule-name   de.unkrig: Whitespace around
  * @cs-rule-parent TreeWalker
  */
 @NotNullByDefault(false) public

@@ -67,7 +67,7 @@ import de.unkrig.cscontrib.util.JavaElement;
  * </ul>
  *
  * @cs-rule-group  %Whitespace.group
- * @cs-rule-name   de.unkrig.Whitespace
+ * @cs-rule-name   de.unkrig: Whitespace
  * @cs-rule-parent TreeWalker
  */
 @NotNullByDefault(false) public

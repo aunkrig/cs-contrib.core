@@ -48,7 +48,7 @@ import de.unkrig.cscontrib.util.AstUtil;
  * This check makes name checking more powerful, compared with CheckStyle's standard "Naming Conventions" checks:
  * </p>
  * <ul>
- *   <li>Arbitrary sets of required/forbidden modifiers can be specified</li>
+ *   <li>Arbitrary sets of required/missing modifiers can be specified</li>
  *   <li>
  *     Name patterns can not only be enforced but also be forbidden (useful, e.g., to forbid certains styles of
  *     hungarian notation)
@@ -79,7 +79,7 @@ import de.unkrig.cscontrib.util.AstUtil;
  * </ul>
  *
  * @cs-rule-group         %Naming.group
- * @cs-rule-name          de.unkrig.NameSpelling
+ * @cs-rule-name          de.unkrig: Name spelling
  * @cs-rule-parent        TreeWalker
  */
 @NotNullByDefault(false) public

@@ -56,7 +56,7 @@ import de.unkrig.cscontrib.LocalTokenType;
  * </ul>
  *
  * @cs-rule-group         %Whitespace.group
- * @cs-rule-name          de.unkrig.WrapAndIndent
+ * @cs-rule-name          de.unkrig: Wrap and indent
  * @cs-rule-parent        TreeWalker
  * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1
  * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2
@@ -74,7 +74,7 @@ class WrapAndIndent extends Check {
      *   <dd>Text of token <i>after</i> the (missing) line break
      * </dl>
      *
-     * @cs-message "Must wrap line before ''{1}''"
+     * @cs-message Must wrap line before ''{1}''
      */
     public static final String
     MESSAGE_KEY_MUST_WRAP = "de.unkrig.cscontrib.checks.WrapAndIndent.mustWrap";

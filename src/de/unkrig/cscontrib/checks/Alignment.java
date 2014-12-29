@@ -74,7 +74,7 @@ import de.unkrig.cscontrib.util.AstUtil;
  * }</pre>
  *
  * @cs-rule-group %Whitespace.group
- * @cs-rule-name  de.unkrig.Alignment
+ * @cs-rule-name  de.unkrig: Alignment
  * @cs-rule-parent TreeWalker
  */
 @NotNullByDefault(false) public
