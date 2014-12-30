@@ -168,6 +168,7 @@ class NameSpelling extends AbstractFormatCheck {
 
         Modifier(LocalTokenType ltt) { this.ltt = ltt; }
 
+        /** @return The {@link LocalTokenType} corresponding with this modifier */
         public LocalTokenType toLocalTokenType() { return this.ltt; }
     }
 
