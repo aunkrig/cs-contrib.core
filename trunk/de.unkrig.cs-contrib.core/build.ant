@@ -13,6 +13,9 @@
 	-->
 	<target name="generate">
 
+		<delete dir="mediawiki" />
+		<mkdir dir="mediawiki" />
+		
 		<javadoc
 			docletpath="../de.unkrig.doclet.cs/bin;bin;../net.sf.checkstyle-6.1/checkstyle-6.1/checkstyle-6.1-all.jar;../net.sf.eclipsecs.core-6.1/net.sf.eclipsecs.core-6.1.jar"
 			doclet="de.unkrig.doclet.cs.CsDoclet"
