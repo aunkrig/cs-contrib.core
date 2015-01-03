@@ -140,9 +140,7 @@ class WhitespaceAround extends WhitespaceAroundCheck {
      * @cs-property-default-value false
      */
     @Override public void
-    setAllowEmptyConstructors(boolean value) {
-        super.setAllowEmptyConstructors(value);
-    }
+    setAllowEmptyConstructors(boolean value) { super.setAllowEmptyConstructors(value); }
 
     /**
      * Allow empty method bodies.
@@ -184,6 +182,7 @@ class WhitespaceAround extends WhitespaceAroundCheck {
      * Ignore the colon (":") token in enhanced {@code for} statements ("{@code for (x : y) ...}").
      *
      * @cs-property-name          ignoreEnhancedForColon
+     * @cs-property-desc          Ignore the colon token in enhanced FOR statements ("for (x : y) ...").
      * @cs-property-datatype      Boolean
      * @cs-property-default-value false
      */

@@ -13,7 +13,3 @@ Default values appear <u>underlined</u>.
 <dd>Whether space is required or forbidden.
 </dl>
 
-<dl>
-<dt>tokens = "<u>ctor_call</u>, <u>lparen</u>, <u>method_call</u>, <u>rparen</u>, <u>super_ctor_call</u>"
-<dd>Tokens to check.
-</dl>

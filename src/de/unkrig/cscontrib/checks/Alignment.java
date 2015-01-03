@@ -83,16 +83,6 @@ class Alignment extends Check {
     /** @cs-message ''{0}'' should be aligned with ''{1}'' in line {2,number,#} */
     public static final String MESSAGE_KEY_MISALIGNED = "de.unkrig.cscontrib.checks.Alignment.misaligned";
 
-    private boolean applyToFieldName                = true;
-    private boolean applyToFieldInitializer         = true;
-    private boolean applyToLocalVariableName        = true;
-    private boolean applyToLocalVariableInitializer = true;
-    private boolean applyToParameterName            = true;
-    private boolean applyToMethodName               = true;
-    private boolean applyToMethodBody               = true;
-    private boolean applyToCaseGroupStatements      = true;
-    private boolean applyToAssignments              = true;
-
     // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
 
     /**
@@ -100,108 +90,126 @@ class Alignment extends Check {
      *
      * @cs-property-name          applyToFieldName
      * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
+     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_FIELD_NAME}
      */
     public void
     setApplyToFieldName(boolean applyToFieldName) {
         this.applyToFieldName = applyToFieldName;
     }
+    private boolean              applyToFieldName            = Alignment.DEFAULT_APPLY_TO_FIELD_NAME;
+    private static final boolean DEFAULT_APPLY_TO_FIELD_NAME = true;
 
     /**
      * Check alignment of first '=' in field declarations.
      *
      * @cs-property-name          applyToFieldInitializer
      * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
+     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_FIELD_INITIALIZER}
      */
     public void
     setApplyToFieldInitializer(boolean applyToFieldInitializer) {
         this.applyToFieldInitializer = applyToFieldInitializer;
     }
+    private boolean              applyToFieldInitializer            = Alignment.DEFAULT_APPLY_TO_FIELD_INITIALIZER;
+    private static final boolean DEFAULT_APPLY_TO_FIELD_INITIALIZER = true;
 
     /**
      * Check alignment of method (and constructor) parameter names.
      *
      * @cs-property-name          applyToParameterName
      * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
+     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_PARAMETER_NAME}
      */
     public void
     setApplyToParameterName(boolean applyToParameterName) {
         this.applyToParameterName = applyToParameterName;
     }
+    private boolean              applyToParameterName            = Alignment.DEFAULT_APPLY_TO_PARAMETER_NAME;
+    private static final boolean DEFAULT_APPLY_TO_PARAMETER_NAME = true;
 
     /**
      * Check alignment of first name in local variable declarations.
      *
      * @cs-property-name          applyToLocalVariableName
      * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
+     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_LOCAL_VARIABLE_NAME}
      */
     public void
     setApplyToLocalVariableName(boolean applyToLocalVariableName) {
         this.applyToLocalVariableName = applyToLocalVariableName;
     }
+    private boolean              applyToLocalVariableName             = Alignment.DEFAULT_APPLY_TO_LOCAL_VARIABLE_NAME;
+    private static final boolean DEFAULT_APPLY_TO_LOCAL_VARIABLE_NAME = true;
 
     /**
      * Check alignment of first '=' in local variable declarations.
      *
      * @cs-property-name          applyToLocalVariableInitializer
      * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
+     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_LOCAL_VARIABLE_INITIALIZER}
      */
     public void
     setApplyToLocalVariableInitializer(boolean applyToLocalVariableInitializer) {
         this.applyToLocalVariableInitializer = applyToLocalVariableInitializer;
     }
+    private boolean              applyToLocalVariableInitializer             = Alignment.DEFAULT_APPLY_TO_LOCAL_VARIABLE_INITIALIZER; // SUPPRESS CHECKSTYLE LineLength
+    private static final boolean DEFAULT_APPLY_TO_LOCAL_VARIABLE_INITIALIZER = true;
 
     /**
      * Check alignment of '=' in assignments.
      *
      * @cs-property-name          applyToAssignments
      * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
+     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_ASSIGNMENTS}
      */
     public void
     setApplyToAssignments(boolean applyToAssignments) {
         this.applyToAssignments = applyToAssignments;
     }
+    private boolean              applyToAssignments           = Alignment.DEFAULT_APPLY_TO_ASSIGNMENTS;
+    private static final boolean DEFAULT_APPLY_TO_ASSIGNMENTS = true;
 
     /**
      * Check alignment of first statement in case groups.
      *
      * @cs-property-name          applyToCaseGroupStatements
      * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
+     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_CASE_GROUP_STATEMENTS}
      */
     public void
     setApplyToCaseGroupStatements(boolean applyToCaseGroupStatements) {
         this.applyToCaseGroupStatements = applyToCaseGroupStatements;
     }
+    private boolean              applyToCaseGroupStatements             = Alignment.DEFAULT_APPLY_TO_CASE_GROUP_STATEMENTS; // SUPPRESS CHECKSTYLE LineLength
+    private static final boolean DEFAULT_APPLY_TO_CASE_GROUP_STATEMENTS = true;
 
     /**
      * Check alignment of method (and constructor) names in declarations.
      *
      * @cs-property-name          applyToMethodName
      * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
+     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_METHOD_NAME}
      */
     public void
     setApplyToMethodName(boolean applyToMethodName) {
         this.applyToMethodName = applyToMethodName;
     }
+    private boolean              applyToMethodName            = Alignment.DEFAULT_APPLY_TO_METHOD_NAME;
+    private static final boolean DEFAULT_APPLY_TO_METHOD_NAME = true;
 
     /**
      * Check alignment of '{' in method (and constructor) declarations.
      *
      * @cs-property-name          applyToMethodBody
      * @cs-property-datatype      Boolean
-     * @cs-property-default-value true
+     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_METHOD_BODY}
      */
     public void
     setApplyToMethodBody(boolean applyToMethodBody) {
         this.applyToMethodBody = applyToMethodBody;
     }
+    private boolean              applyToMethodBody            = Alignment.DEFAULT_APPLY_TO_METHOD_BODY;
+    private static final boolean DEFAULT_APPLY_TO_METHOD_BODY = true;
 
     // END CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:ON
 

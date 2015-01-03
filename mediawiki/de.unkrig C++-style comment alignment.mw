@@ -12,3 +12,4 @@ Each line of code relates to one of the following 'kinds':
   <li>A line which contains only a switch label ('<code>case x:</code>' or '<code>default:</code>') and a C++-style comment
   <li>Any other line
 </ul>
+
