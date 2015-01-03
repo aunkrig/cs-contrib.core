@@ -84,20 +84,6 @@ class ParenPad extends ParenPadCheck {
     @Override public void
     setOption(String option) throws ConversionException { super.setOption(option); }
 
-    /**
-     * Tokens to check.
-     *
-     * @cs-property-name          tokens
-     * @cs-property-datatype      MultiCheck
-     * @cs-property-default-value ctor_call,lparen,method_call,rparen,super_ctor_call
-     * @cs-property-value-option  ctor_call
-     * @cs-property-value-option  lparen
-     * @cs-property-value-option  method_call
-     * @cs-property-value-option  rparen
-     * @cs-property-value-option  super_ctor_call
-     */
-    public void setTokens(int x) {}
-
     @Override protected void
     processLeft(DetailAST ast) {
         final String line  = this.getLines()[ast.getLineNo() - 1];

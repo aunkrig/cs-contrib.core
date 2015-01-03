@@ -135,6 +135,7 @@
             <property-metadata
                 name="requiredModifiers"
                 datatype="MultiCheck"
+                default-value="(all declarations)"
             >
                 <description>%de.unkrig.cscontrib.checks.NameSpelling.requiredModifiers</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifier" />
@@ -142,6 +143,7 @@
             <property-metadata
                 name="missingModifiers"
                 datatype="MultiCheck"
+                default-value="(all declarations)"
             >
                 <description>%de.unkrig.cscontrib.checks.NameSpelling.missingModifiers</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifier" />
@@ -184,20 +186,6 @@
                 <description>%de.unkrig.cscontrib.checks.ParenPad.option</description>
                 <enumeration option-provider="com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption" />
             </property-metadata>
-            <property-metadata
-                name="tokens"
-                datatype="MultiCheck"
-                default-value="ctor_call,lparen,method_call,rparen,super_ctor_call"
-            >
-                <description>%de.unkrig.cscontrib.checks.ParenPad.tokens</description>
-                <enumeration>
-                    <property-value-option value="ctor_call" />
-                    <property-value-option value="lparen" />
-                    <property-value-option value="method_call" />
-                    <property-value-option value="rparen" />
-                    <property-value-option value="super_ctor_call" />
-                </enumeration>
-            </property-metadata>
             <message-key key="de.unkrig.cscontrib.checks.ParenPad.followedByWhitespace" />
             <message-key key="de.unkrig.cscontrib.checks.ParenPad.notFollowedByWhitespace" />
         </rule-metadata>
@@ -217,7 +205,7 @@
             <property-metadata
                 name="whitespaceBefore"
                 datatype="MultiCheck"
-                default-value="and__expr,and__type_bound,and_assign,assert,assign__assignment,assign__var_decl,break,case,catch,class__class_decl,colon__enhanced_for,colon__ternary,conditional_and,conditional_or,continue,default__anno_elem,default__switch,divide,divide_assign,do,else,enum,equal,extends__type,extends__type_bound,finally,for,greater,greater_equal,if,implements,import,import__static_import,instanceof,l_angle__meth_decl_type_params,l_curly__anon_class,l_curly__block,l_curly__catch,l_curly__do,l_curly__empty_anon_class,l_curly__empty_catch,l_curly__empty_meth_decl,l_curly__empty_type_decl,l_curly__enum_const,l_curly__finally,l_curly__for,l_curly__if,l_curly__instance_init,l_curly__labeled_stat,l_curly__meth_decl,l_curly__static_init,l_curly__switch,l_curly__synchronized,l_curly__try,l_curly__type_decl,l_curly__while,l_paren__catch,l_paren__do_while,l_paren__for,l_paren__for_no_init,l_paren__if,left_shift,left_shift_assign,less,less_equal,minus__additive,minus_assign,modulo,modulo_assign,multiply,multiply_assign,name__ctor_decl,name__meth_decl,name__param,name__type_decl,name__local_var_decl,not_equal,or,or_assign,package,plus__additive,plus_assign,question__ternary,r_curly__anno_array_init,r_curly__anon_class,r_curly__array_init,r_curly__block,r_curly__catch,r_curly__do,r_curly__else,r_curly__finally,r_curly__for,r_curly__if,r_curly__instance_init,r_curly__labeled_stat,r_curly__meth_decl,r_curly__static_init,r_curly__switch,r_curly__synchronized,r_curly__try,r_curly__type_decl,r_curly__while,return__expr,return__no_expr,right_shift,right_shift_assign,semi__type_decl,static__static_import,static__static_init,super__type_bound,switch,synchronized__mod,synchronized__synchronized,this__ctor_call,throw,throws,try,unsigned_right_shift,unsigned_right_shift_assign,while__do,while__while,xor,xor_assign"
+                default-value="and__expr,and__type_bound,and_assign,assert,assign__assignment,assign__var_decl,break,case,catch,class__class_decl,colon__enhanced_for,colon__ternary,conditional_and,conditional_or,continue,default__anno_elem,default__switch,divide,divide_assign,do,else,enum,equal,extends__type,extends__type_bound,finally,for,greater,greater_equal,if,implements,import,import__static_import,instanceof,l_angle__meth_decl_type_params,l_curly__anon_class,l_curly__block,l_curly__catch,l_curly__do,l_curly__empty_anon_class,l_curly__empty_catch,l_curly__empty_meth_decl,l_curly__empty_type_decl,l_curly__enum_const,l_curly__finally,l_curly__for,l_curly__if,l_curly__instance_init,l_curly__labeled_stat,l_curly__meth_decl,l_curly__static_init,l_curly__switch,l_curly__synchronized,l_curly__try,l_curly__type_decl,l_curly__while,l_paren__catch,l_paren__do_while,l_paren__for,l_paren__for_no_init,l_paren__if,left_shift,left_shift_assign,less,less_equal,minus__additive,minus_assign,modulo,modulo_assign,multiply,multiply_assign,name__ctor_decl,name__meth_decl,name__param,name__type_decl,name__local_var_decl,not_equal,or,or_assign,package,plus__additive,plus_assign,question__ternary,r_curly__anno_array_init,r_curly__anon_class,r_curly__array_init,r_curly__block,r_curly__catch,r_curly__do,r_curly__else,r_curly__finally,r_curly__for,r_curly__if,r_curly__instance_init,r_curly__labeled_stat,r_curly__meth_decl,r_curly__static_init,r_curly__switch,r_curly__synchronized,r_curly__try,r_curly__type_decl,r_curly__while,return__expr,return__no_expr,right_shift,right_shift_assign,semi__type_decl,static__static_import,static__static_init,super__type_bound,switch,synchronized__mod,synchronized__synchronized,this__ctor_call,throw,throws,try,unsigned_right_shift,unsigned_right_shift_assign,void,while__do,while__while,xor,xor_assign"
             >
                 <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceBefore</description>
                 <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement" />

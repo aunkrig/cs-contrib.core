@@ -177,6 +177,7 @@ class NameSpelling extends AbstractFormatCheck {
      *
      * @cs-property-name            requiredModifiers
      * @cs-property-datatype        MultiCheck
+     * @cs-property-default-value   (all declarations)
      * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Modifier
      */
     public final void
@@ -192,6 +193,7 @@ class NameSpelling extends AbstractFormatCheck {
      *
      * @cs-property-name            missingModifiers
      * @cs-property-datatype        MultiCheck
+     * @cs-property-default-value   (all declarations)
      * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Modifier
      */
     public final void
@@ -212,7 +214,7 @@ class NameSpelling extends AbstractFormatCheck {
      *
      * @cs-property-name            option
      * @cs-property-datatype        SingleSelect
-     * @cs-property-default-value   require
+     * @cs-property-default-value   {@value #DEFAULT_OPTION}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Options
      */
     public final void
@@ -223,7 +225,8 @@ class NameSpelling extends AbstractFormatCheck {
             throw new ConversionException(option, iae);
         }
     }
-    private Options option;
+    private Options              option         = Options.valueOf(NameSpelling.DEFAULT_OPTION.toUpperCase());
+    private static final String  DEFAULT_OPTION = "require";
 
     /**
      * The pattern to match the name against.

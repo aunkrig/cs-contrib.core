@@ -38,3 +38,4 @@ Default values appear <u>underlined</u>.
 <dt>moduleIdFormat = "''[http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum Regex]''"
 <dd>Module ID pattern to suppress.
 </dl>
+
