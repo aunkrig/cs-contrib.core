@@ -67,7 +67,7 @@ import de.unkrig.cscontrib.util.AstUtil;
 class CppCommentAlignment extends AbstractFormatCheck {
 
     /** @cs-message C++ comment must appear on column {0}, not {1} */
-    public static final String MESSAGE_KEY_MISALIGNED = "de.unkrig.cscontrib.checks.CppCommentAlignment.misaligned";
+    public static final String MESSAGE_KEY_MISALIGNED = "CppCommentAlignment.misaligned";
 
     private ImmutableMap<Integer /*lineNumber*/, TextBlock> cppComments;
 

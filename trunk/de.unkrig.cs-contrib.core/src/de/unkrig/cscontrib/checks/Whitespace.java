@@ -72,16 +72,16 @@ import de.unkrig.cscontrib.util.JavaElement;
 class Whitespace extends Check {
 
     /** @cs-message ''{0}'' is followed by whitespace (option ''{1}'') */
-    public static final String MESSAGE_KEY_FOLLOWED = "de.unkrig.cscontrib.checks.Whitespace.followed";
+    public static final String MESSAGE_KEY_FOLLOWED = "Whitespace.followed";
 
     /** @cs-message ''{0}'' is not followed by whitespace (option ''{1}'') */
-    public static final String MESSAGE_KEY_NOT_FOLLOWED = "de.unkrig.cscontrib.checks.Whitespace.notFollowed";
+    public static final String MESSAGE_KEY_NOT_FOLLOWED = "Whitespace.notFollowed";
 
     /** @cs-message ''{0}'' is preceded with whitespace (option ''{1}'') */
-    public static final String MESSAGE_KEY_PRECEDED = "de.unkrig.cscontrib.checks.Whitespace.preceded";
+    public static final String MESSAGE_KEY_PRECEDED = "Whitespace.preceded";
 
     /** @cs-message ''{0}'' is not preceded with whitespace (option ''{1}'') */
-    public static final String MESSAGE_KEY_NOT_PRECEDED = "de.unkrig.cscontrib.checks.Whitespace.notPreceded";
+    public static final String MESSAGE_KEY_NOT_PRECEDED = "Whitespace.notPreceded";
 
     // BEGIN CONFIGURATION SETTERS
 

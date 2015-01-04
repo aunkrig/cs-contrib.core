@@ -81,7 +81,7 @@ import de.unkrig.cscontrib.util.AstUtil;
 class Alignment extends Check {
 
     /** @cs-message ''{0}'' should be aligned with ''{1}'' in line {2,number,#} */
-    public static final String MESSAGE_KEY_MISALIGNED = "de.unkrig.cscontrib.checks.Alignment.misaligned";
+    public static final String MESSAGE_KEY_MISALIGNED = "Alignment.misaligned";
 
     // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
 

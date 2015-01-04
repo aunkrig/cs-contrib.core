@@ -59,7 +59,7 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
  *
  * @cs-rule-group        %Filters.group
  * @cs-rule-name         de.unkrig: Suppression line
- * @cs-rule-parent       FileContentsHolder
+ * @cs-rule-parent       Checker
  * @cs-rule-has-severity false
  */
 @NotNullByDefault(false) public

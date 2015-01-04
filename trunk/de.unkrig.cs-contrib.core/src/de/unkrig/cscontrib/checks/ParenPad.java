@@ -51,11 +51,11 @@ class ParenPad extends ParenPadCheck {
 
     /** @cs-message ''{0}'' is followed by whitespace */
     public static final String
-    MESSAGE_KEY_FOLLOWED_BY_WHITESPACE = "de.unkrig.cscontrib.checks.ParenPad.followedByWhitespace";
+    MESSAGE_KEY_FOLLOWED_BY_WHITESPACE = "ParenPad.followedByWhitespace";
 
     /** @cs-message ''{0}'' is not followed by whitespace */
     public static final String
-    MESSAGE_KEY_NOT_FOLLOWED_BY_WHITESPACE = "de.unkrig.cscontrib.checks.ParenPad.notFollowedByWhitespace";
+    MESSAGE_KEY_NOT_FOLLOWED_BY_WHITESPACE = "ParenPad.notFollowedByWhitespace";
 
     private static final Pattern NOSPACE_PATTERN = Pattern.compile(
         "[^\\s].*"   // '(' + non-space

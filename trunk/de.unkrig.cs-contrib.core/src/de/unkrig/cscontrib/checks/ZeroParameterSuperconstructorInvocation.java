@@ -51,7 +51,7 @@ class ZeroParameterSuperconstructorInvocation extends Check {
 
     /** @cs-message Redundant invocation of zero-parameter superconstructor */
     public static final String
-    MESSAGE_KEY_INVOCATION = "de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation.invocation";
+    MESSAGE_KEY_INVOCATION = "ZeroParameterSuperconstructorInvocation.invocation";
 
     @Override public int[]
     getDefaultTokens() { return new int[] { LocalTokenType.CTOR_DEF.delocalize() }; }

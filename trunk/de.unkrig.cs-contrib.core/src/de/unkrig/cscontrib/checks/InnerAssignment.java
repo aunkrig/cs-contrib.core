@@ -49,7 +49,7 @@ class InnerAssignment extends Check {
 
     /** @cs-message Assignments in expressions must be parenthesized */
     public static final String
-    MESSAGE_KEY_MUST_PARENTHESIZE = "de.unkrig.cscontrib.checks.InnerAssignment.mustParenthesize";
+    MESSAGE_KEY_MUST_PARENTHESIZE = "InnerAssignment.mustParenthesize";
 
     @Override public int[]
     getDefaultTokens() {

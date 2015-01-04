@@ -11,9 +11,9 @@
     <rule-group-metadata name="%Filters.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.filters.SuppressionLine"
-            parent="FileContentsHolder"
+            parent="Checker"
             hasSeverity="false"
-            name="%de.unkrig.cscontrib.filters.SuppressionLine.name"
+            name="%SuppressionLine.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.filters.SuppressionLine" />
             <description>%de.unkrig.cscontrib.filters.SuppressionLine.desc</description>
@@ -23,35 +23,35 @@
                 datatype="Regex"
                 override-default-value="CHECKSTYLE (.+):OFF"
             >
-                <description>%de.unkrig.cscontrib.filters.SuppressionLine.offFormat</description>
+                <description>%SuppressionLine.offFormat</description>
             </property-metadata>
             <property-metadata
                 name="onFormat"
                 datatype="Regex"
                 override-default-value="CHECKSTYLE (.+):ON"
             >
-                <description>%de.unkrig.cscontrib.filters.SuppressionLine.onFormat</description>
+                <description>%SuppressionLine.onFormat</description>
             </property-metadata>
             <property-metadata
                 name="checkNameFormat"
                 datatype="Regex"
                 override-default-value="$1"
             >
-                <description>%de.unkrig.cscontrib.filters.SuppressionLine.checkNameFormat</description>
+                <description>%SuppressionLine.checkNameFormat</description>
             </property-metadata>
             <property-metadata
                 name="messageFormat"
                 datatype="Regex"
                 override-default-value="$1"
             >
-                <description>%de.unkrig.cscontrib.filters.SuppressionLine.messageFormat</description>
+                <description>%SuppressionLine.messageFormat</description>
             </property-metadata>
             <property-metadata
                 name="moduleIdFormat"
                 datatype="Regex"
                 override-default-value="$1"
             >
-                <description>%de.unkrig.cscontrib.filters.SuppressionLine.moduleIdFormat</description>
+                <description>%SuppressionLine.moduleIdFormat</description>
             </property-metadata>
         </rule-metadata>
     </rule-group-metadata>

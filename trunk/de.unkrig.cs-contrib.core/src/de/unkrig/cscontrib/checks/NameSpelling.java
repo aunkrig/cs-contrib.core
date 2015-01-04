@@ -86,10 +86,10 @@ import de.unkrig.cscontrib.util.AstUtil;
 class NameSpelling extends AbstractFormatCheck {
 
     /** @cs-message {0} ''{1}'' does not comply with ''{2}'' */
-    public static final String MESSAGE_KEY_DOES_NOT_COMPLY = "de.unkrig.cscontrib.checks.NameSpelling.doesNotComply";
+    public static final String MESSAGE_KEY_DOES_NOT_COMPLY = "NameSpelling.doesNotComply";
 
     /** @cs-message {0} ''{1}'' must not match ''{2}'' */
-    public static final String MESSAGE_KEY_MUST_NOT_MATCH = "de.unkrig.cscontrib.checks.NameSpelling.mustNotMatch";
+    public static final String MESSAGE_KEY_MUST_NOT_MATCH = "NameSpelling.mustNotMatch";
 
     public
     NameSpelling() { super(""); }

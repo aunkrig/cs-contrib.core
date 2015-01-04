@@ -12,7 +12,7 @@
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.Alignment"
             parent="TreeWalker"
-            name="%de.unkrig.cscontrib.checks.Alignment.name"
+            name="%Alignment.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.Alignment" />
             <description>%de.unkrig.cscontrib.checks.Alignment.desc</description>
@@ -22,65 +22,65 @@
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.Alignment.applyToFieldName</description>
+                <description>%Alignment.applyToFieldName</description>
             </property-metadata>
             <property-metadata
                 name="applyToFieldInitializer"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.Alignment.applyToFieldInitializer</description>
+                <description>%Alignment.applyToFieldInitializer</description>
             </property-metadata>
             <property-metadata
                 name="applyToParameterName"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.Alignment.applyToParameterName</description>
+                <description>%Alignment.applyToParameterName</description>
             </property-metadata>
             <property-metadata
                 name="applyToLocalVariableName"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.Alignment.applyToLocalVariableName</description>
+                <description>%Alignment.applyToLocalVariableName</description>
             </property-metadata>
             <property-metadata
                 name="applyToLocalVariableInitializer"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.Alignment.applyToLocalVariableInitializer</description>
+                <description>%Alignment.applyToLocalVariableInitializer</description>
             </property-metadata>
             <property-metadata
                 name="applyToAssignments"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.Alignment.applyToAssignments</description>
+                <description>%Alignment.applyToAssignments</description>
             </property-metadata>
             <property-metadata
                 name="applyToCaseGroupStatements"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.Alignment.applyToCaseGroupStatements</description>
+                <description>%Alignment.applyToCaseGroupStatements</description>
             </property-metadata>
             <property-metadata
                 name="applyToMethodName"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.Alignment.applyToMethodName</description>
+                <description>%Alignment.applyToMethodName</description>
             </property-metadata>
             <property-metadata
                 name="applyToMethodBody"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.Alignment.applyToMethodBody</description>
+                <description>%Alignment.applyToMethodBody</description>
             </property-metadata>
-            <message-key key="de.unkrig.cscontrib.checks.Alignment.misaligned" />
+            <message-key key="Alignment.misaligned" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -90,11 +90,11 @@
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.CppCommentAlignment"
             parent="TreeWalker"
-            name="%de.unkrig.cscontrib.checks.CppCommentAlignment.name"
+            name="%CppCommentAlignment.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.CppCommentAlignment" />
             <description>%de.unkrig.cscontrib.checks.CppCommentAlignment.desc</description>
-            <message-key key="de.unkrig.cscontrib.checks.CppCommentAlignment.misaligned" />
+            <message-key key="CppCommentAlignment.misaligned" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -104,13 +104,13 @@
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.InnerAssignment"
             parent="TreeWalker"
-            name="%de.unkrig.cscontrib.checks.InnerAssignment.name"
+            name="%InnerAssignment.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.InnerAssignment" />
             <description>%de.unkrig.cscontrib.checks.InnerAssignment.desc</description>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.InnerAssignment" />
-            <message-key key="de.unkrig.cscontrib.checks.InnerAssignment.mustParenthesize" />
+            <message-key key="InnerAssignment.mustParenthesize" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -120,7 +120,7 @@
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.NameSpelling"
             parent="TreeWalker"
-            name="%de.unkrig.cscontrib.checks.NameSpelling.name"
+            name="%NameSpelling.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.NameSpelling" />
             <description>%de.unkrig.cscontrib.checks.NameSpelling.desc</description>
@@ -129,7 +129,7 @@
                 name="elements"
                 datatype="MultiCheck"
             >
-                <description>%de.unkrig.cscontrib.checks.NameSpelling.elements</description>
+                <description>%NameSpelling.elements</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Elements" />
             </property-metadata>
             <property-metadata
@@ -137,7 +137,7 @@
                 datatype="MultiCheck"
                 default-value="(all declarations)"
             >
-                <description>%de.unkrig.cscontrib.checks.NameSpelling.requiredModifiers</description>
+                <description>%NameSpelling.requiredModifiers</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifier" />
             </property-metadata>
             <property-metadata
@@ -145,7 +145,7 @@
                 datatype="MultiCheck"
                 default-value="(all declarations)"
             >
-                <description>%de.unkrig.cscontrib.checks.NameSpelling.missingModifiers</description>
+                <description>%NameSpelling.missingModifiers</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Modifier" />
             </property-metadata>
             <property-metadata
@@ -153,17 +153,17 @@
                 datatype="SingleSelect"
                 default-value="require"
             >
-                <description>%de.unkrig.cscontrib.checks.NameSpelling.option</description>
+                <description>%NameSpelling.option</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.NameSpelling$Options" />
             </property-metadata>
             <property-metadata
                 name="format"
                 datatype="Regex"
             >
-                <description>%de.unkrig.cscontrib.checks.NameSpelling.format</description>
+                <description>%NameSpelling.format</description>
             </property-metadata>
-            <message-key key="de.unkrig.cscontrib.checks.NameSpelling.doesNotComply" />
-            <message-key key="de.unkrig.cscontrib.checks.NameSpelling.mustNotMatch" />
+            <message-key key="NameSpelling.doesNotComply" />
+            <message-key key="NameSpelling.mustNotMatch" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -173,7 +173,7 @@
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.ParenPad"
             parent="TreeWalker"
-            name="%de.unkrig.cscontrib.checks.ParenPad.name"
+            name="%ParenPad.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.ParenPad" />
             <description>%de.unkrig.cscontrib.checks.ParenPad.desc</description>
@@ -183,11 +183,11 @@
                 datatype="SingleSelect"
                 default-value="nospace"
             >
-                <description>%de.unkrig.cscontrib.checks.ParenPad.option</description>
+                <description>%ParenPad.option</description>
                 <enumeration option-provider="com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption" />
             </property-metadata>
-            <message-key key="de.unkrig.cscontrib.checks.ParenPad.followedByWhitespace" />
-            <message-key key="de.unkrig.cscontrib.checks.ParenPad.notFollowedByWhitespace" />
+            <message-key key="ParenPad.followedByWhitespace" />
+            <message-key key="ParenPad.notFollowedByWhitespace" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -197,7 +197,7 @@
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.Whitespace"
             parent="TreeWalker"
-            name="%de.unkrig.cscontrib.checks.Whitespace.name"
+            name="%Whitespace.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.Whitespace" />
             <description>%de.unkrig.cscontrib.checks.Whitespace.desc</description>
@@ -207,7 +207,7 @@
                 datatype="MultiCheck"
                 default-value="and__expr,and__type_bound,and_assign,assert,assign__assignment,assign__var_decl,break,case,catch,class__class_decl,colon__enhanced_for,colon__ternary,conditional_and,conditional_or,continue,default__anno_elem,default__switch,divide,divide_assign,do,else,enum,equal,extends__type,extends__type_bound,finally,for,greater,greater_equal,if,implements,import,import__static_import,instanceof,l_angle__meth_decl_type_params,l_curly__anon_class,l_curly__block,l_curly__catch,l_curly__do,l_curly__empty_anon_class,l_curly__empty_catch,l_curly__empty_meth_decl,l_curly__empty_type_decl,l_curly__enum_const,l_curly__finally,l_curly__for,l_curly__if,l_curly__instance_init,l_curly__labeled_stat,l_curly__meth_decl,l_curly__static_init,l_curly__switch,l_curly__synchronized,l_curly__try,l_curly__type_decl,l_curly__while,l_paren__catch,l_paren__do_while,l_paren__for,l_paren__for_no_init,l_paren__if,left_shift,left_shift_assign,less,less_equal,minus__additive,minus_assign,modulo,modulo_assign,multiply,multiply_assign,name__ctor_decl,name__meth_decl,name__param,name__type_decl,name__local_var_decl,not_equal,or,or_assign,package,plus__additive,plus_assign,question__ternary,r_curly__anno_array_init,r_curly__anon_class,r_curly__array_init,r_curly__block,r_curly__catch,r_curly__do,r_curly__else,r_curly__finally,r_curly__for,r_curly__if,r_curly__instance_init,r_curly__labeled_stat,r_curly__meth_decl,r_curly__static_init,r_curly__switch,r_curly__synchronized,r_curly__try,r_curly__type_decl,r_curly__while,return__expr,return__no_expr,right_shift,right_shift_assign,semi__type_decl,static__static_import,static__static_init,super__type_bound,switch,synchronized__mod,synchronized__synchronized,this__ctor_call,throw,throws,try,unsigned_right_shift,unsigned_right_shift_assign,void,while__do,while__while,xor,xor_assign"
             >
-                <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceBefore</description>
+                <description>%Whitespace.whitespaceBefore</description>
                 <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement" />
             </property-metadata>
             <property-metadata
@@ -215,7 +215,7 @@
                 datatype="MultiCheck"
                 default-value="class__class_literal,colon__default,colon__case,colon__labeled_stat,comma,dot__import,dot__package_decl,dot__qualified_type,dot__selector,ellipsis,l_angle__meth_invocation_type_args,l_angle__type_args,l_angle__type_params,l_brack__array_decl,l_brack__index,l_paren__anno,l_paren__anno_elem_decl,l_paren__meth_invocation,l_paren__params,name__anno,post_decr,post_incr,r_angle__meth_decl_type_params,r_angle__meth_invocation_type_args,r_angle__type_args,r_angle__type_params,r_brack__array_decl,r_brack__index,r_curly__empty_anno_array_init,r_curly__empty_anon_class,r_curly__empty_array_init,r_curly__empty_catch,r_curly__empty_meth_decl,r_curly__empty_type_decl,r_curly__enum_const_decl,r_paren__anno,r_paren__anno_elem_decl,r_paren__meth_invocation,r_paren__cast,r_paren__catch,r_paren__do_while,r_paren__for,r_paren__for_no_update,r_paren__if,r_paren__params,r_paren__parenthesized,semi__abstract_meth_decl,semi__anno_elem_decl,semi__enum_decl,semi__field_decl,semi__for_condition_no_update,semi__for_condition_update,semi__for_init_condition,semi__for_init_no_condition,semi__for_no_condition_no_update,semi__for_no_condition_update,semi__for_no_init_condition,semi__for_no_init_no_condition,semi__import,semi__package_decl,semi__statement,semi__static_import,star__type_import_on_demand"
             >
-                <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceBefore</description>
+                <description>%Whitespace.noWhitespaceBefore</description>
                 <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement" />
             </property-metadata>
             <property-metadata
@@ -223,7 +223,7 @@
                 datatype="MultiCheck"
                 default-value="abstract,and__expr,and__type_bound,and_assign,assert,assign__assignment,assign__var_decl,case,catch,class__class_decl,colon__case,colon__default,colon__enhanced_for,colon__labeled_stat,colon__ternary,comma,conditional_and,conditional_or,default__anno_elem,divide,divide_assign,do,ellipsis,else,enum,equal,extends__type,extends__type_bound,final,finally,for,greater,greater_equal,if,implements,import,import__static_import,instanceof,interface,l_curly__anno_array_init,l_curly__anon_class,l_curly__array_init,l_curly__block,l_curly__catch,l_curly__do,l_curly__enum_const,l_curly__finally,l_curly__for,l_curly__if,l_curly__instance_init,l_curly__labeled_stat,l_curly__meth_decl,l_curly__static_init,l_curly__switch,l_curly__synchronized,l_curly__try,l_curly__type_decl,l_curly__while,left_shift,left_shift_assign,less,less_equal,minus__additive,minus_assign,modulo,modulo_assign,multiply,multiply_assign,name__anno_member,native,new,not_equal,or,or_assign,package,plus__additive,plus_assign,private,protected,public,question__ternary,r_angle__meth_decl_type_params,r_curly__block,r_curly__catch,r_curly__do,r_curly__else,r_curly__empty_catch,r_curly__empty_meth_decl,r_curly__empty_type_decl,r_curly__finally,r_curly__for,r_curly__if,r_curly__instance_init,r_curly__labeled_stat,r_curly__meth_decl,r_curly__static_init,r_curly__switch,r_curly__synchronized,r_curly__try,r_curly__type_decl,r_curly__while,r_paren__cast,r_paren__catch,r_paren__if,return__expr,right_shift,right_shift_assign,semi__abstract_meth_decl,semi__anno_elem_decl,semi__empty_stat,semi__enum_decl,semi__field_decl,semi__for_condition_update,semi__for_init_condition,semi__for_no_condition_update,semi__for_no_init_condition,semi__import,semi__package_decl,semi__statement,semi__static_import,semi__type_decl,static__mod,static__static_import,static__static_init,super__type_bound,switch,synchronized__mod,synchronized__synchronized,throw,throws,transient,try,unsigned_right_shift,unsigned_right_shift_assign,volatile,while__do,while__while,xor,xor_assign"
             >
-                <description>%de.unkrig.cscontrib.checks.Whitespace.whitespaceAfter</description>
+                <description>%Whitespace.whitespaceAfter</description>
                 <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement" />
             </property-metadata>
             <property-metadata
@@ -231,13 +231,13 @@
                 datatype="MultiCheck"
                 default-value="at__anno,at__anno_decl,bitwise_complement,default__switch,dot__import,dot__package_decl,dot__qualified_type,dot__selector,l_angle__meth_decl_type_params,l_angle__meth_invocation_type_args,l_angle__type_args,l_angle__type_params,l_brack__array_decl,l_brack__index,l_curly__empty_anno_array_init,l_curly__empty_anon_class,l_curly__empty_array_init,l_curly__empty_catch,l_curly__empty_meth_decl,l_curly__empty_type_decl,l_paren__anno,l_paren__anno_elem_decl,l_paren__meth_invocation,l_paren__cast,l_paren__catch,l_paren__do_while,l_paren__for,l_paren__for_no_init,l_paren__if,l_paren__params,l_paren__parenthesized,logical_complement,minus__unary,name__anno_elem_decl,name__ctor_decl,name__import_component,name__import_type,name__meth_decl,name__package_decl,name__param,plus__unary,pre_decr,pre_incr,r_angle__meth_invocation_type_args,r_paren__do_while,return__no_expr,semi__for_condition_no_update,semi__for_init_no_condition,semi__for_no_condition_no_update,semi__for_no_init_no_condition,star__type_import_on_demand,super__ctor_call,super__expr,this__ctor_call"
             >
-                <description>%de.unkrig.cscontrib.checks.Whitespace.noWhitespaceAfter</description>
+                <description>%Whitespace.noWhitespaceAfter</description>
                 <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement" />
             </property-metadata>
-            <message-key key="de.unkrig.cscontrib.checks.Whitespace.followed" />
-            <message-key key="de.unkrig.cscontrib.checks.Whitespace.notFollowed" />
-            <message-key key="de.unkrig.cscontrib.checks.Whitespace.preceded" />
-            <message-key key="de.unkrig.cscontrib.checks.Whitespace.notPreceded" />
+            <message-key key="Whitespace.followed" />
+            <message-key key="Whitespace.notFollowed" />
+            <message-key key="Whitespace.preceded" />
+            <message-key key="Whitespace.notPreceded" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -247,7 +247,7 @@
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.WhitespaceAround"
             parent="TreeWalker"
-            name="%de.unkrig.cscontrib.checks.WhitespaceAround.name"
+            name="%WhitespaceAround.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.WhitespaceAround" />
             <description>%de.unkrig.cscontrib.checks.WhitespaceAround.desc</description>
@@ -257,7 +257,7 @@
                 datatype="MultiCheck"
                 default-value="assign,band,band_assign,bor,bor_assign,bsr,bsr_assign,bxor,bxor_assign,colon,div,div_assign,equal,ge,gt,land,lcurly,le,literal_assert,literal_catch,literal_do,literal_else,literal_finally,literal_for,literal_if,literal_return,literal_synchronized,literal_try,literal_while,lor,lt,minus,minus_assign,mod,mod_assign,not_equal,plus,plus_assign,question,rcurly,sl,slist,sl_assign,sr,sr_assign,star,star_assign,literal_assert,type_extension_and,wildcard_type"
             >
-                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.tokens</description>
+                <description>%WhitespaceAround.tokens</description>
                 <enumeration>
                     <property-value-option value="assign" />
                     <property-value-option value="band" />
@@ -316,35 +316,35 @@
                 datatype="Boolean"
                 default-value="false"
             >
-                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.allowEmptyConstructors</description>
+                <description>%WhitespaceAround.allowEmptyConstructors</description>
             </property-metadata>
             <property-metadata
                 name="allowEmptyMethods"
                 datatype="Boolean"
                 default-value="false"
             >
-                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.allowEmptyMethods</description>
+                <description>%WhitespaceAround.allowEmptyMethods</description>
             </property-metadata>
             <property-metadata
                 name="allowEmptyCatches"
                 datatype="Boolean"
                 default-value="false"
             >
-                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.allowEmptyCatches</description>
+                <description>%WhitespaceAround.allowEmptyCatches</description>
             </property-metadata>
             <property-metadata
                 name="allowEmptyTypes"
                 datatype="Boolean"
                 default-value="false"
             >
-                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.allowEmptyTypes</description>
+                <description>%WhitespaceAround.allowEmptyTypes</description>
             </property-metadata>
             <property-metadata
                 name="ignoreEnhancedForColon"
                 datatype="Boolean"
                 default-value="false"
             >
-                <description>%de.unkrig.cscontrib.checks.WhitespaceAround.ignoreEnhancedForColon</description>
+                <description>%WhitespaceAround.ignoreEnhancedForColon</description>
             </property-metadata>
         </rule-metadata>
     </rule-group-metadata>
@@ -355,7 +355,7 @@
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.WrapAndIndent"
             parent="TreeWalker"
-            name="%de.unkrig.cscontrib.checks.WrapAndIndent.name"
+            name="%WrapAndIndent.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapAndIndent" />
             <description>%de.unkrig.cscontrib.checks.WrapAndIndent.desc</description>
@@ -365,63 +365,63 @@
                 datatype="Integer"
                 default-value="4"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.basicOffset</description>
+                <description>%WrapAndIndent.basicOffset</description>
             </property-metadata>
             <property-metadata
                 name="allowOneLineClassDecl"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineClassDecl</description>
+                <description>%WrapAndIndent.allowOneLineClassDecl</description>
             </property-metadata>
             <property-metadata
                 name="allowOneLineInterfaceDecl"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineInterfaceDecl</description>
+                <description>%WrapAndIndent.allowOneLineInterfaceDecl</description>
             </property-metadata>
             <property-metadata
                 name="allowOneLineEnumDecl"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineEnumDecl</description>
+                <description>%WrapAndIndent.allowOneLineEnumDecl</description>
             </property-metadata>
             <property-metadata
                 name="allowOneLineAnnoDecl"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineAnnoDecl</description>
+                <description>%WrapAndIndent.allowOneLineAnnoDecl</description>
             </property-metadata>
             <property-metadata
                 name="allowOneLineCtorDecl"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineCtorDecl</description>
+                <description>%WrapAndIndent.allowOneLineCtorDecl</description>
             </property-metadata>
             <property-metadata
                 name="allowOneLineMethDecl"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineMethDecl</description>
+                <description>%WrapAndIndent.allowOneLineMethDecl</description>
             </property-metadata>
             <property-metadata
                 name="allowOneLineSwitchBlockStmtGroup"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.allowOneLineSwitchBlockStmtGroup</description>
+                <description>%WrapAndIndent.allowOneLineSwitchBlockStmtGroup</description>
             </property-metadata>
             <property-metadata
                 name="wrapPackageDeclBeforePackage"
                 datatype="SingleSelect"
                 default-value="always"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapPackageDeclBeforePackage</description>
+                <description>%WrapAndIndent.wrapPackageDeclBeforePackage</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -429,7 +429,7 @@
                 datatype="SingleSelect"
                 default-value="always"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapClassDeclBeforeClass</description>
+                <description>%WrapAndIndent.wrapClassDeclBeforeClass</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -437,7 +437,7 @@
                 datatype="SingleSelect"
                 default-value="always"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapInterfaceDeclBeforeInterface</description>
+                <description>%WrapAndIndent.wrapInterfaceDeclBeforeInterface</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -445,7 +445,7 @@
                 datatype="SingleSelect"
                 default-value="always"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapEnumDeclBeforeEnum</description>
+                <description>%WrapAndIndent.wrapEnumDeclBeforeEnum</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -453,7 +453,7 @@
                 datatype="SingleSelect"
                 default-value="always"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapAnnoDeclBeforeAt</description>
+                <description>%WrapAndIndent.wrapAnnoDeclBeforeAt</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -461,7 +461,7 @@
                 datatype="SingleSelect"
                 default-value="optional"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapFieldDeclBeforeName</description>
+                <description>%WrapAndIndent.wrapFieldDeclBeforeName</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -469,7 +469,7 @@
                 datatype="SingleSelect"
                 default-value="always"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapCtorDeclBeforeName</description>
+                <description>%WrapAndIndent.wrapCtorDeclBeforeName</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -477,7 +477,7 @@
                 datatype="SingleSelect"
                 default-value="always"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapMethDeclBeforeName</description>
+                <description>%WrapAndIndent.wrapMethDeclBeforeName</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -485,7 +485,7 @@
                 datatype="SingleSelect"
                 default-value="optional"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapLocVarDeclBeforeName</description>
+                <description>%WrapAndIndent.wrapLocVarDeclBeforeName</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -493,7 +493,7 @@
                 datatype="SingleSelect"
                 default-value="never"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapTypeDeclBeforeLCurly</description>
+                <description>%WrapAndIndent.wrapTypeDeclBeforeLCurly</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -501,7 +501,7 @@
                 datatype="SingleSelect"
                 default-value="never"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapCtorDeclBeforeLCurly</description>
+                <description>%WrapAndIndent.wrapCtorDeclBeforeLCurly</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -509,7 +509,7 @@
                 datatype="SingleSelect"
                 default-value="never"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapMethodDeclBeforeLCurly</description>
+                <description>%WrapAndIndent.wrapMethodDeclBeforeLCurly</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -517,7 +517,7 @@
                 datatype="SingleSelect"
                 default-value="never"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapAnonClassDeclBeforeLCurly</description>
+                <description>%WrapAndIndent.wrapAnonClassDeclBeforeLCurly</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -525,7 +525,7 @@
                 datatype="SingleSelect"
                 default-value="never"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapDoBeforeLCurly</description>
+                <description>%WrapAndIndent.wrapDoBeforeLCurly</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -533,7 +533,7 @@
                 datatype="SingleSelect"
                 default-value="optional"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapTryBeforeCatch</description>
+                <description>%WrapAndIndent.wrapTryBeforeCatch</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -541,7 +541,7 @@
                 datatype="SingleSelect"
                 default-value="optional"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapTryBeforeFinally</description>
+                <description>%WrapAndIndent.wrapTryBeforeFinally</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -549,7 +549,7 @@
                 datatype="SingleSelect"
                 default-value="never"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapArrayInitBeforeLCurly</description>
+                <description>%WrapAndIndent.wrapArrayInitBeforeLCurly</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -557,7 +557,7 @@
                 datatype="SingleSelect"
                 default-value="optional"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapBeforeBinaryOperator</description>
+                <description>%WrapAndIndent.wrapBeforeBinaryOperator</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -565,16 +565,16 @@
                 datatype="SingleSelect"
                 default-value="never"
             >
-                <description>%de.unkrig.cscontrib.checks.WrapAndIndent.wrapAfterBinaryOperator</description>
+                <description>%WrapAndIndent.wrapAfterBinaryOperator</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
-            <message-key key="de.unkrig.cscontrib.checks.WrapAndIndent.mustWrap" />
-            <message-key key="de.unkrig.cscontrib.checks.WrapAndIndent.mustJoin" />
-            <message-key key="de.unkrig.cscontrib.checks.WrapAndIndent.wrongColumn" />
+            <message-key key="WrapAndIndent.mustWrap" />
+            <message-key key="WrapAndIndent.mustJoin" />
+            <message-key key="WrapAndIndent.wrongColumn" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -584,13 +584,13 @@
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation"
             parent="TreeWalker"
-            name="%de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation.name"
+            name="%ZeroParameterSuperconstructorInvocation.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation" />
             <description>%de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation.desc</description>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.ZeroParameterSuperconstructorInvocation" />
-            <message-key key="de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation.invocation" />
+            <message-key key="ZeroParameterSuperconstructorInvocation.invocation" />
         </rule-metadata>
     </rule-group-metadata>
 </checkstyle-metadata>
