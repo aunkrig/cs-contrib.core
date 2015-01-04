@@ -77,7 +77,7 @@ class WrapAndIndent extends Check {
      * @cs-message Must wrap line before ''{1}''
      */
     public static final String
-    MESSAGE_KEY_MUST_WRAP = "de.unkrig.cscontrib.checks.WrapAndIndent.mustWrap";
+    MESSAGE_KEY_MUST_WRAP = "WrapAndIndent.mustWrap";
 
     /**
      * Message key as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
@@ -91,7 +91,7 @@ class WrapAndIndent extends Check {
      * @cs-message ''{0}'' must appear on same line as ''{1}''
      */
     public static final String
-    MESSAGE_KEY_MUST_JOIN = "de.unkrig.cscontrib.checks.WrapAndIndent.mustJoin";
+    MESSAGE_KEY_MUST_JOIN = "WrapAndIndent.mustJoin";
 
     /**
      * Message key as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
@@ -107,7 +107,7 @@ class WrapAndIndent extends Check {
      * @cs-message ''{0}'' must appear in column {1}, not {2}
      */
     public static final String
-    MESSAGE_KEY_WRONG_COLUMN = "de.unkrig.cscontrib.checks.WrapAndIndent.wrongColumn";
+    MESSAGE_KEY_WRONG_COLUMN = "WrapAndIndent.wrongColumn";
 
     /**
      * The constants of this enum may appear in the '{@code args}' of {@link
