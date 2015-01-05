@@ -90,7 +90,6 @@ class Whitespace extends Check {
      * The Java elements which must be preceded with whitespace (or a line break).
      *
      * @cs-property-name            whitespaceBefore
-     * @cs-property-datatype        MultiCheck
      * @cs-property-default-value   {@value #DEFAULT_WHITESPACE_BEFORE}
      * @cs-property-option-provider de.unkrig.cscontrib.util.JavaElement
      */
@@ -107,7 +106,6 @@ class Whitespace extends Check {
      * The Java elements which must not be preceded with whitespace (or are preceded with a line break).
      *
      * @cs-property-name            noWhitespaceBefore
-     * @cs-property-datatype        MultiCheck
      * @cs-property-default-value   {@value #DEFAULT_NO_WHITESPACE_BEFORE}
      * @cs-property-option-provider de.unkrig.cscontrib.util.JavaElement
      */
@@ -124,7 +122,6 @@ class Whitespace extends Check {
      * The Java elements which must be followed by whitespace (or a line break).
      *
      * @cs-property-name            whitespaceAfter
-     * @cs-property-datatype        MultiCheck
      * @cs-property-default-value   {@value #DEFAULT_WHITESPACE_AFTER}
      * @cs-property-option-provider de.unkrig.cscontrib.util.JavaElement
      */
@@ -141,7 +138,6 @@ class Whitespace extends Check {
      * The Java elements which must not be followed by whitespace (or are followed by a line break).
      *
      * @cs-property-name            noWhitespaceAfter
-     * @cs-property-datatype        MultiCheck
      * @cs-property-default-value   {@value #DEFAULT_NO_WHITESPACE_AFTER}
      * @cs-property-option-provider de.unkrig.cscontrib.util.JavaElement
      */

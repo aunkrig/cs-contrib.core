@@ -136,7 +136,6 @@ class WhitespaceAround extends WhitespaceAroundCheck {
      * Allow empty constructor bodies.
      *
      * @cs-property-name          allowEmptyConstructors
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value false
      */
     @Override public void
@@ -146,7 +145,6 @@ class WhitespaceAround extends WhitespaceAroundCheck {
      * Allow empty method bodies.
      *
      * @cs-property-name          allowEmptyMethods
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value false
      */
     @Override public void
@@ -156,7 +154,6 @@ class WhitespaceAround extends WhitespaceAroundCheck {
      * Allow empty catch blocks.
      *
      * @cs-property-name          allowEmptyCatches
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value false
      */
     public void
@@ -167,7 +164,6 @@ class WhitespaceAround extends WhitespaceAroundCheck {
      * Allow empty class and interface bodies.
      *
      * @cs-property-name          allowEmptyTypes
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value false
      */
 //    @Override  // CS 6 adds this method.
@@ -183,7 +179,6 @@ class WhitespaceAround extends WhitespaceAroundCheck {
      *
      * @cs-property-name          ignoreEnhancedForColon
      * @cs-property-desc          Ignore the colon token in enhanced FOR statements ("for (x : y) ...").
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value false
      */
     @Override public void

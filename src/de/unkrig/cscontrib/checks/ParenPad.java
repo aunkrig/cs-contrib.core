@@ -77,7 +77,6 @@ class ParenPad extends ParenPadCheck {
      * Whether space is required or forbidden.
      *
      * @cs-property-name            option
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   nospace
      * @cs-property-option-provider com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption
      */
