@@ -89,7 +89,6 @@ class Alignment extends Check {
      * Check alignment of first name in field declarations.
      *
      * @cs-property-name          applyToFieldName
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_APPLY_TO_FIELD_NAME}
      */
     public void
@@ -103,7 +102,6 @@ class Alignment extends Check {
      * Check alignment of first '=' in field declarations.
      *
      * @cs-property-name          applyToFieldInitializer
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_APPLY_TO_FIELD_INITIALIZER}
      */
     public void
@@ -117,7 +115,6 @@ class Alignment extends Check {
      * Check alignment of method (and constructor) parameter names.
      *
      * @cs-property-name          applyToParameterName
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_APPLY_TO_PARAMETER_NAME}
      */
     public void
@@ -131,7 +128,6 @@ class Alignment extends Check {
      * Check alignment of first name in local variable declarations.
      *
      * @cs-property-name          applyToLocalVariableName
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_APPLY_TO_LOCAL_VARIABLE_NAME}
      */
     public void
@@ -145,7 +141,6 @@ class Alignment extends Check {
      * Check alignment of first '=' in local variable declarations.
      *
      * @cs-property-name          applyToLocalVariableInitializer
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_APPLY_TO_LOCAL_VARIABLE_INITIALIZER}
      */
     public void
@@ -159,7 +154,6 @@ class Alignment extends Check {
      * Check alignment of '=' in assignments.
      *
      * @cs-property-name          applyToAssignments
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_APPLY_TO_ASSIGNMENTS}
      */
     public void
@@ -173,7 +167,6 @@ class Alignment extends Check {
      * Check alignment of first statement in case groups.
      *
      * @cs-property-name          applyToCaseGroupStatements
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_APPLY_TO_CASE_GROUP_STATEMENTS}
      */
     public void
@@ -187,7 +180,6 @@ class Alignment extends Check {
      * Check alignment of method (and constructor) names in declarations.
      *
      * @cs-property-name          applyToMethodName
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_APPLY_TO_METHOD_NAME}
      */
     public void
@@ -201,7 +193,6 @@ class Alignment extends Check {
      * Check alignment of '{' in method (and constructor) declarations.
      *
      * @cs-property-name          applyToMethodBody
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_APPLY_TO_METHOD_BODY}
      */
     public void

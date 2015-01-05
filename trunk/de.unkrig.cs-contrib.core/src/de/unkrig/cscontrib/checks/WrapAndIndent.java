@@ -255,7 +255,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-intertitle             <h3>Indentation</h3>
      * @cs-property-name          basicOffset
-     * @cs-property-datatype      Integer
      * @cs-property-default-value {@value #DEFAULT_BASIC_OFFSET}
      */
     public void
@@ -280,7 +279,6 @@ class WrapAndIndent extends Check {
      *                            </p>
      * @cs-property-name          allowOneLineClassDecl
      * @cs-property-desc          Whether to allow a complete class declaration in one single line
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_CLASS_DECL}
      */
     public void
@@ -300,7 +298,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name          allowOneLineInterfaceDecl
      * @cs-property-desc          Whether to allow a complete interface declaration in one single line
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_INTERFACE_DECL}
      */
     public void
@@ -320,7 +317,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name          allowOneLineEnumDecl
      * @cs-property-desc          Whether to allow a complete enum declaration in one single line
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_ENUM_DECL}
      */
     public void
@@ -340,7 +336,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name          allowOneLineAnnoDecl
      * @cs-property-desc          Whether to allow a complete annotation declaration in one single line
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_ANNO_DECL}
      */
     public void
@@ -360,7 +355,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name          allowOneLineCtorDecl
      * @cs-property-desc          Whether to allow a complete constructor declaration in one single line
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_CTOR_DECL}
      */
     public void
@@ -380,7 +374,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name          allowOneLineMethDecl
      * @cs-property-desc          Whether to allow a complete method declaration in one single line
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_METH_DECL}
      */
     public void
@@ -400,7 +393,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name          allowOneLineSwitchBlockStmtGroup
      * @cs-property-desc          Whether to allow a complete SWITCH block statement group in one single line
-     * @cs-property-datatype      Boolean
      * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_SWITCH_BLOCK_STMT_GROUP}
      */
     public void
@@ -428,7 +420,6 @@ class WrapAndIndent extends Check {
      * @cs-property-name            wrapPackageDeclBeforePackage
      * @cs-property-desc            Whether to wrap package declarations before the PACKAGE keyword (in
      *                              '"package-info.java")
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_PACKAGE_DECL_BEFORE_PACKAGE}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -450,7 +441,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapClassDeclBeforeClass
      * @cs-property-desc            Whether to wrap class declarations before the CLASS keyword
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_CLASS_DECL_BEFORE_CLASS}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -472,7 +462,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapInterfaceDeclBeforeInterface
      * @cs-property-desc            Whether to wrap interface declarations before the INTERFACE keyword
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_INTERFACE_DECL_BEFORE_INTERFACE}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -496,7 +485,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapEnumDeclBeforeEnum
      * @cs-property-desc            Whether to wrap enum declarations before the ENUM keyword
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_ENUM_DECL_BEFORE_ENUM}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -518,7 +506,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapAnnoDeclBeforeAt
      * @cs-property-desc            Whether to wrap annotation declarations before '@'
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_ANNO_DECL_BEFORE_AT}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -540,7 +527,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapFieldDeclBeforeName
      * @cs-property-desc            Whether to wrap field declarations before the field name
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_FIELD_DECL_BEFORE_NAME}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -562,7 +548,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapCtorDeclBeforeName
      * @cs-property-desc            Whether to wrap constructor declarations between the modifiers and the class name
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_CTOR_DECL_BEFORE_NAME}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -584,7 +569,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapMethDeclBeforeName
      * @cs-property-desc            Whether to wrap method declarations between the return type and the method name
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_METH_DECL_BEFORE_NAME}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -606,7 +590,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapLocVarDeclBeforeName
      * @cs-property-desc            Whether to wrap local variable declarations between the type and the variable name
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_LOC_VAR_DECL_BEFORE_NAME}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -628,7 +611,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapTypeDeclBeforeLCurly
      * @cs-property-desc            Whether to wrap type declarations before the opening curly brace
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_TYPE_BEFORE_LCURLY}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -650,7 +632,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapCtorDeclBeforeLCurly
      * @cs-property-desc            Whether to wrap constructors declaration before the opening curly brace
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_CTOR_DECL_BEFORE_LCURLY}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -672,7 +653,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapMethodDeclBeforeLCurly
      * @cs-property-desc            Whether to wrap method declarations before the opening curly brace
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_METH_DECL_BEFORE_LCURLY}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -694,7 +674,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapAnonClassDeclBeforeLCurly
      * @cs-property-desc            Whether to wrap anonymous class declarations before the opening curly brace
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_ANON_CLASS_DECL_BEFORE_LCURLY}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -722,7 +701,6 @@ class WrapAndIndent extends Check {
      *                              </p>
      * @cs-property-name            wrapDoBeforeLCurly
      * @cs-property-desc            Whether to wrap DO statements before the opening curly brace
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_DO_BEFORE_LCURLY}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -744,7 +722,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapTryBeforeCatch
      * @cs-property-desc            Whether to wrap TRY statements before the CATCH keyword
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_TRY_BEFORE_CATCH}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -766,7 +743,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapTryBeforeFinally
      * @cs-property-desc            Whether to wrap TRY statements before the FINALLY keyword
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_TRY_BEFORE_FINALLY}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -788,7 +764,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapArrayInitBeforeLCurly
      * @cs-property-desc            Whether to wrap array initializers before the opening curly brace
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_ARRAY_INIT_BEFORE_LCURLY}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -812,7 +787,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapBeforeBinaryOperator
      * @cs-property-desc            Whether to wrap expressions before binary operators
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_BEFORE_BINARY_OPERATOR}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
@@ -836,7 +810,6 @@ class WrapAndIndent extends Check {
      *
      * @cs-property-name            wrapAfterBinaryOperator
      * @cs-property-desc            Whether to wrap expressions after binary operators
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_WRAP_AFTER_BINARY_OPERATOR}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */

@@ -133,7 +133,6 @@ class NameSpelling extends AbstractFormatCheck {
      * Elements to apply this check to.
      *
      * @cs-property-name            elements
-     * @cs-property-datatype        MultiCheck
      * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Elements
      */
     public final void
@@ -176,7 +175,6 @@ class NameSpelling extends AbstractFormatCheck {
      * Apply only to declarations which have these modifiers.
      *
      * @cs-property-name            requiredModifiers
-     * @cs-property-datatype        MultiCheck
      * @cs-property-default-value   (all declarations)
      * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Modifier
      */
@@ -192,7 +190,6 @@ class NameSpelling extends AbstractFormatCheck {
      * Apply only to declarations which do not have these modifiers.
      *
      * @cs-property-name            missingModifiers
-     * @cs-property-datatype        MultiCheck
      * @cs-property-default-value   (all declarations)
      * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Modifier
      */
@@ -213,7 +210,6 @@ class NameSpelling extends AbstractFormatCheck {
      * Whether to require or forbid that names match.
      *
      * @cs-property-name            option
-     * @cs-property-datatype        SingleSelect
      * @cs-property-default-value   {@value #DEFAULT_OPTION}
      * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Options
      */
