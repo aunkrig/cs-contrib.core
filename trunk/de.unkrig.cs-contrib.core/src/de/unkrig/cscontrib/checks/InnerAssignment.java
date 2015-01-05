@@ -54,18 +54,18 @@ class InnerAssignment extends Check {
     @Override public int[]
     getDefaultTokens() {
         return LocalTokenType.delocalize(new LocalTokenType[] {
-            LocalTokenType.ASSIGN,            // "="
-            LocalTokenType.DIV_ASSIGN,        // "/="
-            LocalTokenType.PLUS_ASSIGN,       // "+="
-            LocalTokenType.MINUS_ASSIGN,      // "-="
-            LocalTokenType.STAR_ASSIGN,       // "*="
-            LocalTokenType.MOD_ASSIGN,        // "%="
-            LocalTokenType.SR_ASSIGN,         // ">>="
-            LocalTokenType.BSR_ASSIGN,        // ">>>="
-            LocalTokenType.SL_ASSIGN,         // "<<="
-            LocalTokenType.BXOR_ASSIGN,       // "^="
-            LocalTokenType.BOR_ASSIGN,        // "|="
-            LocalTokenType.BAND_ASSIGN,       // "&="
+            LocalTokenType.ASSIGN,       // "="
+            LocalTokenType.DIV_ASSIGN,   // "/="
+            LocalTokenType.PLUS_ASSIGN,  // "+="
+            LocalTokenType.MINUS_ASSIGN, // "-="
+            LocalTokenType.STAR_ASSIGN,  // "*="
+            LocalTokenType.MOD_ASSIGN,   // "%="
+            LocalTokenType.SR_ASSIGN,    // ">>="
+            LocalTokenType.BSR_ASSIGN,   // ">>>="
+            LocalTokenType.SL_ASSIGN,    // "<<="
+            LocalTokenType.BXOR_ASSIGN,  // "^="
+            LocalTokenType.BOR_ASSIGN,   // "|="
+            LocalTokenType.BAND_ASSIGN,  // "&="
         });
     }
 
