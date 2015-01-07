@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.ConversionException;
 
-import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.ParenPadCheck;
@@ -50,7 +49,7 @@ import de.unkrig.csdoclet.SingleSelectRuleProperty;
     group     = "%Whitespace.group",
     groupName = "Whitespace",
     name      = "de.unkrig: Parenthesis padding",
-    parent    = TreeWalker.class
+    parent    = "TreeWalker"
 )
 @NotNullByDefault(false) public
 class ParenPad extends ParenPadCheck {

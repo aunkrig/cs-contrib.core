@@ -31,7 +31,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.ConversionException;
 
-import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
@@ -68,7 +67,7 @@ import de.unkrig.csdoclet.Rule;
  *   <li>de.unkrig.WhitespaceAround</li>
  * </ul>
  */
-@Rule(group = "%Whitespace.group", groupName = "Whitespace", name = "de.unkrig: Whitespace", parent = TreeWalker.class)
+@Rule(group = "%Whitespace.group", groupName = "Whitespace", name = "de.unkrig: Whitespace", parent = "TreeWalker")
 @NotNullByDefault(false) public
 class Whitespace extends Check {
 

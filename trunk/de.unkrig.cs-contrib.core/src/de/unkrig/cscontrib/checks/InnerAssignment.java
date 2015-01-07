@@ -26,7 +26,6 @@
 
 package de.unkrig.cscontrib.checks;
 
-import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
@@ -46,7 +45,7 @@ import de.unkrig.csdoclet.Rule;
     group      = "%Coding.group",
     groupName  = "Coding Problems",
     name       = "de.unkrig: Inner assignment",
-    parent     = TreeWalker.class,
+    parent     = "TreeWalker",
     quickfixes = { de.unkrig.cscontrib.ui.quickfixes.InnerAssignment.class }
 ) @NotNullByDefault(false) public
 class InnerAssignment extends Check {

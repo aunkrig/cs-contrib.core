@@ -36,7 +36,6 @@ import java.util.Map.Entry;
 import org.apache.commons.beanutils.ConversionException;
 
 import com.google.common.collect.ImmutableMap;
-import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
 import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
@@ -66,7 +65,7 @@ import de.unkrig.csdoclet.Rule;
     group     = "%Whitespace.group",
     groupName = "Whitespace",
     name      = "de.unkrig: C++-style comment alignment",
-    parent    = TreeWalker.class
+    parent    = "TreeWalker"
 )
 @NotNullByDefault(false)
 public

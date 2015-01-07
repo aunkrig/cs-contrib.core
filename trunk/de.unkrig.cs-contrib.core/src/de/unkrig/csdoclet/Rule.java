@@ -65,7 +65,7 @@ import java.lang.annotation.Target;
      */
     String     groupName();
     String     name();
-    Class<?>   parent();
+    String     parent();
     Class<?>[] quickfixes() default {};
     boolean    hasSeverity() default true;
 }

@@ -11,7 +11,7 @@
     <rule-group-metadata name="%Filters.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.filters.SuppressionLine"
-            parent="class com.puppycrawl.tools.checkstyle.Checker"
+            parent="Checker"
             hasSeverity="false"
             name="%SuppressionLine.name"
         >
