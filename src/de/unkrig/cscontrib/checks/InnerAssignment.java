@@ -26,29 +26,33 @@
 
 package de.unkrig.cscontrib.checks;
 
+import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
+import de.unkrig.csdoclet.Message;
+import de.unkrig.csdoclet.Rule;
 
 /**
  * Assignments in expressions must be parenthesized, like "a = (b = c)" or "while ((a = b))".
  * <p>
  *   An enhanced version of 'InnerAssignment': It comes with a quickfix for ECLIPSE-CS.
  * </p>
- *
- * @cs-rule-group         %Coding.group
- * @cs-rule-name          de.unkrig: Inner assignment
- * @cs-rule-parent        TreeWalker
- * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.InnerAssignment
  */
-@NotNullByDefault(false) public
+@Rule(
+    group      = "%Coding.group",
+    groupName  = "Coding Problems",
+    name       = "de.unkrig: Inner assignment",
+    parent     = TreeWalker.class,
+    quickfixes = { de.unkrig.cscontrib.ui.quickfixes.InnerAssignment.class }
+) @NotNullByDefault(false) public
 class InnerAssignment extends Check {
 
-    /** @cs-message Assignments in expressions must be parenthesized */
-    public static final String
+    @Message("Assignments in expressions must be parenthesized")
+    private static final String
     MESSAGE_KEY_MUST_PARENTHESIZE = "InnerAssignment.mustParenthesize";
 
     @Override public int[]

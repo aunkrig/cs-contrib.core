@@ -27,12 +27,16 @@
 package de.unkrig.cscontrib.checks;
 
 
+import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
+import de.unkrig.csdoclet.BooleanRuleProperty;
+import de.unkrig.csdoclet.Message;
+import de.unkrig.csdoclet.Rule;
 
 // SUPPRESS CHECKSTYLE LineLength:33
 /**
@@ -72,25 +76,21 @@ import de.unkrig.cscontrib.util.AstUtil;
  *     public static void meth4()  <font color="red">{}</font>
  *     public void meth5()         <font color="red">{}</font> // Aligned method bodies
  * }</pre>
- *
- * @cs-rule-group %Whitespace.group
- * @cs-rule-name  de.unkrig: Alignment
- * @cs-rule-parent TreeWalker
  */
-@NotNullByDefault(false) public
+@Rule(group = "%Whitespace.group", groupName = "Whitespace", name = "de.unkrig: Alignment", parent = TreeWalker.class)
+@NotNullByDefault(false)
+public
 class Alignment extends Check {
 
-    /** @cs-message ''{0}'' should be aligned with ''{1}'' in line {2,number,#} */
-    public static final String MESSAGE_KEY_MISALIGNED = "Alignment.misaligned";
+    @Message("''{0}'' should be aligned with ''{1}'' in line {2,number,#}")
+    private static final String MESSAGE_KEY_MISALIGNED = "Alignment.misaligned";
 
     // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
 
     /**
      * Check alignment of first name in field declarations.
-     *
-     * @cs-property-name          applyToFieldName
-     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_FIELD_NAME}
      */
+    @BooleanRuleProperty(name = "applyToFieldName", defaultValue = Alignment.DEFAULT_APPLY_TO_FIELD_NAME)
     public void
     setApplyToFieldName(boolean applyToFieldName) {
         this.applyToFieldName = applyToFieldName;
@@ -100,11 +100,11 @@ class Alignment extends Check {
 
     /**
      * Check alignment of first '=' in field declarations.
-     *
-     * @cs-property-name          applyToFieldInitializer
-     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_FIELD_INITIALIZER}
      */
-    public void
+    @BooleanRuleProperty(
+        name         = "applyToFieldInitializer",
+        defaultValue = Alignment.DEFAULT_APPLY_TO_FIELD_INITIALIZER
+    ) public void
     setApplyToFieldInitializer(boolean applyToFieldInitializer) {
         this.applyToFieldInitializer = applyToFieldInitializer;
     }
@@ -113,11 +113,11 @@ class Alignment extends Check {
 
     /**
      * Check alignment of method (and constructor) parameter names.
-     *
-     * @cs-property-name          applyToParameterName
-     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_PARAMETER_NAME}
      */
-    public void
+    @BooleanRuleProperty(
+        name         = "applyToParameterName",
+        defaultValue = Alignment.DEFAULT_APPLY_TO_PARAMETER_NAME
+    ) public void
     setApplyToParameterName(boolean applyToParameterName) {
         this.applyToParameterName = applyToParameterName;
     }
@@ -126,11 +126,11 @@ class Alignment extends Check {
 
     /**
      * Check alignment of first name in local variable declarations.
-     *
-     * @cs-property-name          applyToLocalVariableName
-     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_LOCAL_VARIABLE_NAME}
      */
-    public void
+    @BooleanRuleProperty(
+        name         = "applyToLocalVariableName",
+        defaultValue = Alignment.DEFAULT_APPLY_TO_LOCAL_VARIABLE_NAME
+    ) public void
     setApplyToLocalVariableName(boolean applyToLocalVariableName) {
         this.applyToLocalVariableName = applyToLocalVariableName;
     }
@@ -139,11 +139,11 @@ class Alignment extends Check {
 
     /**
      * Check alignment of first '=' in local variable declarations.
-     *
-     * @cs-property-name          applyToLocalVariableInitializer
-     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_LOCAL_VARIABLE_INITIALIZER}
      */
-    public void
+    @BooleanRuleProperty(
+        name         = "applyToLocalVariableInitializer",
+        defaultValue = Alignment.DEFAULT_APPLY_TO_LOCAL_VARIABLE_INITIALIZER
+    ) public void
     setApplyToLocalVariableInitializer(boolean applyToLocalVariableInitializer) {
         this.applyToLocalVariableInitializer = applyToLocalVariableInitializer;
     }
@@ -152,11 +152,11 @@ class Alignment extends Check {
 
     /**
      * Check alignment of '=' in assignments.
-     *
-     * @cs-property-name          applyToAssignments
-     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_ASSIGNMENTS}
      */
-    public void
+    @BooleanRuleProperty(
+        name         = "applyToAssignments",
+        defaultValue = Alignment.DEFAULT_APPLY_TO_ASSIGNMENTS
+    ) public void
     setApplyToAssignments(boolean applyToAssignments) {
         this.applyToAssignments = applyToAssignments;
     }
@@ -165,11 +165,11 @@ class Alignment extends Check {
 
     /**
      * Check alignment of first statement in case groups.
-     *
-     * @cs-property-name          applyToCaseGroupStatements
-     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_CASE_GROUP_STATEMENTS}
      */
-    public void
+    @BooleanRuleProperty(
+        name         = "applyToCaseGroupStatements",
+        defaultValue = Alignment.DEFAULT_APPLY_TO_CASE_GROUP_STATEMENTS
+    ) public void
     setApplyToCaseGroupStatements(boolean applyToCaseGroupStatements) {
         this.applyToCaseGroupStatements = applyToCaseGroupStatements;
     }
@@ -178,11 +178,11 @@ class Alignment extends Check {
 
     /**
      * Check alignment of method (and constructor) names in declarations.
-     *
-     * @cs-property-name          applyToMethodName
-     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_METHOD_NAME}
      */
-    public void
+    @BooleanRuleProperty(
+        name         = "applyToMethodName",
+        defaultValue = Alignment.DEFAULT_APPLY_TO_METHOD_NAME
+    ) public void
     setApplyToMethodName(boolean applyToMethodName) {
         this.applyToMethodName = applyToMethodName;
     }
@@ -191,11 +191,11 @@ class Alignment extends Check {
 
     /**
      * Check alignment of '{' in method (and constructor) declarations.
-     *
-     * @cs-property-name          applyToMethodBody
-     * @cs-property-default-value {@value #DEFAULT_APPLY_TO_METHOD_BODY}
      */
-    public void
+    @BooleanRuleProperty(
+        name         = "applyToMethodBody",
+        defaultValue = Alignment.DEFAULT_APPLY_TO_METHOD_BODY
+    ) public void
     setApplyToMethodBody(boolean applyToMethodBody) {
         this.applyToMethodBody = applyToMethodBody;
     }

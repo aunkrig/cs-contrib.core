@@ -30,31 +30,37 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.ConversionException;
 
+import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.ParenPadCheck;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
+import de.unkrig.csdoclet.Message;
+import de.unkrig.csdoclet.Rule;
+import de.unkrig.csdoclet.SingleSelectRuleProperty;
 
 /**
  * Enhanced version of "ParenPad": NOSPACE now allows "{@code ( // ...}".
  * <p>
  *   <span style="color: red"><b>This check is superseded by {@code de.unkrig.Whitespace}.</b></span>
  * </p>
- *
- * @cs-rule-group  %Whitespace.group
- * @cs-rule-name   de.unkrig: Parenthesis padding
- * @cs-rule-parent TreeWalker
  */
+@Rule(
+    group     = "%Whitespace.group",
+    groupName = "Whitespace",
+    name      = "de.unkrig: Parenthesis padding",
+    parent    = TreeWalker.class
+)
 @NotNullByDefault(false) public
 class ParenPad extends ParenPadCheck {
 
-    /** @cs-message ''{0}'' is followed by whitespace */
-    public static final String
+    @Message("''{0}'' is followed by whitespace")
+    private static final String
     MESSAGE_KEY_FOLLOWED_BY_WHITESPACE = "ParenPad.followedByWhitespace";
 
-    /** @cs-message ''{0}'' is not followed by whitespace */
-    public static final String
+    @Message("''{0}'' is not followed by whitespace")
+    private static final String
     MESSAGE_KEY_NOT_FOLLOWED_BY_WHITESPACE = "ParenPad.notFollowedByWhitespace";
 
     private static final Pattern NOSPACE_PATTERN = Pattern.compile(
@@ -75,11 +81,8 @@ class ParenPad extends ParenPadCheck {
 
     /**
      * Whether space is required or forbidden.
-     *
-     * @cs-property-name            option
-     * @cs-property-default-value   nospace
-     * @cs-property-option-provider com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption
      */
+    @SingleSelectRuleProperty(optionProvider = PadOption.class, defaultValue = "nospace")
     @Override public void
     setOption(String option) throws ConversionException { super.setOption(option); }
 

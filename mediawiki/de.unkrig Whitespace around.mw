@@ -56,7 +56,7 @@ Default values appear <u>underlined</u>.
 </dl>
 
 <dl>
-<dt>ignoreEnhancedForColon = "true | <u>false</u>"
-<dd>Ignore the colon (":") token in enhanced <code>for</code> statements ("<code>for (x : y) ...</code>").
+<dt>ignoreEnhancedForColon = "<u>true</u> | false"
+<dd>Ignore the colon (":") token in enhanced <code>FOR</code> statements ("<code>for (x : y) ...</code>").
 </dl>
 

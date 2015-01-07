@@ -24,49 +24,49 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>allowOneLineClassDecl = "<u>true</u> | false"
-<dd>Whether to allow a complete class declaration in one single line:
+<dd>Whether to allow a complete class declaration in one single line. Example:
  public class Pojo { int fld; }
 
 </dl>
 
 <dl>
 <dt>allowOneLineInterfaceDecl = "<u>true</u> | false"
-<dd>Whether to allow a complete interface declaration in one single line:
+<dd>Whether to allow a complete interface declaration in one single line. Example:
  public interface Interf { void meth(); }
 
 </dl>
 
 <dl>
 <dt>allowOneLineEnumDecl = "<u>true</u> | false"
-<dd>Whether to allow a complete enum declaration in one single line:
+<dd>Whether to allow a complete enum declaration in one single line. Example:
  private enum Color { BLACK, WHITE }
 
 </dl>
 
 <dl>
 <dt>allowOneLineAnnoDecl = "<u>true</u> | false"
-<dd>Whether to allow a complete annotation declaration in one single line:
+<dd>Whether to allow a complete annotation declaration in one single line. Example:
  public @interface MyAnno {}
 
 </dl>
 
 <dl>
 <dt>allowOneLineCtorDecl = "<u>true</u> | false"
-<dd>Whether to allow a complete constructor declaration in one single line:
+<dd>Whether to allow a complete constructor declaration in one single line. Example:
  protected MyClass() { super(null); }
 
 </dl>
 
 <dl>
 <dt>allowOneLineMethDecl = "<u>true</u> | false"
-<dd>Whether to allow a complete method declaration in one single line:
+<dd>Whether to allow a complete method declaration in one single line. Example:
  private void meth() { ... }
 
 </dl>
 
 <dl>
 <dt>allowOneLineSwitchBlockStmtGroup = "<u>true</u> | false"
-<dd>Whether to allow a complete <code>switch</code> block statement group in one single line:
+<dd>Whether to allow a complete <code>SWITCH</code> block statement group in one single line. Example:
  case 1: case 2: a = 3; break;
 
 </dl>
@@ -75,7 +75,8 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapPackageDeclBeforePackage = "<u>always</u> | optional | never"
-<dd>Whether to wrap package declarations before the <code>package</code> keyword (in "<code>package-info.java</code>"):
+<dd>Whether to wrap package declarations before the <code>PACKAGE</code> keyword (in "<code>package-info.java</code>").
+Example:
  &#64;NonNullByDefault
  package com.acme.product;
 
@@ -83,7 +84,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapClassDeclBeforeClass = "<u>always</u> | optional | never"
-<dd>Whether to wrap class declarations before the <code>class</code> keyword:
+<dd>Whether to wrap class declarations before the <code>CLASS</code> keyword. Example:
  public static final
  class MyClass {
 
@@ -91,7 +92,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapInterfaceDeclBeforeInterface = "<u>always</u> | optional | never"
-<dd>Whether to wrap interface declarations before the <code>interface</code> keyword:
+<dd>Whether to wrap interface declarations before the <code>INTERFACE</code> keyword. Example:
  public
  interface MyInterf {
 
@@ -99,7 +100,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapEnumDeclBeforeEnum = "<u>always</u> | optional | never"
-<dd>Whether to wrap enum declarations before the <code>enum</code> keyword:
+<dd>Whether to wrap enum declarations before the <code>ENUM</code> keyword. Example:
  protected
  enum MyEnum {
 
@@ -107,7 +108,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapAnnoDeclBeforeAt = "<u>always</u> | optional | never"
-<dd>Whether to wrap annotation declarations before '@':
+<dd>Whether to wrap annotation declarations before '@'. Example:
  private
  &#64;interface MyAnno {
 
@@ -115,7 +116,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapFieldDeclBeforeName = "always | <u>optional</u> | never"
-<dd>Whether to wrap field declarations before the field name:
+<dd>Whether to wrap field declarations before the field name. Example:
  private int
  width = 7;
 
@@ -123,7 +124,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapCtorDeclBeforeName = "<u>always</u> | optional | never"
-<dd>Whether to wrap constructor declarations between the modifiers and the class name:
+<dd>Whether to wrap constructor declarations between the modifiers and the class name. Example:
  protected
  MyClass(int x) {
 
@@ -131,7 +132,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapMethDeclBeforeName = "<u>always</u> | optional | never"
-<dd>Whether to wrap method declarations between the return type and the method name:
+<dd>Whether to wrap method declarations between the return type and the method name. Example:
  private static
  myMeth(int arg1) {
 
@@ -139,7 +140,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapLocVarDeclBeforeName = "always | <u>optional</u> | never"
-<dd>Whether to wrap local variable declarations between the type and the variable name:
+<dd>Whether to wrap local variable declarations between the type and the variable name. Example:
  int
  locvar = 7;
 
@@ -147,7 +148,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapTypeDeclBeforeLCurly = "always | optional | <u>never</u>"
-<dd>Whether to wrap type declarations before the opening curly brace:
+<dd>Whether to wrap type declarations before the opening curly brace. Example:
  public class MyClass
  {
 
@@ -155,7 +156,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapCtorDeclBeforeLCurly = "always | optional | <u>never</u>"
-<dd>Whether to wrap constructor declarations before the opening curly brace:
+<dd>Whether to wrap constructor declarations before the opening curly brace. Example:
  protected MyClass(int x)
  {
 
@@ -163,7 +164,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapMethodDeclBeforeLCurly = "always | optional | <u>never</u>"
-<dd>Whether to wrap method declarations before the opening curly brace:
+<dd>Whether to wrap method declarations before the opening curly brace. Example:
  private static myMeth(int arg1)
  {
 
@@ -171,7 +172,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapAnonClassDeclBeforeLCurly = "always | optional | <u>never</u>"
-<dd>Whether to wrap anonymous class declarations before the opening curly brace:
+<dd>Whether to wrap anonymous class declarations before the opening curly brace. Example:
  new Object()
  {
 
@@ -181,7 +182,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapDoBeforeLCurly = "always | optional | <u>never</u>"
-<dd>Whether to wrap <code>do</code> statements before the opening curly brace:
+<dd>Whether to wrap <code>DO</code> statements before the opening curly brace. Example:
  do
  {
 
@@ -189,7 +190,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapTryBeforeCatch = "always | <u>optional</u> | never"
-<dd>Whether to wrap <code>try</code> statements before the <code>catch</code> keyword:
+<dd>Whether to wrap <code>TRY</code> statements before the <code>CATCH</code> keyword. Example:
  try { ... }
  catch { ... }
 
@@ -197,7 +198,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapTryBeforeFinally = "always | <u>optional</u> | never"
-<dd>Whether to wrap <code>try</code> statements before the <code>finally</code> keyword:
+<dd>Whether to wrap <code>TRY</code> statements before the <code>FINALLY</code> keyword. Example:
  try { ... }
  finally { ... }
 
@@ -205,7 +206,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapArrayInitBeforeLCurly = "always | optional | <u>never</u>"
-<dd>Whether to wrap array initializers before the opening curly brace:
+<dd>Whether to wrap array initializers before the opening curly brace. Example:
  int[] ia =
  {
 
@@ -213,8 +214,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>wrapBeforeBinaryOperator = "always | <u>optional</u> | never"
-<dd>Whether to wrap expressions before a binary operator ("<code>+ - * / % &amp; | ^ << >> >>></code>", assignment
-operators and/or "<code>. <= < == != >= > &amp;&amp; || instanceof</code>"):
+<dd>Whether to wrap expressions before a binary operator. Example:
  a
  + b
  + c
@@ -223,14 +223,23 @@ operators and/or "<code>. <= < == != >= > &amp;&amp; || instanceof</code>"):
 
 <dl>
 <dt>wrapAfterBinaryOperator = "always | optional | <u>never</u>"
-<dd>Whether to wrap expressions after a binary operator ("<code>+ - * / % &amp; | ^ << >> >>></code>", assignment
-operators and/or "<code>. <= < == != >= > &amp;&amp; || instanceof</code>"):
+<dd>Whether to wrap expressions after a binary operator. Example:
  a +
  b +
  c
 
 </dl>
 
-<p>
-  Quickfixes are available for this check.
-</p>
+== Quickfixes ==
+
+<dl>
+
+<dt>Wrap line
+<dd>Wrap this line at the correct position
+
+<dt>Join lines
+<dd>Append this line to the previous
+
+<dt>Correct indentation
+<dd>Correct the indentation of this line
+</dl>

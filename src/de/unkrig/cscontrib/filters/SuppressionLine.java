@@ -36,6 +36,7 @@ import java.util.regex.PatternSyntaxException;
 import org.apache.commons.beanutils.ConversionException;
 
 import com.google.common.collect.Lists;
+import com.puppycrawl.tools.checkstyle.Checker;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
@@ -44,6 +45,8 @@ import com.puppycrawl.tools.checkstyle.api.Utils;
 import com.puppycrawl.tools.checkstyle.checks.FileContentsHolder;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
+import de.unkrig.csdoclet.RegexRuleProperty;
+import de.unkrig.csdoclet.Rule;
 
 /**
  * Events (i.e. CheckStyle warnings) are switched off by a "magic line" ("offFormat") or back on by another magic line
@@ -56,12 +59,14 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
  *   <li>The 'messageFormat' (if set) is found in the event message
  *   <li>The 'moduleIdFormat' (if set) is found in the ID of the module that generated the event
  * </ul>
- *
- * @cs-rule-group        %Filters.group
- * @cs-rule-name         de.unkrig: Suppression line
- * @cs-rule-parent       Checker
- * @cs-rule-has-severity false
  */
+@Rule(
+    group       = "%Filters.group",
+    groupName   = "Filters",
+    name        = "de.unkrig: Suppression line",
+    parent      = Checker.class,
+    hasSeverity = false
+)
 @NotNullByDefault(false) public
 class SuppressionLine extends AutomaticBean implements Filter {
 
@@ -271,11 +276,8 @@ class SuppressionLine extends AutomaticBean implements Filter {
 
     /**
      * Line pattern to trigger filter to begin suppression.
-     *
-     * @cs-property-name                   offFormat
-     * @cs-property-datatype               Regex
-     * @cs-property-override-default-value CHECKSTYLE (.+):OFF
      */
+    @RegexRuleProperty(overrideDefaultValue = "CHECKSTYLE (.+):OFF")
     public void
     setOffFormat(String offFormat) throws ConversionException {
         try {
@@ -287,11 +289,8 @@ class SuppressionLine extends AutomaticBean implements Filter {
 
     /**
      * Line pattern to trigger filter to end suppression.
-     *
-     * @cs-property-name                   onFormat
-     * @cs-property-datatype               Regex
-     * @cs-property-override-default-value CHECKSTYLE (.+):ON
      */
+    @RegexRuleProperty(overrideDefaultValue = "CHECKSTYLE (.+):ON")
     public void
     setOnFormat(String onFormat) throws ConversionException {
         try {
@@ -303,46 +302,40 @@ class SuppressionLine extends AutomaticBean implements Filter {
 
     /**
      * Check name pattern to suppress.
-     *
-     * @cs-property-name                   checkNameFormat
-     * @cs-property-datatype               Regex
-     * @cs-property-override-default-value $1
      */
+    @RegexRuleProperty(overrideDefaultValue = "$1")
     public void
     setCheckNameFormat(String checkNameFormat) throws ConversionException {
+
         try {
             Utils.getPattern(checkNameFormat);
         } catch (final PatternSyntaxException e) {
             throw new ConversionException("unable to parse " + checkNameFormat, e);
         }
+
         this.checkNameFormat = checkNameFormat;
     }
 
     /**
      * Message pattern to suppress.
-     *
-     * @cs-property-name                   messageFormat
-     * @cs-property-datatype               Regex
-     * @cs-property-override-default-value $1
      */
+    @RegexRuleProperty(overrideDefaultValue = "$1")
     public void
     setMessageFormat(String messageFormat) throws ConversionException {
-        // check that format parses
+
         try {
             Utils.getPattern(messageFormat);
         } catch (final PatternSyntaxException e) {
             throw new ConversionException("unable to parse " + messageFormat, e);
         }
+
         this.messageFormat = messageFormat;
     }
 
     /**
      * Module ID pattern to suppress.
-     *
-     * @cs-property-name                   moduleIdFormat
-     * @cs-property-datatype               Regex
-     * @cs-property-override-default-value $1
      */
+    @RegexRuleProperty(overrideDefaultValue = "$1")
     public void
     setModuleIdFormat(String moduleIdFormat) throws ConversionException {
         try {

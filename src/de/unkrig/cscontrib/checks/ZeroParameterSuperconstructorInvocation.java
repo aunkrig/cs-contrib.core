@@ -26,11 +26,14 @@
 
 package de.unkrig.cscontrib.checks;
 
+import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
+import de.unkrig.csdoclet.Message;
+import de.unkrig.csdoclet.Rule;
 
 /**
  * Verifies that no constructor calls the zero-parameter superconstructor.
@@ -40,17 +43,19 @@ import de.unkrig.cscontrib.LocalTokenType;
  *         super(); // <===
  *     }
  * }</pre>
- *
- * @cs-rule-group         %Coding.group
- * @cs-rule-name          de.unkrig: Zero-parameter superconstructor invocation
- * @cs-rule-parent        TreeWalker
- * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.ZeroParameterSuperconstructorInvocation
  */
+@Rule(
+    group      = "%Coding.group",
+    groupName  = "Coding Problems",
+    name       = "de.unkrig: Zero-parameter superconstructor invocation",
+    parent     = TreeWalker.class,
+    quickfixes = { de.unkrig.cscontrib.ui.quickfixes.ZeroParameterSuperconstructorInvocation.class }
+)
 @NotNullByDefault(false) public
 class ZeroParameterSuperconstructorInvocation extends Check {
 
-    /** @cs-message Redundant invocation of zero-parameter superconstructor */
-    public static final String
+    @Message("Redundant invocation of zero-parameter superconstructor")
+    private static final String
     MESSAGE_KEY_INVOCATION = "ZeroParameterSuperconstructorInvocation.invocation";
 
     @Override public int[]

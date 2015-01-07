@@ -36,6 +36,7 @@ import java.util.Map.Entry;
 import org.apache.commons.beanutils.ConversionException;
 
 import com.google.common.collect.ImmutableMap;
+import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
 import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
@@ -43,6 +44,8 @@ import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
+import de.unkrig.csdoclet.Message;
+import de.unkrig.csdoclet.Rule;
 
 /**
  * Verifies that C++-style comments ('<code>// ...</code>') are correctly aligned.
@@ -58,16 +61,19 @@ import de.unkrig.cscontrib.util.AstUtil;
  *   <li>A line which contains only a switch label ('{@code case x:}' or '{@code default:}') and a C++-style comment
  *   <li>Any other line
  * </ul>
- *
- * @cs-rule-group  %Whitespace.group
- * @cs-rule-name   de.unkrig: C++-style comment alignment
- * @cs-rule-parent TreeWalker
  */
-@NotNullByDefault(false) public
+@Rule(
+    group     = "%Whitespace.group",
+    groupName = "Whitespace",
+    name      = "de.unkrig: C++-style comment alignment",
+    parent    = TreeWalker.class
+)
+@NotNullByDefault(false)
+public
 class CppCommentAlignment extends AbstractFormatCheck {
 
-    /** @cs-message C++ comment must appear on column {0}, not {1} */
-    public static final String MESSAGE_KEY_MISALIGNED = "CppCommentAlignment.misaligned";
+    @Message("C++ comment must appear on column {0}, not {1}")
+    private static final String MESSAGE_KEY_MISALIGNED = "CppCommentAlignment.misaligned";
 
     private ImmutableMap<Integer /*lineNumber*/, TextBlock> cppComments;
 

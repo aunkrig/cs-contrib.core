@@ -4,6 +4,10 @@ Assignments in expressions must be parenthesized, like "a = (b = c)" or "while (
   An enhanced version of 'InnerAssignment': It comes with a quickfix for ECLIPSE-CS.
 </p>
 
-<p>
-  Quickfixes are available for this check.
-</p>
+== Quickfixes ==
+
+<dl>
+
+<dt>Parenthesize assignment
+<dd>Parenthesize assignment to indicate that it is intentional
+</dl>

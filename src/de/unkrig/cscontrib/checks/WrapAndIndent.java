@@ -37,12 +37,21 @@ import java.util.Set;
 
 import net.sf.eclipsecs.core.config.meta.IOptionProvider;
 
+import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.Utils;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
+import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1;
+import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2;
+import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3;
+import de.unkrig.csdoclet.BooleanRuleProperty;
+import de.unkrig.csdoclet.IntegerRuleProperty;
+import de.unkrig.csdoclet.Message;
+import de.unkrig.csdoclet.Rule;
+import de.unkrig.csdoclet.SingleSelectRuleProperty;
 
 /**
  * Verifies that statements are uniformly wrapped and indented.
@@ -54,14 +63,14 @@ import de.unkrig.cscontrib.LocalTokenType;
  *   <li>Right curly brace placement</li>
  *   <li>Operator wrap</li>
  * </ul>
- *
- * @cs-rule-group         %Whitespace.group
- * @cs-rule-name          de.unkrig: Wrap and indent
- * @cs-rule-parent        TreeWalker
- * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1
- * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2
- * @cs-quickfix-classname de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3
  */
+@Rule(
+    group      = "%Whitespace.group",
+    groupName  = "Whitespace",
+    name       = "de.unkrig: Wrap and indent",
+    parent     = TreeWalker.class,
+    quickfixes = { WrapAndIndent1.class, WrapAndIndent2.class, WrapAndIndent3.class }
+)
 @NotNullByDefault(false) public
 class WrapAndIndent extends Check {
 
@@ -73,9 +82,8 @@ class WrapAndIndent extends Check {
      *   <dt><code>{1}</code>
      *   <dd>Text of token <i>after</i> the (missing) line break
      * </dl>
-     *
-     * @cs-message Must wrap line before ''{1}''
      */
+    @Message("Must wrap line before ''{1}''")
     public static final String
     MESSAGE_KEY_MUST_WRAP = "WrapAndIndent.mustWrap";
 
@@ -87,9 +95,8 @@ class WrapAndIndent extends Check {
      *   <dt><code>{1}</code>
      *   <dd>Text of token <i>after</i> the (unwanted) line break
      * </dl>
-     *
-     * @cs-message ''{0}'' must appear on same line as ''{1}''
      */
+    @Message("''{0}'' must appear on same line as ''{1}''")
     public static final String
     MESSAGE_KEY_MUST_JOIN = "WrapAndIndent.mustJoin";
 
@@ -103,9 +110,8 @@ class WrapAndIndent extends Check {
      *   <dt><code>{2}</code>
      *   <dd>Correct column number of the token
      * </dl>
-     *
-     * @cs-message ''{0}'' must appear in column {1}, not {2}
      */
+    @Message("''{0}'' must appear in column {1}, not {2}")
     public static final String
     MESSAGE_KEY_WRONG_COLUMN = "WrapAndIndent.wrongColumn";
 
@@ -253,10 +259,9 @@ class WrapAndIndent extends Check {
     /**
      * How many spaces to use for each new indentation level.
      *
-     * @cs-intertitle             <h3>Indentation</h3>
-     * @cs-property-name          basicOffset
-     * @cs-property-default-value {@value #DEFAULT_BASIC_OFFSET}
+     * @cs-intertitle <h3>Indentation</h3>
      */
+    @IntegerRuleProperty(defaultValue = WrapAndIndent.DEFAULT_BASIC_OFFSET)
     public void
     setBasicOffset(int value) { this.basicOffset = value; }
 
@@ -267,20 +272,18 @@ class WrapAndIndent extends Check {
     DEFAULT_BASIC_OFFSET = 4;
 
     /**
-     * Whether to allow a complete class declaration in one single line:
+     * Whether to allow a complete class declaration in one single line. Example:
      * <pre>
      * public class Pojo { int fld; }
      * </pre>
      *
-     * @cs-intertitle             <h3>One-line Declarations</h3>
-     *                            <p>
-     *                              The following properties refer to 'one-line declarations', i.e. declarations
-     *                              completely without line breaks.
-     *                            </p>
-     * @cs-property-name          allowOneLineClassDecl
-     * @cs-property-desc          Whether to allow a complete class declaration in one single line
-     * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_CLASS_DECL}
+     * @cs-intertitle <h3>One-line Declarations</h3>
+     *                <p>
+     *                  The following properties refer to 'one-line declarations', i.e. declarations completely without
+     *                  line breaks.
+     *                </p>
      */
+    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_CLASS_DECL)
     public void
     setAllowOneLineClassDecl(boolean value) { this.allowOneLineClassDecl = value; }
 
@@ -291,15 +294,12 @@ class WrapAndIndent extends Check {
     DEFAULT_ALLOW_ONE_LINE_CLASS_DECL = true;
 
     /**
-     * Whether to allow a complete interface declaration in one single line:
+     * Whether to allow a complete interface declaration in one single line. Example:
      * <pre>
      * public interface Interf { void meth(); }
      * </pre>
-     *
-     * @cs-property-name          allowOneLineInterfaceDecl
-     * @cs-property-desc          Whether to allow a complete interface declaration in one single line
-     * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_INTERFACE_DECL}
      */
+    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_INTERFACE_DECL)
     public void
     setAllowOneLineInterfaceDecl(boolean value) { this.allowOneLineInterfaceDecl = value; }
 
@@ -310,15 +310,12 @@ class WrapAndIndent extends Check {
     DEFAULT_ALLOW_ONE_LINE_INTERFACE_DECL = true;
 
     /**
-     * Whether to allow a complete enum declaration in one single line:
+     * Whether to allow a complete enum declaration in one single line. Example:
      * <pre>
      * private enum Color { BLACK, WHITE }
      * </pre>
-     *
-     * @cs-property-name          allowOneLineEnumDecl
-     * @cs-property-desc          Whether to allow a complete enum declaration in one single line
-     * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_ENUM_DECL}
      */
+    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_ENUM_DECL)
     public void
     setAllowOneLineEnumDecl(boolean value) { this.allowOneLineEnumDecl = value; }
 
@@ -329,15 +326,12 @@ class WrapAndIndent extends Check {
     DEFAULT_ALLOW_ONE_LINE_ENUM_DECL = true;
 
     /**
-     * Whether to allow a complete annotation declaration in one single line:
+     * Whether to allow a complete annotation declaration in one single line. Example:
      * <pre>
      * public @interface MyAnno {}
      * </pre>
-     *
-     * @cs-property-name          allowOneLineAnnoDecl
-     * @cs-property-desc          Whether to allow a complete annotation declaration in one single line
-     * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_ANNO_DECL}
      */
+    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_ANNO_DECL)
     public void
     setAllowOneLineAnnoDecl(boolean value) { this.allowOneLineAnnoDecl = value; }
 
@@ -348,15 +342,12 @@ class WrapAndIndent extends Check {
     DEFAULT_ALLOW_ONE_LINE_ANNO_DECL = true;
 
     /**
-     * Whether to allow a complete constructor declaration in one single line:
+     * Whether to allow a complete constructor declaration in one single line. Example:
      * <pre>
      * protected MyClass() { super(null); }
      * </pre>
-     *
-     * @cs-property-name          allowOneLineCtorDecl
-     * @cs-property-desc          Whether to allow a complete constructor declaration in one single line
-     * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_CTOR_DECL}
      */
+    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_CTOR_DECL)
     public void
     setAllowOneLineCtorDecl(boolean value) { this.allowOneLineCtorDecl = value; }
 
@@ -367,15 +358,12 @@ class WrapAndIndent extends Check {
     DEFAULT_ALLOW_ONE_LINE_CTOR_DECL = true;
 
     /**
-     * Whether to allow a complete method declaration in one single line:
+     * Whether to allow a complete method declaration in one single line. Example:
      * <pre>
      * private void meth() { ... }
      * </pre>
-     *
-     * @cs-property-name          allowOneLineMethDecl
-     * @cs-property-desc          Whether to allow a complete method declaration in one single line
-     * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_METH_DECL}
      */
+    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_METH_DECL)
     public void
     setAllowOneLineMethDecl(boolean value) { this.allowOneLineMethDecl = value; }
 
@@ -386,15 +374,12 @@ class WrapAndIndent extends Check {
     DEFAULT_ALLOW_ONE_LINE_METH_DECL = true;
 
     /**
-     * Whether to allow a complete {@code switch} block statement group in one single line:
+     * Whether to allow a complete {@code SWITCH} block statement group in one single line. Example:
      * <pre>
      * case 1: case 2: a = 3; break;
      * </pre>
-     *
-     * @cs-property-name          allowOneLineSwitchBlockStmtGroup
-     * @cs-property-desc          Whether to allow a complete SWITCH block statement group in one single line
-     * @cs-property-default-value {@value #DEFAULT_ALLOW_ONE_LINE_SWITCH_BLOCK_STMT_GROUP}
      */
+    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_SWITCH_BLOCK_STMT_GROUP)
     public void
     setAllowOneLineSwitchBlockStmtGroup(boolean value) { this.allowOneLineSwitchBlockStmtGroup = value; }
 
@@ -405,25 +390,23 @@ class WrapAndIndent extends Check {
     DEFAULT_ALLOW_ONE_LINE_SWITCH_BLOCK_STMT_GROUP = true;
 
     /**
-     * Whether to wrap package declarations before the {@code package} keyword (in "{@code package-info.java}"):
+     * Whether to wrap package declarations before the {@code PACKAGE} keyword (in "{@code package-info.java}").
+     * Example:
      * <pre>
      * &#64;NonNullByDefault
      * package com.acme.product;
      * </pre>
      *
-     * @cs-intertitle               <h3>Declaration Wrapping</h3>
-     *                              <p>
-     *                                The phrase "wrap before X" means that a line break and spaces appear right before
-     *                                "X", such that "X" is vertically aligned with the first token in the immediately
-     *                                preceding line.
-     *                              </p>
-     * @cs-property-name            wrapPackageDeclBeforePackage
-     * @cs-property-desc            Whether to wrap package declarations before the PACKAGE keyword (in
-     *                              '"package-info.java")
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_PACKAGE_DECL_BEFORE_PACKAGE}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     * @cs-intertitle <h3>Declaration Wrapping</h3>
+     *                <p>
+     *                  The phrase "wrap before X" means that a line break and spaces appear right before "X", such
+     *                  that "X" is vertically aligned with the first token in the immediately preceding line.
+     *                </p>
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_PACKAGE_DECL_BEFORE_PACKAGE
+    ) public void
     setWrapPackageDeclBeforePackage(String value) { this.wrapPackageDeclBeforePackage = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -433,18 +416,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_PACKAGE_DECL_BEFORE_PACKAGE = "always";
 
     /**
-     * Whether to wrap class declarations before the {@code class} keyword:
+     * Whether to wrap class declarations before the {@code CLASS} keyword. Example:
      * <pre>
      * public static final
      * class MyClass {
      * </pre>
-     *
-     * @cs-property-name            wrapClassDeclBeforeClass
-     * @cs-property-desc            Whether to wrap class declarations before the CLASS keyword
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_CLASS_DECL_BEFORE_CLASS}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_CLASS_DECL_BEFORE_CLASS
+    ) public void
     setWrapClassDeclBeforeClass(String value) { this.wrapClassDeclBeforeClass = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -454,18 +435,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_CLASS_DECL_BEFORE_CLASS = "always";
 
     /**
-     * Whether to wrap interface declarations before the {@code interface} keyword:
+     * Whether to wrap interface declarations before the {@code INTERFACE} keyword. Example:
      * <pre>
      * public
      * interface MyInterf {
      * </pre>
-     *
-     * @cs-property-name            wrapInterfaceDeclBeforeInterface
-     * @cs-property-desc            Whether to wrap interface declarations before the INTERFACE keyword
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_INTERFACE_DECL_BEFORE_INTERFACE}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_INTERFACE_DECL_BEFORE_INTERFACE
+    ) public void
     setWrapInterfaceDeclBeforeInterface(String value) {
         this.wrapInterfaceDeclBeforeInterface = WrapAndIndent.toWrap(value);
     }
@@ -477,18 +456,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_INTERFACE_DECL_BEFORE_INTERFACE = "always";
 
     /**
-     * Whether to wrap enum declarations before the {@code enum} keyword:
+     * Whether to wrap enum declarations before the {@code ENUM} keyword. Example:
      * <pre>
      * protected
      * enum MyEnum {
      * </pre>
-     *
-     * @cs-property-name            wrapEnumDeclBeforeEnum
-     * @cs-property-desc            Whether to wrap enum declarations before the ENUM keyword
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_ENUM_DECL_BEFORE_ENUM}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_ENUM_DECL_BEFORE_ENUM
+    ) public void
     setWrapEnumDeclBeforeEnum(String value) { this.wrapEnumDeclBeforeEnum = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -498,18 +475,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_ENUM_DECL_BEFORE_ENUM = "always";
 
     /**
-     * Whether to wrap annotation declarations before '@':
+     * Whether to wrap annotation declarations before '@'. Example:
      * <pre>
      * private
      * &#64;interface MyAnno {
      * </pre>
-     *
-     * @cs-property-name            wrapAnnoDeclBeforeAt
-     * @cs-property-desc            Whether to wrap annotation declarations before '@'
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_ANNO_DECL_BEFORE_AT}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_ANNO_DECL_BEFORE_AT
+    ) public void
     setWrapAnnoDeclBeforeAt(String value) { this.wrapAnnoDeclBeforeAt = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -519,18 +494,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_ANNO_DECL_BEFORE_AT = "always";
 
     /**
-     * Whether to wrap field declarations before the field name:
+     * Whether to wrap field declarations before the field name. Example:
      * <pre>
      * private int
      * width = 7;
      * </pre>
-     *
-     * @cs-property-name            wrapFieldDeclBeforeName
-     * @cs-property-desc            Whether to wrap field declarations before the field name
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_FIELD_DECL_BEFORE_NAME}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_FIELD_DECL_BEFORE_NAME
+    ) public void
     setWrapFieldDeclBeforeName(String value) { this.wrapFieldDeclBeforeName = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -540,18 +513,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_FIELD_DECL_BEFORE_NAME = "optional";
 
     /**
-     * Whether to wrap constructor declarations between the modifiers and the class name:
+     * Whether to wrap constructor declarations between the modifiers and the class name. Example:
      * <pre>
      * protected
      * MyClass(int x) {
      * </pre>
-     *
-     * @cs-property-name            wrapCtorDeclBeforeName
-     * @cs-property-desc            Whether to wrap constructor declarations between the modifiers and the class name
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_CTOR_DECL_BEFORE_NAME}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_CTOR_DECL_BEFORE_NAME
+    ) public void
     setWrapCtorDeclBeforeName(String value) { this.wrapCtorDeclBeforeName = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -561,18 +532,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_CTOR_DECL_BEFORE_NAME = "always";
 
     /**
-     * Whether to wrap method declarations between the return type and the method name:
+     * Whether to wrap method declarations between the return type and the method name. Example:
      * <pre>
      * private static
      * myMeth(int arg1) {
      * </pre>
-     *
-     * @cs-property-name            wrapMethDeclBeforeName
-     * @cs-property-desc            Whether to wrap method declarations between the return type and the method name
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_METH_DECL_BEFORE_NAME}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_METH_DECL_BEFORE_NAME
+    ) public void
     setWrapMethDeclBeforeName(String value) { this.wrapMethDeclBeforeName = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -582,18 +551,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_METH_DECL_BEFORE_NAME = "always";
 
     /**
-     * Whether to wrap local variable declarations between the type and the variable name:
+     * Whether to wrap local variable declarations between the type and the variable name. Example:
      * <pre>
      * int
      * locvar = 7;
      * </pre>
-     *
-     * @cs-property-name            wrapLocVarDeclBeforeName
-     * @cs-property-desc            Whether to wrap local variable declarations between the type and the variable name
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_LOC_VAR_DECL_BEFORE_NAME}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_LOC_VAR_DECL_BEFORE_NAME
+    ) public void
     setWrapLocVarDeclBeforeName(String value) { this.wrapLocVarDeclBeforeName = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -603,39 +570,35 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_LOC_VAR_DECL_BEFORE_NAME = "optional";
 
     /**
-     * Whether to wrap type declarations before the opening curly brace:
+     * Whether to wrap type declarations before the opening curly brace. Example:
      * <pre>
      * public class MyClass
      * {
      * </pre>
-     *
-     * @cs-property-name            wrapTypeDeclBeforeLCurly
-     * @cs-property-desc            Whether to wrap type declarations before the opening curly brace
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_TYPE_BEFORE_LCURLY}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_TYPE_DECL_BEFORE_LCURLY
+    ) public void
     setWrapTypeDeclBeforeLCurly(String value) { this.wrapTypeDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
 
     private Control
-    wrapTypeDeclBeforeLCurly = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_TYPE_BEFORE_LCURLY);
+    wrapTypeDeclBeforeLCurly = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_TYPE_DECL_BEFORE_LCURLY);
 
     private static final String
-    DEFAULT_WRAP_TYPE_BEFORE_LCURLY = "never";
+    DEFAULT_WRAP_TYPE_DECL_BEFORE_LCURLY = "never";
 
     /**
-     * Whether to wrap constructor declarations before the opening curly brace:
+     * Whether to wrap constructor declarations before the opening curly brace. Example:
      * <pre>
      * protected MyClass(int x)
      * {
      * </pre>
-     *
-     * @cs-property-name            wrapCtorDeclBeforeLCurly
-     * @cs-property-desc            Whether to wrap constructors declaration before the opening curly brace
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_CTOR_DECL_BEFORE_LCURLY}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_CTOR_DECL_BEFORE_LCURLY
+    ) public void
     setWrapCtorDeclBeforeLCurly(String value) { this.wrapCtorDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -645,18 +608,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_CTOR_DECL_BEFORE_LCURLY = "never";
 
     /**
-     * Whether to wrap method declarations before the opening curly brace:
+     * Whether to wrap method declarations before the opening curly brace. Example:
      * <pre>
      * private static myMeth(int arg1)
      * {
      * </pre>
-     *
-     * @cs-property-name            wrapMethodDeclBeforeLCurly
-     * @cs-property-desc            Whether to wrap method declarations before the opening curly brace
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_METH_DECL_BEFORE_LCURLY}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_METH_DECL_BEFORE_LCURLY
+    ) public void
     setWrapMethodDeclBeforeLCurly(String value) { this.wrapMethodDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -666,18 +627,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_METH_DECL_BEFORE_LCURLY = "never";
 
     /**
-     * Whether to wrap anonymous class declarations before the opening curly brace:
+     * Whether to wrap anonymous class declarations before the opening curly brace. Example:
      * <pre>
      * new Object()
      * {
      * </pre>
-     *
-     * @cs-property-name            wrapAnonClassDeclBeforeLCurly
-     * @cs-property-desc            Whether to wrap anonymous class declarations before the opening curly brace
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_ANON_CLASS_DECL_BEFORE_LCURLY}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_ANON_CLASS_DECL_BEFORE_LCURLY
+    ) public void
     setWrapAnonClassDeclBeforeLCurly(String value) { this.wrapAnonClassDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -687,24 +646,22 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_ANON_CLASS_DECL_BEFORE_LCURLY = "never";
 
     /**
-     * Whether to wrap {@code do} statements before the opening curly brace:
+     * Whether to wrap {@code DO} statements before the opening curly brace. Example:
      * <pre>
      * do
      * {
      * </pre>
      *
-     * @cs-intertitle               <h3>Other Elements Wrapping</h3>
-     *                              <p>
-     *                                The phrase "wrap before X" means that a line break and space appear right before
-     *                                "X", such that "X" is vertically aligned with the first token in the immediately
-     *                                preceding line.
-     *                              </p>
-     * @cs-property-name            wrapDoBeforeLCurly
-     * @cs-property-desc            Whether to wrap DO statements before the opening curly brace
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_DO_BEFORE_LCURLY}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
+     * @cs-intertitle <h3>Other Elements Wrapping</h3>
+     *                <p>
+     *                  The phrase "wrap before X" means that a line break and space appear right before "X", such
+     *                  that "X" is vertically aligned with the first token in the immediately preceding line.
+     *                </p>
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_DO_BEFORE_LCURLY
+    ) public void
     setWrapDoBeforeLCurly(String value) { this.wrapDoBeforeLCurly = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -714,18 +671,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_DO_BEFORE_LCURLY = "never";
 
     /**
-     * Whether to wrap {@code try} statements before the {@code catch} keyword:
+     * Whether to wrap {@code TRY} statements before the {@code CATCH} keyword. Example:
      * <pre>
      * try { ... }
      * catch { ... }
      * </pre>
-     *
-     * @cs-property-name            wrapTryBeforeCatch
-     * @cs-property-desc            Whether to wrap TRY statements before the CATCH keyword
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_TRY_BEFORE_CATCH}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_TRY_BEFORE_CATCH
+    ) public void
     setWrapTryBeforeCatch(String value) { this.wrapTryBeforeCatch = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -735,18 +690,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_TRY_BEFORE_CATCH = "optional";
 
     /**
-     * Whether to wrap {@code try} statements before the {@code finally} keyword:
+     * Whether to wrap {@code TRY} statements before the {@code FINALLY} keyword. Example:
      * <pre>
      * try { ... }
      * finally { ... }
      * </pre>
-     *
-     * @cs-property-name            wrapTryBeforeFinally
-     * @cs-property-desc            Whether to wrap TRY statements before the FINALLY keyword
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_TRY_BEFORE_FINALLY}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_TRY_BEFORE_FINALLY
+    ) public void
     setWrapTryBeforeFinally(String value) { this.wrapTryBeforeFinally = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -756,18 +709,16 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_TRY_BEFORE_FINALLY = "optional";
 
     /**
-     * Whether to wrap array initializers before the opening curly brace:
+     * Whether to wrap array initializers before the opening curly brace. Example:
      * <pre>
      * int[] ia =
      * {
      * </pre>
-     *
-     * @cs-property-name            wrapArrayInitBeforeLCurly
-     * @cs-property-desc            Whether to wrap array initializers before the opening curly brace
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_ARRAY_INIT_BEFORE_LCURLY}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_ARRAY_INIT_BEFORE_LCURLY
+    ) public void
     setWrapArrayInitBeforeLCurly(String value) { this.wrapArrayInitBeforeLCurly = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -777,20 +728,17 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_ARRAY_INIT_BEFORE_LCURLY = "never";
 
     /**
-     * Whether to wrap expressions before a binary operator ("{@code + - * / % &amp; | ^ << >> >>>}", assignment
-     * operators and/or "{@code . <= < == != >= > &amp;&amp; || instanceof}"):
+     * Whether to wrap expressions before a binary operator. Example:
      * <pre>
      * a
      * + b
      * + c
      * </pre>
-     *
-     * @cs-property-name            wrapBeforeBinaryOperator
-     * @cs-property-desc            Whether to wrap expressions before binary operators
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_BEFORE_BINARY_OPERATOR}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_BEFORE_BINARY_OPERATOR
+    ) public void
     setWrapBeforeBinaryOperator(String value) { this.wrapBeforeBinaryOperator = WrapAndIndent.toWrap(value); }
 
     private Control
@@ -800,20 +748,17 @@ class WrapAndIndent extends Check {
     DEFAULT_WRAP_BEFORE_BINARY_OPERATOR = "optional";
 
     /**
-     * Whether to wrap expressions after a binary operator ("{@code + - * / % &amp; | ^ << >> >>>}", assignment
-     * operators and/or "{@code . <= < == != >= > &amp;&amp; || instanceof}"):
+     * Whether to wrap expressions after a binary operator. Example:
      * <pre>
      * a +
      * b +
      * c
      * </pre>
-     *
-     * @cs-property-name            wrapAfterBinaryOperator
-     * @cs-property-desc            Whether to wrap expressions after binary operators
-     * @cs-property-default-value   {@value #DEFAULT_WRAP_AFTER_BINARY_OPERATOR}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider
      */
-    public void
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAndIndent.DEFAULT_WRAP_AFTER_BINARY_OPERATOR
+    ) public void
     setWrapAfterBinaryOperator(String value) { this.wrapAfterBinaryOperator = WrapAndIndent.toWrap(value); }
 
     private Control

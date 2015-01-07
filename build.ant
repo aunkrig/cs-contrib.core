@@ -28,9 +28,17 @@
 			<package name="de.unkrig.cscontrib.checks" />
 			<package name="de.unkrig.cscontrib.filters" />
 			<classpath>
+				<pathelement location="../de.unkrig.cs-contrib.core/bin" />
 				<pathelement location="../de.unkrig.commons.nullanalysis/bin" />
 				<fileset dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
 				<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.core_*" />
+				<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.ui_*" />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jdt.core_*.jar" />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.text_*.jar" />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jface_*.jar" />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.swt.win32.win32.x86_64_*.jar" />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.ide_*.jar" />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.workbench_*.jar" />
 			</classpath>
 		</javadoc>
 	</target>
