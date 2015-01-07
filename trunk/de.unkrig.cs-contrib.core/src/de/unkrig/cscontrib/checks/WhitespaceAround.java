@@ -26,12 +26,16 @@
 
 package de.unkrig.cscontrib.checks;
 
+import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
+import de.unkrig.csdoclet.BooleanRuleProperty;
+import de.unkrig.csdoclet.MultiCheckRuleProperty;
+import de.unkrig.csdoclet.Rule;
 
 /**
  * Verifies that a token is surrounded by whitespace.
@@ -61,11 +65,13 @@ import de.unkrig.cscontrib.util.AstUtil;
  *   may optionally be exempted from the policy using the allowEmptyMethods, allowEmptyConstructors, allowEmptyCatches
  *   and allowEmptyTypes properties.
  * </p>
- *
- * @cs-rule-group  %Whitespace.group
- * @cs-rule-name   de.unkrig: Whitespace around
- * @cs-rule-parent TreeWalker
  */
+@Rule(
+    group     = "%Whitespace.group",
+    groupName = "Whitespace",
+    name      = "de.unkrig: Whitespace around",
+    parent    = TreeWalker.class
+)
 @NotNullByDefault(false) public
 class WhitespaceAround extends WhitespaceAroundCheck {
 
@@ -74,98 +80,50 @@ class WhitespaceAround extends WhitespaceAroundCheck {
     // SUPPRESS CHECKSTYLE LineLength:6
     /**
      * Tokens to check.
-     *
-     * @cs-property-name          tokens
-     * @cs-property-datatype      MultiCheck
-     * @cs-property-default-value assign,band,band_assign,bor,bor_assign,bsr,bsr_assign,bxor,bxor_assign,colon,div,div_assign,equal,ge,gt,land,lcurly,le,literal_assert,literal_catch,literal_do,literal_else,literal_finally,literal_for,literal_if,literal_return,literal_synchronized,literal_try,literal_while,lor,lt,minus,minus_assign,mod,mod_assign,not_equal,plus,plus_assign,question,rcurly,sl,slist,sl_assign,sr,sr_assign,star,star_assign,literal_assert,type_extension_and,wildcard_type
-     * @cs-property-value-option  assign
-     * @cs-property-value-option  band
-     * @cs-property-value-option  band_assign
-     * @cs-property-value-option  bor
-     * @cs-property-value-option  bor_assign
-     * @cs-property-value-option  bsr
-     * @cs-property-value-option  bsr_assign
-     * @cs-property-value-option  bxor
-     * @cs-property-value-option  bxor_assign
-     * @cs-property-value-option  colon
-     * @cs-property-value-option  div
-     * @cs-property-value-option  div_assign
-     * @cs-property-value-option  equal
-     * @cs-property-value-option  ge
-     * @cs-property-value-option  gt
-     * @cs-property-value-option  land
-     * @cs-property-value-option  lcurly
-     * @cs-property-value-option  le
-     * @cs-property-value-option  literal_assert
-     * @cs-property-value-option  literal_catch
-     * @cs-property-value-option  literal_do
-     * @cs-property-value-option  literal_else
-     * @cs-property-value-option  literal_finally
-     * @cs-property-value-option  literal_for
-     * @cs-property-value-option  literal_if
-     * @cs-property-value-option  literal_return
-     * @cs-property-value-option  literal_synchronized
-     * @cs-property-value-option  literal_try
-     * @cs-property-value-option  literal_while
-     * @cs-property-value-option  lor
-     * @cs-property-value-option  lt
-     * @cs-property-value-option  minus
-     * @cs-property-value-option  minus_assign
-     * @cs-property-value-option  mod
-     * @cs-property-value-option  mod_assign
-     * @cs-property-value-option  not_equal
-     * @cs-property-value-option  plus
-     * @cs-property-value-option  plus_assign
-     * @cs-property-value-option  question
-     * @cs-property-value-option  rcurly
-     * @cs-property-value-option  sl
-     * @cs-property-value-option  slist
-     * @cs-property-value-option  sl_assign
-     * @cs-property-value-option  sr
-     * @cs-property-value-option  sr_assign
-     * @cs-property-value-option  star
-     * @cs-property-value-option  star_assign
-     * @cs-property-value-option  literal_assert
-     * @cs-property-value-option  type_extension_and
-     * @cs-property-value-option  wildcard_type
      */
-    public void
+    @MultiCheckRuleProperty(valueOptions = {
+        "assign", "band", "band_assign", "bor", "bor_assign", "bsr", "bsr_assign", "bxor", "bxor_assign", "colon",
+        "div", "div_assign", "equal", "ge", "gt", "land", "lcurly", "le", "literal_assert", "literal_catch",
+        "literal_do", "literal_else", "literal_finally", "literal_for", "literal_if", "literal_return",
+        "literal_synchronized", "literal_try", "literal_while", "lor", "lt", "minus", "minus_assign", "mod",
+        "mod_assign", "not_equal", "plus", "plus_assign", "question", "rcurly", "sl", "slist", "sl_assign", "sr",
+        "sr_assign", "star", "star_assign", "literal_assert", "type_extension_and", "wildcard_type"
+    }, defaultValue = {
+        "assign", "band", "band_assign", "bor", "bor_assign", "bsr", "bsr_assign", "bxor", "bxor_assign", "colon",
+        "div", "div_assign", "equal", "ge", "gt", "land", "lcurly", "le", "literal_assert", "literal_catch",
+        "literal_do", "literal_else", "literal_finally", "literal_for", "literal_if", "literal_return",
+        "literal_synchronized", "literal_try", "literal_while", "lor", "lt", "minus", "minus_assign", "mod",
+        "mod_assign", "not_equal", "plus", "plus_assign", "question", "rcurly", "sl", "slist", "sl_assign", "sr",
+        "sr_assign", "star", "star_assign", "literal_assert", "type_extension_and", "wildcard_type"
+    }) private void
     setTokens(int x) {}
 
     /**
      * Allow empty constructor bodies.
-     *
-     * @cs-property-name          allowEmptyConstructors
-     * @cs-property-default-value false
      */
+    @BooleanRuleProperty(defaultValue = false)
     @Override public void
     setAllowEmptyConstructors(boolean value) { super.setAllowEmptyConstructors(value); }
 
     /**
      * Allow empty method bodies.
-     *
-     * @cs-property-name          allowEmptyMethods
-     * @cs-property-default-value false
      */
+    @BooleanRuleProperty(defaultValue = false)
     @Override public void
     setAllowEmptyMethods(boolean value) { super.setAllowEmptyMethods(value); }
 
     /**
      * Allow empty catch blocks.
-     *
-     * @cs-property-name          allowEmptyCatches
-     * @cs-property-default-value false
      */
+    @BooleanRuleProperty(defaultValue = false)
     public void
     setAllowEmptyCatches(boolean value) { this.allowEmptyCatches = value; }
     private boolean allowEmptyCatches;
 
     /**
      * Allow empty class and interface bodies.
-     *
-     * @cs-property-name          allowEmptyTypes
-     * @cs-property-default-value false
      */
+    @BooleanRuleProperty(defaultValue = false)
 //    @Override  // CS 6 adds this method.
     public void
     setAllowEmptyTypes(boolean value) {
@@ -175,12 +133,9 @@ class WhitespaceAround extends WhitespaceAroundCheck {
     private boolean allowEmptyTypes;
 
     /**
-     * Ignore the colon (":") token in enhanced {@code for} statements ("{@code for (x : y) ...}").
-     *
-     * @cs-property-name          ignoreEnhancedForColon
-     * @cs-property-desc          Ignore the colon token in enhanced FOR statements ("for (x : y) ...").
-     * @cs-property-default-value false
+     * Ignore the colon (":") token in enhanced {@code FOR} statements ("{@code for (x : y) ...}").
      */
+    @BooleanRuleProperty(defaultValue = true)
     @Override public void
     setIgnoreEnhancedForColon(boolean value) { super.setIgnoreEnhancedForColon(value); }
 

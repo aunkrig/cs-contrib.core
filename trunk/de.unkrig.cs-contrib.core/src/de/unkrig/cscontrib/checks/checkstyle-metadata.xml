@@ -11,11 +11,11 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.Alignment"
-            parent="TreeWalker"
+            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
             name="%Alignment.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.Alignment" />
-            <description>%de.unkrig.cscontrib.checks.Alignment.desc</description>
+            <description>%Alignment.desc</description>
 
             <property-metadata
                 name="applyToFieldName"
@@ -89,11 +89,11 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.CppCommentAlignment"
-            parent="TreeWalker"
+            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
             name="%CppCommentAlignment.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.CppCommentAlignment" />
-            <description>%de.unkrig.cscontrib.checks.CppCommentAlignment.desc</description>
+            <description>%CppCommentAlignment.desc</description>
             <message-key key="CppCommentAlignment.misaligned" />
         </rule-metadata>
     </rule-group-metadata>
@@ -103,11 +103,11 @@
     <rule-group-metadata name="%Coding.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.InnerAssignment"
-            parent="TreeWalker"
+            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
             name="%InnerAssignment.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.InnerAssignment" />
-            <description>%de.unkrig.cscontrib.checks.InnerAssignment.desc</description>
+            <description>%InnerAssignment.desc</description>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.InnerAssignment" />
             <message-key key="InnerAssignment.mustParenthesize" />
@@ -119,11 +119,11 @@
     <rule-group-metadata name="%Naming.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.NameSpelling"
-            parent="TreeWalker"
+            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
             name="%NameSpelling.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.NameSpelling" />
-            <description>%de.unkrig.cscontrib.checks.NameSpelling.desc</description>
+            <description>%NameSpelling.desc</description>
 
             <property-metadata
                 name="elements"
@@ -172,11 +172,11 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.ParenPad"
-            parent="TreeWalker"
+            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
             name="%ParenPad.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.ParenPad" />
-            <description>%de.unkrig.cscontrib.checks.ParenPad.desc</description>
+            <description>%ParenPad.desc</description>
 
             <property-metadata
                 name="option"
@@ -196,11 +196,11 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.Whitespace"
-            parent="TreeWalker"
+            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
             name="%Whitespace.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.Whitespace" />
-            <description>%de.unkrig.cscontrib.checks.Whitespace.desc</description>
+            <description>%Whitespace.desc</description>
 
             <property-metadata
                 name="whitespaceBefore"
@@ -236,8 +236,8 @@
             </property-metadata>
             <message-key key="Whitespace.followed" />
             <message-key key="Whitespace.notFollowed" />
-            <message-key key="Whitespace.preceded" />
             <message-key key="Whitespace.notPreceded" />
+            <message-key key="Whitespace.preceded" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -246,11 +246,11 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.WhitespaceAround"
-            parent="TreeWalker"
+            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
             name="%WhitespaceAround.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.WhitespaceAround" />
-            <description>%de.unkrig.cscontrib.checks.WhitespaceAround.desc</description>
+            <description>%WhitespaceAround.desc</description>
 
             <property-metadata
                 name="tokens"
@@ -342,7 +342,7 @@
             <property-metadata
                 name="ignoreEnhancedForColon"
                 datatype="Boolean"
-                default-value="false"
+                default-value="true"
             >
                 <description>%WhitespaceAround.ignoreEnhancedForColon</description>
             </property-metadata>
@@ -354,11 +354,11 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.WrapAndIndent"
-            parent="TreeWalker"
+            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
             name="%WrapAndIndent.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapAndIndent" />
-            <description>%de.unkrig.cscontrib.checks.WrapAndIndent.desc</description>
+            <description>%WrapAndIndent.desc</description>
 
             <property-metadata
                 name="basicOffset"
@@ -572,8 +572,8 @@
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
-            <message-key key="WrapAndIndent.mustWrap" />
             <message-key key="WrapAndIndent.mustJoin" />
+            <message-key key="WrapAndIndent.mustWrap" />
             <message-key key="WrapAndIndent.wrongColumn" />
         </rule-metadata>
     </rule-group-metadata>
@@ -583,11 +583,11 @@
     <rule-group-metadata name="%Coding.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation"
-            parent="TreeWalker"
+            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
             name="%ZeroParameterSuperconstructorInvocation.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation" />
-            <description>%de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation.desc</description>
+            <description>%ZeroParameterSuperconstructorInvocation.desc</description>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.ZeroParameterSuperconstructorInvocation" />
             <message-key key="ZeroParameterSuperconstructorInvocation.invocation" />

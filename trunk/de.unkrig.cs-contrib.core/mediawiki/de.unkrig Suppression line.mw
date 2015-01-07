@@ -15,27 +15,27 @@ Events (i.e. CheckStyle warnings) are switched off by a "magic line" ("offFormat
 Default values appear <u>underlined</u>.
 
 <dl>
-<dt>offFormat = "''[http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum Regex]''"
+<dt>offFormat = "''[http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum Regex]''" (optional; default value is "CHECKSTYLE (.+):OFF")
 <dd>Line pattern to trigger filter to begin suppression.
 </dl>
 
 <dl>
-<dt>onFormat = "''[http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum Regex]''"
+<dt>onFormat = "''[http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum Regex]''" (optional; default value is "CHECKSTYLE (.+):ON")
 <dd>Line pattern to trigger filter to end suppression.
 </dl>
 
 <dl>
-<dt>checkNameFormat = "''[http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum Regex]''"
+<dt>checkNameFormat = "''[http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum Regex]''" (optional; default value is "$1")
 <dd>Check name pattern to suppress.
 </dl>
 
 <dl>
-<dt>messageFormat = "''[http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum Regex]''"
+<dt>messageFormat = "''[http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum Regex]''" (optional; default value is "$1")
 <dd>Message pattern to suppress.
 </dl>
 
 <dl>
-<dt>moduleIdFormat = "''[http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum Regex]''"
+<dt>moduleIdFormat = "''[http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum Regex]''" (optional; default value is "$1")
 <dd>Module ID pattern to suppress.
 </dl>
 

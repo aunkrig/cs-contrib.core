@@ -7,6 +7,10 @@ Verifies that no constructor calls the zero-parameter superconstructor.
  }
 
 
-<p>
-  Quickfixes are available for this check.
-</p>
+== Quickfixes ==
+
+<dl>
+
+<dt>Remove
+<dd>Remove redundant invocation of zero-parameter superconstructor
+</dl>

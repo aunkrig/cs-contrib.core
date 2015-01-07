@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.ConversionException;
 
+import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
@@ -38,6 +39,9 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
 import de.unkrig.cscontrib.util.JavaElement;
+import de.unkrig.csdoclet.Message;
+import de.unkrig.csdoclet.MultiCheckRuleProperty;
+import de.unkrig.csdoclet.Rule;
 
 /**
  * Verifies that tokens are, respectively are not preceded with (and/or followed by) whitespace.
@@ -63,36 +67,30 @@ import de.unkrig.cscontrib.util.JavaElement;
  *   <li>de.unkrig.ParenPad</li>
  *   <li>de.unkrig.WhitespaceAround</li>
  * </ul>
- *
- * @cs-rule-group  %Whitespace.group
- * @cs-rule-name   de.unkrig: Whitespace
- * @cs-rule-parent TreeWalker
  */
+@Rule(group = "%Whitespace.group", groupName = "Whitespace", name = "de.unkrig: Whitespace", parent = TreeWalker.class)
 @NotNullByDefault(false) public
 class Whitespace extends Check {
 
-    /** @cs-message ''{0}'' is followed by whitespace (option ''{1}'') */
-    public static final String MESSAGE_KEY_FOLLOWED = "Whitespace.followed";
+    @Message("''{0}'' is followed by whitespace (option ''{1}'')")
+    private static final String MESSAGE_KEY_FOLLOWED = "Whitespace.followed";
 
-    /** @cs-message ''{0}'' is not followed by whitespace (option ''{1}'') */
-    public static final String MESSAGE_KEY_NOT_FOLLOWED = "Whitespace.notFollowed";
+    @Message("''{0}'' is not followed by whitespace (option ''{1}'')")
+    private static final String MESSAGE_KEY_NOT_FOLLOWED = "Whitespace.notFollowed";
 
-    /** @cs-message ''{0}'' is preceded with whitespace (option ''{1}'') */
-    public static final String MESSAGE_KEY_PRECEDED = "Whitespace.preceded";
+    @Message("''{0}'' is preceded with whitespace (option ''{1}'')")
+    private static final String MESSAGE_KEY_PRECEDED = "Whitespace.preceded";
 
-    /** @cs-message ''{0}'' is not preceded with whitespace (option ''{1}'') */
-    public static final String MESSAGE_KEY_NOT_PRECEDED = "Whitespace.notPreceded";
+    @Message("''{0}'' is not preceded with whitespace (option ''{1}'')")
+    private static final String MESSAGE_KEY_NOT_PRECEDED = "Whitespace.notPreceded";
 
     // BEGIN CONFIGURATION SETTERS
 
     // SUPPRESS CHECKSTYLE LineLength:6
     /**
      * The Java elements which must be preceded with whitespace (or a line break).
-     *
-     * @cs-property-name            whitespaceBefore
-     * @cs-property-default-value   {@value #DEFAULT_WHITESPACE_BEFORE}
-     * @cs-property-option-provider de.unkrig.cscontrib.util.JavaElement
      */
+    @MultiCheckRuleProperty(optionProvider = JavaElement.class, defaultValue = Whitespace.DEFAULT_WHITESPACE_BEFORE)
     public void
     setWhitespaceBefore(String[] sa) { this.whitespaceBefore = Whitespace.toEnumSet(sa, JavaElement.class); }
 
@@ -104,11 +102,8 @@ class Whitespace extends Check {
 
     /**
      * The Java elements which must not be preceded with whitespace (or are preceded with a line break).
-     *
-     * @cs-property-name            noWhitespaceBefore
-     * @cs-property-default-value   {@value #DEFAULT_NO_WHITESPACE_BEFORE}
-     * @cs-property-option-provider de.unkrig.cscontrib.util.JavaElement
      */
+    @MultiCheckRuleProperty(optionProvider = JavaElement.class, defaultValue = Whitespace.DEFAULT_NO_WHITESPACE_BEFORE)
     public void
     setNoWhitespaceBefore(String[] sa) { this.noWhitespaceBefore = Whitespace.toEnumSet(sa, JavaElement.class); }
 
@@ -120,11 +115,8 @@ class Whitespace extends Check {
 
     /**
      * The Java elements which must be followed by whitespace (or a line break).
-     *
-     * @cs-property-name            whitespaceAfter
-     * @cs-property-default-value   {@value #DEFAULT_WHITESPACE_AFTER}
-     * @cs-property-option-provider de.unkrig.cscontrib.util.JavaElement
      */
+    @MultiCheckRuleProperty(optionProvider = JavaElement.class, defaultValue = Whitespace.DEFAULT_WHITESPACE_AFTER)
     public void
     setWhitespaceAfter(String[] sa) { this.whitespaceAfter = Whitespace.toEnumSet(sa, JavaElement.class); }
 
@@ -136,11 +128,8 @@ class Whitespace extends Check {
 
     /**
      * The Java elements which must not be followed by whitespace (or are followed by a line break).
-     *
-     * @cs-property-name            noWhitespaceAfter
-     * @cs-property-default-value   {@value #DEFAULT_NO_WHITESPACE_AFTER}
-     * @cs-property-option-provider de.unkrig.cscontrib.util.JavaElement
      */
+    @MultiCheckRuleProperty(optionProvider = JavaElement.class, defaultValue = Whitespace.DEFAULT_NO_WHITESPACE_AFTER)
     public void
     setNoWhitespaceAfter(String[] sa)  { this.noWhitespaceAfter = Whitespace.toEnumSet(sa, JavaElement.class); }
 

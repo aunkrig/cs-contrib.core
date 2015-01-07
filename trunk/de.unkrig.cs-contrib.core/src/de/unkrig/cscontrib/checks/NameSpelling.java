@@ -34,6 +34,7 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.ConversionException;
 
+import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
@@ -41,6 +42,11 @@ import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
+import de.unkrig.csdoclet.Message;
+import de.unkrig.csdoclet.MultiCheckRuleProperty;
+import de.unkrig.csdoclet.RegexRuleProperty;
+import de.unkrig.csdoclet.Rule;
+import de.unkrig.csdoclet.SingleSelectRuleProperty;
 
 /**
  * Verifies that the names of Java elements match, respectively no not match given patterns.
@@ -77,19 +83,21 @@ import de.unkrig.cscontrib.util.AstUtil;
  *   <li>Static Variable Names</li>
  *   <li>Type Names</li>
  * </ul>
- *
- * @cs-rule-group         %Naming.group
- * @cs-rule-name          de.unkrig: Name spelling
- * @cs-rule-parent        TreeWalker
  */
+@Rule(
+    group     = "%Naming.group",
+    groupName = "Naming Conventions",
+    name      = "de.unkrig: Name spelling",
+    parent    = TreeWalker.class
+)
 @NotNullByDefault(false) public
 class NameSpelling extends AbstractFormatCheck {
 
-    /** @cs-message {0} ''{1}'' does not comply with ''{2}'' */
-    public static final String MESSAGE_KEY_DOES_NOT_COMPLY = "NameSpelling.doesNotComply";
+    @Message("{0} ''{1}'' does not comply with ''{2}''")
+    private static final String MESSAGE_KEY_DOES_NOT_COMPLY = "NameSpelling.doesNotComply";
 
-    /** @cs-message {0} ''{1}'' must not match ''{2}'' */
-    public static final String MESSAGE_KEY_MUST_NOT_MATCH = "NameSpelling.mustNotMatch";
+    @Message("{0} ''{1}'' must not match ''{2}''")
+    private static final String MESSAGE_KEY_MUST_NOT_MATCH = "NameSpelling.mustNotMatch";
 
     public
     NameSpelling() { super(""); }
@@ -131,10 +139,8 @@ class NameSpelling extends AbstractFormatCheck {
 
     /**
      * Elements to apply this check to.
-     *
-     * @cs-property-name            elements
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Elements
      */
+    @MultiCheckRuleProperty(optionProvider = Elements.class)
     public final void
     setElements(String[] elements) {
         for (final String element : elements) {
@@ -173,11 +179,8 @@ class NameSpelling extends AbstractFormatCheck {
 
     /**
      * Apply only to declarations which have these modifiers.
-     *
-     * @cs-property-name            requiredModifiers
-     * @cs-property-default-value   (all declarations)
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Modifier
      */
+    @MultiCheckRuleProperty(optionProvider = Modifier.class, defaultValue = "(all declarations)")
     public final void
     setRequiredModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
@@ -188,11 +191,8 @@ class NameSpelling extends AbstractFormatCheck {
 
     /**
      * Apply only to declarations which do not have these modifiers.
-     *
-     * @cs-property-name            missingModifiers
-     * @cs-property-default-value   (all declarations)
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Modifier
      */
+    @MultiCheckRuleProperty(optionProvider = Modifier.class, defaultValue = "(all declarations)")
     public final void
     setMissingModifiers(String[] modifiers) {
         for (final String modifier : modifiers) {
@@ -208,11 +208,8 @@ class NameSpelling extends AbstractFormatCheck {
 
     /**
      * Whether to require or forbid that names match.
-     *
-     * @cs-property-name            option
-     * @cs-property-default-value   {@value #DEFAULT_OPTION}
-     * @cs-property-option-provider de.unkrig.cscontrib.checks.NameSpelling$Options
      */
+    @SingleSelectRuleProperty(optionProvider = Options.class, defaultValue = NameSpelling.DEFAULT_OPTION)
     public final void
     setOption(String option) throws ConversionException {
         try {
@@ -226,11 +223,10 @@ class NameSpelling extends AbstractFormatCheck {
 
     /**
      * The pattern to match the name against.
-     *
-     * @cs-property-name     format
-     * @cs-property-datatype Regex
      */
-    public void setFormat(int x) {}
+    @RegexRuleProperty
+    public void
+    setFormat(int x) {}
 
     // END CONFIGURATION SETTERS
 
