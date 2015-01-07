@@ -34,7 +34,6 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.ConversionException;
 
-import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
@@ -88,7 +87,7 @@ import de.unkrig.csdoclet.SingleSelectRuleProperty;
     group     = "%Naming.group",
     groupName = "Naming Conventions",
     name      = "de.unkrig: Name spelling",
-    parent    = TreeWalker.class
+    parent    = "TreeWalker"
 )
 @NotNullByDefault(false) public
 class NameSpelling extends AbstractFormatCheck {

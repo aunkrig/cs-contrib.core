@@ -11,7 +11,7 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.Alignment"
-            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
+            parent="TreeWalker"
             name="%Alignment.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.Alignment" />
@@ -89,7 +89,7 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.CppCommentAlignment"
-            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
+            parent="TreeWalker"
             name="%CppCommentAlignment.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.CppCommentAlignment" />
@@ -103,7 +103,7 @@
     <rule-group-metadata name="%Coding.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.InnerAssignment"
-            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
+            parent="TreeWalker"
             name="%InnerAssignment.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.InnerAssignment" />
@@ -119,7 +119,7 @@
     <rule-group-metadata name="%Naming.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.NameSpelling"
-            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
+            parent="TreeWalker"
             name="%NameSpelling.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.NameSpelling" />
@@ -172,7 +172,7 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.ParenPad"
-            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
+            parent="TreeWalker"
             name="%ParenPad.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.ParenPad" />
@@ -196,7 +196,7 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.Whitespace"
-            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
+            parent="TreeWalker"
             name="%Whitespace.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.Whitespace" />
@@ -246,7 +246,7 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.WhitespaceAround"
-            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
+            parent="TreeWalker"
             name="%WhitespaceAround.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.WhitespaceAround" />
@@ -354,7 +354,7 @@
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.WrapAndIndent"
-            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
+            parent="TreeWalker"
             name="%WrapAndIndent.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapAndIndent" />
@@ -583,7 +583,7 @@
     <rule-group-metadata name="%Coding.group" priority="999">
         <rule-metadata
             internal-name="de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation"
-            parent="class com.puppycrawl.tools.checkstyle.TreeWalker"
+            parent="TreeWalker"
             name="%ZeroParameterSuperconstructorInvocation.name"
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.ZeroParameterSuperconstructorInvocation" />

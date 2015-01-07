@@ -37,7 +37,6 @@ import java.util.Set;
 
 import net.sf.eclipsecs.core.config.meta.IOptionProvider;
 
-import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.Utils;
@@ -68,7 +67,7 @@ import de.unkrig.csdoclet.SingleSelectRuleProperty;
     group      = "%Whitespace.group",
     groupName  = "Whitespace",
     name       = "de.unkrig: Wrap and indent",
-    parent     = TreeWalker.class,
+    parent     = "TreeWalker",
     quickfixes = { WrapAndIndent1.class, WrapAndIndent2.class, WrapAndIndent3.class }
 )
 @NotNullByDefault(false) public

@@ -36,7 +36,6 @@ import java.util.regex.PatternSyntaxException;
 import org.apache.commons.beanutils.ConversionException;
 
 import com.google.common.collect.Lists;
-import com.puppycrawl.tools.checkstyle.Checker;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
@@ -64,7 +63,7 @@ import de.unkrig.csdoclet.Rule;
     group       = "%Filters.group",
     groupName   = "Filters",
     name        = "de.unkrig: Suppression line",
-    parent      = Checker.class,
+    parent      = "Checker",
     hasSeverity = false
 )
 @NotNullByDefault(false) public

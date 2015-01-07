@@ -27,7 +27,6 @@
 package de.unkrig.cscontrib.checks;
 
 
-import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
@@ -77,7 +76,7 @@ import de.unkrig.csdoclet.Rule;
  *     public void meth5()         <font color="red">{}</font> // Aligned method bodies
  * }</pre>
  */
-@Rule(group = "%Whitespace.group", groupName = "Whitespace", name = "de.unkrig: Alignment", parent = TreeWalker.class)
+@Rule(group = "%Whitespace.group", groupName = "Whitespace", name = "de.unkrig: Alignment", parent = "TreeWalker")
 @NotNullByDefault(false)
 public
 class Alignment extends Check {

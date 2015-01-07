@@ -26,7 +26,6 @@
 
 package de.unkrig.cscontrib.checks;
 
-import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck;
 
@@ -70,7 +69,7 @@ import de.unkrig.csdoclet.Rule;
     group     = "%Whitespace.group",
     groupName = "Whitespace",
     name      = "de.unkrig: Whitespace around",
-    parent    = TreeWalker.class
+    parent    = "TreeWalker"
 )
 @NotNullByDefault(false) public
 class WhitespaceAround extends WhitespaceAroundCheck {
