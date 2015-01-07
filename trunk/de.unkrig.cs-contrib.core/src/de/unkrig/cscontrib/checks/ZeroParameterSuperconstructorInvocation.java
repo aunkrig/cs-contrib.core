@@ -39,7 +39,7 @@ import de.unkrig.csdoclet.Rule;
  * <pre>
  * class Foo extends Bar {
  *     Foo(int a, int b) {
- *         super(); // <===
+ *         <font color="red">super();</font>
  *     }
  * }</pre>
  */
