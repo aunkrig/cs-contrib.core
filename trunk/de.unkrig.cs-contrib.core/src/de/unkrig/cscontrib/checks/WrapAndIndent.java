@@ -988,8 +988,16 @@ class WrapAndIndent extends Check {
                 LABEL5, FORK6, MAY_INDENT, ANNOTATION_MEMBER_VALUE_PAIR, BRANCH9,
                 LABEL6, FORK7, MAY_INDENT, ANNOTATION, BRANCH9,
                 LABEL7, FORK8, MAY_INDENT, EXPR, BRANCH9,
-                LABEL8, MAY_INDENT, ANNOTATION_ARRAY_INIT,
+                LABEL8, MAY_INDENT, this.wrapArrayInitBeforeLCurly, ANNOTATION_ARRAY_INIT,
                 LABEL9, FORK4, UNINDENT, RPAREN, END
+            );
+            break;
+
+        case ANNOTATION_MEMBER_VALUE_PAIR:
+            this.checkChildren(
+                ast,
+                IDENT, ASSIGN, FORK1, this.wrapArrayInitBeforeLCurly, ANNOTATION_ARRAY_INIT, END,
+                LABEL1, ANY, END
             );
             break;
 
@@ -1467,7 +1475,6 @@ class WrapAndIndent extends Check {
             }
             /*FALLTHROUGH*/
         case ANNOTATION_FIELD_DEF:
-        case ANNOTATION_MEMBER_VALUE_PAIR:
         case ANNOTATIONS:
         case ARRAY_DECLARATOR:
         case ENUM_CONSTANT_DEF:
@@ -2079,6 +2086,7 @@ class WrapAndIndent extends Check {
                             if (l.getLineNo() == previousAst.getLineNo()) {
                                 if (
                                     ast.getType() == ARRAY_INIT.delocalize()
+                                    || ast.getType() == ANNOTATION_ARRAY_INIT.delocalize()
                                     || ast.getType() == METHOD_CALL.delocalize()
                                     || ast.getParent().getType() == ENUM_DEF.delocalize()
                                 ) {
