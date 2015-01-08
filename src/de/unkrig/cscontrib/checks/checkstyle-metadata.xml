@@ -568,6 +568,22 @@
                 <description>%WrapAndIndent.wrapAfterBinaryOperator</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
             </property-metadata>
+            <property-metadata
+                name="allowMultipleElementsPerLine"
+                datatype="MultiCheck"
+                default-value="annotation_array_init,array_init,enum_def"
+            >
+                <description>%WrapAndIndent.allowMultipleElementsPerLine</description>
+                <enumeration>
+                    <property-value-option value="annotation" />
+                    <property-value-option value="annotation_array_init" />
+                    <property-value-option value="array_init" />
+                    <property-value-option value="ctor_call" />
+                    <property-value-option value="enum_def" />
+                    <property-value-option value="method_call" />
+                    <property-value-option value="parameters" />
+                </enumeration>
+            </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
