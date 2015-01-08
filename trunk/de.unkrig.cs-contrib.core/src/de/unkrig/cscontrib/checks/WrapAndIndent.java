@@ -31,11 +31,15 @@ import static de.unkrig.cscontrib.checks.WrapAndIndent.Control.*;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import net.sf.eclipsecs.core.config.meta.IOptionProvider;
+
+import org.apache.commons.beanutils.ConversionException;
 
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
@@ -46,9 +50,11 @@ import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1;
 import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2;
 import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3;
+import de.unkrig.cscontrib.util.AstUtil;
 import de.unkrig.csdoclet.BooleanRuleProperty;
 import de.unkrig.csdoclet.IntegerRuleProperty;
 import de.unkrig.csdoclet.Message;
+import de.unkrig.csdoclet.MultiCheckRuleProperty;
 import de.unkrig.csdoclet.Rule;
 import de.unkrig.csdoclet.SingleSelectRuleProperty;
 
@@ -766,7 +772,63 @@ class WrapAndIndent extends Check {
     private static final String
     DEFAULT_WRAP_AFTER_BINARY_OPERATOR = "never";
 
+    /**
+     * The tokens for which it is allowed to put multiple elements on one line.
+     */
+    @MultiCheckRuleProperty(
+        valueOptions = {
+            "annotation",
+            "annotation_array_init",
+            "array_init",
+            "ctor_call",
+            "enum_def",
+            "method_call",
+            "parameters",
+        },
+        defaultValue = WrapAndIndent.DEFAULT_ALLOW_MULTIPLE_ELEMENTS_PER_LINE
+    )
+    public void
+    setAllowMultipleElementsPerLine(String[] sa) {
+        this.allowMultipleElementsPerLine = WrapAndIndent.toEnumSet(sa, LocalTokenType.class);
+    }
+
+    private EnumSet<LocalTokenType>
+    allowMultipleElementsPerLine = WrapAndIndent.toEnumSet(
+        WrapAndIndent.DEFAULT_ALLOW_MULTIPLE_ELEMENTS_PER_LINE.toUpperCase(),
+        LocalTokenType.class
+    );
+
+    private static final String
+    DEFAULT_ALLOW_MULTIPLE_ELEMENTS_PER_LINE = "annotation_array_init,array_init,enum_def";
+
     // END CONFIGURATION
+
+    private static <E extends Enum<E>> EnumSet<E>
+    toEnumSet(String values, Class<E> enumClass) {
+        return WrapAndIndent.toEnumSet(values, WrapAndIndent.COMMA_PATTERN, enumClass);
+    }
+    private static final Pattern COMMA_PATTERN = Pattern.compile(",");
+
+    private static <E extends Enum<E>> EnumSet<E>
+    toEnumSet(String values, Pattern separatorPattern, Class<E> enumClass) {
+        return WrapAndIndent.toEnumSet(separatorPattern.split(values), enumClass);
+    }
+
+    private static <E extends Enum<E>> EnumSet<E>
+    toEnumSet(String[] values, Class<E> enumClass) {
+        EnumSet<E> result = EnumSet.noneOf(enumClass);
+        for (String value : values) result.add(WrapAndIndent.toEnum(value, enumClass));
+        return result;
+    }
+
+    private static <E extends Enum<E>> E
+    toEnum(String s, Class<E> enumType) {
+        try {
+            return Enum.valueOf(enumType, s.trim().toUpperCase());
+        } catch (IllegalArgumentException iae) {
+            throw new ConversionException("Unable to parse " + s, iae);
+        }
+    }
 
     /**
      * For a more compact notation in 'checkstyle-metadata.xml' we define this {@link IOptionProvider}.
@@ -1888,7 +1950,7 @@ class WrapAndIndent extends Check {
         // Determine the "indentation parent".
         switch (LocalTokenType.localize(ast.getType())) {
 
-        case ELIST:
+        case ELIST:      // There's an ELIST between the METH_CALL ('(') and the argument EXPRs.
             ast = ast.getParent();
             break;
 
@@ -1899,7 +1961,7 @@ class WrapAndIndent extends Check {
             break;
 
         case PARAMETERS:
-            ast = ast.getParent().findFirstToken(IDENT.delocalize());
+            ast = ast.getPreviousSibling(); // Use the LPAREN, not the PARAMETERS.
             break;
 
         case DOT:
@@ -2084,16 +2146,38 @@ class WrapAndIndent extends Check {
                         {
                             DetailAST l = WrapAndIndent.getLeftmostDescendant(child);
                             if (l.getLineNo() == previousAst.getLineNo()) {
-                                if (
-                                    ast.getType() == ARRAY_INIT.delocalize()
-                                    || ast.getType() == ANNOTATION_ARRAY_INIT.delocalize()
-                                    || ast.getType() == METHOD_CALL.delocalize()
-                                    || ast.getParent().getType() == ENUM_DEF.delocalize()
-                                ) {
 
-                                    // Allow multiple children in the same line.
-                                    ;
-                                } else {
+                                // We have multiple elements in one line; verify that this is allowed.
+                                if (
+                                    (
+                                        AstUtil.parentTypeIs(child, LocalTokenType.ANNOTATION)
+                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.ANNOTATION)
+                                    )
+                                    || (
+                                        AstUtil.parentTypeIs(child, LocalTokenType.ANNOTATION_ARRAY_INIT)
+                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.ANNOTATION_ARRAY_INIT) // SUPPRESS CHECKSTYLE LineLength
+                                    )
+                                    || (
+                                        AstUtil.parentTypeIs(child, LocalTokenType.ARRAY_INIT)
+                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.ARRAY_INIT)
+                                    )
+                                    || (
+                                        AstUtil.grandParentTypeIs(child, LocalTokenType.CTOR_CALL, LocalTokenType.SUPER_CTOR_CALL) // SUPPRESS CHECKSTYLE LineLength
+                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.CTOR_CALL)
+                                    )
+                                    || (
+                                        AstUtil.grandParentTypeIs(child, LocalTokenType.ENUM_DEF)
+                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.ENUM_DEF)
+                                    )
+                                    || (
+                                        AstUtil.grandParentTypeIs(child, LocalTokenType.METHOD_CALL)
+                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.METHOD_CALL)
+                                    )
+                                    || (
+                                        AstUtil.parentTypeIs(child, LocalTokenType.PARAMETERS)
+                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.PARAMETERS)
+                                    )
+                                ) {
                                     this.log(
                                         l,
                                         WrapAndIndent.MESSAGE_KEY_MUST_WRAP,
