@@ -26,7 +26,6 @@
 
 package de.unkrig.cscontrib.checks;
 
-
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
@@ -37,7 +36,6 @@ import de.unkrig.csdoclet.BooleanRuleProperty;
 import de.unkrig.csdoclet.Message;
 import de.unkrig.csdoclet.Rule;
 
-// SUPPRESS CHECKSTYLE LineLength:33
 /**
  * Verifies that Java elements are vertically aligned in immediately consecutive lines (and only there!):
  * <pre>
