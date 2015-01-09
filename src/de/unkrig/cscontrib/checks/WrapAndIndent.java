@@ -51,12 +51,10 @@ import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1;
 import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2;
 import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3;
 import de.unkrig.cscontrib.util.AstUtil;
-import de.unkrig.csdoclet.BooleanRuleProperty;
 import de.unkrig.csdoclet.IntegerRuleProperty;
 import de.unkrig.csdoclet.Message;
 import de.unkrig.csdoclet.MultiCheckRuleProperty;
 import de.unkrig.csdoclet.Rule;
-import de.unkrig.csdoclet.SingleSelectRuleProperty;
 
 /**
  * Verifies that statements are uniformly wrapped and indented.
@@ -136,24 +134,21 @@ class WrapAndIndent extends Check {
          *   </li>
          * </ul>
          */
-        MAY_INDENT,
+        INDENT,
 
         /**
-         * Same as {@link #MAY_INDENT}, but if the next token has no children, then the previous and the next token
+         * Same as {@link #INDENT}, but if the next token has no children, then the previous and the next token
          * must appear in the same line.
          */
         INDENT_IF_CHILDREN,
 
         /**
-         * If the tokens of the matching {@link #MAY_INDENT} or {@link #INDENT_IF_CHILDREN} were actually indented,
+         * If the tokens of the matching {@link #INDENT} or {@link #INDENT_IF_CHILDREN} were actually indented,
          * the the previous and the next token must be 'unindented', i.e. the next token must appear in a different
          * line, and its first character must appear N positions left from the first non-space character of the
          * preceding line.
          */
         UNINDENT,
-
-        /** Indicates that the previous and the next token <i>must</i> appear in the same line. */
-        NO_WRAP,
 
         /**
          * Indicates that the previous and the next token <i>must</i> either:
@@ -165,13 +160,7 @@ class WrapAndIndent extends Check {
          *   </li>
          * </ul>
          */
-        MAY_WRAP,
-
-        /**
-         * Indicates that the previous and the next token <i>must</i> appear in different lines, and the
-         * next token must appear N columns right from the first non-space character in the preceding line.
-         */
-        MUST_WRAP,
+        WRAP,
 
         /**
          * Indicates that the next of {@code args} is a {@link LocalTokenType}, and that is consumed iff it equals
@@ -182,7 +171,7 @@ class WrapAndIndent extends Check {
         /**
          * Indicates that at least one more token must exist.
          */
-        ANY,
+        ANY_TOKEN,
 
         /**
          * Indicates that the processing can either continue with the next element, or at the element with value
@@ -277,529 +266,374 @@ class WrapAndIndent extends Check {
     DEFAULT_BASIC_OFFSET = 4;
 
     /**
-     * Whether to allow a complete class declaration in one single line. Example:
+     * Whether to allow certain elements completely in one line.
+     * <p>Examples:</p>
      * <pre>
-     * public class Pojo { int fld; }
-     * </pre>
+     * public class Pojo <font color="red">{ int fld; }</font>            // One-line class body.
+     * public interface Interf <font color="red">{ void meth(); }</font>  // One-line interface body.
+     * private enum Color <font color="red">{ BLACK, WHITE }</font>       // One-line enum body.
+     * public @interface MyAnno <font color="red">{ int value(); }</font> // One-line annotation body.
      *
-     * @cs-intertitle <h3>One-line Declarations</h3>
-     *                <p>
-     *                  The following properties refer to 'one-line declarations', i.e. declarations completely without
-     *                  line breaks.
-     *                </p>
-     */
-    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_CLASS_DECL)
-    public void
-    setAllowOneLineClassDecl(boolean value) { this.allowOneLineClassDecl = value; }
-
-    private boolean
-    allowOneLineClassDecl = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_CLASS_DECL;
-
-    private static final boolean
-    DEFAULT_ALLOW_ONE_LINE_CLASS_DECL = true;
-
-    /**
-     * Whether to allow a complete interface declaration in one single line. Example:
-     * <pre>
-     * public interface Interf { void meth(); }
-     * </pre>
-     */
-    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_INTERFACE_DECL)
-    public void
-    setAllowOneLineInterfaceDecl(boolean value) { this.allowOneLineInterfaceDecl = value; }
-
-    private boolean
-    allowOneLineInterfaceDecl = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_INTERFACE_DECL;
-
-    private static final boolean
-    DEFAULT_ALLOW_ONE_LINE_INTERFACE_DECL = true;
-
-    /**
-     * Whether to allow a complete enum declaration in one single line. Example:
-     * <pre>
-     * private enum Color { BLACK, WHITE }
-     * </pre>
-     */
-    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_ENUM_DECL)
-    public void
-    setAllowOneLineEnumDecl(boolean value) { this.allowOneLineEnumDecl = value; }
-
-    private boolean
-    allowOneLineEnumDecl = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_ENUM_DECL;
-
-    private static final boolean
-    DEFAULT_ALLOW_ONE_LINE_ENUM_DECL = true;
-
-    /**
-     * Whether to allow a complete annotation declaration in one single line. Example:
-     * <pre>
-     * public @interface MyAnno {}
-     * </pre>
-     */
-    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_ANNO_DECL)
-    public void
-    setAllowOneLineAnnoDecl(boolean value) { this.allowOneLineAnnoDecl = value; }
-
-    private boolean
-    allowOneLineAnnoDecl = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_ANNO_DECL;
-
-    private static final boolean
-    DEFAULT_ALLOW_ONE_LINE_ANNO_DECL = true;
-
-    /**
-     * Whether to allow a complete constructor declaration in one single line. Example:
-     * <pre>
-     * protected MyClass() { super(null); }
-     * </pre>
-     */
-    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_CTOR_DECL)
-    public void
-    setAllowOneLineCtorDecl(boolean value) { this.allowOneLineCtorDecl = value; }
-
-    private boolean
-    allowOneLineCtorDecl = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_CTOR_DECL;
-
-    private static final boolean
-    DEFAULT_ALLOW_ONE_LINE_CTOR_DECL = true;
-
-    /**
-     * Whether to allow a complete method declaration in one single line. Example:
-     * <pre>
-     * private void meth() { ... }
-     * </pre>
-     */
-    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_METH_DECL)
-    public void
-    setAllowOneLineMethDecl(boolean value) { this.allowOneLineMethDecl = value; }
-
-    private boolean
-    allowOneLineMethDecl = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_METH_DECL;
-
-    private static final boolean
-    DEFAULT_ALLOW_ONE_LINE_METH_DECL = true;
-
-    /**
-     * Whether to allow a complete {@code SWITCH} block statement group in one single line. Example:
-     * <pre>
-     * case 1: case 2: a = 3; break;
-     * </pre>
-     */
-    @BooleanRuleProperty(defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_SWITCH_BLOCK_STMT_GROUP)
-    public void
-    setAllowOneLineSwitchBlockStmtGroup(boolean value) { this.allowOneLineSwitchBlockStmtGroup = value; }
-
-    private boolean
-    allowOneLineSwitchBlockStmtGroup = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_SWITCH_BLOCK_STMT_GROUP;
-
-    private static final boolean
-    DEFAULT_ALLOW_ONE_LINE_SWITCH_BLOCK_STMT_GROUP = true;
-
-    /**
-     * Whether to wrap package declarations before the {@code PACKAGE} keyword (in "{@code package-info.java}").
-     * Example:
-     * <pre>
-     * &#64;NonNullByDefault
-     * package com.acme.product;
-     * </pre>
-     *
-     * @cs-intertitle <h3>Declaration Wrapping</h3>
-     *                <p>
-     *                  The phrase "wrap before X" means that a line break and spaces appear right before "X", such
-     *                  that "X" is vertically aligned with the first token in the immediately preceding line.
-     *                </p>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_PACKAGE_DECL_BEFORE_PACKAGE
-    ) public void
-    setWrapPackageDeclBeforePackage(String value) { this.wrapPackageDeclBeforePackage = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapPackageDeclBeforePackage = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_PACKAGE_DECL_BEFORE_PACKAGE);
-
-    private static final String
-    DEFAULT_WRAP_PACKAGE_DECL_BEFORE_PACKAGE = "always";
-
-    /**
-     * Whether to wrap class declarations before the {@code CLASS} keyword. Example:
-     * <pre>
-     * public static final
      * class MyClass {
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_CLASS_DECL_BEFORE_CLASS
-    ) public void
-    setWrapClassDeclBeforeClass(String value) { this.wrapClassDeclBeforeClass = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapClassDeclBeforeClass = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_CLASS_DECL_BEFORE_CLASS);
-
-    private static final String
-    DEFAULT_WRAP_CLASS_DECL_BEFORE_CLASS = "always";
-
-    /**
-     * Whether to wrap interface declarations before the {@code INTERFACE} keyword. Example:
-     * <pre>
-     * public
-     * interface MyInterf {
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_INTERFACE_DECL_BEFORE_INTERFACE
-    ) public void
-    setWrapInterfaceDeclBeforeInterface(String value) {
-        this.wrapInterfaceDeclBeforeInterface = WrapAndIndent.toWrap(value);
-    }
-
-    private Control
-    wrapInterfaceDeclBeforeInterface = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_INTERFACE_DECL_BEFORE_INTERFACE);
-
-    private static final String
-    DEFAULT_WRAP_INTERFACE_DECL_BEFORE_INTERFACE = "always";
-
-    /**
-     * Whether to wrap enum declarations before the {@code ENUM} keyword. Example:
-     * <pre>
-     * protected
-     * enum MyEnum {
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_ENUM_DECL_BEFORE_ENUM
-    ) public void
-    setWrapEnumDeclBeforeEnum(String value) { this.wrapEnumDeclBeforeEnum = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapEnumDeclBeforeEnum = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_ENUM_DECL_BEFORE_ENUM);
-
-    private static final String
-    DEFAULT_WRAP_ENUM_DECL_BEFORE_ENUM = "always";
-
-    /**
-     * Whether to wrap annotation declarations before '@'. Example:
-     * <pre>
-     * private
-     * &#64;interface MyAnno {
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_ANNO_DECL_BEFORE_AT
-    ) public void
-    setWrapAnnoDeclBeforeAt(String value) { this.wrapAnnoDeclBeforeAt = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapAnnoDeclBeforeAt = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_ANNO_DECL_BEFORE_AT);
-
-    private static final String
-    DEFAULT_WRAP_ANNO_DECL_BEFORE_AT = "always";
-
-    /**
-     * Whether to wrap field declarations before the field name. Example:
-     * <pre>
-     * private int
-     * width = 7;
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_FIELD_DECL_BEFORE_NAME
-    ) public void
-    setWrapFieldDeclBeforeName(String value) { this.wrapFieldDeclBeforeName = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapFieldDeclBeforeName = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_FIELD_DECL_BEFORE_NAME);
-
-    private static final String
-    DEFAULT_WRAP_FIELD_DECL_BEFORE_NAME = "optional";
-
-    /**
-     * Whether to wrap constructor declarations between the modifiers and the class name. Example:
-     * <pre>
-     * protected
-     * MyClass(int x) {
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_CTOR_DECL_BEFORE_NAME
-    ) public void
-    setWrapCtorDeclBeforeName(String value) { this.wrapCtorDeclBeforeName = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapCtorDeclBeforeName = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_CTOR_DECL_BEFORE_NAME);
-
-    private static final String
-    DEFAULT_WRAP_CTOR_DECL_BEFORE_NAME = "always";
-
-    /**
-     * Whether to wrap method declarations between the return type and the method name. Example:
-     * <pre>
-     * private static
-     * myMeth(int arg1) {
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_METH_DECL_BEFORE_NAME
-    ) public void
-    setWrapMethDeclBeforeName(String value) { this.wrapMethDeclBeforeName = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapMethDeclBeforeName = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_METH_DECL_BEFORE_NAME);
-
-    private static final String
-    DEFAULT_WRAP_METH_DECL_BEFORE_NAME = "always";
-
-    /**
-     * Whether to wrap local variable declarations between the type and the variable name. Example:
-     * <pre>
-     * int
-     * locvar = 7;
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_LOC_VAR_DECL_BEFORE_NAME
-    ) public void
-    setWrapLocVarDeclBeforeName(String value) { this.wrapLocVarDeclBeforeName = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapLocVarDeclBeforeName = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_LOC_VAR_DECL_BEFORE_NAME);
-
-    private static final String
-    DEFAULT_WRAP_LOC_VAR_DECL_BEFORE_NAME = "optional";
-
-    /**
-     * Whether to wrap type declarations before the opening curly brace. Example:
-     * <pre>
-     * public class MyClass
-     * {
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_TYPE_DECL_BEFORE_LCURLY
-    ) public void
-    setWrapTypeDeclBeforeLCurly(String value) { this.wrapTypeDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapTypeDeclBeforeLCurly = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_TYPE_DECL_BEFORE_LCURLY);
-
-    private static final String
-    DEFAULT_WRAP_TYPE_DECL_BEFORE_LCURLY = "never";
-
-    /**
-     * Whether to wrap constructor declarations before the opening curly brace. Example:
-     * <pre>
-     * protected MyClass(int x)
-     * {
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_CTOR_DECL_BEFORE_LCURLY
-    ) public void
-    setWrapCtorDeclBeforeLCurly(String value) { this.wrapCtorDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapCtorDeclBeforeLCurly = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_CTOR_DECL_BEFORE_LCURLY);
-
-    private static final String
-    DEFAULT_WRAP_CTOR_DECL_BEFORE_LCURLY = "never";
-
-    /**
-     * Whether to wrap method declarations before the opening curly brace. Example:
-     * <pre>
-     * private static myMeth(int arg1)
-     * {
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_METH_DECL_BEFORE_LCURLY
-    ) public void
-    setWrapMethodDeclBeforeLCurly(String value) { this.wrapMethodDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapMethodDeclBeforeLCurly = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_METH_DECL_BEFORE_LCURLY);
-
-    private static final String
-    DEFAULT_WRAP_METH_DECL_BEFORE_LCURLY = "never";
-
-    /**
-     * Whether to wrap anonymous class declarations before the opening curly brace. Example:
-     * <pre>
-     * new Object()
-     * {
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_ANON_CLASS_DECL_BEFORE_LCURLY
-    ) public void
-    setWrapAnonClassDeclBeforeLCurly(String value) { this.wrapAnonClassDeclBeforeLCurly = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapAnonClassDeclBeforeLCurly = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_ANON_CLASS_DECL_BEFORE_LCURLY);
-
-    private static final String
-    DEFAULT_WRAP_ANON_CLASS_DECL_BEFORE_LCURLY = "never";
-
-    /**
-     * Whether to wrap {@code DO} statements before the opening curly brace. Example:
-     * <pre>
-     * do
-     * {
-     * </pre>
+     *     protected MyClass() <font color="red">{ super(null); }</font>  // One-line constructor body.
+     *     private void meth() <font color="red">{ bar(); }</font>        // One-line method body.
      *
-     * @cs-intertitle <h3>Other Elements Wrapping</h3>
-     *                <p>
-     *                  The phrase "wrap before X" means that a line break and space appear right before "X", such
-     *                  that "X" is vertically aligned with the first token in the immediately preceding line.
-     *                </p>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_DO_BEFORE_LCURLY
-    ) public void
-    setWrapDoBeforeLCurly(String value) { this.wrapDoBeforeLCurly = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapDoBeforeLCurly = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_DO_BEFORE_LCURLY);
-
-    private static final String
-    DEFAULT_WRAP_DO_BEFORE_LCURLY = "never";
-
-    /**
-     * Whether to wrap {@code TRY} statements before the {@code CATCH} keyword. Example:
-     * <pre>
-     * try { ... }
-     * catch { ... }
+     *     void bar() {
+     *         switch (a) {
+     *         <font color="red">case 1: case 2: a = 3; break;</font>     // One-line case group.
+     *         }
+     *     }
+     *
+     *     &#64;Anno1<font color="red">(a = 7, b = 5)</font>                  // One-line annotation.
+     *     &#64;Anno2(
+     *         a = <font color="red">{ 1, 2, 3 }</font>                   // One-line annotation array initializer.
+     *     )
+     *     int[] bar2 = <font color="red">{ 4, 5, 6 }</font>;             // One-line array initializer.
+     * }
      * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_TRY_BEFORE_CATCH
-    ) public void
-    setWrapTryBeforeCatch(String value) { this.wrapTryBeforeCatch = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapTryBeforeCatch = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_TRY_BEFORE_CATCH);
-
-    private static final String
-    DEFAULT_WRAP_TRY_BEFORE_CATCH = "optional";
-
-    /**
-     * Whether to wrap {@code TRY} statements before the {@code FINALLY} keyword. Example:
-     * <pre>
-     * try { ... }
-     * finally { ... }
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_TRY_BEFORE_FINALLY
-    ) public void
-    setWrapTryBeforeFinally(String value) { this.wrapTryBeforeFinally = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapTryBeforeFinally = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_TRY_BEFORE_FINALLY);
-
-    private static final String
-    DEFAULT_WRAP_TRY_BEFORE_FINALLY = "optional";
-
-    /**
-     * Whether to wrap array initializers before the opening curly brace. Example:
-     * <pre>
-     * int[] ia =
-     * {
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_ARRAY_INIT_BEFORE_LCURLY
-    ) public void
-    setWrapArrayInitBeforeLCurly(String value) { this.wrapArrayInitBeforeLCurly = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapArrayInitBeforeLCurly = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_ARRAY_INIT_BEFORE_LCURLY);
-
-    private static final String
-    DEFAULT_WRAP_ARRAY_INIT_BEFORE_LCURLY = "never";
-
-    /**
-     * Whether to wrap expressions before a binary operator. Example:
-     * <pre>
-     * a
-     * + b
-     * + c
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_BEFORE_BINARY_OPERATOR
-    ) public void
-    setWrapBeforeBinaryOperator(String value) { this.wrapBeforeBinaryOperator = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapBeforeBinaryOperator = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_BEFORE_BINARY_OPERATOR);
-
-    private static final String
-    DEFAULT_WRAP_BEFORE_BINARY_OPERATOR = "optional";
-
-    /**
-     * Whether to wrap expressions after a binary operator. Example:
-     * <pre>
-     * a +
-     * b +
-     * c
-     * </pre>
-     */
-    @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAndIndent.DEFAULT_WRAP_AFTER_BINARY_OPERATOR
-    ) public void
-    setWrapAfterBinaryOperator(String value) { this.wrapAfterBinaryOperator = WrapAndIndent.toWrap(value); }
-
-    private Control
-    wrapAfterBinaryOperator = WrapAndIndent.toWrap(WrapAndIndent.DEFAULT_WRAP_AFTER_BINARY_OPERATOR);
-
-    private static final String
-    DEFAULT_WRAP_AFTER_BINARY_OPERATOR = "never";
-
-    /**
-     * The tokens for which it is allowed to put multiple elements on one line.
      */
     @MultiCheckRuleProperty(
         valueOptions = {
+            "class_def",
+            "interface_def",
+            "enum_def",
+            "annotation_def",
+            "ctor_def",
+            "method_def",
+            "case_group",
             "annotation",
             "annotation_array_init",
             "array_init",
-            "ctor_call",
-            "enum_def",
-            "method_call",
-            "parameters",
         },
-        defaultValue = WrapAndIndent.DEFAULT_ALLOW_MULTIPLE_ELEMENTS_PER_LINE
+        defaultValue = WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_ELEMENT
     )
     public void
-    setAllowMultipleElementsPerLine(String[] sa) {
-        this.allowMultipleElementsPerLine = WrapAndIndent.toEnumSet(sa, LocalTokenType.class);
+    setAllowOneLineElement(String[] sa) {
+        this.allowOneLineElement = WrapAndIndent.toEnumSet(sa, LocalTokenType.class);
     }
 
     private EnumSet<LocalTokenType>
-    allowMultipleElementsPerLine = WrapAndIndent.toEnumSet(
-        WrapAndIndent.DEFAULT_ALLOW_MULTIPLE_ELEMENTS_PER_LINE.toUpperCase(),
+    allowOneLineElement = WrapAndIndent.toEnumSet(
+        WrapAndIndent.DEFAULT_ALLOW_ONE_LINE_ELEMENT.toUpperCase(),
         LocalTokenType.class
     );
 
     private static final String
-    DEFAULT_ALLOW_MULTIPLE_ELEMENTS_PER_LINE = "annotation_array_init,array_init,enum_def";
+    DEFAULT_ALLOW_ONE_LINE_ELEMENT = "class_def,interface_def,enum_def,annotation_def,ctor_def,method_def,case_group,annotation,annotation_array_init,array_init"; // SUPPRESS CHECKSTYLE LineLength
+
+    /**
+     * Whether to allow wrapping-and-indenting of subelements; where subelements may or may not appear on one line.
+     * <p>Examples:</p>
+     * <pre>
+     * public class Pojo <font color="red">{</font>        // Wrapped-and-indented class body.
+     *     <font color="red">int fld1; fld2;
+     *     fld3;
+     * }</font>
+     * public interface Interf <font color="red">{</font>  // Wrapped-and-indented interface body.
+     *     <font color="red">void meth1();
+     *     void meth2(); void meth3();
+     * }</font>
+     * private enum Color <font color="red">{</font>       // Wrapped-and-indented enum body.
+     *     <font color="red">BLACK,
+     *     WHITE, GRAY
+     * }</font>
+     * public @interface MyAnno <font color="red">{</font> // Wrapped-and-indented annotation body.
+     *     <font color="red">int length(); int width();
+     *     int height();
+     * }</font>
+     *
+     * class MyClass {
+     *     protected MyClass() <font color="red">{</font>  // Wrapped-and-indented constructor body.
+     *         <font color="red">super(null);
+     *         foo(); bar();
+     *     }</font>
+     *     private void meth() <font color="red">{</font>  // Wrapped-and-indented method body.
+     *         <font color="red">bar(); bar();
+     *         bar();
+     *     }</font>
+     *
+     *     void bar() {
+     *         switch (a) {
+     *         <font color="red">case 1:</font>            // Wrapped-and-indented case group.
+     *         <font color="red">case 2: case 3: a = 3;
+     *             break;</font>
+     *         }
+     *     }
+     *
+     *     &#64;Anno1<font color="red">(</font>                // Wrapped-and-indented annotation.
+     *         <font color="red">a = 7, b = 5,
+     *         c = 99
+     *     )</font>
+     *     &#64;Anno2(
+     *         a = <font color="red">{</font>              // Wrapped-and-indented annotation array initializer.
+     *             <font color="red">1, 2,
+     *             3, 4, 5
+     *         }</font>
+     *     )
+     *     int[] bar2 = <font color="red">{</font>         // Wrapped-and-indented array initializer.
+     *         <font color="red">1, 2, 3,
+     *         4, 5, 6
+     *     }</font>;
+     * }
+     * </pre>
+     */
+    @MultiCheckRuleProperty(
+        valueOptions = {
+            "class_def",
+            "interface_def",
+            "enum_def",
+            "annotation_def",
+            "ctor_def",
+            "method_def",
+            "case_group",
+            "annotation",
+            "annotation_array_init",
+            "array_init",
+        },
+        defaultValue = WrapAndIndent.DEFAULT_ALLOW_ELEMENT_WRAPPING
+    )
+    public void
+    setAllowElementWrapping(String[] sa) {
+        this.allowElementWrapping = WrapAndIndent.toEnumSet(sa, LocalTokenType.class);
+    }
+
+    private EnumSet<LocalTokenType>
+    allowElementWrapping = WrapAndIndent.toEnumSet(
+        WrapAndIndent.DEFAULT_ALLOW_ELEMENT_WRAPPING.toUpperCase(),
+        LocalTokenType.class
+    );
+
+    private static final String
+    DEFAULT_ALLOW_ELEMENT_WRAPPING = "class_def,interface_def,enum_def,annotation_def,ctor_def,method_def,case_group,annotation,annotation_array_init,array_init"; // SUPPRESS CHECKSTYLE LineLength
+
+    /**
+     * Whether to allow wrapping-and-indenting of subelements, where each subelement must strictly appear on a new line.
+     * <p>Examples:</p>
+     * <pre>
+     * public class Pojo <font color="red">{</font>        // Strictly-wrapped-and-indented class body.
+     *     <font color="red">int fld1;
+     *     fld2;
+     *     fld3;
+     * }</font>
+     * public interface Interf <font color="red">{</font>  // Strictly-wrapped-and-indented interface body.
+     *     <font color="red">void meth1();
+     *     void meth2();
+     *     void meth3();
+     * }</font>
+     * private enum Color <font color="red">{</font>       // Strictly-wrapped-and-indented enum body.
+     *     <font color="red">BLACK,
+     *     WHITE,
+     *     GRAY
+     * }</font>
+     * public @interface MyAnno <font color="red">{</font> // Strictly-wrapped-and-indented annotation body.
+     *     <font color="red">int length();
+     *     int width();
+     *     int height();
+     * }</font>
+     *
+     * class MyClass {
+     *     protected MyClass() <font color="red">{</font>  // Strictly-wrapped-and-indented constructor body.
+     *         <font color="red">super(null);
+     *         foo();
+     *         bar();
+     *     }</font>
+     *     private void meth() <font color="red">{</font>  // Strictly-wrapped-and-indented method body.
+     *         <font color="red">bar();
+     *         bar();
+     *         bar();
+     *     }</font>
+     *
+     *     void bar() {
+     *         switch (a) {
+     *         <font color="red">case 1:</font>            // Strictly-wrapped-and-indented case group.
+     *         <font color="red">case 2:
+     *         case 3:
+     *             a = 3;
+     *             break;</font>
+     *         }
+     *     }
+     *
+     *     &#64;Anno1<font color="red">(</font>                // Strictly-wrapped-and-indented annotation.
+     *         <font color="red">a = 7,
+     *         b = 5,
+     *         c = 99
+     *     )</font>
+     *     &#64;Anno2(
+     *         a = <font color="red">{</font>              // Strictly-wrapped-and-indented annotation array initializer.
+     *             <font color="red">1,
+     *             2,
+     *             3,
+     *             4,
+     *             5
+     *         }</font>
+     *     )
+     *     int[] bar2 = <font color="red">{</font>         // Strictly-wrapped-and-indented array initializer.
+     *         <font color="red">1,
+     *         2,
+     *         3,
+     *         4,
+     *         5,
+     *         6
+     *     }</font>;
+     * }
+     * </pre>
+     */
+    @MultiCheckRuleProperty(
+        valueOptions = {
+            "class_def",
+            "interface_def",
+            "enum_def",
+            "annotation_def",
+            "ctor_def",
+            "method_def",
+            "case_group",
+            "annotation",
+            "annotation_array_init",
+            "array_init",
+        },
+        defaultValue = WrapAndIndent.DEFAULT_ALLOW_STRICT_ELEMENT_WRAPPING
+    )
+    public void
+    setAllowStrictElementWrapping(String[] sa) {
+        this.allowStrictElementWrapping = WrapAndIndent.toEnumSet(sa, LocalTokenType.class);
+    }
+
+    private EnumSet<LocalTokenType>
+    allowStrictElementWrapping = WrapAndIndent.toEnumSet(
+        WrapAndIndent.DEFAULT_ALLOW_STRICT_ELEMENT_WRAPPING.toUpperCase(),
+        LocalTokenType.class
+    );
+
+    private static final String
+    DEFAULT_ALLOW_STRICT_ELEMENT_WRAPPING = "class_def,interface_def,enum_def,annotation_def,ctor_def,method_def,case_group,annotation,annotation_array_init,array_init"; // SUPPRESS CHECKSTYLE LineLength
+
+    enum WrappingContext {
+        PACKAGE_DECL_BEFORE_PACKAGE,
+        CLASS_DECL_BEFORE_CLASS,
+        INTERFACE_DECL_BEFORE_INTERFACE,
+        ENUM_DECL_BEFORE_ENUM,
+        ANNO_DECL_BEFORE_AT,
+        FIELD_DECL_BEFORE_NAME,
+        CTOR_DECL_BEFORE_NAME,
+        METH_DECL_BEFORE_NAME,
+        LOCAL_VAR_DECL_BEFORE_NAME,
+        TYPE_DECL_BEFORE_LCURLY,
+        CTOR_DECL_BEFORE_LCURLY,
+        METHOD_DECL_BEFORE_LCURLY,
+        ANON_CLASS_DECL_DECL_BEFORE_LCURLY,
+        DO_BEFORE_LCURLY,
+        TRY_BEFORE_CATCH,
+        TRY_BEFORE_FINALLY,
+        ARRAY_INIT_BEFORE_LCURLY,
+        BEFORE_BINARY_OPERATOR,
+        AFTER_BINARY_OPERATOR
+    }
+
+    /**
+     * Whether to allow wrapping at certain places.
+     *
+     * @see #setRequireWrapping(String[])
+     */
+    @MultiCheckRuleProperty(
+        optionProvider = WrappingContext.class,
+        defaultValue = WrapAndIndent.DEFAULT_ALLOW_WRAPPING
+    )
+    public void
+    setAllowWrapping(String[] sa) {
+        this.allowWrapping = WrapAndIndent.toEnumSet(sa, LocalTokenType.class);
+    }
+
+    private EnumSet<LocalTokenType>
+    allowWrapping = WrapAndIndent.toEnumSet(
+        WrapAndIndent.DEFAULT_ALLOW_WRAPPING.toUpperCase(),
+        LocalTokenType.class
+    );
+
+    private static final String
+    DEFAULT_ALLOW_WRAPPING = "package_decl_before_package,class_decl_before_class,interface_decl_before_interface,enum_decl_before_enum,anno_decl_before_at,field_decl_before_name,ctor_decl_before_name,meth_decl_before_name,local_var_decl_before_name,binary_operator";
+
+    /**
+     * Whether to <i>require</i> wrapping at certain places.
+     * <p>Examples:</p>
+     * <pre>
+     * &#64;NonNullByDefault
+     * package com.acme.product; // package_decl_before_package
+     *
+     * public static final
+     * class MyClass {           // class_decl_before_class
+     * }
+     *
+     * public
+     * interface MyInterf {      // interface_decl_before_interface
+     * }
+     *
+     * protected
+     * enum MyEnum {             // enum_decl_before_enum
+     * }
+     *
+     * private
+     * &#64;interface MyAnno {   // anno_decl_before_at
+     *
+     * private int
+     * width = 7;                // field_decl_before_name
+     *
+     * protected
+     * MyClass(int x) {          // ctor_decl_before_name
+     *
+     * private static
+     * myMeth(int arg1) {        // meth_decl_before_name
+     *
+     * int
+     * locvar = 7;               // local_var_decl_before_name
+     *
+     * public class MyClass
+     * {                         // type_decl_before_lcurly
+     *
+     * protected MyClass(int x)
+     * {                         // ctor_decl_before_lcurly
+     *
+     * private static myMeth(int arg1)
+     * {                         // meth_decl_before_lcurly
+     *
+     * new Object()
+     * {                         // anon_class_decl_before_lcurly
+     *
+     * do
+     * {                         // do_before_lcurly
+     *
+     * try { ... }
+     * catch { ... }             // try_before_catch
+     *
+     * try { ... }
+     * finally { ... }           // try_before_finally
+     *
+     * int[] ia =
+     * {                         // array_init_before_lcurly
+     *
+     * a
+     * + b                       // before_binary_operator
+     *
+     * a +
+     * b                         // after_binary_operator
+     * </pre>
+     */
+    @MultiCheckRuleProperty(
+        optionProvider = WrappingContext.class,
+        defaultValue = WrapAndIndent.DEFAULT_REQUIRE_WRAPPING
+    )
+    public void
+    setRequireWrapping(String[] sa) {
+        this.requireWrapping = WrapAndIndent.toEnumSet(sa, LocalTokenType.class);
+    }
+
+    private EnumSet<LocalTokenType>
+    requireWrapping = WrapAndIndent.toEnumSet(
+        WrapAndIndent.DEFAULT_REQUIRE_WRAPPING.toUpperCase(),
+        LocalTokenType.class
+    );
+
+    private static final String
+    DEFAULT_REQUIRE_WRAPPING = "package_decl_before_package,class_decl_before_class,interface_decl_before_interface,enum_decl_before_enum,anno_decl_before_at,field_decl_before_name,ctor_decl_before_name,meth_decl_before_name,local_var_decl_before_name,binary_operator";
 
     // END CONFIGURATION
 
@@ -841,16 +675,6 @@ class WrapAndIndent extends Check {
 
         @Override public List<String>
         getOptions() { return WrapOptionProvider.WRAP_OPTIONS; }
-    }
-
-    private static Control
-    toWrap(String value) {
-        return (
-            "always".equals(value)   ? MUST_WRAP :
-            "optional".equals(value) ? MAY_WRAP :
-            "never".equals(value)    ? NO_WRAP :
-            WrapAndIndent.throwException(RuntimeException.class, Control.class, "Invalid string value '" + value + "'")
-        );
     }
 
     private static <ET extends Exception, RT> RT
@@ -1047,10 +871,10 @@ class WrapAndIndent extends Check {
                 LABEL2, FORK3, END,
                 LABEL3, LPAREN, BRANCH5,
                 LABEL4, COMMA,
-                LABEL5, FORK6, MAY_INDENT, ANNOTATION_MEMBER_VALUE_PAIR, BRANCH9,
-                LABEL6, FORK7, MAY_INDENT, ANNOTATION, BRANCH9,
-                LABEL7, FORK8, MAY_INDENT, EXPR, BRANCH9,
-                LABEL8, MAY_INDENT, this.wrapArrayInitBeforeLCurly, ANNOTATION_ARRAY_INIT,
+                LABEL5, FORK6, INDENT, ANNOTATION_MEMBER_VALUE_PAIR, BRANCH9,
+                LABEL6, FORK7, INDENT, ANNOTATION, BRANCH9,
+                LABEL7, FORK8, INDENT, EXPR, BRANCH9,
+                LABEL8, INDENT, WRAP, ANNOTATION_ARRAY_INIT,
                 LABEL9, FORK4, UNINDENT, RPAREN, END
             );
             break;
@@ -1058,8 +882,8 @@ class WrapAndIndent extends Check {
         case ANNOTATION_MEMBER_VALUE_PAIR:
             this.checkChildren(
                 ast,
-                IDENT, ASSIGN, FORK1, this.wrapArrayInitBeforeLCurly, ANNOTATION_ARRAY_INIT, END,
-                LABEL1, ANY, END
+                IDENT, ASSIGN, FORK1, WRAP, ANNOTATION_ARRAY_INIT, END,
+                LABEL1, ANY_TOKEN, END
             );
             break;
 
@@ -1067,16 +891,19 @@ class WrapAndIndent extends Check {
             this.checkChildren(
                 ast,
                 FORK2,
-                LABEL1, MAY_INDENT, EXPR, FORK2, COMMA, FORK1,
+                LABEL1, INDENT, EXPR, FORK2, COMMA, FORK1,
                 LABEL2, UNINDENT, RCURLY, END
             );
             break;
 
         case ANNOTATION_DEF:
-            if (this.allowOneLineAnnoDecl && WrapAndIndent.isSingleLine(ast)) break;
+            if (
+                this.allowOneLineElement.contains(LocalTokenType.ANNOTATION_DEF)
+                && WrapAndIndent.isSingleLine(ast)
+            ) break;
             this.checkChildren(
                 ast,
-                MODIFIERS, this.wrapAnnoDeclBeforeAt, AT, LITERAL_INTERFACE, IDENT, this.wrapTypeDeclBeforeLCurly, OBJBLOCK, END // SUPPRESS CHECKSTYLE LineLength
+                MODIFIERS, WRAP, AT, LITERAL_INTERFACE, IDENT, WRAP, OBJBLOCK, END
             );
             break;
 
@@ -1084,7 +911,7 @@ class WrapAndIndent extends Check {
             this.checkChildren(
                 ast,
                 FORK2,
-                LABEL1, MAY_INDENT, ANY, FORK2, COMMA, FORK1,
+                LABEL1, INDENT, ANY_TOKEN, FORK2, COMMA, FORK1,
                 LABEL2, UNINDENT, RCURLY, END
             );
             break;
@@ -1093,21 +920,24 @@ class WrapAndIndent extends Check {
             this.checkChildren(
                 ast,
                 FORK3, LITERAL_CASE,        // case 1: case 2:
-                LABEL1, FORK2, MAY_WRAP, LITERAL_CASE, BRANCH1,
+                LABEL1, FORK2, WRAP, LITERAL_CASE, BRANCH1,
                 LABEL2, FORK4,
-                LABEL3, MAY_WRAP, LITERAL_DEFAULT,
+                LABEL3, WRAP, LITERAL_DEFAULT,
                 LABEL4, INDENT_IF_CHILDREN, SLIST, END
             );
             break;
 
         case CLASS_DEF:
-            if (this.allowOneLineClassDecl && WrapAndIndent.isSingleLine(ast)) break;
+            if (
+                this.allowOneLineElement.contains(LocalTokenType.CLASS_DEF)
+                && WrapAndIndent.isSingleLine(ast)
+            ) break;
             this.checkChildren(
                 ast,
-                MODIFIERS, this.wrapClassDeclBeforeClass, LITERAL_CLASS, IDENT, FORK1, TYPE_PARAMETERS,
-                LABEL1, FORK2, MAY_WRAP, EXTENDS_CLAUSE,
-                LABEL2, FORK3, MAY_WRAP, IMPLEMENTS_CLAUSE,
-                LABEL3, this.wrapTypeDeclBeforeLCurly, OBJBLOCK, END
+                MODIFIERS, WRAP, LITERAL_CLASS, IDENT, FORK1, TYPE_PARAMETERS,
+                LABEL1, FORK2, WRAP, EXTENDS_CLAUSE,
+                LABEL2, FORK3, WRAP, IMPLEMENTS_CLAUSE,
+                LABEL3, WRAP, OBJBLOCK, END
             );
             break;
 
@@ -1119,12 +949,15 @@ class WrapAndIndent extends Check {
             break;
 
         case CTOR_DEF:
-            if (this.allowOneLineCtorDecl && WrapAndIndent.isSingleLine(ast)) break;
+            if (
+                this.allowOneLineElement.contains(LocalTokenType.CTOR_DEF)
+                && WrapAndIndent.isSingleLine(ast)
+            ) break;
             this.checkChildren(
                 ast,
                 MODIFIERS, FORK1, TYPE_PARAMETERS,
-                LABEL1, this.wrapCtorDeclBeforeName, IDENT, LPAREN, INDENT_IF_CHILDREN, PARAMETERS, UNINDENT, RPAREN, FORK2, MAY_WRAP, LITERAL_THROWS, // SUPPRESS CHECKSTYLE LineLength
-                LABEL2, this.wrapCtorDeclBeforeLCurly, SLIST, END
+                LABEL1, WRAP, IDENT, LPAREN, INDENT_IF_CHILDREN, PARAMETERS, UNINDENT, RPAREN, FORK2, WRAP, LITERAL_THROWS, // SUPPRESS CHECKSTYLE LineLength
+                LABEL2, WRAP, SLIST, END
             );
             break;
 
@@ -1132,16 +965,19 @@ class WrapAndIndent extends Check {
             this.checkChildren(
                 ast,
                 FORK2,
-                LABEL1, MAY_INDENT, EXPR, FORK2, COMMA, BRANCH1,
+                LABEL1, INDENT, EXPR, FORK2, COMMA, BRANCH1,
                 LABEL2, END
             );
             break;
 
         case ENUM_DEF:
-            if (this.allowOneLineEnumDecl && WrapAndIndent.isSingleLine(ast)) break;
+            if (
+                this.allowOneLineElement.contains(LocalTokenType.ENUM_DEF)
+                && WrapAndIndent.isSingleLine(ast)
+            ) break;
             this.checkChildren(
                 ast,
-                MODIFIERS, this.wrapEnumDeclBeforeEnum, ENUM, IDENT, this.wrapTypeDeclBeforeLCurly, OBJBLOCK, END
+                MODIFIERS, WRAP, ENUM, IDENT, WRAP, OBJBLOCK, END
             );
             break;
 
@@ -1206,49 +1042,52 @@ class WrapAndIndent extends Check {
         case FOR_EACH_CLAUSE:
             this.checkChildren(
                 ast,
-                VARIABLE_DEF, MAY_WRAP, COLON, EXPR, END
+                VARIABLE_DEF, WRAP, COLON, EXPR, END
             );
             break;
 
         case INTERFACE_DEF:
-            if (this.allowOneLineInterfaceDecl && WrapAndIndent.isSingleLine(ast)) break;
+            if (
+                this.allowOneLineElement.contains(LocalTokenType.INTERFACE_DEF)
+                && WrapAndIndent.isSingleLine(ast)
+            ) break;
             this.checkChildren(
                 ast,
-                MODIFIERS, this.wrapInterfaceDeclBeforeInterface, LITERAL_INTERFACE, IDENT, FORK1, TYPE_PARAMETERS,
-                LABEL1, FORK2, MAY_WRAP, EXTENDS_CLAUSE,
-                LABEL2, this.wrapTypeDeclBeforeLCurly, OBJBLOCK, END
+                MODIFIERS, WRAP, LITERAL_INTERFACE, IDENT, FORK1, TYPE_PARAMETERS,
+                LABEL1, FORK2, WRAP, EXTENDS_CLAUSE,
+                LABEL2, WRAP, OBJBLOCK, END
             );
             break;
 
         case LABELED_STAT:
             this.checkChildren(
                 ast,
-                IDENT, MAY_WRAP, ANY, END
+                IDENT, WRAP, ANY_TOKEN, END
             );
             break;
 
         case LITERAL_DO:
             this.checkChildren(
                 ast,
-                this.wrapDoBeforeLCurly, SLIST, DO_WHILE, LPAREN, MAY_INDENT, EXPR, UNINDENT, RPAREN, SEMI, END
+                WRAP, SLIST, DO_WHILE, LPAREN, INDENT, EXPR, UNINDENT, RPAREN, SEMI, END
             );
             break;
 
         case LITERAL_FOR:
             this.checkChildren(
                 ast,
-                LPAREN, FORK1, MAY_INDENT, FOR_INIT, SEMI, MAY_INDENT, FOR_CONDITION, SEMI, INDENT_IF_CHILDREN, FOR_ITERATOR, FORK2, // SUPPRESS CHECKSTYLE LineLength
-                LABEL1, MAY_INDENT, FOR_EACH_CLAUSE,
+                LPAREN, FORK1, INDENT, FOR_INIT, SEMI, INDENT, FOR_CONDITION, SEMI, INDENT_IF_CHILDREN, FOR_ITERATOR, FORK2, // SUPPRESS CHECKSTYLE LineLength
+                LABEL1, INDENT, FOR_EACH_CLAUSE,
                 LABEL2, UNINDENT, RPAREN, FORK3, EXPR, SEMI, END,
-                LABEL3, ANY, END
+                LABEL3, ANY_TOKEN, END
             );
             break;
 
         case LITERAL_IF:
             this.checkChildren(
                 ast,
-                LPAREN, MAY_INDENT, EXPR, UNINDENT, RPAREN, FORK1, EXPR, SEMI, END,
-                LABEL1, ANY, FORK2, LITERAL_ELSE,
+                LPAREN, INDENT, EXPR, UNINDENT, RPAREN, FORK1, EXPR, SEMI, END,
+                LABEL1, ANY_TOKEN, FORK2, LITERAL_ELSE,
                 LABEL2, END
             );
             break;
@@ -1256,29 +1095,32 @@ class WrapAndIndent extends Check {
         case LITERAL_NEW:
             this.checkChildren(
                 ast,
-                ANY, FORK1, TYPE_ARGUMENTS,
-                LABEL1, FORK3, ARRAY_DECLARATOR, FORK2, this.wrapArrayInitBeforeLCurly, ARRAY_INIT,
+                ANY_TOKEN, FORK1, TYPE_ARGUMENTS,
+                LABEL1, FORK3, ARRAY_DECLARATOR, FORK2, WRAP, ARRAY_INIT,
                 LABEL2, END,
-                LABEL3, LPAREN, INDENT_IF_CHILDREN, ELIST, UNINDENT, RPAREN, OPTIONAL, this.wrapAnonClassDeclBeforeLCurly, OBJBLOCK, END // SUPPRESS CHECKSTYLE LineLength
+                LABEL3, LPAREN, INDENT_IF_CHILDREN, ELIST, UNINDENT, RPAREN, OPTIONAL, WRAP, OBJBLOCK, END
             );
             break;
 
         case LITERAL_SWITCH:
             this.checkChildren(
                 ast,
-                LPAREN, MAY_INDENT, EXPR, UNINDENT, RPAREN, LCURLY, FORK2,
-                LABEL1, MAY_INDENT, CASE_GROUP, FORK1,
+                LPAREN, INDENT, EXPR, UNINDENT, RPAREN, LCURLY, FORK2,
+                LABEL1, INDENT, CASE_GROUP, FORK1,
                 LABEL2, UNINDENT, RCURLY, END
             );
             break;
 
         case METHOD_DEF:
-            if (this.allowOneLineMethDecl && WrapAndIndent.isSingleLine(ast)) break;
+            if (
+                this.allowOneLineElement.contains(LocalTokenType.METHOD_DEF)
+                && WrapAndIndent.isSingleLine(ast)
+            ) break;
             this.checkChildren(
                 ast,
                 MODIFIERS, FORK1, TYPE_PARAMETERS,
-                LABEL1, TYPE, this.wrapMethDeclBeforeName, IDENT, LPAREN, INDENT_IF_CHILDREN, PARAMETERS, UNINDENT, RPAREN, FORK2, MAY_WRAP, LITERAL_THROWS, // SUPPRESS CHECKSTYLE LineLength
-                LABEL2, FORK3, this.wrapMethodDeclBeforeLCurly, SLIST, END,
+                LABEL1, TYPE, WRAP, IDENT, LPAREN, INDENT_IF_CHILDREN, PARAMETERS, UNINDENT, RPAREN, FORK2, WRAP, LITERAL_THROWS, // SUPPRESS CHECKSTYLE LineLength
+                LABEL2, FORK3, WRAP, SLIST, END,
                 LABEL3, SEMI, END
             );
             break;
@@ -1286,8 +1128,8 @@ class WrapAndIndent extends Check {
         case LITERAL_WHILE:
             this.checkChildren(
                 ast,
-                LPAREN, MAY_INDENT, EXPR, UNINDENT, RPAREN, FORK1,  EXPR, SEMI, END,
-                LABEL1, ANY, END
+                LPAREN, INDENT, EXPR, UNINDENT, RPAREN, FORK1,  EXPR, SEMI, END,
+                LABEL1, ANY_TOKEN, END
             );
             break;
 
@@ -1295,7 +1137,7 @@ class WrapAndIndent extends Check {
             this.checkChildren(
                 ast,
                 FORK2,
-                LABEL1, ANY, FORK1,
+                LABEL1, ANY_TOKEN, FORK1,
                 LABEL2, END
             );
             break;
@@ -1304,12 +1146,12 @@ class WrapAndIndent extends Check {
             this.checkChildren(
                 ast,
                 LCURLY, FORK3,
-                LABEL1, MAY_INDENT, ENUM_CONSTANT_DEF, FORK2, COMMA, FORK1,
-                LABEL2, FORK3, MAY_INDENT, SEMI,
-                LABEL3, FORK5, MAY_INDENT, VARIABLE_DEF,
+                LABEL1, INDENT, ENUM_CONSTANT_DEF, FORK2, COMMA, FORK1,
+                LABEL2, FORK3, INDENT, SEMI,
+                LABEL3, FORK5, INDENT, VARIABLE_DEF,
                 LABEL4, FORK3, COMMA, VARIABLE_DEF, BRANCH4,
                 LABEL5, FORK6, UNINDENT, RCURLY, END,
-                LABEL6, MAY_INDENT, ANY, BRANCH2
+                LABEL6, INDENT, ANY_TOKEN, BRANCH2
             );
             break;
 
@@ -1317,7 +1159,7 @@ class WrapAndIndent extends Check {
             this.checkChildren(
                 ast,
                 FORK2,
-                LABEL1, MAY_INDENT, PARAMETER_DEF, FORK2, COMMA, BRANCH1,
+                LABEL1, INDENT, PARAMETER_DEF, FORK2, COMMA, BRANCH1,
                 LABEL2, END
             );
             break;
@@ -1326,28 +1168,28 @@ class WrapAndIndent extends Check {
             // Single-line case group?
             if (
                 ast.getParent().getType() == CASE_GROUP.delocalize()
-                && this.allowOneLineSwitchBlockStmtGroup
+                && this.allowOneLineElement.contains(LocalTokenType.CASE_GROUP)
                 && WrapAndIndent.isSingleLine(ast)
                 && ast.getParent().getLineNo() == ast.getLineNo()
             ) return;
 
             this.checkChildren(
                 ast,
-                LABEL1, FORK2, MAY_INDENT, EXPR, SEMI, BRANCH1,
-                LABEL2, FORK5, MAY_INDENT, VARIABLE_DEF,
+                LABEL1, FORK2, INDENT, EXPR, SEMI, BRANCH1,
+                LABEL2, FORK5, INDENT, VARIABLE_DEF,
                 LABEL3, FORK4, COMMA, VARIABLE_DEF, BRANCH3,
                 LABEL4, SEMI, BRANCH1,
                 // SLIST in CASE_GROUP ends _without_ an RCURLY!
                 LABEL5, FORK6, END,
                 LABEL6, FORK7, UNINDENT, RCURLY, END,
-                LABEL7, MAY_INDENT, ANY, BRANCH1
+                LABEL7, INDENT, ANY_TOKEN, BRANCH1
             );
             break;
 
         case SUPER_CTOR_CALL:
             this.checkChildren(
                 ast,
-                FORK1, ANY, DOT,
+                FORK1, ANY_TOKEN, DOT,
                 LABEL1, LPAREN, INDENT_IF_CHILDREN, ELIST, UNINDENT, RPAREN, SEMI, END
             );
             break;
@@ -1356,7 +1198,7 @@ class WrapAndIndent extends Check {
             if (ast.getParent().getType() == OBJBLOCK.delocalize()) {
                 this.checkChildren(
                     ast,
-                    MODIFIERS, TYPE, this.wrapFieldDeclBeforeName, IDENT, FORK1, ASSIGN,
+                    MODIFIERS, TYPE, WRAP, IDENT, FORK1, ASSIGN,
                     // Field declarations DO have a SEMI, local variable declarations DON'T!?
                     LABEL1, FORK2, SEMI,
                     LABEL2, END
@@ -1364,7 +1206,7 @@ class WrapAndIndent extends Check {
             } else {
                 this.checkChildren(
                     ast,
-                    MODIFIERS, TYPE, this.wrapLocVarDeclBeforeName, IDENT, FORK1, ASSIGN,
+                    MODIFIERS, TYPE, WRAP, IDENT, FORK1, ASSIGN,
                     // Field declarations DO have a SEMI, local variable declarations DON'T!?
                     LABEL1, FORK2, SEMI,
                     LABEL2, END
@@ -1391,15 +1233,14 @@ class WrapAndIndent extends Check {
         //        ;                      [1x22]  [3x22]
         //    import                     [3x0]   [5x0]
         case PACKAGE_DEF:
-            this.checkSameLine(ast, WrapAndIndent.getLeftmostDescendant(ast.getFirstChild().getNextSibling()));
-            if (ast.getFirstChild().getFirstChild() == null) break; // No annotation(s)
-            if (this.wrapPackageDeclBeforePackage == NO_WRAP) {
-                this.checkSameLine(ast, ast.getFirstChild().getFirstChild().getFirstChild());
-                break;
+            {
+                DetailAST topPackage    = WrapAndIndent.getLeftmostDescendant(ast.getFirstChild().getNextSibling());
+                DetailAST bottomPackage = WrapAndIndent.getLeftmostDescendant(ast.getFirstChild().getNextSibling());
+                DetailAST semicolon     = ast.getLastChild();
+                this.checkSameLine(ast, topPackage);
+                this.checkSameLine(topPackage, bottomPackage);
+                this.checkSameLine(bottomPackage, semicolon);
             }
-            if (this.wrapPackageDeclBeforePackage == MAY_WRAP && WrapAndIndent.isSingleLine(ast)) break;
-            this.checkWrapped(ast.getFirstChild().getFirstChild().getFirstChild(), ast);
-            this.checkSameLine(ast, ast.getFirstChild().getNextSibling().getNextSibling());
             break;
 
         case ASSIGN:
@@ -1408,8 +1249,8 @@ class WrapAndIndent extends Check {
                 // A field or local variable initialization.
                 this.checkChildren(
                     ast,
-                    FORK1, this.wrapArrayInitBeforeLCurly, ARRAY_INIT, END,
-                    LABEL1, ANY, END
+                    FORK1, WRAP, ARRAY_INIT, END,
+                    LABEL1, ANY_TOKEN, END
                 );
             }
             break;
@@ -1418,8 +1259,8 @@ class WrapAndIndent extends Check {
             this.checkChildren(
                 ast,
                 SLIST, FORK2,
-                LABEL1, this.wrapTryBeforeCatch, LITERAL_CATCH, FORK1, FORK3,
-                LABEL2, this.wrapTryBeforeFinally, LITERAL_FINALLY,
+                LABEL1, WRAP, LITERAL_CATCH, FORK1, FORK3,
+                LABEL2, WRAP, LITERAL_FINALLY,
                 LABEL3, END
             );
             break;
@@ -1573,7 +1414,7 @@ class WrapAndIndent extends Check {
                 FORK2,
 
                 LABEL1,
-                ANY,
+                ANY_TOKEN,
                 FORK1,
 
                 LABEL2,
@@ -1684,77 +1525,20 @@ class WrapAndIndent extends Check {
                 // Check wrapping and alignment of LHS and operator.
                 {
                     DetailAST lhs = WrapAndIndent.getRightmostDescendant(c.getPreviousSibling());
-                    switch (inline ? Control.NO_WRAP : this.wrapBeforeBinaryOperator) {
-
-                    case NO_WRAP:
-                        this.checkSameLine(lhs, expression);
-                        break;
-
-                    case MAY_WRAP:
-                        if (lhs.getLineNo() != expression.getLineNo()) {
-                            this.checkWrapped(
-                                WrapAndIndent.getLeftmostDescendant(expression.getFirstChild()),
-                                expression
-                            );
-                        } else {
-                            this.checkSameLine(lhs, expression);
-                        }
-                        break;
-
-                    case MUST_WRAP:
-                        this.checkWrapped(lhs, WrapAndIndent.getLeftmostDescendant(expression.getFirstChild()));
-                        if (lhs.getLineNo() == expression.getLineNo()) {
-                            this.log(
-                                expression,
-                                WrapAndIndent.MESSAGE_KEY_MUST_WRAP,
-                                lhs.getText(),
-                                expression.getText()
-                            );
-                        } else {
-                            this.checkWrapped(
-                                WrapAndIndent.getLeftmostDescendant(expression.getFirstChild()),
-                                expression
-                            );
-                        }
-                        break;
-
-                    default:
-                        throw new IllegalStateException();
+                    if (lhs.getLineNo() == expression.getLineNo()) {
+                        this.checkSameLine(lhs, expression, LocalTokenType.EXPR);
+                    } else {
+                        this.checkWrapped(lhs, expression, LocalTokenType.EXPR);
                     }
                 }
 
                 // Check wrapping and alignment of operator and RHS.
                 {
                     DetailAST rhs = WrapAndIndent.getLeftmostDescendant(c);
-                    switch (inline ? Control.NO_WRAP : this.wrapAfterBinaryOperator) {
-
-                    case NO_WRAP:
-                        this.checkSameLine(expression, rhs);
-                        break;
-
-                    case MAY_WRAP:
-                        if (expression.getLineNo() != rhs.getLineNo()) {
-                            this.checkWrapped(WrapAndIndent.getLeftmostDescendant(expression.getFirstChild()), rhs);
-                        } else {
-                            this.checkSameLine(expression, rhs);
-                        }
-                        break;
-
-                    case MUST_WRAP:
-                        if (expression.getLineNo() == rhs.getLineNo()) {
-                            this.log(
-                                rhs,
-                                WrapAndIndent.MESSAGE_KEY_MUST_WRAP,
-                                expression.getText(),
-                                rhs.getText()
-                            );
-                        } else {
-                            this.checkWrapped(WrapAndIndent.getLeftmostDescendant(expression.getFirstChild()), rhs);
-                        }
-                        break;
-
-                    default:
-                        throw new IllegalStateException();
+                    if (expression.getLineNo() == rhs.getLineNo()) {
+                        this.checkSameLine(expression, rhs, LocalTokenType.EXPR);
+                    } else {
+                        this.checkWrapped(expression, rhs, LocalTokenType.EXPR);
                     }
                 }
 
@@ -1847,7 +1631,11 @@ class WrapAndIndent extends Check {
                 ) {
                     this.checkSameLine(WrapAndIndent.getRightmostDescendant(arguments), rparen);
                 } else {
-                    this.checkWrapped(WrapAndIndent.getLeftmostDescendant(expression), rparen);
+                    this.checkWrapped(
+                        WrapAndIndent.getLeftmostDescendant(expression),
+                        rparen,
+                        LocalTokenType.EXPR
+                    );
                 }
             }
             break;
@@ -1900,6 +1688,7 @@ class WrapAndIndent extends Check {
      */
     private DetailAST
     checkParenthesizedExpression(DetailAST previous, boolean inline) {
+
         if (previous.getType() != LPAREN.delocalize()) {
             this.checkExpression(previous, inline);
             return previous.getNextSibling();
@@ -1923,11 +1712,11 @@ class WrapAndIndent extends Check {
             next     = next.getNextSibling();
             this.checkSameLine(WrapAndIndent.getRightmostDescendant(previous), next);
         } else {
-            this.checkIndented(previous, WrapAndIndent.getLeftmostDescendant(next));
+            this.checkIndented(previous, WrapAndIndent.getLeftmostDescendant(next), LocalTokenType.EXPR);
             this.checkExpression(next, false);
             previous = next;
             next     = next.getNextSibling();
-            this.checkUnindented(WrapAndIndent.getRightmostDescendant(previous), next);
+            this.checkUnindented(WrapAndIndent.getRightmostDescendant(previous), next, LocalTokenType.EXPR);
         }
 
         previous = next;
@@ -1938,7 +1727,7 @@ class WrapAndIndent extends Check {
     /**
      * Verifies that the children of the given {@code ast} are positioned as specified.
      *
-     * @param args A squence of {@link LocalTokenType}s and {@link Control}s
+     * @param args A sequence of {@link LocalTokenType}s and {@link Control}s
      */
     private void
     checkChildren(DetailAST ast, Object... args) {
@@ -1948,28 +1737,37 @@ class WrapAndIndent extends Check {
         DetailAST child = ast.getFirstChild();
 
         // Determine the "indentation parent".
+        LocalTokenType wrappingContext;
         switch (LocalTokenType.localize(ast.getType())) {
 
         case ELIST:      // There's an ELIST between the METH_CALL ('(') and the argument EXPRs.
             ast = ast.getParent();
+            wrappingContext = LocalTokenType.ELIST;
             break;
 
         case SLIST:
-            if (ast.getParent().getType() == CASE_GROUP.delocalize()) {
+            if (AstUtil.parentTypeIs(ast, LocalTokenType.CASE_GROUP)) {
                 ast = ast.getParent().getParent();
+                wrappingContext = LocalTokenType.CASE_GROUP;
+            } else {
+                wrappingContext = LocalTokenType.localize(ast.getType());
             }
             break;
 
         case PARAMETERS:
             ast = ast.getPreviousSibling(); // Use the LPAREN, not the PARAMETERS.
+            wrappingContext = LocalTokenType.PARAMETERS;
             break;
 
         case DOT:
             ast = WrapAndIndent.getLeftmostDescendant(ast);
+            wrappingContext = LocalTokenType.DOT;
             break;
 
         default:
             ;
+            wrappingContext = LocalTokenType.localize(ast.getType());
+            break;
         }
 
         DetailAST previousAst = ast;
@@ -1992,7 +1790,7 @@ class WrapAndIndent extends Check {
                     while (WrapAndIndent.SKIPPABLES.contains(tokenType)) tokenType = args[idx++];
                     if (
                         child != null
-                        && (tokenType == ANY || tokenType == LocalTokenType.localize(child.getType()))
+                        && (tokenType == ANY_TOKEN || tokenType == LocalTokenType.localize(child.getType()))
                     ) {
                         previousAst = child;
                         child       = child.getNextSibling();
@@ -2046,12 +1844,12 @@ class WrapAndIndent extends Check {
                                         doBranch = child == null || ((LocalTokenType) na).delocalize() != child.getType(); // SUPPRESS CHECKSTYLE LineLength
                                         break DO_BRANCH;
                                     } else
-                                    if (na == ANY) {
-                                        assert da != ANY;
+                                    if (na == ANY_TOKEN) {
+                                        assert da != ANY_TOKEN;
                                         doBranch = child == null;
                                         break DO_BRANCH;
                                     } else
-                                    if (da == ANY) {
+                                    if (da == ANY_TOKEN) {
                                         doBranch = child != null;
                                         break DO_BRANCH;
                                     } else
@@ -2099,7 +1897,7 @@ class WrapAndIndent extends Check {
                     ;
                     break;
 
-                case ANY:
+                case ANY_TOKEN:
                     if (child == null) {
                         this.log(
                             previousAst,
@@ -2118,7 +1916,7 @@ class WrapAndIndent extends Check {
                     if (child.getFirstChild() == null) break;
                     /*FALLTHROUGH*/
 
-                case MAY_INDENT:
+                case INDENT:
                     assert child != null;
                     switch (mode) {
 
@@ -2126,13 +1924,14 @@ class WrapAndIndent extends Check {
                         {
                             DetailAST c = WrapAndIndent.getLeftmostDescendant(child);
                             if (c.getLineNo() == previousAst.getLineNo()) {
+                                this.checkOneLineAllowed(previousAst, c, wrappingContext);
                                 mode = 1;
                             } else {
                                 mode = 2;
                                 if (child.getType() == CASE_GROUP.delocalize()) {
-                                    this.checkWrapped(ast, c);
+                                    this.checkWrapped(ast, c, wrappingContext);
                                 } else {
-                                    this.checkIndented(ast, c);
+                                    this.checkIndented(ast, c, wrappingContext);
                                 }
                             }
                         }
@@ -2147,49 +1946,12 @@ class WrapAndIndent extends Check {
                             DetailAST l = WrapAndIndent.getLeftmostDescendant(child);
                             if (l.getLineNo() == previousAst.getLineNo()) {
 
-                                // We have multiple elements in one line; verify that this is allowed.
-                                if (
-                                    (
-                                        AstUtil.parentTypeIs(child, LocalTokenType.ANNOTATION)
-                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.ANNOTATION)
-                                    )
-                                    || (
-                                        AstUtil.parentTypeIs(child, LocalTokenType.ANNOTATION_ARRAY_INIT)
-                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.ANNOTATION_ARRAY_INIT) // SUPPRESS CHECKSTYLE LineLength
-                                    )
-                                    || (
-                                        AstUtil.parentTypeIs(child, LocalTokenType.ARRAY_INIT)
-                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.ARRAY_INIT)
-                                    )
-                                    || (
-                                        AstUtil.grandParentTypeIs(child, LocalTokenType.CTOR_CALL, LocalTokenType.SUPER_CTOR_CALL) // SUPPRESS CHECKSTYLE LineLength
-                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.CTOR_CALL)
-                                    )
-                                    || (
-                                        AstUtil.grandParentTypeIs(child, LocalTokenType.ENUM_DEF)
-                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.ENUM_DEF)
-                                    )
-                                    || (
-                                        AstUtil.grandParentTypeIs(child, LocalTokenType.METHOD_CALL)
-                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.METHOD_CALL)
-                                    )
-                                    || (
-                                        AstUtil.parentTypeIs(child, LocalTokenType.PARAMETERS)
-                                        && !this.allowMultipleElementsPerLine.contains(LocalTokenType.PARAMETERS)
-                                    )
-                                ) {
-                                    this.log(
-                                        l,
-                                        WrapAndIndent.MESSAGE_KEY_MUST_WRAP,
-                                        previousAst.getText(),
-                                        l.getText()
-                                    );
-                                }
+                                this.checkMultipleSubelementsPerLineAllowed(l, previousAst, wrappingContext);
                             } else {
                                 if (child.getType() == CASE_GROUP.delocalize()) {
-                                    this.checkWrapped(ast, l);
+                                    this.checkWrapped(ast, l, wrappingContext);
                                 } else {
-                                    this.checkIndented(ast, l);
+                                    this.checkIndented(ast, l, wrappingContext);
                                 }
                             }
                         }
@@ -2203,7 +1965,7 @@ class WrapAndIndent extends Check {
 
                     case 0:
                         if (previousAst.getLineNo() != child.getLineNo()) {
-                            this.checkWrapped(ast, child);
+                            this.checkSameLine(ast, child);
                         }
                         break;
 
@@ -2212,32 +1974,20 @@ class WrapAndIndent extends Check {
                         break;
 
                     case 2:
-                        this.checkWrapped(ast, child);
+                        this.checkWrapped(ast, child, wrappingContext);
                         break;
                     }
                     mode = 0;
                     break;
 
-                case MAY_WRAP:
+                case WRAP:
                     assert child != null;
                     assert mode == 0;
-                    if (child.getLineNo() != previousAst.getLineNo()) {
-                        this.checkWrapped(previousAst, child);
+                    if (child.getLineNo() == previousAst.getLineNo()) {
+                        this.checkSameLine(previousAst, child, wrappingContext);
+                    } else {
+                        this.checkWrapped(previousAst, child, wrappingContext);
                     }
-                    break;
-
-                case MUST_WRAP:
-                    assert mode == 0;
-                    if (previousAst.getType() == MODIFIERS.delocalize()) {
-                        ;
-                    } else
-                    {
-                        this.checkWrapped(previousAst, child);
-                    }
-                    break;
-
-                case NO_WRAP:
-                    this.checkSameLine(previousAst, WrapAndIndent.getLeftmostDescendant(child));
                     break;
                 }
             } else
@@ -2276,48 +2026,79 @@ class WrapAndIndent extends Check {
     static {
         Set<Object> ss = new HashSet<Object>();
         ss.addAll(Arrays.asList(
-            MAY_INDENT, UNINDENT, INDENT_IF_CHILDREN,
-            MAY_WRAP,  MUST_WRAP, NO_WRAP,
+            INDENT, UNINDENT, INDENT_IF_CHILDREN,
+            WRAP,
             LABEL1, LABEL2, LABEL3, LABEL4, LABEL5, LABEL6, LABEL7, LABEL8, LABEL9
         ));
         SKIPPABLES = Collections.unmodifiableSet(ss);
     }
 
     /**
-     * Checks that the line where {@code next} occurs is indented by {@link #DEFAULT_INDENTATION}, compared to the line
-     * where {@code previous} occurs.
+     * Checks whether it is OK that the two tokens appear in different lines, and, if so, check whether {@code next}
+     * is indented by {@link #DEFAULT_INDENTATION}, compared to the line where {@code previous} occurs.
      */
     private void
-    checkIndented(DetailAST previous, DetailAST next) {
-        if (next.getLineNo() == previous.getLineNo()) {
-            this.log(next, WrapAndIndent.MESSAGE_KEY_MUST_WRAP, previous.getText(), next.getText());
+    checkIndented(DetailAST previous, DetailAST next, LocalTokenType context) {
+        if (!this.allowElementWrapping.contains(context) && !this.allowStrictElementWrapping.contains(context)) {
+            this.log(next, WrapAndIndent.MESSAGE_KEY_MUST_JOIN, next.getText(), previous.getText());
         } else {
-            this.checkAlignment(next, this.calculateIndentation(previous) + this.basicOffset);
+            this.checkAlignment(next, previous, this.basicOffset);
         }
     }
 
     /**
-     * Checks that the line where {@code next} occurs is unindented by {@link #DEFAULT_INDENTATION}, compared to the
-     * line where {@code previous} occurs.
+     * Checks whether it is OK that the two tokens appear in different lines, and, if so, check whether {@code next}
+     * is unindented by {@link #DEFAULT_INDENTATION}, compared to the line where {@code previous} occurs.
      */
     private void
-    checkUnindented(DetailAST previous, DetailAST next) {
-        if (next.getLineNo() == previous.getLineNo()) {
-            this.log(next, WrapAndIndent.MESSAGE_KEY_MUST_WRAP, previous.getText(), next.getText());
+    checkUnindented(DetailAST previous, DetailAST next, LocalTokenType context) {
+        if (!this.allowElementWrapping.contains(context) && !this.allowStrictElementWrapping.contains(context)) {
+            this.log(next, WrapAndIndent.MESSAGE_KEY_MUST_JOIN, next.getText(), previous.getText());
         } else {
-            this.checkAlignment(next, this.calculateIndentation(previous) - this.basicOffset);
+            this.checkAlignment(next, previous, -this.basicOffset);
         }
     }
 
     /**
-     * Checks that the line where {@code next} occurs is indented exactly as the line where {@code previous} occurs.
+     * Checks whether it is OK that the {@code element} and the {@code subelement} are on the same line.
      */
     private void
-    checkWrapped(DetailAST previous, DetailAST next) {
-        if (next.getLineNo() == previous.getLineNo()) {
+    checkOneLineAllowed(DetailAST element, DetailAST subelement, LocalTokenType context) {
+        if (!this.allowOneLineElement.contains(context)) {
+            this.log(subelement, WrapAndIndent.MESSAGE_KEY_MUST_WRAP, element.getText(), subelement.getText());
+        }
+    }
+
+    /**
+     * Checks whether it is OK that the two subelements are on the same line.
+     */
+    private void
+    checkMultipleSubelementsPerLineAllowed(DetailAST previous, DetailAST next, LocalTokenType context) {
+        if (!this.allowElementWrapping.contains(context)) {
             this.log(next, WrapAndIndent.MESSAGE_KEY_MUST_WRAP, previous.getText(), next.getText());
+        }
+    }
+
+    /**
+     * Checks whether it is OK that the two tokens appear in different lines, and if so, verifies that {@code next}
+     * appears vertically aligned with the first token in the line of {@code prev}.
+     */
+    private void
+    checkWrapped(DetailAST previous, DetailAST next, LocalTokenType context) {
+        if (!this.allowElementWrapping.contains(context) && !this.allowStrictElementWrapping.contains(context)) {
+            this.log(next, WrapAndIndent.MESSAGE_KEY_MUST_JOIN, next.getText(), previous.getText());
         } else {
-            this.checkAlignment(next, this.calculateIndentation(previous));
+            this.checkAlignment(next, previous, 0);
+        }
+    }
+
+    /**
+     * Checks whether it is OK that the two tokens appear on the same line.
+     */
+    private void
+    checkSameLine(DetailAST previous, DetailAST next, LocalTokenType context) {
+        if (!this.allowOneLineElement.contains(context)) {
+            this.checkSameLine(previous, next);
         }
     }
 
@@ -2337,55 +2118,31 @@ class WrapAndIndent extends Check {
     }
 
     /**
-     * Logs a problem iff the given {@code ast} is not vertically positioned at the given {@code targetColumnNo}.
-     *
-     * @param targetColumnNo Counting from zero
+     * Logs a problem iff the given {@code ast} is not vertically aligned with the given {@code reference}, plus
+     * the {@code offset}.
      */
     private void
-    checkAlignment(DetailAST ast, int targetColumnNo) {
-        int actualColumnNo = Utils.lengthExpandedTabs(
+    checkAlignment(DetailAST ast, DetailAST reference, int offset) {
+
+        int astColumn = Utils.lengthExpandedTabs(
             this.getLines()[ast.getLineNo() - 1],
             ast.getColumnNo(),
             this.getTabWidth()
         );
-        if (actualColumnNo != targetColumnNo) {
+        int referenceColumn = Utils.lengthExpandedTabs(
+            this.getLines()[reference.getLineNo() - 1],
+            reference.getColumnNo(),
+            this.getTabWidth()
+        );
+
+        if (astColumn != referenceColumn + offset) {
             this.log(
                 ast,
                 WrapAndIndent.MESSAGE_KEY_WRONG_COLUMN,
                 ast.getText(),
-                targetColumnNo + 1,
-                actualColumnNo + 1
+                referenceColumn + 1,
+                astColumn + 1
             );
         }
-    }
-
-    /**
-     * Calculate the indentation of the line of the given {@code ast}, honoring TAB characters. Notice that the
-     * {@code ast} need not be the FIRST element in that line.
-     */
-    private int
-    calculateIndentation(DetailAST ast) {
-        String line = this.getLines()[ast.getLineNo() - 1];
-
-        int result = 0;
-        for (int i = 0; i < line.length(); ++i) {
-            switch (line.charAt(i)) {
-
-            case ' ':
-                ++result;
-                break;
-
-            case '\t':
-                {
-                    int tabWidth = this.getTabWidth();
-                    result += tabWidth - (result % tabWidth);
-                }
-                break;
-
-            default:
-                return result;
-            }
-        }
-        return 0;
     }
 }

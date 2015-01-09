@@ -368,221 +368,77 @@
                 <description>%WrapAndIndent.basicOffset</description>
             </property-metadata>
             <property-metadata
-                name="allowOneLineClassDecl"
-                datatype="Boolean"
-                default-value="true"
-            >
-                <description>%WrapAndIndent.allowOneLineClassDecl</description>
-            </property-metadata>
-            <property-metadata
-                name="allowOneLineInterfaceDecl"
-                datatype="Boolean"
-                default-value="true"
-            >
-                <description>%WrapAndIndent.allowOneLineInterfaceDecl</description>
-            </property-metadata>
-            <property-metadata
-                name="allowOneLineEnumDecl"
-                datatype="Boolean"
-                default-value="true"
-            >
-                <description>%WrapAndIndent.allowOneLineEnumDecl</description>
-            </property-metadata>
-            <property-metadata
-                name="allowOneLineAnnoDecl"
-                datatype="Boolean"
-                default-value="true"
-            >
-                <description>%WrapAndIndent.allowOneLineAnnoDecl</description>
-            </property-metadata>
-            <property-metadata
-                name="allowOneLineCtorDecl"
-                datatype="Boolean"
-                default-value="true"
-            >
-                <description>%WrapAndIndent.allowOneLineCtorDecl</description>
-            </property-metadata>
-            <property-metadata
-                name="allowOneLineMethDecl"
-                datatype="Boolean"
-                default-value="true"
-            >
-                <description>%WrapAndIndent.allowOneLineMethDecl</description>
-            </property-metadata>
-            <property-metadata
-                name="allowOneLineSwitchBlockStmtGroup"
-                datatype="Boolean"
-                default-value="true"
-            >
-                <description>%WrapAndIndent.allowOneLineSwitchBlockStmtGroup</description>
-            </property-metadata>
-            <property-metadata
-                name="wrapPackageDeclBeforePackage"
-                datatype="SingleSelect"
-                default-value="always"
-            >
-                <description>%WrapAndIndent.wrapPackageDeclBeforePackage</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapClassDeclBeforeClass"
-                datatype="SingleSelect"
-                default-value="always"
-            >
-                <description>%WrapAndIndent.wrapClassDeclBeforeClass</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapInterfaceDeclBeforeInterface"
-                datatype="SingleSelect"
-                default-value="always"
-            >
-                <description>%WrapAndIndent.wrapInterfaceDeclBeforeInterface</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapEnumDeclBeforeEnum"
-                datatype="SingleSelect"
-                default-value="always"
-            >
-                <description>%WrapAndIndent.wrapEnumDeclBeforeEnum</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapAnnoDeclBeforeAt"
-                datatype="SingleSelect"
-                default-value="always"
-            >
-                <description>%WrapAndIndent.wrapAnnoDeclBeforeAt</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapFieldDeclBeforeName"
-                datatype="SingleSelect"
-                default-value="optional"
-            >
-                <description>%WrapAndIndent.wrapFieldDeclBeforeName</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapCtorDeclBeforeName"
-                datatype="SingleSelect"
-                default-value="always"
-            >
-                <description>%WrapAndIndent.wrapCtorDeclBeforeName</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapMethDeclBeforeName"
-                datatype="SingleSelect"
-                default-value="always"
-            >
-                <description>%WrapAndIndent.wrapMethDeclBeforeName</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapLocVarDeclBeforeName"
-                datatype="SingleSelect"
-                default-value="optional"
-            >
-                <description>%WrapAndIndent.wrapLocVarDeclBeforeName</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapTypeDeclBeforeLCurly"
-                datatype="SingleSelect"
-                default-value="never"
-            >
-                <description>%WrapAndIndent.wrapTypeDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapCtorDeclBeforeLCurly"
-                datatype="SingleSelect"
-                default-value="never"
-            >
-                <description>%WrapAndIndent.wrapCtorDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapMethodDeclBeforeLCurly"
-                datatype="SingleSelect"
-                default-value="never"
-            >
-                <description>%WrapAndIndent.wrapMethodDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapAnonClassDeclBeforeLCurly"
-                datatype="SingleSelect"
-                default-value="never"
-            >
-                <description>%WrapAndIndent.wrapAnonClassDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapDoBeforeLCurly"
-                datatype="SingleSelect"
-                default-value="never"
-            >
-                <description>%WrapAndIndent.wrapDoBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapTryBeforeCatch"
-                datatype="SingleSelect"
-                default-value="optional"
-            >
-                <description>%WrapAndIndent.wrapTryBeforeCatch</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapTryBeforeFinally"
-                datatype="SingleSelect"
-                default-value="optional"
-            >
-                <description>%WrapAndIndent.wrapTryBeforeFinally</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapArrayInitBeforeLCurly"
-                datatype="SingleSelect"
-                default-value="never"
-            >
-                <description>%WrapAndIndent.wrapArrayInitBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapBeforeBinaryOperator"
-                datatype="SingleSelect"
-                default-value="optional"
-            >
-                <description>%WrapAndIndent.wrapBeforeBinaryOperator</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="wrapAfterBinaryOperator"
-                datatype="SingleSelect"
-                default-value="never"
-            >
-                <description>%WrapAndIndent.wrapAfterBinaryOperator</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrapOptionProvider" />
-            </property-metadata>
-            <property-metadata
-                name="allowMultipleElementsPerLine"
+                name="allowOneLineElement"
                 datatype="MultiCheck"
-                default-value="annotation_array_init,array_init,enum_def"
+                default-value="class_def,interface_def,enum_def,annotation_def,ctor_def,method_def,case_group,annotation,annotation_array_init,array_init"
             >
-                <description>%WrapAndIndent.allowMultipleElementsPerLine</description>
+                <description>%WrapAndIndent.allowOneLineElement</description>
                 <enumeration>
+                    <property-value-option value="class_def" />
+                    <property-value-option value="interface_def" />
+                    <property-value-option value="enum_def" />
+                    <property-value-option value="annotation_def" />
+                    <property-value-option value="ctor_def" />
+                    <property-value-option value="method_def" />
+                    <property-value-option value="case_group" />
                     <property-value-option value="annotation" />
                     <property-value-option value="annotation_array_init" />
                     <property-value-option value="array_init" />
-                    <property-value-option value="ctor_call" />
-                    <property-value-option value="enum_def" />
-                    <property-value-option value="method_call" />
-                    <property-value-option value="parameters" />
                 </enumeration>
+            </property-metadata>
+            <property-metadata
+                name="allowElementWrapping"
+                datatype="MultiCheck"
+                default-value="class_def,interface_def,enum_def,annotation_def,ctor_def,method_def,case_group,annotation,annotation_array_init,array_init"
+            >
+                <description>%WrapAndIndent.allowElementWrapping</description>
+                <enumeration>
+                    <property-value-option value="class_def" />
+                    <property-value-option value="interface_def" />
+                    <property-value-option value="enum_def" />
+                    <property-value-option value="annotation_def" />
+                    <property-value-option value="ctor_def" />
+                    <property-value-option value="method_def" />
+                    <property-value-option value="case_group" />
+                    <property-value-option value="annotation" />
+                    <property-value-option value="annotation_array_init" />
+                    <property-value-option value="array_init" />
+                </enumeration>
+            </property-metadata>
+            <property-metadata
+                name="allowStrictElementWrapping"
+                datatype="MultiCheck"
+                default-value="class_def,interface_def,enum_def,annotation_def,ctor_def,method_def,case_group,annotation,annotation_array_init,array_init"
+            >
+                <description>%WrapAndIndent.allowStrictElementWrapping</description>
+                <enumeration>
+                    <property-value-option value="class_def" />
+                    <property-value-option value="interface_def" />
+                    <property-value-option value="enum_def" />
+                    <property-value-option value="annotation_def" />
+                    <property-value-option value="ctor_def" />
+                    <property-value-option value="method_def" />
+                    <property-value-option value="case_group" />
+                    <property-value-option value="annotation" />
+                    <property-value-option value="annotation_array_init" />
+                    <property-value-option value="array_init" />
+                </enumeration>
+            </property-metadata>
+            <property-metadata
+                name="allowWrapping"
+                datatype="MultiCheck"
+                default-value="package_decl_before_package,class_decl_before_class,interface_decl_before_interface,enum_decl_before_enum,anno_decl_before_at,field_decl_before_name,ctor_decl_before_name,meth_decl_before_name,local_var_decl_before_name,binary_operator"
+            >
+                <description>%WrapAndIndent.allowWrapping</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrappingContext" />
+            </property-metadata>
+            <property-metadata
+                name="requireWrapping"
+                datatype="MultiCheck"
+                default-value="package_decl_before_package,class_decl_before_class,interface_decl_before_interface,enum_decl_before_enum,anno_decl_before_at,field_decl_before_name,ctor_decl_before_name,meth_decl_before_name,local_var_decl_before_name,binary_operator"
+            >
+                <description>%WrapAndIndent.requireWrapping</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrappingContext" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
