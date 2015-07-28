@@ -151,6 +151,4 @@ class WrapEnumCheck extends AbstractWrapCheck {
 
         return this.allowMultipleConstantsPerLine || !AstUtil.grandParentTypeIs(child, LocalTokenType.ENUM_DEF);
     }
-
-
 }

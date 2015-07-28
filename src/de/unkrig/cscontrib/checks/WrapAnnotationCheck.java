@@ -56,7 +56,7 @@ import de.unkrig.csdoclet.SingleSelectRuleProperty;
     quickfixes = { WrapAndIndent1.class, WrapAndIndent2.class, WrapAndIndent3.class }
 )
 @NotNullByDefault(false) public
-class WrapAnnotationTypeCheck extends AbstractWrapCheck {
+class WrapAnnotationCheck extends AbstractWrapCheck {
 
     // ============================================= BEGIN CONFIGURATION =============================================
 
@@ -66,12 +66,12 @@ class WrapAnnotationTypeCheck extends AbstractWrapCheck {
      * public @interface MyAnno {}
      * </pre>
      */
-    @BooleanRuleProperty(defaultValue = WrapAnnotationTypeCheck.DEFAULT_ALLOW_ONE_LINE_DECL)
+    @BooleanRuleProperty(defaultValue = WrapAnnotationCheck.DEFAULT_ALLOW_ONE_LINE_DECL)
     public void
     setAllowOneLineDecl(boolean value) { this.allowOneLineDecl = value; }
 
     private boolean
-    allowOneLineDecl = WrapAnnotationTypeCheck.DEFAULT_ALLOW_ONE_LINE_DECL;
+    allowOneLineDecl = WrapAnnotationCheck.DEFAULT_ALLOW_ONE_LINE_DECL;
 
     private static final boolean
     DEFAULT_ALLOW_ONE_LINE_DECL = true;
@@ -85,12 +85,12 @@ class WrapAnnotationTypeCheck extends AbstractWrapCheck {
      */
     @SingleSelectRuleProperty(
         optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAnnotationTypeCheck.DEFAULT_WRAP_DECL_BEFORE_AT
+        defaultValue   = WrapAnnotationCheck.DEFAULT_WRAP_DECL_BEFORE_AT
     ) public void
     setWrapDeclBeforeAt(String value) { this.wrapDeclBeforeAt = AbstractWrapCheck.toWrap(value); }
 
     private Control
-    wrapDeclBeforeAt = AbstractWrapCheck.toWrap(WrapAnnotationTypeCheck.DEFAULT_WRAP_DECL_BEFORE_AT);
+    wrapDeclBeforeAt = AbstractWrapCheck.toWrap(WrapAnnotationCheck.DEFAULT_WRAP_DECL_BEFORE_AT);
 
     private static final String
     DEFAULT_WRAP_DECL_BEFORE_AT = "always";
@@ -104,12 +104,12 @@ class WrapAnnotationTypeCheck extends AbstractWrapCheck {
      */
     @SingleSelectRuleProperty(
         optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapAnnotationTypeCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY
+        defaultValue   = WrapAnnotationCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY
     ) public void
     setWrapDeclBeforeLCurly(String value) { this.wrapDeclBeforeLCurly = AbstractWrapCheck.toWrap(value); }
 
     private Control
-    wrapDeclBeforeLCurly = AbstractWrapCheck.toWrap(WrapAnnotationTypeCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY);
+    wrapDeclBeforeLCurly = AbstractWrapCheck.toWrap(WrapAnnotationCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY);
 
     private static final String
     DEFAULT_WRAP_DECL_BEFORE_LCURLY = "never";
@@ -117,12 +117,12 @@ class WrapAnnotationTypeCheck extends AbstractWrapCheck {
     /**
      * Whether multiple annotations in one line are allowed.
      */
-    @BooleanRuleProperty(defaultValue = WrapAnnotationTypeCheck.DEFAULT_ALLOW_MULTIPLE_PER_LINE)
+    @BooleanRuleProperty(defaultValue = WrapAnnotationCheck.DEFAULT_ALLOW_MULTIPLE_PER_LINE)
     public void
     setAllowMultiplePerLine(boolean value) { this.allowMultiplePerLine = value; }
 
     private boolean
-    allowMultiplePerLine = WrapAnnotationTypeCheck.DEFAULT_ALLOW_MULTIPLE_PER_LINE;
+    allowMultiplePerLine = WrapAnnotationCheck.DEFAULT_ALLOW_MULTIPLE_PER_LINE;
 
     private static final boolean
     DEFAULT_ALLOW_MULTIPLE_PER_LINE = false;
@@ -130,12 +130,12 @@ class WrapAnnotationTypeCheck extends AbstractWrapCheck {
     /**
      * Whether multiple annotation initializers in one line are allowed.
      */
-    @BooleanRuleProperty(defaultValue = WrapAnnotationTypeCheck.DEFAULT_ALLOW_MULTIPLE_INITIALIZERS_PER_LINE)
+    @BooleanRuleProperty(defaultValue = WrapAnnotationCheck.DEFAULT_ALLOW_MULTIPLE_INITIALIZERS_PER_LINE)
     public void
     setAllowMultipleInitializersPerLine(boolean value) { this.allowMultipleInitializersPerLine = value; }
 
     private boolean
-    allowMultipleInitializersPerLine = WrapAnnotationTypeCheck.DEFAULT_ALLOW_MULTIPLE_INITIALIZERS_PER_LINE;
+    allowMultipleInitializersPerLine = WrapAnnotationCheck.DEFAULT_ALLOW_MULTIPLE_INITIALIZERS_PER_LINE;
 
     private static final boolean
     DEFAULT_ALLOW_MULTIPLE_INITIALIZERS_PER_LINE = false;

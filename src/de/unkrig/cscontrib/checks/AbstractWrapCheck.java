@@ -36,16 +36,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.eclipsecs.core.config.meta.IOptionProvider;
-
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
-import com.puppycrawl.tools.checkstyle.api.Utils;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.csdoclet.IntegerRuleProperty;
 import de.unkrig.csdoclet.Message;
+import net.sf.eclipsecs.core.config.meta.IOptionProvider;
 
 /**
  * Abstract base class for the "{@code Wrap...Check}" family of checks.
@@ -64,7 +62,7 @@ class AbstractWrapCheck extends Check {
      */
     @Message("Must wrap line before ''{1}''")
     public static final String
-    MESSAGE_KEY_MUST_WRAP = "WrapAndIndent.mustWrap";
+    MESSAGE_KEY_MUST_WRAP = "AbstractWrapCheck.mustWrap";
 
     /**
      * Message key as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
@@ -77,7 +75,7 @@ class AbstractWrapCheck extends Check {
      */
     @Message("''{0}'' must appear on same line as ''{1}''")
     public static final String
-    MESSAGE_KEY_MUST_JOIN = "WrapAndIndent.mustJoin";
+    MESSAGE_KEY_MUST_JOIN = "AbstractWrapCheck.mustJoin";
 
     /**
      * Message key as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
@@ -92,7 +90,7 @@ class AbstractWrapCheck extends Check {
      */
     @Message("''{0}'' must appear in column {1}, not {2}")
     public static final String
-    MESSAGE_KEY_WRONG_COLUMN = "WrapAndIndent.wrongColumn";
+    MESSAGE_KEY_WRONG_COLUMN = "AbstractWrapCheck.wrongColumn";
 
     /**
      * The constants of this enum may appear in the '{@code args}' of {@link
@@ -731,7 +729,7 @@ class AbstractWrapCheck extends Check {
      */
     private void
     checkAlignment(DetailAST ast, int targetColumnNo) {
-        int actualColumnNo = Utils.lengthExpandedTabs(
+        int actualColumnNo = AbstractWrapCheck.lengthExpandedTabs(
             this.getLines()[ast.getLineNo() - 1],
             ast.getColumnNo(),
             this.getTabWidth()
@@ -745,6 +743,28 @@ class AbstractWrapCheck extends Check {
                 actualColumnNo + 1
             );
         }
+    }
+
+    /**
+     *  The "Utils" class moved some time between CS 6.2 and 6.5 from package
+     *    com.puppycrawl.tools.checkstyle
+     * to package
+     *    com.puppycrawl.tools.checkstyle.api
+     * , so we have our own copy here.
+     */
+    public static int
+    lengthExpandedTabs(String string, int toIdx, int tabWidth) {
+
+      int len = 0;
+      for (int idx = 0; idx < toIdx; idx++) {
+    	  if (string.charAt(idx) == '\t') {
+    		  len = (len / tabWidth + 1) * tabWidth;
+    	  } else {
+    		  len++;
+    	  }
+      }
+
+      return len;
     }
 
     /**

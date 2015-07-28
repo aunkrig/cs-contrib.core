@@ -121,8 +121,10 @@ class WrapPackageCheck extends AbstractWrapCheck {
 
         if (this.wrapDeclBeforePackage == MAY_WRAP && AbstractWrapCheck.isSingleLine(ast)) return;
 
+        // Check that "@" is vertically aligned with the "package" keyword.
         this.checkWrapped(ast.getFirstChild().getFirstChild().getFirstChild(), ast);
 
+        // Check that the "package" keyword appears in the same line as the terminal ";".
         this.checkSameLine(ast, ast.getFirstChild().getNextSibling().getNextSibling());
     }
 }

@@ -40,7 +40,6 @@ import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
 import com.puppycrawl.tools.checkstyle.api.Filter;
-import com.puppycrawl.tools.checkstyle.api.Utils;
 import com.puppycrawl.tools.checkstyle.checks.FileContentsHolder;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
@@ -280,7 +279,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
     public void
     setOffFormat(String offFormat) throws ConversionException {
         try {
-            this.offRegex = Utils.getPattern(offFormat);
+            this.offRegex = Pattern.compile(offFormat);
         } catch (final PatternSyntaxException e) {
             throw new ConversionException("unable to parse " + offFormat, e);
         }
@@ -293,7 +292,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
     public void
     setOnFormat(String onFormat) throws ConversionException {
         try {
-            this.onRegex = Utils.getPattern(onFormat);
+            this.onRegex = Pattern.compile(onFormat);
         } catch (final PatternSyntaxException e) {
             throw new ConversionException("unable to parse " + onFormat, e);
         }
@@ -307,7 +306,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
     setCheckNameFormat(String checkNameFormat) throws ConversionException {
 
         try {
-            Utils.getPattern(checkNameFormat);
+            Pattern.compile(checkNameFormat);
         } catch (final PatternSyntaxException e) {
             throw new ConversionException("unable to parse " + checkNameFormat, e);
         }
@@ -323,7 +322,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
     setMessageFormat(String messageFormat) throws ConversionException {
 
         try {
-            Utils.getPattern(messageFormat);
+            Pattern.compile(messageFormat);
         } catch (final PatternSyntaxException e) {
             throw new ConversionException("unable to parse " + messageFormat, e);
         }
@@ -338,7 +337,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
     public void
     setModuleIdFormat(String moduleIdFormat) throws ConversionException {
         try {
-            Utils.getPattern(moduleIdFormat);
+            Pattern.compile(moduleIdFormat);
         } catch (final PatternSyntaxException e) {
             throw new ConversionException("unable to parse " + moduleIdFormat, e);
         }

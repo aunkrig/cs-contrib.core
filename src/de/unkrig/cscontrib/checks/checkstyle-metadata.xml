@@ -80,7 +80,6 @@
             >
                 <description>%Alignment.applyToMethodBody</description>
             </property-metadata>
-            <message-key key="Alignment.misaligned" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -94,7 +93,6 @@
         >
             <alternative-name internal-name="de.unkrig.cscontrib.checks.CppCommentAlignment" />
             <description>%CppCommentAlignment.desc</description>
-            <message-key key="CppCommentAlignment.misaligned" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -110,7 +108,6 @@
             <description>%InnerAssignment.desc</description>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.InnerAssignment" />
-            <message-key key="InnerAssignment.mustParenthesize" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -162,8 +159,6 @@
             >
                 <description>%NameSpelling.format</description>
             </property-metadata>
-            <message-key key="NameSpelling.doesNotComply" />
-            <message-key key="NameSpelling.mustNotMatch" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -186,8 +181,6 @@
                 <description>%ParenPad.option</description>
                 <enumeration option-provider="com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption" />
             </property-metadata>
-            <message-key key="ParenPad.followedByWhitespace" />
-            <message-key key="ParenPad.notFollowedByWhitespace" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -234,10 +227,6 @@
                 <description>%Whitespace.noWhitespaceAfter</description>
                 <enumeration option-provider="de.unkrig.cscontrib.util.JavaElement" />
             </property-metadata>
-            <message-key key="Whitespace.followed" />
-            <message-key key="Whitespace.notFollowed" />
-            <message-key key="Whitespace.notPreceded" />
-            <message-key key="Whitespace.preceded" />
         </rule-metadata>
     </rule-group-metadata>
 
@@ -349,30 +338,30 @@
         </rule-metadata>
     </rule-group-metadata>
 
-    <!-- WrapAnnotationTypeCheck -->
+    <!-- WrapAnnotationCheck -->
 
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
-            internal-name="de.unkrig.cscontrib.checks.WrapAnnotationTypeCheck"
+            internal-name="de.unkrig.cscontrib.checks.WrapAnnotationCheck"
             parent="TreeWalker"
-            name="%WrapAnnotationTypeCheck.name"
+            name="%WrapAnnotationCheck.name"
         >
-            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapAnnotationTypeCheck" />
-            <description>%WrapAnnotationTypeCheck.desc</description>
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapAnnotationCheck" />
+            <description>%WrapAnnotationCheck.desc</description>
 
             <property-metadata
                 name="allowOneLineDecl"
                 datatype="Boolean"
                 default-value="true"
             >
-                <description>%WrapAnnotationTypeCheck.allowOneLineDecl</description>
+                <description>%WrapAnnotationCheck.allowOneLineDecl</description>
             </property-metadata>
             <property-metadata
                 name="wrapDeclBeforeAt"
                 datatype="SingleSelect"
                 default-value="always"
             >
-                <description>%WrapAnnotationTypeCheck.wrapDeclBeforeAt</description>
+                <description>%WrapAnnotationCheck.wrapDeclBeforeAt</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -380,7 +369,7 @@
                 datatype="SingleSelect"
                 default-value="never"
             >
-                <description>%WrapAnnotationTypeCheck.wrapDeclBeforeLCurly</description>
+                <description>%WrapAnnotationCheck.wrapDeclBeforeLCurly</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
@@ -388,14 +377,14 @@
                 datatype="Boolean"
                 default-value="false"
             >
-                <description>%WrapAnnotationTypeCheck.allowMultiplePerLine</description>
+                <description>%WrapAnnotationCheck.allowMultiplePerLine</description>
             </property-metadata>
             <property-metadata
                 name="allowMultipleInitializersPerLine"
                 datatype="Boolean"
                 default-value="false"
             >
-                <description>%WrapAnnotationTypeCheck.allowMultipleInitializersPerLine</description>
+                <description>%WrapAnnotationCheck.allowMultipleInitializersPerLine</description>
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
@@ -912,7 +901,6 @@
             <description>%ZeroParameterSuperconstructorInvocation.desc</description>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.ZeroParameterSuperconstructorInvocation" />
-            <message-key key="ZeroParameterSuperconstructorInvocation.invocation" />
         </rule-metadata>
     </rule-group-metadata>
 </checkstyle-metadata>
