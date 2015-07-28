@@ -35,7 +35,7 @@ import org.eclipse.swt.graphics.Image;
 
 import de.unkrig.commons.nullanalysis.NotNull;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
-import de.unkrig.cscontrib.checks.WrapAndIndent;
+import de.unkrig.cscontrib.checks.AbstractWrapCheck;
 
 /**
  * Quickfix for {@link WrapAndIndent#MESSAGE_KEY__0_MUST_APPEAR_ON_SAME_LINE_AS_1}.
@@ -45,7 +45,7 @@ class WrapAndIndent2 extends AbstractDocumentResolution {
 
     @Override protected boolean
     canFixMessageKey(String messageKey) {
-        return WrapAndIndent.MESSAGE_KEY_MUST_JOIN.equals(messageKey);
+        return AbstractWrapCheck.MESSAGE_KEY_MUST_JOIN.equals(messageKey);
     }
 
     @Override protected void

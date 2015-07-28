@@ -38,7 +38,7 @@ import org.eclipse.swt.graphics.Image;
 import de.unkrig.commons.nullanalysis.NotNull;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.Activator;
-import de.unkrig.cscontrib.checks.WrapAndIndent;
+import de.unkrig.cscontrib.checks.AbstractWrapCheck;
 
 /**
  * Quickfix for {@link WrapAndIndent#MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2}.
@@ -48,14 +48,14 @@ class WrapAndIndent3 extends AbstractJavaResolution {
 
     @Override protected boolean
     canFixMessageKey(String messageKey) {
-        return WrapAndIndent.MESSAGE_KEY_WRONG_COLUMN.equals(messageKey);
+        return AbstractWrapCheck.MESSAGE_KEY_WRONG_COLUMN.equals(messageKey);
     }
 
     @Override protected void
     resolve(String messageKey, Object[] arguments, @NotNull IDocument document, int markerStart, IResource resource)
     throws CoreException {
 
-        assert WrapAndIndent.MESSAGE_KEY_WRONG_COLUMN.equals(messageKey);
+        assert AbstractWrapCheck.MESSAGE_KEY_WRONG_COLUMN.equals(messageKey);
 
         final String text                = (String) arguments[0];
         final int    correctColumnNumber = Integer.parseInt((String) arguments[1]) - 1;

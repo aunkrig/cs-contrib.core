@@ -249,7 +249,7 @@ enum LocalTokenType {
     public static LocalTokenType
     localize(int tt) {
         LocalTokenType ltt = LocalTokenType.TO_LOCAL.get(tt);
-        assert ltt != null;
+        assert ltt != null : "Unknown token type " + tt;
         return ltt;
     }
 

@@ -2,38 +2,38 @@
 Verifies that Java elements are vertically aligned in immediately consecutive lines (and only there!):
  public class Main {
  
-     int    <font color="red">x</font> = 7;
-     double <font color="red">xxx</font> = 7.0;              // Aligned field names
+      int    <font color="red">x</font> = 7;
+      double <font color="red">xxx</font> = 7.0;              // Aligned field names
  
-     int y      <font color="red">=</font> 7;
-     double yyy <font color="red">=</font> 7.0;              // Aligned field initializers
+      int y      <font color="red">=</font> 7;
+      double yyy <font color="red">=</font> 7.0;              // Aligned field initializers
  
-     public static void meth1(
-         String[] <font color="red">p1</font>,
-         int      <font color="red">p2</font>                // Aligned parameter names
-     ) {
+      public static void meth1(
+          String[] <font color="red">p1</font>,
+          int      <font color="red">p2</font>                // Aligned parameter names
+      ) {
  
-         int    <font color="red">x</font> = 7;
-         double <font color="red">xxx</font> = 7.0;          // Aligned local variable names
+          int    <font color="red">x</font> = 7;
+          double <font color="red">xxx</font> = 7.0;          // Aligned local variable names
  
-         int y      <font color="red">=</font> 7;
-         double yyy <font color="red">=</font> 7.0;          // Aligned local variable initializers
+          int y      <font color="red">=</font> 7;
+          double yyy <font color="red">=</font> 7.0;          // Aligned local variable initializers
  
-         y   <font color="red">=</font> 8;
-         yyy <font color="red">=</font> 8.0;                 // Aligned assignments
+          y   <font color="red">=</font> 8;
+          yyy <font color="red">=</font> 8.0;                 // Aligned assignments
  
-         switch (x) {
-         case 1:  <font color="red">break;</font>
-         default: <font color="red">x++;</font> return;      // Aligned case groups statements
-         }
-     }
+          switch (x) {
+          case 1:  <font color="red">break;</font>
+          default: <font color="red">x++;</font> return;      // Aligned case groups statements
+          }
+      }
  
-     public static void <font color="red">meth2</font>() {}
-     public void        <font color="red">meth33</font>() {} // Aligned method names
+      public static void <font color="red">meth2</font>() {}
+      public void        <font color="red">meth33</font>() {} // Aligned method names
  
-     public static void meth4()  <font color="red">{}</font>
-     public void meth5()         <font color="red">{}</font> // Aligned method bodies
- }
+      public static void meth4()  <font color="red">{}</font>
+      public void meth5()         <font color="red">{}</font> // Aligned method bodies
+  }
 
 
 == Properties ==
