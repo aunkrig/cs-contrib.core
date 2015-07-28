@@ -349,104 +349,554 @@
         </rule-metadata>
     </rule-group-metadata>
 
-    <!-- WrapAndIndent -->
+    <!-- WrapAnnotationTypeCheck -->
 
     <rule-group-metadata name="%Whitespace.group" priority="999">
         <rule-metadata
-            internal-name="de.unkrig.cscontrib.checks.WrapAndIndent"
+            internal-name="de.unkrig.cscontrib.checks.WrapAnnotationTypeCheck"
             parent="TreeWalker"
-            name="%WrapAndIndent.name"
+            name="%WrapAnnotationTypeCheck.name"
         >
-            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapAndIndent" />
-            <description>%WrapAndIndent.desc</description>
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapAnnotationTypeCheck" />
+            <description>%WrapAnnotationTypeCheck.desc</description>
 
             <property-metadata
-                name="basicOffset"
-                datatype="Integer"
-                default-value="4"
+                name="allowOneLineDecl"
+                datatype="Boolean"
+                default-value="true"
             >
-                <description>%WrapAndIndent.basicOffset</description>
+                <description>%WrapAnnotationTypeCheck.allowOneLineDecl</description>
             </property-metadata>
             <property-metadata
-                name="allowOneLineElement"
-                datatype="MultiCheck"
-                default-value="class_def,interface_def,enum_def,annotation_def,ctor_def,method_def,case_group,annotation,annotation_array_init,array_init"
+                name="wrapDeclBeforeAt"
+                datatype="SingleSelect"
+                default-value="always"
             >
-                <description>%WrapAndIndent.allowOneLineElement</description>
-                <enumeration>
-                    <property-value-option value="class_def" />
-                    <property-value-option value="interface_def" />
-                    <property-value-option value="enum_def" />
-                    <property-value-option value="annotation_def" />
-                    <property-value-option value="ctor_def" />
-                    <property-value-option value="method_def" />
-                    <property-value-option value="case_group" />
-                    <property-value-option value="annotation" />
-                    <property-value-option value="annotation_array_init" />
-                    <property-value-option value="array_init" />
-                </enumeration>
+                <description>%WrapAnnotationTypeCheck.wrapDeclBeforeAt</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
-                name="allowElementWrapping"
-                datatype="MultiCheck"
-                default-value="class_def,interface_def,enum_def,annotation_def,ctor_def,method_def,case_group,annotation,annotation_array_init,array_init"
+                name="wrapDeclBeforeLCurly"
+                datatype="SingleSelect"
+                default-value="never"
             >
-                <description>%WrapAndIndent.allowElementWrapping</description>
-                <enumeration>
-                    <property-value-option value="class_def" />
-                    <property-value-option value="interface_def" />
-                    <property-value-option value="enum_def" />
-                    <property-value-option value="annotation_def" />
-                    <property-value-option value="ctor_def" />
-                    <property-value-option value="method_def" />
-                    <property-value-option value="case_group" />
-                    <property-value-option value="annotation" />
-                    <property-value-option value="annotation_array_init" />
-                    <property-value-option value="array_init" />
-                </enumeration>
+                <description>%WrapAnnotationTypeCheck.wrapDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
             </property-metadata>
             <property-metadata
-                name="allowStrictElementWrapping"
-                datatype="MultiCheck"
-                default-value="class_def,interface_def,enum_def,annotation_def,ctor_def,method_def,case_group,annotation,annotation_array_init,array_init"
+                name="allowMultiplePerLine"
+                datatype="Boolean"
+                default-value="false"
             >
-                <description>%WrapAndIndent.allowStrictElementWrapping</description>
-                <enumeration>
-                    <property-value-option value="class_def" />
-                    <property-value-option value="interface_def" />
-                    <property-value-option value="enum_def" />
-                    <property-value-option value="annotation_def" />
-                    <property-value-option value="ctor_def" />
-                    <property-value-option value="method_def" />
-                    <property-value-option value="case_group" />
-                    <property-value-option value="annotation" />
-                    <property-value-option value="annotation_array_init" />
-                    <property-value-option value="array_init" />
-                </enumeration>
+                <description>%WrapAnnotationTypeCheck.allowMultiplePerLine</description>
             </property-metadata>
             <property-metadata
-                name="allowWrapping"
-                datatype="MultiCheck"
-                default-value="package_decl_before_package,class_decl_before_class,interface_decl_before_interface,enum_decl_before_enum,anno_decl_before_at,field_decl_before_name,ctor_decl_before_name,meth_decl_before_name,local_var_decl_before_name,binary_operator"
+                name="allowMultipleInitializersPerLine"
+                datatype="Boolean"
+                default-value="false"
             >
-                <description>%WrapAndIndent.allowWrapping</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrappingContext" />
-            </property-metadata>
-            <property-metadata
-                name="requireWrapping"
-                datatype="MultiCheck"
-                default-value="package_decl_before_package,class_decl_before_class,interface_decl_before_interface,enum_decl_before_enum,anno_decl_before_at,field_decl_before_name,ctor_decl_before_name,meth_decl_before_name,local_var_decl_before_name,binary_operator"
-            >
-                <description>%WrapAndIndent.requireWrapping</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.WrapAndIndent$WrappingContext" />
+                <description>%WrapAnnotationTypeCheck.allowMultipleInitializersPerLine</description>
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
-            <message-key key="WrapAndIndent.mustJoin" />
-            <message-key key="WrapAndIndent.mustWrap" />
-            <message-key key="WrapAndIndent.wrongColumn" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapArrayInitCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapArrayInitCheck"
+            parent="TreeWalker"
+            name="%WrapArrayInitCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapArrayInitCheck" />
+            <description>%WrapArrayInitCheck.desc</description>
+
+            <property-metadata
+                name="wrapBeforeLCurly"
+                datatype="SingleSelect"
+                default-value="never"
+            >
+                <description>%WrapArrayInitCheck.wrapBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="allowMultipleValuesPerLine"
+                datatype="Boolean"
+                default-value="true"
+            >
+                <description>%WrapArrayInitCheck.allowMultipleValuesPerLine</description>
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapBinaryOperatorCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapBinaryOperatorCheck"
+            parent="TreeWalker"
+            name="%WrapBinaryOperatorCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapBinaryOperatorCheck" />
+            <description>%WrapBinaryOperatorCheck.desc</description>
+
+            <property-metadata
+                name="wrapBeforeOperator"
+                datatype="SingleSelect"
+                default-value="optional"
+            >
+                <description>%WrapBinaryOperatorCheck.wrapBeforeOperator</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="wrapAfterOperator"
+                datatype="SingleSelect"
+                default-value="never"
+            >
+                <description>%WrapBinaryOperatorCheck.wrapAfterOperator</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapClassCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapClassCheck"
+            parent="TreeWalker"
+            name="%WrapClassCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapClassCheck" />
+            <description>%WrapClassCheck.desc</description>
+
+            <property-metadata
+                name="allowOneLineDecl"
+                datatype="Boolean"
+                default-value="true"
+            >
+                <description>%WrapClassCheck.allowOneLineDecl</description>
+            </property-metadata>
+            <property-metadata
+                name="wrapDeclBeforeClass"
+                datatype="SingleSelect"
+                default-value="always"
+            >
+                <description>%WrapClassCheck.wrapDeclBeforeClass</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="wrapDeclBeforeLCurly"
+                datatype="SingleSelect"
+                default-value="never"
+            >
+                <description>%WrapClassCheck.wrapDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapCtorCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapCtorCheck"
+            parent="TreeWalker"
+            name="%WrapCtorCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapCtorCheck" />
+            <description>%WrapCtorCheck.desc</description>
+
+            <property-metadata
+                name="allowOneLineDecl"
+                datatype="Boolean"
+                default-value="true"
+            >
+                <description>%WrapCtorCheck.allowOneLineDecl</description>
+            </property-metadata>
+            <property-metadata
+                name="wrapDeclBeforeName"
+                datatype="SingleSelect"
+                default-value="always"
+            >
+                <description>%WrapCtorCheck.wrapDeclBeforeName</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="wrapDeclBeforeLCurly"
+                datatype="SingleSelect"
+                default-value="never"
+            >
+                <description>%WrapCtorCheck.wrapDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="allowMultipleArgsPerLine"
+                datatype="Boolean"
+                default-value="false"
+            >
+                <description>%WrapCtorCheck.allowMultipleArgsPerLine</description>
+            </property-metadata>
+            <property-metadata
+                name="allowMultipleParametersPerLine"
+                datatype="Boolean"
+                default-value="false"
+            >
+                <description>%WrapCtorCheck.allowMultipleParametersPerLine</description>
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapDoCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapDoCheck"
+            parent="TreeWalker"
+            name="%WrapDoCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapDoCheck" />
+            <description>%WrapDoCheck.desc</description>
+
+            <property-metadata
+                name="wrapBeforeLCurly"
+                datatype="SingleSelect"
+                default-value="never"
+            >
+                <description>%WrapDoCheck.wrapBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapEnumCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapEnumCheck"
+            parent="TreeWalker"
+            name="%WrapEnumCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapEnumCheck" />
+            <description>%WrapEnumCheck.desc</description>
+
+            <property-metadata
+                name="allowOneLineDecl"
+                datatype="Boolean"
+                default-value="true"
+            >
+                <description>%WrapEnumCheck.allowOneLineDecl</description>
+            </property-metadata>
+            <property-metadata
+                name="wrapDeclBeforeEnum"
+                datatype="SingleSelect"
+                default-value="always"
+            >
+                <description>%WrapEnumCheck.wrapDeclBeforeEnum</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="wrapDeclBeforeLCurly"
+                datatype="SingleSelect"
+                default-value="never"
+            >
+                <description>%WrapEnumCheck.wrapDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="allowMultipleConstantsPerLine"
+                datatype="Boolean"
+                default-value="true"
+            >
+                <description>%WrapEnumCheck.allowMultipleConstantsPerLine</description>
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapFieldCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapFieldCheck"
+            parent="TreeWalker"
+            name="%WrapFieldCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapFieldCheck" />
+            <description>%WrapFieldCheck.desc</description>
+
+            <property-metadata
+                name="wrapDeclBeforeName"
+                datatype="SingleSelect"
+                default-value="optional"
+            >
+                <description>%WrapFieldCheck.wrapDeclBeforeName</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapInterfaceCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapInterfaceCheck"
+            parent="TreeWalker"
+            name="%WrapInterfaceCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapInterfaceCheck" />
+            <description>%WrapInterfaceCheck.desc</description>
+
+            <property-metadata
+                name="allowOneLineDecl"
+                datatype="Boolean"
+                default-value="true"
+            >
+                <description>%WrapInterfaceCheck.allowOneLineDecl</description>
+            </property-metadata>
+            <property-metadata
+                name="wrapDeclBeforeInterface"
+                datatype="SingleSelect"
+                default-value="always"
+            >
+                <description>%WrapInterfaceCheck.wrapDeclBeforeInterface</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="wrapDeclBeforeLCurly"
+                datatype="SingleSelect"
+                default-value="never"
+            >
+                <description>%WrapInterfaceCheck.wrapDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapLocalClassCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapLocalClassCheck"
+            parent="TreeWalker"
+            name="%WrapLocalClassCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapLocalClassCheck" />
+            <description>%WrapLocalClassCheck.desc</description>
+
+            <property-metadata
+                name="wrapDeclBeforeLCurly"
+                datatype="SingleSelect"
+                default-value="never"
+            >
+                <description>%WrapLocalClassCheck.wrapDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapLocalVariableCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapLocalVariableCheck"
+            parent="TreeWalker"
+            name="%WrapLocalVariableCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapLocalVariableCheck" />
+            <description>%WrapLocalVariableCheck.desc</description>
+
+            <property-metadata
+                name="wrapDeclBeforeName"
+                datatype="SingleSelect"
+                default-value="optional"
+            >
+                <description>%WrapLocalVariableCheck.wrapDeclBeforeName</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapMethodCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapMethodCheck"
+            parent="TreeWalker"
+            name="%WrapMethodCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapMethodCheck" />
+            <description>%WrapMethodCheck.desc</description>
+
+            <property-metadata
+                name="allowOneLineDecl"
+                datatype="Boolean"
+                default-value="true"
+            >
+                <description>%WrapMethodCheck.allowOneLineDecl</description>
+            </property-metadata>
+            <property-metadata
+                name="wrapDeclBeforeName"
+                datatype="SingleSelect"
+                default-value="always"
+            >
+                <description>%WrapMethodCheck.wrapDeclBeforeName</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="wrapMethodDeclBeforeLCurly"
+                datatype="SingleSelect"
+                default-value="never"
+            >
+                <description>%WrapMethodCheck.wrapMethodDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="allowMultipleArgsPerLine"
+                datatype="Boolean"
+                default-value="false"
+            >
+                <description>%WrapMethodCheck.allowMultipleArgsPerLine</description>
+            </property-metadata>
+            <property-metadata
+                name="allowMultipleParametersPerLine"
+                datatype="Boolean"
+                default-value="false"
+            >
+                <description>%WrapMethodCheck.allowMultipleParametersPerLine</description>
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapPackageCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapPackageCheck"
+            parent="TreeWalker"
+            name="%WrapPackageCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapPackageCheck" />
+            <description>%WrapPackageCheck.desc</description>
+
+            <property-metadata
+                name="wrapDeclBeforePackage"
+                datatype="SingleSelect"
+                default-value="always"
+            >
+                <description>%WrapPackageCheck.wrapDeclBeforePackage</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapSwitchBlockStmtGroupCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapSwitchBlockStmtGroupCheck"
+            parent="TreeWalker"
+            name="%WrapSwitchBlockStmtGroupCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapSwitchBlockStmtGroupCheck" />
+            <description>%WrapSwitchBlockStmtGroupCheck.desc</description>
+
+            <property-metadata
+                name="allowOneLineSwitchBlockStmtGroup"
+                datatype="Boolean"
+                default-value="true"
+            >
+                <description>%WrapSwitchBlockStmtGroupCheck.allowOneLineSwitchBlockStmtGroup</description>
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapTryCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapTryCheck"
+            parent="TreeWalker"
+            name="%WrapTryCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapTryCheck" />
+            <description>%WrapTryCheck.desc</description>
+
+            <property-metadata
+                name="wrapBeforeCatch"
+                datatype="SingleSelect"
+                default-value="optional"
+            >
+                <description>%WrapTryCheck.wrapBeforeCatch</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="wrapBeforeFinally"
+                datatype="SingleSelect"
+                default-value="optional"
+            >
+                <description>%WrapTryCheck.wrapBeforeFinally</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
         </rule-metadata>
     </rule-group-metadata>
 

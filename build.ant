@@ -26,7 +26,9 @@
 			<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.core_*" />
 
 			<!-- Iff there are quickfixes: -->
-			<dirset  dir="."                       includes="bin" />
+			<dirset  dir="."                           includes="bin" />
+			<dirset  dir="../de.unkrig.commons.doclet" includes="bin" />
+			<dirset  dir="../de.unkrig.commons.lang"   includes="bin" />
 			<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.ui_*" />
 			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.equinox.common_*.jar" />
 			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jface.text_*.jar" />

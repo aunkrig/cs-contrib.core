@@ -123,10 +123,10 @@ class WhitespaceAround extends WhitespaceAroundCheck {
      * Allow empty class and interface bodies.
      */
     @BooleanRuleProperty(defaultValue = false)
-//    @Override  // CS 6 adds this method.
+    @Override  // CS 6 adds this method.
     public void
     setAllowEmptyTypes(boolean value) {
-//        super.setAllowEmptyTypes(value);
+        super.setAllowEmptyTypes(value);
         this.allowEmptyTypes = value;
     }
     private boolean allowEmptyTypes;
