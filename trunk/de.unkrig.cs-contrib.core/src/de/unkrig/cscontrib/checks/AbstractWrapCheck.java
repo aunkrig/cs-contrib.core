@@ -755,16 +755,16 @@ class AbstractWrapCheck extends Check {
     public static int
     lengthExpandedTabs(String string, int toIdx, int tabWidth) {
 
-      int len = 0;
-      for (int idx = 0; idx < toIdx; idx++) {
-    	  if (string.charAt(idx) == '\t') {
-    		  len = (len / tabWidth + 1) * tabWidth;
-    	  } else {
-    		  len++;
-    	  }
-      }
+        int len = 0;
+        for (int idx = 0; idx < toIdx; idx++) {
+            if (string.charAt(idx) == '\t') {
+                len = (len / tabWidth + 1) * tabWidth;
+            } else {
+                len++;
+            }
+        }
 
-      return len;
+        return len;
     }
 
     /**
