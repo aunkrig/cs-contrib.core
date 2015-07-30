@@ -43,6 +43,16 @@ import de.unkrig.csdoclet.SingleSelectRuleProperty;
 
 /**
  * Verifies that array initializers are uniformly wrapped and indented.
+ * <p>
+ *   Array initializers appear in two different flavors:
+ * </p>
+ * <pre>
+ * // NEW expression:
+ * x = new String[3][4][] { { { "a", "b" } } };
+ *
+ * // Field or local variable initializer:
+ * String[][] x = { { "a", "b" } };
+ * </pre>
  */
 @Rule(
     group      = "%Whitespace.group",
@@ -60,7 +70,7 @@ class WrapArrayInitCheck extends AbstractWrapCheck {
      * Whether to wrap array initializers before the opening curly brace. Example:
      * <pre>
      * int[] ia =
-     * {
+     * { ...
      * </pre>
      */
     @SingleSelectRuleProperty(
@@ -76,7 +86,12 @@ class WrapArrayInitCheck extends AbstractWrapCheck {
     DEFAULT_WRAP_BEFORE_LCURLY = "never";
 
     /**
-     * Whether multiple array initializer values in one line are allowed.
+     * Whether multiple array initializer values in one line are allowed. Example:
+     * <pre>
+     * String[] x = {
+     *     "a", "b",   // <= Two values in one line.
+     *     "c"
+     * };
      */
     @BooleanRuleProperty(defaultValue = WrapArrayInitCheck.DEFAULT_ALLOW_MULTIPLE_VALUES_PER_LINE)
     public void
@@ -93,8 +108,6 @@ class WrapArrayInitCheck extends AbstractWrapCheck {
     @Override public int[]
     getDefaultTokens() {
         return LocalTokenType.delocalize(new LocalTokenType[] {
-            LocalTokenType.ANNOTATION,
-            LocalTokenType.ANNOTATION_MEMBER_VALUE_PAIR,
             LocalTokenType.LITERAL_NEW,
             LocalTokenType.ASSIGN,
         });
@@ -105,30 +118,6 @@ class WrapArrayInitCheck extends AbstractWrapCheck {
         assert ast != null;
 
         switch (LocalTokenType.localize(ast.getType())) {
-
-        case ANNOTATION:
-            this.checkChildren(
-                ast,
-                AT, FORK1, DOT, BRANCH2,
-                LABEL1, IDENT,
-                LABEL2, FORK3, END,
-                LABEL3, LPAREN, BRANCH5,
-                LABEL4, COMMA,
-                LABEL5, FORK6, MAY_INDENT, ANNOTATION_MEMBER_VALUE_PAIR, BRANCH9,
-                LABEL6, FORK7, MAY_INDENT, ANNOTATION, BRANCH9,
-                LABEL7, FORK8, MAY_INDENT, EXPR, BRANCH9,
-                LABEL8, MAY_INDENT, this.wrapBeforeLCurly, ANNOTATION_ARRAY_INIT,
-                LABEL9, FORK4, UNINDENT, RPAREN, END
-            );
-            break;
-
-        case ANNOTATION_MEMBER_VALUE_PAIR:
-            this.checkChildren(
-                ast,
-                IDENT, ASSIGN, FORK1, this.wrapBeforeLCurly, ANNOTATION_ARRAY_INIT, END,
-                LABEL1, ANY, END
-            );
-            break;
 
         case LITERAL_NEW:
             this.checkChildren(
