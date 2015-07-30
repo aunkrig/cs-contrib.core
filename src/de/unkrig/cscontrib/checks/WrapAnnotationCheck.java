@@ -26,12 +26,8 @@
 
 package de.unkrig.cscontrib.checks;
 
-import static de.unkrig.cscontrib.LocalTokenType.AT;
-import static de.unkrig.cscontrib.LocalTokenType.IDENT;
-import static de.unkrig.cscontrib.LocalTokenType.LITERAL_INTERFACE;
-import static de.unkrig.cscontrib.LocalTokenType.MODIFIERS;
-import static de.unkrig.cscontrib.LocalTokenType.OBJBLOCK;
-import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.END;
+import static de.unkrig.cscontrib.LocalTokenType.*;
+import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.*;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
@@ -63,7 +59,7 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
     /**
      * Whether to allow a complete annotation declaration in one single line. Example:
      * <pre>
-     * public @interface MyAnno {}
+     * public &#64;interface MyAnno {}
      * </pre>
      */
     @BooleanRuleProperty(defaultValue = WrapAnnotationCheck.DEFAULT_ALLOW_ONE_LINE_DECL)
@@ -77,7 +73,7 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
     DEFAULT_ALLOW_ONE_LINE_DECL = true;
 
     /**
-     * Whether to wrap annotation declarations before '@'. Example:
+     * Whether to wrap annotation declarations before "@". Example:
      * <pre>
      * private
      * &#64;interface MyAnno {
@@ -115,7 +111,10 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
     DEFAULT_WRAP_DECL_BEFORE_LCURLY = "never";
 
     /**
-     * Whether multiple annotations in one line are allowed.
+     * Whether multiple annotations in one line are allowed. Example:
+     * <pre>
+     * &#64;Column &#64;NotNull
+     * </pre>
      */
     @BooleanRuleProperty(defaultValue = WrapAnnotationCheck.DEFAULT_ALLOW_MULTIPLE_PER_LINE)
     public void
@@ -128,35 +127,94 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
     DEFAULT_ALLOW_MULTIPLE_PER_LINE = false;
 
     /**
-     * Whether multiple annotation initializers in one line are allowed.
+     * Whether to wrap element value array initializers before the opening curly brace. Example:
+     * <pre>
+     * &#64;SuppressWarnings(
+     * { ...
+     * </pre>
      */
-    @BooleanRuleProperty(defaultValue = WrapAnnotationCheck.DEFAULT_ALLOW_MULTIPLE_INITIALIZERS_PER_LINE)
+    @SingleSelectRuleProperty(
+        optionProvider = WrapOptionProvider.class,
+        defaultValue   = WrapAnnotationCheck.DEFAULT_WRAP_ELEMENT_VALUE_ARRAY_INITIALIZER_BEFORE_LCURLY
+    ) public void
+    setWrapElementValueArrayInitializerBeforeLCurly(String value) { this.wrapElementValueArrayInitializerBeforeLCurly = AbstractWrapCheck.toWrap(value); } // SUPPRESS CHECKSTYLE LineLength
+
+    private Control
+    wrapElementValueArrayInitializerBeforeLCurly = AbstractWrapCheck.toWrap(WrapAnnotationCheck.DEFAULT_WRAP_ELEMENT_VALUE_ARRAY_INITIALIZER_BEFORE_LCURLY); // SUPPRESS CHECKSTYLE LineLength
+
+    private static final String
+    DEFAULT_WRAP_ELEMENT_VALUE_ARRAY_INITIALIZER_BEFORE_LCURLY = "never";
+
+    /**
+     * Whether multiple element value array initializers in one line are allowed. Example:
+     * <pre>
+     * &#64;SuppressWarnings {
+     *     "unchecked", "rawtypes"
+     * }
+     */
+    @BooleanRuleProperty(defaultValue = WrapAnnotationCheck.DEFAULT_ALLOW_MULTIPLE_ELEMENT_VALUE_ARRAY_INITIALIZERS_PER_LINE) // SUPPRESS CHECKSTYLE LineLength
     public void
-    setAllowMultipleInitializersPerLine(boolean value) { this.allowMultipleInitializersPerLine = value; }
+    setAllowMultipleElementValueArrayInitializersPerLine(boolean value) { this.allowMultipleElementValueArrayInitializersPerLine = value; } // SUPPRESS CHECKSTYLE LineLength
 
     private boolean
-    allowMultipleInitializersPerLine = WrapAnnotationCheck.DEFAULT_ALLOW_MULTIPLE_INITIALIZERS_PER_LINE;
+    allowMultipleElementValueArrayInitializersPerLine = WrapAnnotationCheck.DEFAULT_ALLOW_MULTIPLE_ELEMENT_VALUE_ARRAY_INITIALIZERS_PER_LINE; // SUPPRESS CHECKSTYLE LineLength
 
     private static final boolean
-    DEFAULT_ALLOW_MULTIPLE_INITIALIZERS_PER_LINE = false;
+    DEFAULT_ALLOW_MULTIPLE_ELEMENT_VALUE_ARRAY_INITIALIZERS_PER_LINE = false;
 
     // ============================================= END CONFIGURATION =============================================
 
     @Override public int[]
     getDefaultTokens() {
-        return LocalTokenType.delocalize(new LocalTokenType[] { LocalTokenType.ANNOTATION_DEF });
+        return LocalTokenType.delocalize(new LocalTokenType[] {
+            LocalTokenType.ANNOTATION_DEF,
+            LocalTokenType.ANNOTATION,
+            LocalTokenType.ANNOTATION_MEMBER_VALUE_PAIR,
+        });
     }
 
     @Override public void
     visitToken(DetailAST ast) {
         assert ast != null;
 
-        if (this.allowOneLineDecl && AbstractWrapCheck.isSingleLine(ast)) return;
+        switch (LocalTokenType.localize(ast.getType())) {
 
-        this.checkChildren(
-            ast,
-            MODIFIERS, this.wrapDeclBeforeAt, AT, LITERAL_INTERFACE, IDENT, this.wrapDeclBeforeLCurly, OBJBLOCK, END // SUPPRESS CHECKSTYLE LineLength
-        );
+        case ANNOTATION_DEF:
+            if (this.allowOneLineDecl && AbstractWrapCheck.isSingleLine(ast)) return;
+
+            this.checkChildren(
+                ast,
+                MODIFIERS, this.wrapDeclBeforeAt, AT, LITERAL_INTERFACE, IDENT, this.wrapDeclBeforeLCurly, OBJBLOCK, END // SUPPRESS CHECKSTYLE LineLength
+            );
+            break;
+
+        case ANNOTATION:
+            this.checkChildren(
+                ast,
+                AT, FORK1, DOT, BRANCH2,
+                LABEL1, IDENT,
+                LABEL2, FORK3, END,
+                LABEL3, LPAREN, BRANCH5,
+                LABEL4, COMMA,
+                LABEL5, FORK6, MAY_INDENT, ANNOTATION_MEMBER_VALUE_PAIR, BRANCH9,
+                LABEL6, FORK7, MAY_INDENT, ANNOTATION, BRANCH9,
+                LABEL7, FORK8, MAY_INDENT, EXPR, BRANCH9,
+                LABEL8, MAY_INDENT, this.wrapElementValueArrayInitializerBeforeLCurly, ANNOTATION_ARRAY_INIT,
+                LABEL9, FORK4, UNINDENT, RPAREN, END
+            );
+            break;
+
+        case ANNOTATION_MEMBER_VALUE_PAIR:
+            this.checkChildren(
+                ast,
+                IDENT, ASSIGN, FORK1, this.wrapElementValueArrayInitializerBeforeLCurly, ANNOTATION_ARRAY_INIT, END,
+                LABEL1, ANY, END
+            );
+            break;
+
+        default:
+            throw new IllegalStateException(String.valueOf(ast));
+        }
     }
 
     @Override protected boolean
@@ -166,7 +224,7 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
 
         if (
             AstUtil.parentTypeIs(child, LocalTokenType.ANNOTATION_ARRAY_INIT)
-            && !this.allowMultipleInitializersPerLine
+            && !this.allowMultipleElementValueArrayInitializersPerLine
         ) return false;
 
         return true;
