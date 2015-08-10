@@ -46,17 +46,17 @@ import de.unkrig.csdoclet.Rule;
 import de.unkrig.csdoclet.SingleSelectRuleProperty;
 
 /**
- * Verifies that local class declarations are uniformly wrapped and indented.
+ * Verifies that anonymous class declarations are uniformly wrapped and indented.
  */
 @Rule(
     group      = "%Whitespace.group",
     groupName  = "Whitespace",
-    name       = "de.unkrig: Wrap local class",
+    name       = "de.unkrig: Wrap anonymous class",
     parent     = "TreeWalker",
     quickfixes = { WrapAndIndent1.class, WrapAndIndent2.class, WrapAndIndent3.class }
 )
 @NotNullByDefault(false) public
-class WrapLocalClassCheck extends AbstractWrapCheck {
+class WrapAnonymousClassCheck extends AbstractWrapCheck {
 
     // ============================================= BEGIN CONFIGURATION =============================================
 
@@ -69,12 +69,12 @@ class WrapLocalClassCheck extends AbstractWrapCheck {
      */
     @SingleSelectRuleProperty(
         optionProvider = WrapOptionProvider.class,
-        defaultValue   = WrapLocalClassCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY
+        defaultValue   = WrapAnonymousClassCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY
     ) public void
     setWrapDeclBeforeLCurly(String value) { this.wrapDeclBeforeLCurly = AbstractWrapCheck.toWrap(value); }
 
     private Control
-    wrapDeclBeforeLCurly = AbstractWrapCheck.toWrap(WrapLocalClassCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY);
+    wrapDeclBeforeLCurly = AbstractWrapCheck.toWrap(WrapAnonymousClassCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY);
 
     private static final String
     DEFAULT_WRAP_DECL_BEFORE_LCURLY = "never";
