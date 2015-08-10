@@ -391,11 +391,48 @@
                 <description>%WrapAnnotationCheck.allowMultiplePerLine</description>
             </property-metadata>
             <property-metadata
-                name="allowMultipleInitializersPerLine"
+                name="wrapElementValueArrayInitializerBeforeLCurly"
+                datatype="SingleSelect"
+                default-value="never"
+            >
+                <description>%WrapAnnotationCheck.wrapElementValueArrayInitializerBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+            </property-metadata>
+            <property-metadata
+                name="allowMultipleElementValueArrayInitializersPerLine"
                 datatype="Boolean"
                 default-value="false"
             >
-                <description>%WrapAnnotationCheck.allowMultipleInitializersPerLine</description>
+                <description>%WrapAnnotationCheck.allowMultipleElementValueArrayInitializersPerLine</description>
+            </property-metadata>
+
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
+            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
+            <message-key key="AbstractWrapCheck.mustJoin" />
+            <message-key key="AbstractWrapCheck.mustWrap" />
+            <message-key key="AbstractWrapCheck.wrongColumn" />
+        </rule-metadata>
+    </rule-group-metadata>
+
+    <!-- WrapAnonymousClassCheck -->
+
+    <rule-group-metadata name="%Whitespace.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.checks.WrapAnonymousClassCheck"
+            parent="TreeWalker"
+            name="%WrapAnonymousClassCheck.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapAnonymousClassCheck" />
+            <description>%WrapAnonymousClassCheck.desc</description>
+
+            <property-metadata
+                name="wrapDeclBeforeLCurly"
+                datatype="SingleSelect"
+                default-value="never"
+            >
+                <description>%WrapAnonymousClassCheck.wrapDeclBeforeLCurly</description>
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
@@ -723,35 +760,6 @@
                 default-value="never"
             >
                 <description>%WrapInterfaceCheck.wrapDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
-            </property-metadata>
-
-            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
-            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2" />
-            <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3" />
-            <message-key key="AbstractWrapCheck.mustJoin" />
-            <message-key key="AbstractWrapCheck.mustWrap" />
-            <message-key key="AbstractWrapCheck.wrongColumn" />
-        </rule-metadata>
-    </rule-group-metadata>
-
-    <!-- WrapLocalClassCheck -->
-
-    <rule-group-metadata name="%Whitespace.group" priority="999">
-        <rule-metadata
-            internal-name="de.unkrig.cscontrib.checks.WrapLocalClassCheck"
-            parent="TreeWalker"
-            name="%WrapLocalClassCheck.name"
-        >
-            <alternative-name internal-name="de.unkrig.cscontrib.checks.WrapLocalClassCheck" />
-            <description>%WrapLocalClassCheck.desc</description>
-
-            <property-metadata
-                name="wrapDeclBeforeLCurly"
-                datatype="SingleSelect"
-                default-value="never"
-            >
-                <description>%WrapLocalClassCheck.wrapDeclBeforeLCurly</description>
                 <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
             </property-metadata>
 
