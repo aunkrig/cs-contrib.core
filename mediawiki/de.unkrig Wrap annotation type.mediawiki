@@ -8,13 +8,13 @@ Default values appear <u>underlined</u>.
 <dl>
 <dt>allowOneLineDecl = "<u>true</u> | false"
 <dd>Whether to allow a complete annotation declaration in one single line. Example:
- public @interface MyAnno {}
+ public &#64;interface MyAnno {}
 
 </dl>
 
 <dl>
 <dt>wrapDeclBeforeAt = "<u>always</u> | optional | never"
-<dd>Whether to wrap annotation declarations before '@'. Example:
+<dd>Whether to wrap annotation declarations before "@". Example:
  private
   &#64;interface MyAnno {
 
@@ -30,12 +30,26 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>allowMultiplePerLine = "true | <u>false</u>"
-<dd>Whether multiple annotations in one line are allowed.
+<dd>Whether multiple annotations in one line are allowed. Example:
+ &#64;Column &#64;NotNull
+
 </dl>
 
 <dl>
-<dt>allowMultipleInitializersPerLine = "true | <u>false</u>"
-<dd>Whether multiple annotation initializers in one line are allowed.
+<dt>wrapElementValueArrayInitializerBeforeLCurly = "always | optional | <u>never</u>"
+<dd>Whether to wrap element value array initializers before the opening curly brace. Example:
+ &#64;SuppressWarnings(
+  { ...
+
+</dl>
+
+<dl>
+<dt>allowMultipleElementValueArrayInitializersPerLine = "true | <u>false</u>"
+<dd>Whether multiple element value array initializers in one line are allowed. Example:
+ <pre>
+ &#64;SuppressWarnings {
+     "unchecked", "rawtypes"
+ }
 </dl>
 
 == Quickfixes ==
