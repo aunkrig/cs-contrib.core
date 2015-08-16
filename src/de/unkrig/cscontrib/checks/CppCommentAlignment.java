@@ -43,8 +43,8 @@ import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
-import de.unkrig.csdoclet.Message;
-import de.unkrig.csdoclet.Rule;
+import de.unkrig.csdoclet.annotation.Message;
+import de.unkrig.csdoclet.annotation.Rule;
 
 /**
  * Verifies that C++-style comments ('<code>// ...</code>') are correctly aligned.

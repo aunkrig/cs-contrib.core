@@ -41,8 +41,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
-import de.unkrig.csdoclet.IntegerRuleProperty;
-import de.unkrig.csdoclet.Message;
+import de.unkrig.csdoclet.annotation.IntegerRuleProperty;
+import de.unkrig.csdoclet.annotation.Message;
 import net.sf.eclipsecs.core.config.meta.IOptionProvider;
 
 /**

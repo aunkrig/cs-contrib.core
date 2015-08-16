@@ -38,9 +38,9 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
 import de.unkrig.cscontrib.util.JavaElement;
-import de.unkrig.csdoclet.Message;
-import de.unkrig.csdoclet.MultiCheckRuleProperty;
-import de.unkrig.csdoclet.Rule;
+import de.unkrig.csdoclet.annotation.Message;
+import de.unkrig.csdoclet.annotation.MultiCheckRuleProperty;
+import de.unkrig.csdoclet.annotation.Rule;
 
 /**
  * Verifies that tokens are, respectively are not preceded with (and/or followed by) whitespace.

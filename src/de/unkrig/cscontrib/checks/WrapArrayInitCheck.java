@@ -26,7 +26,13 @@
 
 package de.unkrig.cscontrib.checks;
 
-import static de.unkrig.cscontrib.LocalTokenType.*;
+import static de.unkrig.cscontrib.LocalTokenType.ARRAY_DECLARATOR;
+import static de.unkrig.cscontrib.LocalTokenType.ARRAY_INIT;
+import static de.unkrig.cscontrib.LocalTokenType.ELIST;
+import static de.unkrig.cscontrib.LocalTokenType.LPAREN;
+import static de.unkrig.cscontrib.LocalTokenType.OBJBLOCK;
+import static de.unkrig.cscontrib.LocalTokenType.RPAREN;
+import static de.unkrig.cscontrib.LocalTokenType.TYPE_ARGUMENTS;
 import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.*;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
@@ -37,9 +43,9 @@ import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1;
 import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2;
 import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3;
 import de.unkrig.cscontrib.util.AstUtil;
-import de.unkrig.csdoclet.BooleanRuleProperty;
-import de.unkrig.csdoclet.Rule;
-import de.unkrig.csdoclet.SingleSelectRuleProperty;
+import de.unkrig.csdoclet.annotation.BooleanRuleProperty;
+import de.unkrig.csdoclet.annotation.Rule;
+import de.unkrig.csdoclet.annotation.SingleSelectRuleProperty;
 
 /**
  * Verifies that array initializers are uniformly wrapped and indented.

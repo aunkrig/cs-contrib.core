@@ -73,6 +73,9 @@
 				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.editors_*.jar"             />
 				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.ide_*.jar"                 />
 				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.workbench_*.jar"           />
+
+				<!-- The annotations for the CS doclet. -->
+				<fileset file="../de.unkrig.cs-contrib_dist/lib/de.unkrig.doclet.cs.annotation.jar" />
 			</classpath>
 		</javadoc>
 	</target>

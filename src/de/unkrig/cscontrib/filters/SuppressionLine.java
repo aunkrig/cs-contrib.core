@@ -43,8 +43,8 @@ import com.puppycrawl.tools.checkstyle.api.Filter;
 import com.puppycrawl.tools.checkstyle.checks.FileContentsHolder;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
-import de.unkrig.csdoclet.RegexRuleProperty;
-import de.unkrig.csdoclet.Rule;
+import de.unkrig.csdoclet.annotation.RegexRuleProperty;
+import de.unkrig.csdoclet.annotation.Rule;
 
 /**
  * Events (i.e. CheckStyle warnings) are switched off by a "magic line" ("offFormat") or back on by another magic line

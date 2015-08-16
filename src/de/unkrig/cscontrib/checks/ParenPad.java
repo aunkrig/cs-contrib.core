@@ -35,9 +35,9 @@ import com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.ParenPadCheck;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
-import de.unkrig.csdoclet.Message;
-import de.unkrig.csdoclet.Rule;
-import de.unkrig.csdoclet.SingleSelectRuleProperty;
+import de.unkrig.csdoclet.annotation.Message;
+import de.unkrig.csdoclet.annotation.Rule;
+import de.unkrig.csdoclet.annotation.SingleSelectRuleProperty;
 
 /**
  * Enhanced version of "ParenPad": NOSPACE now allows "{@code ( // ...}".

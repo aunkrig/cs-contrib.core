@@ -31,8 +31,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
-import de.unkrig.csdoclet.Message;
-import de.unkrig.csdoclet.Rule;
+import de.unkrig.csdoclet.annotation.Message;
+import de.unkrig.csdoclet.annotation.Rule;
 
 /**
  * Verifies that no constructor calls the zero-parameter superconstructor.
