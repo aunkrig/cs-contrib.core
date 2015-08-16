@@ -32,8 +32,8 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
-import de.unkrig.csdoclet.Message;
-import de.unkrig.csdoclet.Rule;
+import de.unkrig.csdoclet.annotation.Message;
+import de.unkrig.csdoclet.annotation.Rule;
 
 /**
  * Assignments in expressions must be parenthesized, like "a = (b = c)" or "while ((a = b))".

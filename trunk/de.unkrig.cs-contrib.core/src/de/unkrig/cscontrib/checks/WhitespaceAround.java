@@ -32,9 +32,9 @@ import com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
-import de.unkrig.csdoclet.BooleanRuleProperty;
-import de.unkrig.csdoclet.MultiCheckRuleProperty;
-import de.unkrig.csdoclet.Rule;
+import de.unkrig.csdoclet.annotation.BooleanRuleProperty;
+import de.unkrig.csdoclet.annotation.MultiCheckRuleProperty;
+import de.unkrig.csdoclet.annotation.Rule;
 
 /**
  * Verifies that a token is surrounded by whitespace.

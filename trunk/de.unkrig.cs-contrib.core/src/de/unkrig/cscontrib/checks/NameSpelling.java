@@ -41,11 +41,11 @@ import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.cscontrib.util.AstUtil;
-import de.unkrig.csdoclet.Message;
-import de.unkrig.csdoclet.MultiCheckRuleProperty;
-import de.unkrig.csdoclet.RegexRuleProperty;
-import de.unkrig.csdoclet.Rule;
-import de.unkrig.csdoclet.SingleSelectRuleProperty;
+import de.unkrig.csdoclet.annotation.Message;
+import de.unkrig.csdoclet.annotation.MultiCheckRuleProperty;
+import de.unkrig.csdoclet.annotation.RegexRuleProperty;
+import de.unkrig.csdoclet.annotation.Rule;
+import de.unkrig.csdoclet.annotation.SingleSelectRuleProperty;
 
 /**
  * Verifies that the names of Java elements match, respectively no not match given patterns.

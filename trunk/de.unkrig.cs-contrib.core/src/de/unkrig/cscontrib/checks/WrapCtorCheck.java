@@ -51,9 +51,9 @@ import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1;
 import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent2;
 import de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent3;
 import de.unkrig.cscontrib.util.AstUtil;
-import de.unkrig.csdoclet.BooleanRuleProperty;
-import de.unkrig.csdoclet.Rule;
-import de.unkrig.csdoclet.SingleSelectRuleProperty;
+import de.unkrig.csdoclet.annotation.BooleanRuleProperty;
+import de.unkrig.csdoclet.annotation.Rule;
+import de.unkrig.csdoclet.annotation.SingleSelectRuleProperty;
 
 /**
  * Verifies that constructore declarations, parameters and arguments are uniformly wrapped and indented.

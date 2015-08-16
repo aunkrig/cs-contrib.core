@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/de.unkrig.commons.nullanalysis"/>
+	<classpathentry kind="lib" path="/de.unkrig.cs-contrib_dist/lib/de.unkrig.doclet.cs.annotation.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
