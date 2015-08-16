@@ -19,22 +19,22 @@
 		<path id="doclet.path">
 
 			<!-- CS doclet: -->
-			<fileset file="lib/de.unkrig.doclet.cs.jar" />
+			<fileset file="../de.unkrig.cs-contrib_dist/lib/de.unkrig.doclet.cs.jar" />
 
 			<!-- Iff rules use 'option providers': -->
 			<fileset dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
 			<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.core_*" />
 
 			<!-- Iff there are quickfixes: -->
-			<dirset  dir="."                           includes="bin" />
-			<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.ui_*" />
+			<dirset  dir="."                       includes="bin"                              />
+			<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.ui_*"            />
 			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.equinox.common_*.jar" />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jface.text_*.jar" />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jdt.core_*.jar" />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.osgi_*.jar" />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.text_*.jar" />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.editors_*.jar" />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.ide_*.jar" />
+			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jface.text_*.jar"     />
+			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jdt.core_*.jar"       />
+			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.osgi_*.jar"           />
+			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.text_*.jar"           />
+			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.editors_*.jar"     />
+			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.ide_*.jar"         />
 		</path>
 		
 		<javadoc docletpathref="doclet.path" doclet="de.unkrig.doclet.cs.CsDoclet">
@@ -60,19 +60,19 @@
 				<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.core_*" />
 
 				<!-- Iff there are quickfixes: -->
-				<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.ui_*" />
-				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.core.filebuffers_*.jar" />
-				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.core.resources_*.jar" />
-				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.core.runtime_*.jar" />
-				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.equinox.common_*.jar" />
-				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jface_*.jar" />
-				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jdt.core_*.jar" />
-				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.osgi_*.jar" />
+				<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.ui_*"                    />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.core.filebuffers_*.jar"       />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.core.resources_*.jar"         />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.core.runtime_*.jar"           />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.equinox.common_*.jar"         />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jface_*.jar"                  />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jdt.core_*.jar"               />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.osgi_*.jar"                   />
 				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.swt.win32.win32.x86_64_*.jar" />
-				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.text_*.jar" />
-				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.editors_*.jar" />
-				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.ide_*.jar" />
-				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.workbench_*.jar" />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.text_*.jar"                   />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.editors_*.jar"             />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.ide_*.jar"                 />
+				<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.workbench_*.jar"           />
 			</classpath>
 		</javadoc>
 	</target>
