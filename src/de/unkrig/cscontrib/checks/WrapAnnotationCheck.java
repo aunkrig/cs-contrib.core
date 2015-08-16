@@ -42,12 +42,12 @@ import de.unkrig.csdoclet.annotation.Rule;
 import de.unkrig.csdoclet.annotation.SingleSelectRuleProperty;
 
 /**
- * Verifies that annotation type declarations are uniformly wrapped and indented.
+ * Verifies that annotations and annotation type declarations are uniformly wrapped and indented.
  */
 @Rule(
     group      = "%Whitespace.group",
     groupName  = "Whitespace",
-    name       = "de.unkrig: Wrap annotation type",
+    name       = "de.unkrig: Wrap annotation",
     parent     = "TreeWalker",
     quickfixes = { WrapAndIndent1.class, WrapAndIndent2.class, WrapAndIndent3.class }
 )
