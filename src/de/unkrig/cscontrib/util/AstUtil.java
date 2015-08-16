@@ -28,6 +28,8 @@ package de.unkrig.cscontrib.util;
 
 import static de.unkrig.cscontrib.util.JavaElement.*;
 
+import java.util.EnumSet;
+
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.Nullable;
@@ -283,10 +285,21 @@ class AstUtil {
             switch (parentType) {
 
             case TYPE_PARAMETERS:
-                return (
-                    grandParentType == LocalTokenType.METHOD_DEF
-                    || grandParentType == LocalTokenType.CTOR_DEF
-                ) ? R_ANGLE__METH_DECL_TYPE_PARAMS : R_ANGLE__TYPE_ARGS;
+                assert grandParentType != null;
+                switch (grandParentType) {
+
+                case METHOD_DEF:
+                case CTOR_DEF:
+                    return R_ANGLE__METH_DECL_TYPE_PARAMS;
+
+                case CLASS_DEF:
+                case INTERFACE_DEF:
+                    return R_ANGLE__TYPE_PARAMS;
+
+                default:
+                    assert false : grandParentType;
+                    return null;
+                }
 
             case TYPE_ARGUMENTS:
                 {
@@ -313,10 +326,21 @@ class AstUtil {
             switch (parentType) {
 
             case TYPE_PARAMETERS:
-                return (
-                    grandParentType == LocalTokenType.METHOD_DEF
-                    || grandParentType == LocalTokenType.CTOR_DEF
-                ) ? L_ANGLE__METH_DECL_TYPE_PARAMS : L_ANGLE__TYPE_ARGS;
+                assert grandParentType != null;
+                switch (grandParentType) {
+
+                case METHOD_DEF:
+                case CTOR_DEF:
+                    return L_ANGLE__METH_DECL_TYPE_PARAMS;
+
+                case CLASS_DEF:
+                case INTERFACE_DEF:
+                    return L_ANGLE__TYPE_PARAMS;
+
+                default:
+                    assert false : grandParentType;
+                    return null;
+                }
 
             case TYPE_ARGUMENTS:
                 return (
