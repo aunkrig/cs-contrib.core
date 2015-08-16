@@ -28,8 +28,6 @@ package de.unkrig.cscontrib.util;
 
 import static de.unkrig.cscontrib.util.JavaElement.*;
 
-import java.util.EnumSet;
-
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.Nullable;
