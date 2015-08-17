@@ -16,7 +16,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeAt = "<u>always</u> | optional | never"
 <dd>Whether to wrap annotation declarations before "@". Example:
  private
-  &#64;interface MyAnno {
+ &#64;interface MyAnno {
 
 </dl>
 
@@ -24,7 +24,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeLCurly = "always | optional | <u>never</u>"
 <dd>Whether to wrap annotation type declarations before the opening curly brace. Example:
  public interface &#64;MyAnnotationType
-  {
+ {
 
 </dl>
 
@@ -39,17 +39,17 @@ Default values appear <u>underlined</u>.
 <dt>wrapElementValueArrayInitializerBeforeLCurly = "always | optional | <u>never</u>"
 <dd>Whether to wrap element value array initializers before the opening curly brace. Example:
  &#64;SuppressWarnings(
-  { ...
+ { ...
 
 </dl>
 
 <dl>
 <dt>allowMultipleElementValueArrayInitializersPerLine = "true | <u>false</u>"
 <dd>Whether multiple element value array initializers in one line are allowed. Example:
- <pre>
- &#64;SuppressWarnings {
-     "unchecked", "rawtypes"
- }
+<pre>
+&#64;SuppressWarnings {
+    "unchecked", "rawtypes"
+}
 </dl>
 
 == Quickfixes ==

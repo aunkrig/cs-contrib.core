@@ -22,7 +22,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeClass = "<u>always</u> | optional | never"
 <dd>Whether to wrap class declarations before the <code>CLASS</code> keyword. Example:
  public static final
-  class MyClass {
+ class MyClass {
 
 </dl>
 
@@ -30,7 +30,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeLCurly = "always | optional | <u>never</u>"
 <dd>Whether to wrap class declarations before the opening curly brace. Example:
  public class MyClass
-  {
+ {
 
 </dl>
 

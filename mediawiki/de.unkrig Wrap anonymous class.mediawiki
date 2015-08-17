@@ -9,7 +9,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeLCurly = "always | optional | <u>never</u>"
 <dd>Whether to wrap anonymous class declarations before the opening curly brace. Example:
  new Object()
-  {
+ {
 
 </dl>
 

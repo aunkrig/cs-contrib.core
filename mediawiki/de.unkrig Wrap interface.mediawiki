@@ -16,7 +16,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeInterface = "<u>always</u> | optional | never"
 <dd>Whether to wrap interface declarations before the <code>INTERFACE</code> keyword. Example:
  public
-  interface MyInterf {
+ interface MyInterf {
 
 </dl>
 
@@ -24,7 +24,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeLCurly = "always | optional | <u>never</u>"
 <dd>Whether to wrap interface declarations before the opening curly brace. Example:
  public interface MyInterface
-  {
+ {
 
 </dl>
 

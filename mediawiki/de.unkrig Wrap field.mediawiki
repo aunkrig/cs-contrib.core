@@ -9,7 +9,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeName = "always | <u>optional</u> | never"
 <dd>Whether to wrap field declarations before the field name. Example:
  private int
-  width = 7;
+ width = 7;
 
 </dl>
 

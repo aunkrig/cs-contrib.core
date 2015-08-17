@@ -15,7 +15,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapBeforeLCurly = "always | optional | <u>never</u>"
 <dd>Whether to wrap <code>DO</code> statements before the opening curly brace. Example:
  do
-  {
+ {
 
 </dl>
 

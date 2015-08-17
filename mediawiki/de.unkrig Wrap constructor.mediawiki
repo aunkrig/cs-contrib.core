@@ -16,7 +16,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeName = "<u>always</u> | optional | never"
 <dd>Whether to wrap constructor declarations between the modifiers and the class name. Example:
  protected
-  MyClass(int x) {
+ MyClass(int x) {
 
 </dl>
 
@@ -24,7 +24,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeLCurly = "always | optional | <u>never</u>"
 <dd>Whether to wrap constructor declarations before the opening curly brace. Example:
  protected MyClass(int x)
-  {
+ {
 
 </dl>
 

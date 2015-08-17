@@ -16,7 +16,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeName = "<u>always</u> | optional | never"
 <dd>Whether to wrap method declarations between the return type and the method name. Example:
  private static
-  myMeth(int arg1) {
+ myMeth(int arg1) {
 
 </dl>
 
@@ -24,7 +24,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapMethodDeclBeforeLCurly = "always | optional | <u>never</u>"
 <dd>Whether to wrap method declarations before the opening curly brace. Example:
  private static myMeth(int arg1)
-  {
+ {
 
 </dl>
 

@@ -9,8 +9,8 @@ Default values appear <u>underlined</u>.
 <dt>wrapBeforeOperator = "always | <u>optional</u> | never"
 <dd>Whether to wrap expressions before a binary operator. Example:
  a
-  + b
-  + c
+ + b
+ + c
 
 </dl>
 
@@ -18,8 +18,8 @@ Default values appear <u>underlined</u>.
 <dt>wrapAfterOperator = "always | optional | <u>never</u>"
 <dd>Whether to wrap expressions after a binary operator. Example:
  a +
-  b +
-  c
+ b +
+ c
 
 </dl>
 
