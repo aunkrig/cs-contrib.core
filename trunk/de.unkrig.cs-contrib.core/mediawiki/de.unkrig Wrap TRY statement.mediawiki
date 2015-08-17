@@ -9,7 +9,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapBeforeCatch = "always | <u>optional</u> | never"
 <dd>Whether to wrap <code>TRY</code> statements before the <code>CATCH</code> keyword. Example:
  try { ... }
-  catch { ... }
+ catch { ... }
 
 </dl>
 
@@ -17,7 +17,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapBeforeFinally = "always | <u>optional</u> | never"
 <dd>Whether to wrap <code>TRY</code> statements before the <code>FINALLY</code> keyword. Example:
  try { ... }
-  finally { ... }
+ finally { ... }
 
 </dl>
 

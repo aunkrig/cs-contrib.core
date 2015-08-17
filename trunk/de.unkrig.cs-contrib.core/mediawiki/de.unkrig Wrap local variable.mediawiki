@@ -9,7 +9,7 @@ Default values appear <u>underlined</u>.
 <dt>wrapDeclBeforeName = "always | <u>optional</u> | never"
 <dd>Whether to wrap local variable declarations between the type and the variable name. Example:
  int
-  locvar = 7;
+ locvar = 7;
 
 </dl>
 
