@@ -1,20 +1,24 @@
 <project>
 	
 	<!--
-		This target is intended to be executed manually on-demoand; it is not part of the build process! Thus, the
+		This target is intended to be executed manually on-demand; it is not part of the build process! Thus, the
 		generated files are under SVN version control.
 		
 		Runs the 'CS doclet' to produce
-			src/de.unkrig.cscontrib/{checks filters}/checkstyle.properties
-			src/de.unkrig.cscontrib/{checks filters}/checkstyle.xml
-			src/de.unkrig.cscontrib/{checks filters}/messages.properties
-			mediawiki/*.mw
+			src/de.unkrig.cscontrib/(checks|filters)/checkstyle.properties
+			src/de.unkrig.cscontrib/(checks|filters)/checkstyle.xml
+			src/de.unkrig.cscontrib/(checks|filters)/messages.properties
+			mediawiki/(checks|filters)/*.mediawiki
+			csdoc/**.html
 		.
 	-->
 	<target name="generate">
 
 		<delete dir="mediawiki" />
 		<mkdir dir="mediawiki" />
+
+		<delete dir="csdoc" />
+		<mkdir dir="csdoc" />
 
 		<path id="doclet.path">
 
@@ -49,6 +53,7 @@
 			<arg value="-checkstyle-metadata.xml-dir"        /><arg file="src"       />
 			<arg value="-messages.properties-dir"            /><arg file="src"       />
 			<arg value="-mediawiki-dir"                      /><arg file="mediawiki" />
+			<arg value="-d"                                  /><arg file="csdoc"     />
 
 			<classpath>
 
