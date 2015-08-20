@@ -40,7 +40,7 @@ import de.unkrig.csdoclet.annotation.Rule;
 import de.unkrig.csdoclet.annotation.SingleSelectRuleProperty;
 
 /**
- * Enhanced version of "ParenPad": NOSPACE now allows "{@code ( // ...}".
+ * Enhanced version of "ParenPad": NOSPACE now allows C++ comments after the openining parenthesis.
  * <p>
  *   <span style="color: red"><b>This check is superseded by {@code de.unkrig.Whitespace}.</b></span>
  * </p>
