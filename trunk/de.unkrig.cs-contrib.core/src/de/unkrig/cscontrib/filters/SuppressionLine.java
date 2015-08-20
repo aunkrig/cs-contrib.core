@@ -47,8 +47,7 @@ import de.unkrig.csdoclet.annotation.RegexRuleProperty;
 import de.unkrig.csdoclet.annotation.Rule;
 
 /**
- * Events (i.e. CheckStyle warnings) are switched off by a "magic line" ("offFormat") or back on by another magic line
- * ("onFormat").
+ * Events (i.e&#46; CheckStyle warnings) are switched off by a "magic line" or back on by another magic line.
  * <p>
  *   After the "off" magic line, events do not show if at least one of the following conditions is true:
  * </p>

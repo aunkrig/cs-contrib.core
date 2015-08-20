@@ -96,7 +96,7 @@ class Alignment extends Check {
     private static final boolean DEFAULT_APPLY_TO_FIELD_NAME = true;
 
     /**
-     * Check alignment of first '=' in field declarations.
+     * Check alignment of first "{@code =}" in field declarations.
      */
     @BooleanRuleProperty(
         name         = "applyToFieldInitializer",
@@ -135,7 +135,7 @@ class Alignment extends Check {
     private static final boolean DEFAULT_APPLY_TO_LOCAL_VARIABLE_NAME = true;
 
     /**
-     * Check alignment of first '=' in local variable declarations.
+     * Check alignment of first "{@code =}" in local variable declarations.
      */
     @BooleanRuleProperty(
         name         = "applyToLocalVariableInitializer",
@@ -148,7 +148,7 @@ class Alignment extends Check {
     private static final boolean DEFAULT_APPLY_TO_LOCAL_VARIABLE_INITIALIZER = true;
 
     /**
-     * Check alignment of '=' in assignments.
+     * Check alignment of "{@code =}" in assignments.
      */
     @BooleanRuleProperty(
         name         = "applyToAssignments",
@@ -187,7 +187,7 @@ class Alignment extends Check {
     private static final boolean DEFAULT_APPLY_TO_METHOD_NAME = true;
 
     /**
-     * Check alignment of '{' in method (and constructor) declarations.
+     * Check alignment of "<code>{</code>" in method (and constructor) declarations.
      */
     @BooleanRuleProperty(
         name         = "applyToMethodBody",

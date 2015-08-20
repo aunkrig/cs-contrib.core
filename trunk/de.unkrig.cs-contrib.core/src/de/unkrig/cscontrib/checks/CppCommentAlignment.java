@@ -47,7 +47,7 @@ import de.unkrig.csdoclet.annotation.Message;
 import de.unkrig.csdoclet.annotation.Rule;
 
 /**
- * Verifies that C++-style comments ('<code>// ...</code>') are correctly aligned.
+ * Verifies that C++-style comments ("<code>// ..&#46;</code>") are correctly aligned.
  * <p>
  * C++-style comments must appear on the same column iff
  * <ul>
