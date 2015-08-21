@@ -41,7 +41,7 @@ import de.unkrig.cscontrib.Activator;
 import de.unkrig.cscontrib.checks.AbstractWrapCheck;
 
 /**
- * Quickfix for {@link WrapAndIndent#MESSAGE_KEY__0_MUST_APPEAR_IN_COLUMN_1_NOT_2}.
+ * Quickfix for {@link AbstractWrapCheck#MESSAGE_KEY_WRONG_COLUMN}.
  */
 @NotNullByDefault(false) public
 class WrapAndIndent3 extends AbstractJavaResolution {
