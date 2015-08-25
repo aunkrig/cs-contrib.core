@@ -41,7 +41,13 @@
 			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.ide_*.jar"         />
 		</path>
 		
-		<javadoc docletpathref="doclet.path" doclet="de.unkrig.doclet.cs.CsDoclet">
+		<javadoc
+			docletpathref="doclet.path"
+			doclet="de.unkrig.doclet.cs.CsDoclet"
+			windowtitle="de.unkrig.cs-doclet"
+			doctitle="de.unkrig.cs-doclet"
+			overview="src/overview.html"
+		>
 
 			<!-- The 'CheckStyle packages' which contain the rules (checks, filters) to process: -->
 			<sourcepath path="src" />
