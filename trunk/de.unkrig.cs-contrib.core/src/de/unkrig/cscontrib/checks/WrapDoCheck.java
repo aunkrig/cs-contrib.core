@@ -75,7 +75,7 @@ class WrapDoCheck extends AbstractWrapCheck {
      *                </p>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapDoCheck.DEFAULT_WRAP_BEFORE_LCURLY
     ) public void
     setWrapBeforeLCurly(String value) { this.wrapBeforeLCurly = AbstractWrapCheck.toWrap(value); }

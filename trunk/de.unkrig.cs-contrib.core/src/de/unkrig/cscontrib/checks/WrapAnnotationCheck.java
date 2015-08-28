@@ -80,7 +80,7 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapAnnotationCheck.DEFAULT_WRAP_DECL_BEFORE_AT
     ) public void
     setWrapDeclBeforeAt(String value) { this.wrapDeclBeforeAt = AbstractWrapCheck.toWrap(value); }
@@ -99,7 +99,7 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapAnnotationCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY
     ) public void
     setWrapDeclBeforeLCurly(String value) { this.wrapDeclBeforeLCurly = AbstractWrapCheck.toWrap(value); }
@@ -134,7 +134,7 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapAnnotationCheck.DEFAULT_WRAP_ELEMENT_VALUE_ARRAY_INITIALIZER_BEFORE_LCURLY
     ) public void
     setWrapElementValueArrayInitializerBeforeLCurly(String value) { this.wrapElementValueArrayInitializerBeforeLCurly = AbstractWrapCheck.toWrap(value); } // SUPPRESS CHECKSTYLE LineLength

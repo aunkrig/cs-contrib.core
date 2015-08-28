@@ -33,7 +33,6 @@ import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.puppycrawl.tools.checkstyle.api.Check;
@@ -43,7 +42,6 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.csdoclet.annotation.IntegerRuleProperty;
 import de.unkrig.csdoclet.annotation.Message;
-import net.sf.eclipsecs.core.config.meta.IOptionProvider;
 
 /**
  * Abstract base class for the "{@code Wrap...Check}" family of checks.
@@ -253,17 +251,9 @@ class AbstractWrapCheck extends Check {
     // END CONFIGURATION
 
     /**
-     * For a more compact notation in 'checkstyle-metadata.xml' we define this {@link IOptionProvider}.
+     * Whether line MUST, MAY or MUST NOT be wrapped at a particular point.
      */
-    public static
-    class WrapOptionProvider implements IOptionProvider {
-
-        private static final List<String>
-        WRAP_OPTIONS = Collections.unmodifiableList(Arrays.asList("always", "optional", "never"));
-
-        @Override public List<String>
-        getOptions() { return WrapOptionProvider.WRAP_OPTIONS; }
-    }
+    public enum Wrap { ALWAYS, OPTIONAL, NEVER } // SUPPRESS CHECKSTYLE JavadocVariable
 
     /**
      * Converts the string values "always", "optional", "never" into {@link Control#MUST_WRAP}, {@link
