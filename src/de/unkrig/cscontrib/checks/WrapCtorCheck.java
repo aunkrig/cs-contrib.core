@@ -94,7 +94,7 @@ class WrapCtorCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapCtorCheck.DEFAULT_WRAP_DECL_BEFORE_NAME
     ) public void
     setWrapDeclBeforeName(String value) { this.wrapDeclBeforeName = AbstractWrapCheck.toWrap(value); }
@@ -113,7 +113,7 @@ class WrapCtorCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapCtorCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY
     ) public void
     setWrapDeclBeforeLCurly(String value) { this.wrapDeclBeforeLCurly = AbstractWrapCheck.toWrap(value); }

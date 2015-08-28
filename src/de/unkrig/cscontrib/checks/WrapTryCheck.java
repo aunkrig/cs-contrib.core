@@ -70,7 +70,7 @@ class WrapTryCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapTryCheck.DEFAULT_WRAP_BEFORE_CATCH
     ) public void
     setWrapBeforeCatch(String value) { this.wrapBeforeCatch = AbstractWrapCheck.toWrap(value); }
@@ -89,7 +89,7 @@ class WrapTryCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapTryCheck.DEFAULT_WRAP_BEFORE_FINALLY
     ) public void
     setWrapBeforeFinally(String value) { this.wrapBeforeFinally = AbstractWrapCheck.toWrap(value); }

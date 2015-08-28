@@ -69,7 +69,7 @@ class WrapPackageCheck extends AbstractWrapCheck {
      *                </p>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapPackageCheck.DEFAULT_WRAP_DECL_BEFORE_PACKAGE
     ) public void
     setWrapDeclBeforePackage(String value) { this.wrapDeclBeforePackage = AbstractWrapCheck.toWrap(value); }

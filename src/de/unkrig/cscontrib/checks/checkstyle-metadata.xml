@@ -373,7 +373,7 @@
                 default-value="always"
             >
                 <description>%WrapAnnotationCheck.wrapDeclBeforeAt</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="wrapDeclBeforeLCurly"
@@ -381,7 +381,7 @@
                 default-value="never"
             >
                 <description>%WrapAnnotationCheck.wrapDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="allowMultiplePerLine"
@@ -396,7 +396,7 @@
                 default-value="never"
             >
                 <description>%WrapAnnotationCheck.wrapElementValueArrayInitializerBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="allowMultipleElementValueArrayInitializersPerLine"
@@ -432,7 +432,7 @@
                 default-value="never"
             >
                 <description>%WrapAnonymousClassCheck.wrapDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
@@ -461,7 +461,7 @@
                 default-value="never"
             >
                 <description>%WrapArrayInitCheck.wrapBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="allowMultipleValuesPerLine"
@@ -497,7 +497,7 @@
                 default-value="optional"
             >
                 <description>%WrapBinaryOperatorCheck.wrapBeforeOperator</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="wrapAfterOperator"
@@ -505,7 +505,7 @@
                 default-value="never"
             >
                 <description>%WrapBinaryOperatorCheck.wrapAfterOperator</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
@@ -541,7 +541,7 @@
                 default-value="always"
             >
                 <description>%WrapClassCheck.wrapDeclBeforeClass</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="wrapDeclBeforeLCurly"
@@ -549,7 +549,7 @@
                 default-value="never"
             >
                 <description>%WrapClassCheck.wrapDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
@@ -585,7 +585,7 @@
                 default-value="always"
             >
                 <description>%WrapCtorCheck.wrapDeclBeforeName</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="wrapDeclBeforeLCurly"
@@ -593,7 +593,7 @@
                 default-value="never"
             >
                 <description>%WrapCtorCheck.wrapDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="allowMultipleArgsPerLine"
@@ -636,7 +636,7 @@
                 default-value="never"
             >
                 <description>%WrapDoCheck.wrapBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
@@ -672,7 +672,7 @@
                 default-value="always"
             >
                 <description>%WrapEnumCheck.wrapDeclBeforeEnum</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="wrapDeclBeforeLCurly"
@@ -680,7 +680,7 @@
                 default-value="never"
             >
                 <description>%WrapEnumCheck.wrapDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="allowMultipleConstantsPerLine"
@@ -716,7 +716,7 @@
                 default-value="optional"
             >
                 <description>%WrapFieldCheck.wrapDeclBeforeName</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
@@ -752,7 +752,7 @@
                 default-value="always"
             >
                 <description>%WrapInterfaceCheck.wrapDeclBeforeInterface</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="wrapDeclBeforeLCurly"
@@ -760,7 +760,7 @@
                 default-value="never"
             >
                 <description>%WrapInterfaceCheck.wrapDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
@@ -789,7 +789,7 @@
                 default-value="optional"
             >
                 <description>%WrapLocalVariableCheck.wrapDeclBeforeName</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
@@ -825,7 +825,7 @@
                 default-value="always"
             >
                 <description>%WrapMethodCheck.wrapDeclBeforeName</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="wrapMethodDeclBeforeLCurly"
@@ -833,7 +833,7 @@
                 default-value="never"
             >
                 <description>%WrapMethodCheck.wrapMethodDeclBeforeLCurly</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="allowMultipleArgsPerLine"
@@ -876,7 +876,7 @@
                 default-value="always"
             >
                 <description>%WrapPackageCheck.wrapDeclBeforePackage</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />
@@ -933,7 +933,7 @@
                 default-value="optional"
             >
                 <description>%WrapTryCheck.wrapBeforeCatch</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
             <property-metadata
                 name="wrapBeforeFinally"
@@ -941,7 +941,7 @@
                 default-value="optional"
             >
                 <description>%WrapTryCheck.wrapBeforeFinally</description>
-                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$WrapOptionProvider" />
+                <enumeration option-provider="de.unkrig.cscontrib.checks.AbstractWrapCheck$Wrap" />
             </property-metadata>
 
             <quickfix classname="de.unkrig.cscontrib.ui.quickfixes.WrapAndIndent1" />

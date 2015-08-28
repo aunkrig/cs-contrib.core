@@ -90,7 +90,7 @@ class WrapInterfaceCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapInterfaceCheck.DEFAULT_WRAP_DECL_BEFORE_INTERFACE
     ) public void
     setWrapDeclBeforeInterface(String value) {
@@ -111,7 +111,7 @@ class WrapInterfaceCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapInterfaceCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY
     ) public void
     setWrapDeclBeforeLCurly(String value) { this.wrapDeclBeforeLCurly = AbstractWrapCheck.toWrap(value); }

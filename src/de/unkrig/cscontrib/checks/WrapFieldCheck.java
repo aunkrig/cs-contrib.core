@@ -71,7 +71,7 @@ class WrapFieldCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapFieldCheck.DEFAULT_WRAP_DECL_BEFORE_NAME
     ) public void
     setWrapDeclBeforeName(String value) { this.wrapDeclBeforeName = AbstractWrapCheck.toWrap(value); }

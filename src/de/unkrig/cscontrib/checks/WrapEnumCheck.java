@@ -83,7 +83,7 @@ class WrapEnumCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapEnumCheck.DEFAULT_WRAP_DECL_BEFORE_ENUM
     ) public void
     setWrapDeclBeforeEnum(String value) { this.wrapDeclBeforeEnum = AbstractWrapCheck.toWrap(value); }
@@ -102,7 +102,7 @@ class WrapEnumCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapEnumCheck.DEFAULT_WRAP_DECL_BEFORE_LCURLY
     ) public void
     setWrapDeclBeforeLCurly(String value) { this.wrapDeclBeforeLCurly = AbstractWrapCheck.toWrap(value); }

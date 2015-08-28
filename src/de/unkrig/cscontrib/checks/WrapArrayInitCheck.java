@@ -80,7 +80,7 @@ class WrapArrayInitCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapArrayInitCheck.DEFAULT_WRAP_BEFORE_LCURLY
     ) public void
     setWrapBeforeLCurly(String value) { this.wrapBeforeLCurly = AbstractWrapCheck.toWrap(value); }

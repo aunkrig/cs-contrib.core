@@ -67,7 +67,7 @@ class WrapBinaryOperatorCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapBinaryOperatorCheck.DEFAULT_WRAP_BEFORE_OPERATOR
     ) public void
     setWrapBeforeOperator(String value) { this.wrapBeforeOperator = AbstractWrapCheck.toWrap(value); }
@@ -87,7 +87,7 @@ class WrapBinaryOperatorCheck extends AbstractWrapCheck {
      * </pre>
      */
     @SingleSelectRuleProperty(
-        optionProvider = WrapOptionProvider.class,
+        optionProvider = Wrap.class,
         defaultValue   = WrapBinaryOperatorCheck.DEFAULT_WRAP_AFTER_OPERATOR
     ) public void
     setWrapAfterOperator(String value) { this.wrapAfterOperator = AbstractWrapCheck.toWrap(value); }
