@@ -39,7 +39,9 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.checks.AbstractWrapCheck;
 
 /**
- * Quickfix for {@link AbstractWrapCheck#MESSAGE_KEY_MUST_WRAP}
+ * Wrap this line at the correct position
+ *
+ * @cs-label Wrap line
  */
 @NotNullByDefault(false) public
 class WrapAndIndent1 extends AbstractDocumentResolution {

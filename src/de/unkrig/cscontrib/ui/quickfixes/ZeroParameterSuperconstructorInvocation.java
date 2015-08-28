@@ -36,7 +36,11 @@ import org.eclipse.swt.graphics.Image;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.ui.PluginImages;
 
-/***/
+/**
+ * Remove redundant invocation of zero-parameter superconstructor
+ *
+ * @cs-label Remove
+ */
 @NotNullByDefault(false) public
 class ZeroParameterSuperconstructorInvocation extends AbstractASTResolution {
 
