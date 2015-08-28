@@ -47,7 +47,7 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>applyToFieldInitializer = "<u>true</u> | false"
-<dd>Check alignment of first '=' in field declarations.
+<dd>Check alignment of first "<code>=</code>" in field declarations.
 </dl>
 
 <dl>
@@ -62,12 +62,12 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>applyToLocalVariableInitializer = "<u>true</u> | false"
-<dd>Check alignment of first '=' in local variable declarations.
+<dd>Check alignment of first "<code>=</code>" in local variable declarations.
 </dl>
 
 <dl>
 <dt>applyToAssignments = "<u>true</u> | false"
-<dd>Check alignment of '=' in assignments.
+<dd>Check alignment of "<code>=</code>" in assignments.
 </dl>
 
 <dl>
@@ -82,6 +82,6 @@ Default values appear <u>underlined</u>.
 
 <dl>
 <dt>applyToMethodBody = "<u>true</u> | false"
-<dd>Check alignment of '{' in method (and constructor) declarations.
+<dd>Check alignment of "<code>{</code>" in method (and constructor) declarations.
 </dl>
 

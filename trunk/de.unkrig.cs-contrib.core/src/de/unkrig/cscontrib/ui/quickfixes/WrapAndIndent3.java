@@ -41,7 +41,9 @@ import de.unkrig.cscontrib.Activator;
 import de.unkrig.cscontrib.checks.AbstractWrapCheck;
 
 /**
- * Quickfix for {@link AbstractWrapCheck#MESSAGE_KEY_WRONG_COLUMN}.
+ * Correct the indentation of this line
+ *
+ * @cs-label Correct indentation
  */
 @NotNullByDefault(false) public
 class WrapAndIndent3 extends AbstractJavaResolution {

@@ -40,7 +40,11 @@ import org.eclipse.swt.graphics.Image;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.ui.PluginImages;
 
-/***/
+/**
+ * Parenthesize assignment to indicate that it is intentional
+ *
+ * @cs-label Parenthesize assignment
+ */
 @NotNullByDefault(false) public
 class InnerAssignment extends AbstractASTResolution {
 
