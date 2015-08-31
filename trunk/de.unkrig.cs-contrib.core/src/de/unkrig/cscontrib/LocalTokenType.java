@@ -216,6 +216,9 @@ enum LocalTokenType {
     //   BLOCK_COMMENT_BEGIN
     //   BLOCK_COMMENT_END
     //   COMMENT_CONTENT
+
+    // All other CS tokens map to THIS LocalTokenType.
+    UNKNOWN_TOKEN
     ;
 
     // CHECKSTYLE JavadocVariable:ON
@@ -223,11 +226,18 @@ enum LocalTokenType {
     private
     LocalTokenType() {
 
-        // Find the corresponding constant in 'TokenTypes'.
-        try {
-            this.delocalized = (Integer) TokenTypes.class.getField(this.name()).get(null);
-        } catch (Exception e) {
-            throw new ExceptionInInitializerError(e);
+        String name = this.name();
+        if ("UNKNOWN_TOKEN".equals(name)) {
+
+            this.delocalized = -1;
+        } else {
+
+            // Find the corresponding constant in 'TokenTypes'.
+            try {
+                this.delocalized = (Integer) TokenTypes.class.getField(name).get(null);
+            } catch (Exception e) {
+                throw new ExceptionInInitializerError(e);
+            }
         }
     }
     private final int delocalized;
@@ -249,8 +259,7 @@ enum LocalTokenType {
     public static LocalTokenType
     localize(int tt) {
         LocalTokenType ltt = LocalTokenType.TO_LOCAL.get(tt);
-        assert ltt != null : "Unknown token type " + tt;
-        return ltt;
+        return ltt == null ? LocalTokenType.UNKNOWN_TOKEN : ltt;
     }
 
     /**
