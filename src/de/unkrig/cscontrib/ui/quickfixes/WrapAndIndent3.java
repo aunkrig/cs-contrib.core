@@ -41,7 +41,7 @@ import de.unkrig.cscontrib.Activator;
 import de.unkrig.cscontrib.checks.AbstractWrapCheck;
 
 /**
- * Correct the indentation of this line
+ * Corrects the indentation of this line.
  *
  * @cs-label Correct indentation
  */

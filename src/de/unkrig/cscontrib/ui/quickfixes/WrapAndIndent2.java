@@ -38,7 +38,7 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.checks.AbstractWrapCheck;
 
 /**
- * Append this line to the previous
+ * Appends this line to the previous.
  *
  * @cs-label Join lines
  */

@@ -74,12 +74,6 @@ class WrapClassCheck extends AbstractWrapCheck {
      * <pre>
      * public class Pojo { int fld; }
      * </pre>
-     *
-     * @cs-intertitle <h3>One-line Declarations</h3>
-     *                <p>
-     *                  The following properties refer to 'one-line declarations', i.e. declarations completely without
-     *                  line breaks.
-     *                </p>
      */
     @BooleanRuleProperty(defaultValue = WrapClassCheck.DEFAULT_ALLOW_ONE_LINE_DECL)
     public void

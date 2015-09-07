@@ -37,7 +37,7 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.ui.PluginImages;
 
 /**
- * Remove redundant invocation of zero-parameter superconstructor
+ * Removes the redundant invocation of the zero-parameter superconstructor.
  *
  * @cs-label Remove
  */

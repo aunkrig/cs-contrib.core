@@ -20,35 +20,35 @@
 
             <property-metadata
                 name="offFormat"
-                datatype="Regex"
+                datatype="REGEX"
                 override-default-value="CHECKSTYLE (.+):OFF"
             >
                 <description>%SuppressionLine.offFormat</description>
             </property-metadata>
             <property-metadata
                 name="onFormat"
-                datatype="Regex"
+                datatype="REGEX"
                 override-default-value="CHECKSTYLE (.+):ON"
             >
                 <description>%SuppressionLine.onFormat</description>
             </property-metadata>
             <property-metadata
                 name="checkNameFormat"
-                datatype="Regex"
+                datatype="REGEX"
                 override-default-value="$1"
             >
                 <description>%SuppressionLine.checkNameFormat</description>
             </property-metadata>
             <property-metadata
                 name="messageFormat"
-                datatype="Regex"
+                datatype="REGEX"
                 override-default-value="$1"
             >
                 <description>%SuppressionLine.messageFormat</description>
             </property-metadata>
             <property-metadata
                 name="moduleIdFormat"
-                datatype="Regex"
+                datatype="REGEX"
                 override-default-value="$1"
             >
                 <description>%SuppressionLine.moduleIdFormat</description>
