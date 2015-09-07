@@ -41,6 +41,10 @@ import de.unkrig.csdoclet.annotation.SingleSelectRuleProperty;
 
 /**
  * Verifies that package declarations are uniformly wrapped and indented.
+ * <p>
+ *   The phrase "wrap before X" means that a line break and spaces appear right before "X", such that "X" is vertically
+ *   aligned with the first token in the immediately preceding line.
+ * </p>
  */
 @Rule(
     group      = "%Whitespace.group",
@@ -61,12 +65,6 @@ class WrapPackageCheck extends AbstractWrapCheck {
      * &#64;NonNullByDefault
      * package com.acme.product;
      * </pre>
-     *
-     * @cs-intertitle <h3>Declaration Wrapping</h3>
-     *                <p>
-     *                  The phrase "wrap before X" means that a line break and spaces appear right before "X", such
-     *                  that "X" is vertically aligned with the first token in the immediately preceding line.
-     *                </p>
      */
     @SingleSelectRuleProperty(
         optionProvider = Wrap.class,

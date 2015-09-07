@@ -39,7 +39,7 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.checks.AbstractWrapCheck;
 
 /**
- * Wrap this line at the correct position
+ * Wraps this line at the correct position.
  *
  * @cs-label Wrap line
  */

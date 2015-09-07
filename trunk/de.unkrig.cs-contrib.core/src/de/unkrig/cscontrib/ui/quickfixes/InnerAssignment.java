@@ -41,7 +41,7 @@ import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.ui.PluginImages;
 
 /**
- * Parenthesize assignment to indicate that it is intentional
+ * Parenthesizes the assignment to indicate that it is intentional.
  *
  * @cs-label Parenthesize assignment
  */

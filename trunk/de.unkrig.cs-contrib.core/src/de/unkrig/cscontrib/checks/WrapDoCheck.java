@@ -48,6 +48,10 @@ import de.unkrig.csdoclet.annotation.SingleSelectRuleProperty;
 
 /**
  * Verifies that DO statements are uniformly wrapped and indented.
+ * <p>
+ *   The phrase "wrap before X" means that a line break and space appear right before "X", such that "X" is vertically
+ *   aligned with the first token in the immediately preceding line.
+ * </p>
  */
 @Rule(
     group      = "%Whitespace.group",
@@ -67,12 +71,6 @@ class WrapDoCheck extends AbstractWrapCheck {
      * do
      * {
      * </pre>
-     *
-     * @cs-intertitle <h3>Other Elements Wrapping</h3>
-     *                <p>
-     *                  The phrase "wrap before X" means that a line break and space appear right before "X", such
-     *                  that "X" is vertically aligned with the first token in the immediately preceding line.
-     *                </p>
      */
     @SingleSelectRuleProperty(
         optionProvider = Wrap.class,

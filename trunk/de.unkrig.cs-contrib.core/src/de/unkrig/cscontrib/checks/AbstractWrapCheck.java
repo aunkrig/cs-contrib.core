@@ -234,8 +234,6 @@ class AbstractWrapCheck extends Check {
 
     /**
      * How many spaces to use for each new indentation level.
-     *
-     * @cs-intertitle <h3>Indentation</h3>
      */
     @IntegerRuleProperty(defaultValue = AbstractWrapCheck.DEFAULT_BASIC_OFFSET)
     public void
