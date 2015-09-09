@@ -8,13 +8,9 @@
 			src/de.unkrig.cscontrib/{checks filters}/checkstyle.properties
 			src/de.unkrig.cscontrib/{checks filters}/checkstyle.xml
 			src/de.unkrig.cscontrib/{checks filters}/messages.properties
-			mediawiki/*.mw
 		.
 	-->
 	<target name="generate">
-
-		<delete dir="mediawiki" />
-		<mkdir dir="mediawiki" />
 
 		<eclipse.convertPath resourcePath="no-template-core" property="no-template-core" />
 		<path id="cs.doclet.path">
