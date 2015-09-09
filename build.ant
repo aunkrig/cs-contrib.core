@@ -16,32 +16,36 @@
 		<delete dir="mediawiki" />
 		<mkdir dir="mediawiki" />
 
-		<path id="doclet.path">
+		<eclipse.convertPath resourcePath="no-template-core" property="no-template-core" />
+		<path id="cs.doclet.path">
 
-			<!-- CS doclet: -->
-			<fileset file="../de.unkrig.cs-contrib_dist/lib/de.unkrig.doclet.cs.jar" />
+			<pathelement location="../de.unkrig.doclet.cs/bin"            />
+			<pathelement location="../de.unkrig.doclet.cs.annotation/bin" />
+			<pathelement location="../de.unkrig.commons.doclet/bin" />
+			<pathelement location="../de.unkrig.commons.lang/bin"   />
+			<pathelement location="../de.unkrig.commons.text/bin"   />
+			<pathelement location="${no-template-core}/bin" />
+
+			<!-- Unclear why this is needed: -->
+			<dirset  dir="." includes="bin" />
 
 			<!-- Iff rules use 'option providers': -->
 			<fileset dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
+		</path>
 <!--
-			<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.core_*" />
+		<path id="cs.doclet.path">
+
+			<fileset file="../de.unkrig.cs-contrib_dist/lib/de.unkrig.doclet.cs.jar" />
+
+			<!- - Iff rules use 'option providers': - ->
+			<fileset dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
+
+			<!- - Iff there are quickfixes: - ->
+			<dirset  dir="."                       includes="bin"                              />
+		</path>
 -->
 
-			<!-- Iff there are quickfixes: -->
-			<dirset  dir="."                       includes="bin"                              />
-<!--
-			<dirset  dir="${eclipse.home}/plugins" includes="net.sf.eclipsecs.ui_*"            />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.equinox.common_*.jar" />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jface.text_*.jar"     />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.jdt.core_*.jar"       />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.osgi_*.jar"           />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.text_*.jar"           />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.editors_*.jar"     />
-			<fileset dir="${eclipse.home}/plugins" includes="org.eclipse.ui.ide_*.jar"         />
--->
-		</path>
-		
-		<javadoc docletpathref="doclet.path" doclet="de.unkrig.doclet.cs.CsDoclet">
+		<javadoc docletpathref="cs.doclet.path" doclet="de.unkrig.doclet.cs.CsDoclet">
 
 			<!-- The 'CheckStyle packages' which contain the rules (checks, filters) to process: -->
 			<sourcepath path="src" />
