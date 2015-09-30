@@ -79,6 +79,9 @@ class InnerAssignment extends Check {
         // Field or variable initializer?
         if (AstUtil.parentTypeIs(ast, LocalTokenType.VARIABLE_DEF)) return; // int a = 3;
 
+        // Try-with-resource?
+        if (AstUtil.parentTypeIs(ast, LocalTokenType.RESOURCE)) return; // try { InputStream is = new ... }
+
         // Assignment statement?
         if (AstUtil.parentTypeIs(ast, LocalTokenType.EXPR) && (
             AstUtil.grandParentTypeIs(ast, LocalTokenType.SLIST)           // { ... a = b
