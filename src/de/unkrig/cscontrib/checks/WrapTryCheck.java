@@ -28,14 +28,19 @@ package de.unkrig.cscontrib.checks;
 
 import static de.unkrig.cscontrib.LocalTokenType.LITERAL_CATCH;
 import static de.unkrig.cscontrib.LocalTokenType.LITERAL_FINALLY;
+import static de.unkrig.cscontrib.LocalTokenType.LPAREN;
+import static de.unkrig.cscontrib.LocalTokenType.RESOURCES;
+import static de.unkrig.cscontrib.LocalTokenType.RPAREN;
 import static de.unkrig.cscontrib.LocalTokenType.SLIST;
 import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.END;
 import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.FORK1;
 import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.FORK2;
 import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.FORK3;
+import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.FORK4;
 import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.LABEL1;
 import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.LABEL2;
 import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.LABEL3;
+import static de.unkrig.cscontrib.checks.AbstractWrapCheck.Control.LABEL4;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
@@ -63,6 +68,26 @@ class WrapTryCheck extends AbstractWrapCheck {
     // ============================================= BEGIN CONFIGURATION =============================================
 
     /**
+     * Whether to wrap {@code TRY}-with-resources statements before the opening parenthesis of the resource
+     * specification. Example:
+     * <pre>
+     * try
+     * (...) { ... }
+     * </pre>
+     */
+    @SingleSelectRuleProperty(
+        optionProvider = Wrap.class,
+        defaultValue   = WrapTryCheck.DEFAULT_WRAP_BEFORE_RESOURCE_SPECIFICATION
+    ) public void
+    setWrapBeforeResourceSpecification(String value) { this.wrapBeforeResourceSpecification = AbstractWrapCheck.toWrap(value); }
+
+    private Control
+    wrapBeforeResourceSpecification = AbstractWrapCheck.toWrap(WrapTryCheck.DEFAULT_WRAP_BEFORE_RESOURCE_SPECIFICATION);
+
+    private static final String
+    DEFAULT_WRAP_BEFORE_RESOURCE_SPECIFICATION = "never";
+
+    /**
      * Whether to wrap {@code TRY} statements before the {@code CATCH} keyword. Example:
      * <pre>
      * try { ... }
@@ -80,6 +105,25 @@ class WrapTryCheck extends AbstractWrapCheck {
 
     private static final String
     DEFAULT_WRAP_BEFORE_CATCH = "optional";
+
+    /**
+     * Whether to wrap {@code TRY} statements before the body. Example:
+     * <pre>
+     * try
+     * { ... } // &lt;- The body starts with '{'.
+     * </pre>
+     */
+    @SingleSelectRuleProperty(
+        optionProvider = Wrap.class,
+        defaultValue   = WrapTryCheck.DEFAULT_WRAP_BEFORE_BODY
+    ) public void
+    setWrapBeforeBody(String value) { this.wrapBeforeBody = AbstractWrapCheck.toWrap(value); }
+
+    private Control
+    wrapBeforeBody = AbstractWrapCheck.toWrap(WrapTryCheck.DEFAULT_WRAP_BEFORE_BODY);
+
+    private static final String
+    DEFAULT_WRAP_BEFORE_BODY = "never";
 
     /**
      * Whether to wrap {@code TRY} statements before the {@code FINALLY} keyword. Example:
@@ -104,19 +148,40 @@ class WrapTryCheck extends AbstractWrapCheck {
 
     @Override public int[]
     getDefaultTokens() {
-        return LocalTokenType.delocalize(new LocalTokenType[] { LocalTokenType.LITERAL_TRY });
+        return LocalTokenType.delocalize(new LocalTokenType[] { LocalTokenType.LITERAL_TRY, LocalTokenType.RESOURCE_SPECIFICATION });
     }
 
     @Override public void
     visitToken(DetailAST ast) {
         assert ast != null;
 
-        this.checkChildren(
-            ast,
-            SLIST, FORK2,
-            LABEL1, this.wrapBeforeCatch, LITERAL_CATCH, FORK1, FORK3,
-            LABEL2, this.wrapBeforeFinally, LITERAL_FINALLY,
-            LABEL3, END
-        );
+        switch (LocalTokenType.localize(ast.getType())) {
+
+        //  TRY -> ...
+        //   v
+        //  [ RESOURCE_SPECIFICATION -> ] SLIST -> { LITERAL_CATCH -> } [ LITERAL_FINALLY -> ] END
+        case LITERAL_TRY:
+            this.checkChildren(
+                ast,
+                FORK1,
+                this.wrapBeforeResourceSpecification, LocalTokenType.RESOURCE_SPECIFICATION,
+                LABEL1, this.wrapBeforeBody, SLIST, FORK3,
+                LABEL2, this.wrapBeforeCatch, LITERAL_CATCH, FORK2, FORK4,
+                LABEL3, this.wrapBeforeFinally, LITERAL_FINALLY,
+                LABEL4, END
+            );
+            break;
+
+        case RESOURCE_SPECIFICATION:
+            this.checkChildren(
+                ast,
+                LPAREN, RESOURCES, RPAREN,
+                END
+            );
+            break;
+
+        default:
+            throw new IllegalStateException(Integer.toString(ast.getType()));
+        }
     }
 }
