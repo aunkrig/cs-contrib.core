@@ -140,22 +140,40 @@ class WrapMethodCheck extends AbstractWrapCheck {
 
     @Override public int[]
     getDefaultTokens() {
-        return LocalTokenType.delocalize(new LocalTokenType[] { LocalTokenType.METHOD_DEF });
+        return LocalTokenType.delocalize(new LocalTokenType[] { LocalTokenType.METHOD_DEF, LocalTokenType.ELIST });
     }
 
     @Override public void
     visitToken(DetailAST ast) {
         assert ast != null;
 
-        if (this.allowOneLineDecl && AbstractWrapCheck.isSingleLine(ast)) return;
+        switch (LocalTokenType.localize(ast.getType())) {
 
-        this.checkChildren(
-            ast,
-            MODIFIERS, FORK1, TYPE_PARAMETERS,
-            LABEL1, TYPE, this.wrapDeclBeforeName, IDENT, LPAREN, INDENT_IF_CHILDREN, PARAMETERS, UNINDENT, RPAREN, FORK2, MAY_WRAP, LITERAL_THROWS, // SUPPRESS CHECKSTYLE LineLength
-            LABEL2, FORK3, this.wrapDeclBeforeLCurly, SLIST, END,
-            LABEL3, SEMI, END
-        );
+        case METHOD_DEF:
+            if (this.allowOneLineDecl && AbstractWrapCheck.isSingleLine(ast)) return;
+
+            this.checkChildren(
+                ast,
+                MODIFIERS, FORK1, TYPE_PARAMETERS,
+                LABEL1, TYPE, this.wrapDeclBeforeName, IDENT, LPAREN, INDENT_IF_CHILDREN, PARAMETERS, UNINDENT, RPAREN, FORK2, MAY_WRAP, LITERAL_THROWS, // SUPPRESS CHECKSTYLE LineLength
+                LABEL2, FORK3, this.wrapDeclBeforeLCurly, SLIST, END,
+                LABEL3, SEMI, END
+            );
+            break;
+
+        case ELIST:
+
+            this.checkChildren(
+                ast,
+                FORK2, EXPR, FORK2,
+                LABEL1, LocalTokenType.COMMA, MAY_INDENT, EXPR, FORK1,
+                LABEL2, END
+            );
+            break;
+
+        default:
+            throw new IllegalArgumentException(Integer.toString(ast.getType()));
+        }
     }
 
     @Override protected boolean
