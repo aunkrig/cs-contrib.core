@@ -478,8 +478,13 @@ class AstUtil {
             case LITERAL_FOR:
                 return ast.getNextSibling().getFirstChild() == null ? L_PAREN__FOR_NO_INIT : L_PAREN__FOR;
 
+            case RESOURCE_SPECIFICATION:
+                return L_PAREN__RESOURCES;
+
             default:
-                if (nextSiblingType == LocalTokenType.PARAMETERS) return L_PAREN__PARAMS;
+                if (nextSiblingType == LocalTokenType.PARAMETERS) {
+                    return parentType == LocalTokenType.LAMBDA ? L_PAREN__LAMBDA_PARAMS : L_PAREN__PARAMS;
+                }
                 return L_PAREN__PARENTHESIZED;
             }
 
@@ -556,6 +561,9 @@ class AstUtil {
                 case LITERAL_CATCH:
                     return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_CATCH : R_CURLY__CATCH;
 
+                case LAMBDA:
+                    return ast.getPreviousSibling() == null ? R_CURLY__EMPTY_LAMBDA : R_CURLY__LAMBDA;
+
                 default:
                     assert false : grandParentType;
                 }
@@ -578,6 +586,7 @@ class AstUtil {
 
             case CTOR_DEF:
             case METHOD_DEF:
+            case LAMBDA:
                 return R_PAREN__PARAMS;
 
             case SUPER_CTOR_CALL:
@@ -587,6 +596,9 @@ class AstUtil {
 
             case LITERAL_FOR:
                 return ast.getPreviousSibling().getFirstChild() == null ? R_PAREN__FOR_NO_UPDATE : R_PAREN__FOR;
+
+            case RESOURCE_SPECIFICATION:
+                return R_PAREN__RESOURCES;
 
             default:
                 if (previousSiblingType == LocalTokenType.TYPE) return R_PAREN__CAST;
@@ -648,6 +660,9 @@ class AstUtil {
             case VARIABLE_DEF:
                 if (grandParentType == LocalTokenType.OBJBLOCK) return SEMI__FIELD_DECL;
                 break;
+
+            case RESOURCES:
+                return SEMI__RESOURCES;
 
             default:
                 assert false : parentType;
