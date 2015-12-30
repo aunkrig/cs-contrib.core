@@ -964,6 +964,15 @@ enum JavaElement {
      * TODO.
      * <dl>
      *   <dt>Example:</dt>
+     *   <dd><tt>Runnable ru = <font color="red">(</font>) -> { ...</tt></dd>
+     * </dl>
+     */
+    L_PAREN__LAMBDA_PARAMS,
+
+    /**
+     * TODO.
+     * <dl>
+     *   <dt>Example:</dt>
      *   <dd><tt>a<font color="red">(</font>x, y)</tt></dd>
      * </dl>
      */
@@ -986,6 +995,15 @@ enum JavaElement {
      * </dl>
      */
     L_PAREN__PARENTHESIZED,
+
+    /**
+     * TODO.
+     * <dl>
+     *   <dt>Example:</dt>
+     *   <dd><tt>try <font color="red">(</font>Reader r = ...) { ...</tt></dd>
+     * </dl>
+     */
+    L_PAREN__RESOURCES,
 
     /**
      * TODO.
@@ -1576,6 +1594,15 @@ enum JavaElement {
     /**
      * TODO.
      * <dl>
+     *   <dt>Example:</dt>
+     *   <dd><tt>() {<font color="red">}</font></tt></dd>
+     * </dl>
+     */
+    R_CURLY__EMPTY_LAMBDA,
+
+    /**
+     * TODO.
+     * <dl>
      *   <dt>Examples:</dt>
      *   <dd><tt>public MyClass(...) {<font color="red">}</font></tt></dd>
      *   <dd><tt>public method(...) {<font color="red">}</font></tt></dd>
@@ -1648,6 +1675,15 @@ enum JavaElement {
      * </dl>
      */
     R_CURLY__LABELED_STAT,
+
+    /**
+     * TODO.
+     * <dl>
+     *   <dt>Example:</dt>
+     *   <dd><tt>() { ... <font color="red">}</font></tt></dd>
+     * </dl>
+     */
+    R_CURLY__LAMBDA,
 
     /**
      * The curly right brace "<code>}</code>" at the end of a method declaration.
@@ -1813,6 +1849,15 @@ enum JavaElement {
      * </dl>
      */
     R_PAREN__PARENTHESIZED,
+
+    /**
+     * TODO.
+     * <dl>
+     *   <dt>Example:</dt>
+     *   <dd><tt>try (Reader r  = ...<font color="red">)</font> {</tt></dd>
+     * </dl>
+     */
+    R_PAREN__RESOURCES,
 
     /**
      * TODO.
@@ -1985,6 +2030,15 @@ enum JavaElement {
      * </dl>
      */
     SEMI__PACKAGE_DECL,
+
+    /**
+     * TODO.
+     * <dl>
+     *   <dt>Example:</dt>
+     *   <dd><tt>try (Reader r = ...<font color="red">;</font> OutputStream os = ...</tt>) { ...</dd>
+     * </dl>
+     */
+    SEMI__RESOURCES,
 
     /**
      * TODO.
