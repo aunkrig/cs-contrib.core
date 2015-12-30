@@ -12,6 +12,7 @@
 	-->
 	<target name="generate">
 
+		<echo message="*** Generating CS metadata from source code..." />
 		<eclipse.convertPath resourcePath="no-template-core" property="no-template-core" />
 		<path id="cs.doclet.path">
 
