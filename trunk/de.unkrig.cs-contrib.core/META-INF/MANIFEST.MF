@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: eclipse-cs Plugin
+Bundle-Name: cs-contrib Core
 Bundle-SymbolicName: de.unkrig.cs-contrib.core;singleton:=true
-Bundle-Version: 0.0.0
+Bundle-Version: 1.2.6.qualifier
 Bundle-Activator: de.unkrig.cscontrib.Activator
 Bundle-Vendor: Arno Unkrig
 Require-Bundle: net.sf.eclipsecs.checkstyle;bundle-version="5.6.0",
