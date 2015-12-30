@@ -217,6 +217,9 @@ enum LocalTokenType {
     //   BLOCK_COMMENT_END
     //   COMMENT_CONTENT
 
+    // These token types were added in CheckStyle version ???:
+    LAMBDA,
+
     // All other CS tokens map to THIS LocalTokenType.
     UNKNOWN_TOKEN
     ;
