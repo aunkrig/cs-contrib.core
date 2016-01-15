@@ -79,7 +79,9 @@ class WrapTryCheck extends AbstractWrapCheck {
         optionProvider = Wrap.class,
         defaultValue   = WrapTryCheck.DEFAULT_WRAP_BEFORE_RESOURCE_SPECIFICATION
     ) public void
-    setWrapBeforeResourceSpecification(String value) { this.wrapBeforeResourceSpecification = AbstractWrapCheck.toWrap(value); }
+    setWrapBeforeResourceSpecification(String value) {
+        this.wrapBeforeResourceSpecification = AbstractWrapCheck.toWrap(value);
+    }
 
     private Control
     wrapBeforeResourceSpecification = AbstractWrapCheck.toWrap(WrapTryCheck.DEFAULT_WRAP_BEFORE_RESOURCE_SPECIFICATION);
@@ -148,7 +150,9 @@ class WrapTryCheck extends AbstractWrapCheck {
 
     @Override public int[]
     getDefaultTokens() {
-        return LocalTokenType.delocalize(new LocalTokenType[] { LocalTokenType.LITERAL_TRY, LocalTokenType.RESOURCE_SPECIFICATION });
+        return LocalTokenType.delocalize(
+            new LocalTokenType[] { LocalTokenType.LITERAL_TRY, LocalTokenType.RESOURCE_SPECIFICATION }
+        );
     }
 
     @Override public void
