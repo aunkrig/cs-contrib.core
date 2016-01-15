@@ -161,6 +161,7 @@ class AstUtil {
         case INC:                return PRE_INCR;
         case INDEX_OP:           return L_BRACK__INDEX;
         case LABELED_STAT:       return COLON__LABELED_STAT;
+        case LAMBDA:             return L_PAREN__LAMBDA_PARAMS;
         case LAND:               return CONDITIONAL_AND;
         case LE:                 return LESS_EQUAL;
         case LITERAL_ASSERT:     return ASSERT;
@@ -736,6 +737,9 @@ class AstUtil {
         case VARIABLE_DEF:
             // These are the 'virtual' tokens, i.e. token which are not uniquely related to a physical token.
             return null;
+
+        case UNKNOWN_TOKEN:
+            break;
 
         case EOF:
             assert false : "Unexpected token '" + ast + "' (" + type + ')';
