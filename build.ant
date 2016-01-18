@@ -12,6 +12,22 @@
 	-->
 	<target name="generate">
 
+		<!--
+			The only way to get classes from other (non-plug-in) projects into the plug-in appears to be to put JAR
+			files on the 'Runtime Classpath' ("plugin.xml", tab "Runtime", Section "Classpath").
+		-->
+		<echo message="*** Generating 'de.unkrig.doclet.cs.annotation.jar'..." />
+		<mkdir dir="libs" />
+		<jar jarfile="libs/de.unkrig.doclet.cs.annotation.jar">
+			<fileset dir="../de.unkrig.doclet.cs.annotation/bin" />
+		</jar>
+
+		<echo message="*** Generating 'de.unkrig.commons.nullanalysis.jar'..." />
+		<mkdir dir="libs" />
+		<jar jarfile="libs/de.unkrig.commons.nullanalysis.jar">
+			<fileset dir="../de.unkrig.commons.nullanalysis/bin" />
+		</jar>
+
 		<echo message="*** Generating CS metadata from source code..." />
 		<eclipse.convertPath resourcePath="no-template-core" property="no-template-core" />
 		<path id="cs.doclet.path">
