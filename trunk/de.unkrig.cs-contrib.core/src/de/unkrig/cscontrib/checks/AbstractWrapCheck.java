@@ -649,6 +649,8 @@ class AbstractWrapCheck extends Check {
     private static final Set<Object> SKIPPABLES;
     static {
         Set<Object> ss = new HashSet<Object>();
+
+        // SUPPRESS CHECKSTYLE WrapMethod:6
         ss.addAll(Arrays.asList(
             MAY_INDENT, UNINDENT, INDENT_IF_CHILDREN,
             MAY_WRAP,  MUST_WRAP, NO_WRAP,

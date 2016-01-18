@@ -140,6 +140,7 @@ class WrapEnumCheck extends AbstractWrapCheck {
 
         if (this.allowOneLineDecl && AbstractWrapCheck.isSingleLine(ast)) return;
 
+        // SUPPRESS CHECKSTYLE WrapMethod:6
         this.checkChildren(
             ast,
             MODIFIERS, this.wrapDeclBeforeEnum, ENUM, IDENT, this.wrapDeclBeforeLCurly, OBJBLOCK, END

@@ -152,6 +152,7 @@ class WrapMethodCheck extends AbstractWrapCheck {
         case METHOD_DEF:
             if (this.allowOneLineDecl && AbstractWrapCheck.isSingleLine(ast)) return;
 
+            // SUPPRESS CHECKSTYLE WrapMethod:6
             this.checkChildren(
                 ast,
                 MODIFIERS, FORK1, TYPE_PARAMETERS,
@@ -163,6 +164,7 @@ class WrapMethodCheck extends AbstractWrapCheck {
 
         case ELIST:
 
+            // SUPPRESS CHECKSTYLE WrapMethod:6
             this.checkChildren(
                 ast,
                 FORK2, EXPR, FORK2,

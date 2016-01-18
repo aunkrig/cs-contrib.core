@@ -95,6 +95,7 @@ class WrapDoCheck extends AbstractWrapCheck {
     visitToken(DetailAST ast) {
         assert ast != null;
 
+        // SUPPRESS CHECKSTYLE WrapMethod:6
         this.checkChildren(
             ast,
             this.wrapBeforeLCurly, SLIST, DO_WHILE, LPAREN, MAY_INDENT, EXPR, UNINDENT, RPAREN, SEMI, END
