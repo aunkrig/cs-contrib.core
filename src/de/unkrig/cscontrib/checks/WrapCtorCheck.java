@@ -163,6 +163,7 @@ class WrapCtorCheck extends AbstractWrapCheck {
 
         if (this.allowOneLineDecl && AbstractWrapCheck.isSingleLine(ast)) return;
 
+        // SUPPRESS CHECKSTYLE WrapMethod:6
         this.checkChildren(
             ast,
             MODIFIERS, FORK1, TYPE_PARAMETERS,

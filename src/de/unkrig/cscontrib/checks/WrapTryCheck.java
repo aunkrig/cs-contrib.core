@@ -155,6 +155,9 @@ class WrapTryCheck extends AbstractWrapCheck {
         );
     }
 
+    // Disable "WrapMethod" because we want multiple arguments per line in the "checkChildren()" calls:
+    // CHECKSTYLE WrapMethod:OFF
+
     @Override public void
     visitToken(DetailAST ast) {
         assert ast != null;

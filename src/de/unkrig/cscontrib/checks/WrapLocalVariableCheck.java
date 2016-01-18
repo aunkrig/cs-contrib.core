@@ -94,6 +94,8 @@ class WrapLocalVariableCheck extends AbstractWrapCheck {
         assert ast != null;
 
         if (ast.getParent().getType() != OBJBLOCK.delocalize()) {
+
+            // SUPPRESS CHECKSTYLE WrapMethod:6
             this.checkChildren(
                 ast,
                 MODIFIERS, TYPE, this.wrapDeclBeforeName, IDENT, FORK1, ASSIGN,

@@ -182,6 +182,7 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
         case ANNOTATION_DEF:
             if (this.allowOneLineDecl && AbstractWrapCheck.isSingleLine(ast)) return;
 
+            // SUPPRESS CHECKSTYLE WrapMethod:6
             this.checkChildren(
                 ast,
                 MODIFIERS, this.wrapDeclBeforeAt, AT, LITERAL_INTERFACE, IDENT, this.wrapDeclBeforeLCurly, OBJBLOCK, END // SUPPRESS CHECKSTYLE LineLength
@@ -189,6 +190,7 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
             break;
 
         case ANNOTATION:
+            // SUPPRESS CHECKSTYLE WrapMethod:12
             this.checkChildren(
                 ast,
                 AT, FORK1, DOT, BRANCH2,
@@ -205,6 +207,7 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
             break;
 
         case ANNOTATION_MEMBER_VALUE_PAIR:
+            // SUPPRESS CHECKSTYLE WrapMethod:6
             this.checkChildren(
                 ast,
                 IDENT, ASSIGN, FORK1, this.wrapElementValueArrayInitializerBeforeLCurly, ANNOTATION_ARRAY_INIT, END,

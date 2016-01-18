@@ -94,6 +94,7 @@ class WrapSwitchBlockStmtGroupCheck extends AbstractWrapCheck {
             && ast.getParent().getLineNo() == ast.getLineNo()
         ) return;
 
+        // SUPPRESS CHECKSTYLE WrapMethod:10
         this.checkChildren(
             ast,
             LABEL1, FORK2, MAY_INDENT, EXPR, SEMI, BRANCH1,

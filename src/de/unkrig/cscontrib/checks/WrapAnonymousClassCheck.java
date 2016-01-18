@@ -90,6 +90,7 @@ class WrapAnonymousClassCheck extends AbstractWrapCheck {
     visitToken(DetailAST ast) {
         assert ast != null;
 
+        // SUPPRESS CHECKSTYLE WrapMethod:6
         this.checkChildren(
             ast,
             ANY, FORK1, TYPE_ARGUMENTS,
