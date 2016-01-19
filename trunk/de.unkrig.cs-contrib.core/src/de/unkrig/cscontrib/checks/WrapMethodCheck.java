@@ -140,12 +140,16 @@ class WrapMethodCheck extends AbstractWrapCheck {
 
     @Override public int[]
     getDefaultTokens() {
-        return LocalTokenType.delocalize(new LocalTokenType[] { LocalTokenType.METHOD_DEF, LocalTokenType.ELIST });
+        return LocalTokenType.delocalize(
+            new LocalTokenType[] { LocalTokenType.METHOD_DEF, LocalTokenType.PARAMETERS, LocalTokenType.ELIST }
+        );
     }
 
     @Override public void
     visitToken(DetailAST ast) {
         assert ast != null;
+
+        @SuppressWarnings("unused") AstDumper astDumper = new AstDumper(ast);
 
         switch (LocalTokenType.localize(ast.getType())) {
 
@@ -162,12 +166,23 @@ class WrapMethodCheck extends AbstractWrapCheck {
             );
             break;
 
+        case PARAMETERS:
+
+            // SUPPRESS CHECKSTYLE WrapMethod:6
+            this.checkChildren(
+                ast,
+                FORK2, MAY_INDENT, PARAMETER_DEF, FORK2,
+                LABEL1, LocalTokenType.COMMA, MAY_INDENT, PARAMETER_DEF, FORK1,
+                LABEL2, END
+            );
+            break;
+
         case ELIST:
 
             // SUPPRESS CHECKSTYLE WrapMethod:6
             this.checkChildren(
                 ast,
-                FORK2, EXPR, FORK2,
+                FORK2, MAY_INDENT, EXPR, FORK2,
                 LABEL1, LocalTokenType.COMMA, MAY_INDENT, EXPR, FORK1,
                 LABEL2, END
             );
