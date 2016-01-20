@@ -282,7 +282,7 @@ class Alignment extends Check {
 
         case CASE_GROUP:
             if (this.applyToCaseGroupStatements) {
-                this.checkCaseGroupLignment(this.previousCaseGroup, ast);
+                this.checkCaseGroupAlignment(this.previousCaseGroup, ast);
                 this.previousCaseGroup = ast;
             }
             break;
@@ -317,12 +317,11 @@ class Alignment extends Check {
     }
 
     private void
-    checkCaseGroupLignment(DetailAST previous, DetailAST current) {
+    checkCaseGroupAlignment(DetailAST previous, DetailAST current) {
         if (previous == null) return;
 
-        DetailAST casE = current.getFirstChild();
-        if (LocalTokenType.localize(casE.getType()) != LocalTokenType.LITERAL_CASE) return;
-        DetailAST slist = casE.getNextSibling();
+        DetailAST caseOrDefault = current.getFirstChild();
+        DetailAST slist         = caseOrDefault.getNextSibling();
         if (LocalTokenType.localize(slist.getType()) != LocalTokenType.SLIST) return;
         if (slist.getChildCount() == 0) return;
 
