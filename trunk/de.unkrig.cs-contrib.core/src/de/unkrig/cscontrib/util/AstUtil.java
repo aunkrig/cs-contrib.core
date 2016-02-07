@@ -368,7 +368,9 @@ class AstUtil {
             case CTOR_DEF:                     return NAME__CTOR_DECL;
             case METHOD_DEF:                   return NAME__METH_DECL;
             case ANNOTATION_MEMBER_VALUE_PAIR: return NAME__ANNO_MEMBER;
-            case PARAMETER_DEF:                return NAME__PARAM;
+
+            case PARAMETER_DEF:
+                return ast.getPreviousSibling().getChildCount() == 0 ? NAME__INFERRED_PARAM : NAME__PARAM;
 
             case CLASS_DEF:
             case INTERFACE_DEF:
