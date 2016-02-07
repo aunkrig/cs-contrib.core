@@ -773,7 +773,13 @@ enum JavaElement {
      * The left curly brace of the class body of an enum constant.
      * <dl>
      *   <dt>Example:</dt>
-     *   <dd><tt>enum MyEnum { FOO <font color="red">{</font> @Override public String toString() { return ""; } } }</tt></dd>
+     *   <dd>
+     *     <pre>enum MyEnum {
+     *    FOO <font color="red">{</font>
+     *        &#64;Override public String toString() { return ""; }
+     *    }
+     *}</pre>
+     *   </dd>
      * </dl>
      */
     L_CURLY__ENUM_CONST,
