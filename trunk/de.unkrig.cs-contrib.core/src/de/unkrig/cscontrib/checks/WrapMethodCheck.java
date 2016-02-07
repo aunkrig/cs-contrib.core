@@ -182,9 +182,11 @@ class WrapMethodCheck extends AbstractWrapCheck {
             // SUPPRESS CHECKSTYLE WrapMethod:6
             this.checkChildren(
                 ast,
-                FORK2, MAY_INDENT, EXPR, FORK2,
-                LABEL1, LocalTokenType.COMMA, MAY_INDENT, EXPR, FORK1,
-                LABEL2, END
+                FORK1, MAY_INDENT, EXPR, FORK4, BRANCH2,
+                LABEL1, MAY_INDENT, LAMBDA, FORK4,
+                LABEL2, COMMA, FORK3, MAY_INDENT, EXPR, FORK2, END,
+                LABEL3, MAY_INDENT, LAMBDA, FORK2,
+                LABEL4, END
             );
             break;
 
