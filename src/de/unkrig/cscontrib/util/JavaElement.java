@@ -1198,6 +1198,17 @@ enum JavaElement {
     NAME__IMPORT_TYPE,
 
     /**
+     * The name of an implicitly typed parameter in a lambda.
+     * <dl>
+     *   <dt>Example:</dt>
+     *   <dd><tt>Foo foo = (<font color="red">param</font>) -> {};</tt></dd>
+     * </dl>
+     *
+     * @see #NAME__PARAM
+     */
+    NAME__INFERRED_PARAM,
+
+    /**
      * TODO.
      * <dl>
      *   <dt>Example:</dt>
@@ -1217,12 +1228,15 @@ enum JavaElement {
     NAME__PACKAGE_DECL,
 
     /**
-     * The name of a parameter in method declaration, constructor declaration, or a lambda.
+     * The name of a parameter in method or constructor declaration, or the name of an explicitly typed parameter in a
+     * lambda.
      * <dl>
      *   <dt>Examples:</dt>
      *   <dd><tt>void meth(String <font color="red">param</font>)</tt></dd>
-     *   <dd><tt>Foo foo = (<font color="red">param</font>) -> {};</tt> (since Java 8)</dd>
+     *   <dd><tt>Foo foo = (String <font color="red">param</font>) -> {};</tt> (since Java 8)</dd>
      * </dl>
+     *
+     * @see #NAME__INFERRED_PARAM
      */
     NAME__PARAM,
 
