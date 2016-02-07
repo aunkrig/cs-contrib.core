@@ -1217,11 +1217,11 @@ enum JavaElement {
     NAME__PACKAGE_DECL,
 
     /**
-     * TODO.
+     * The name of a parameter in method declaration, constructor declaration, or a lambda.
      * <dl>
      *   <dt>Examples:</dt>
      *   <dd><tt>void meth(String <font color="red">param</font>)</tt></dd>
-     *   <dd><tt>Foo foo = (<font color="red">param</font>) -> {};</tt></dd> (since Java 8)
+     *   <dd><tt>Foo foo = (<font color="red">param</font>) -> {};</tt> (since Java 8)</dd>
      * </dl>
      */
     NAME__PARAM,
