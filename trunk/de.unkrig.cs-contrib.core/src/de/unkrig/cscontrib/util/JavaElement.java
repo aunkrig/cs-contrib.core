@@ -758,7 +758,7 @@ enum JavaElement {
     L_CURLY__EMPTY_METH_DECL,
 
     /**
-     * TODO.
+     * The left curly brace of an empty type declaration.
      * <dl>
      *   <dt>Examples:</dt>
      *   <dd><tt>class MyClass() <font color="red">{</font>}</tt></dd>
@@ -770,16 +770,16 @@ enum JavaElement {
     L_CURLY__EMPTY_TYPE_DECL,
 
     /**
-     * TODO.
+     * The left curly brace of the class body of an enum constant.
      * <dl>
      *   <dt>Example:</dt>
-     *   <dd><tt>enum MyEnum { FOO <font color="red">{</font> ... } }</tt></dd>
+     *   <dd><tt>enum MyEnum { FOO <font color="red">{</font> @Override public String toString() { return ""; } } }</tt></dd>
      * </dl>
      */
     L_CURLY__ENUM_CONST,
 
     /**
-     * TODO.
+     * The left curly brace following the FINALLY keyword.
      * <dl>
      *   <dt>Example:</dt>
      *   <dd><tt>finally <font color="red">{</font> ... }</tt></dd>
@@ -788,7 +788,7 @@ enum JavaElement {
     L_CURLY__FINALLY,
 
     /**
-     * TODO.
+     * The left curly brace of a FOR statement.
      * <dl>
      *   <dt>Example:</dt>
      *   <dd><tt>for (...) <font color="red">{</font></tt></dd>
@@ -797,7 +797,7 @@ enum JavaElement {
     L_CURLY__FOR,
 
     /**
-     * TODO.
+     * The left curly brace of an IF statement.
      * <dl>
      *   <dt>Example:</dt>
      *   <dd><tt>if (...) <font color="red">{</font></tt></dd>
@@ -806,7 +806,7 @@ enum JavaElement {
     L_CURLY__IF,
 
     /**
-     * TODO.
+     * The left curly brace of an instance initializer.
      * <dl>
      *   <dt>Example:</dt>
      *   <dd><tt>class MyClass { <font color="red">{</font> ... } }</tt></dd>
@@ -815,7 +815,7 @@ enum JavaElement {
     L_CURLY__INSTANCE_INIT,
 
     /**
-     * TODO.
+     * The left curly brace of a the block that follows a label.
      * <dl>
      *   <dt>Example:</dt>
      *   <dd><tt>LABEL: <font color="red">{</font></tt></dd>
@@ -824,7 +824,7 @@ enum JavaElement {
     L_CURLY__LABELED_STAT,
 
     /**
-     * TODO.
+     * The left curly brace of a method declaration.
      * <dl>
      *   <dt>Example:</dt>
      *   <dd><tt>void meth(...) <font color="red">{</font> ... }</tt></dd>
@@ -833,7 +833,7 @@ enum JavaElement {
     L_CURLY__METH_DECL,
 
     /**
-     * TODO.
+     * The left curly brace of a static initializer.
      * <dl>
      *   <dt>Example:</dt>
      *   <dd><tt>class MyClass { static <font color="red">{</font> ... } }</tt></dd>
@@ -842,7 +842,7 @@ enum JavaElement {
     L_CURLY__STATIC_INIT,
 
     /**
-     * TODO.
+     * The left curly brace of a SWITCH statement.
      * <dl>
      *   <dt>Example:</dt>
      *   <dd><tt>switch (a) <font color="red">{</font></tt></dd>
@@ -851,7 +851,7 @@ enum JavaElement {
     L_CURLY__SWITCH,
 
     /**
-     * TODO.
+     * The left curly brace of a SYNCHRONIZED statement.
      * <dl>
      *   <dt>Example:</dt>
      *   <dd><tt>synchronized (a) <font color="red">{</font></tt></dd>
@@ -860,7 +860,7 @@ enum JavaElement {
     L_CURLY__SYNCHRONIZED,
 
     /**
-     * TODO.
+     * The left curly brace after the TRY keyword.
      * <dl>
      *   <dt>Example:</dt>
      *   <dd><tt>try <font color="red">{</font></tt></dd>
@@ -880,7 +880,7 @@ enum JavaElement {
     L_CURLY__TYPE_DECL,
 
     /**
-     * TODO.
+     * The left curly brace of a WHILE statement.
      * <dl>
      *   <dt>Example:</dt>
      *   <dd><tt>while (...) <font color="red">{</font></tt></dd>
@@ -1219,8 +1219,9 @@ enum JavaElement {
     /**
      * TODO.
      * <dl>
-     *   <dt>Example:</dt>
+     *   <dt>Examples:</dt>
      *   <dd><tt>void meth(String <font color="red">param</font>)</tt></dd>
+     *   <dd><tt>Foo foo = (<font color="red">param</font>) -> {};</tt></dd> (since Java 8)
      * </dl>
      */
     NAME__PARAM,
