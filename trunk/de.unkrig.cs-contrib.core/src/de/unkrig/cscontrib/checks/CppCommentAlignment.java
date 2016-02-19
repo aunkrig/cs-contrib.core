@@ -262,35 +262,42 @@ class CppCommentAlignment extends AbstractFormatCheck {
     @Override public void
     visitToken(DetailAST ast) {
 
+        @SuppressWarnings("unused") AstDumper astDumper = new AstDumper(ast);
+
         if (ast.getChildCount() <= 1) return;
 
         List<DetailAST> children = this.getChildren(ast);
 
         Map<Integer /*lineNo*/, Integer /*colNo*/> commentCoordinates = new HashMap<Integer, Integer>();
 
-        int prevLineNo = Integer.MAX_VALUE; // SUPPRESS CHECKSTYLE UsageDistance
+        // Collect all C++-style comments that appear right from all children.
         for (DetailAST child : children) {
 
-            int lineNo = child.getLineNo();
+            final int lineNo = child.getLineNo();
 
             // Special case "CASE_GROUP { 'case' 'case' SLIST }".
             if (AstUtil.typeIs(child, LocalTokenType.SLIST)) continue;
 
-            TextBlock tb = this.cppComments.get(lineNo);
-            if (tb == null || tb.getStartColNo() == 1) continue;
+            // Do not regard the '{' as a child of an OBJBLOCK.
+            if (AstUtil.typeIs(ast, LocalTokenType.OBJBLOCK) && AstUtil.typeIs(child, LocalTokenType.LCURLY)) continue;
 
-            if (tb.getStartLineNo() - 1 > prevLineNo) {
-                this.analyze(commentCoordinates);
-                commentCoordinates.clear();
-                prevLineNo = Integer.MAX_VALUE;
-                continue;
-            }
+            // Do not regard the PARAMETERS as a child of a METHOD_DEF.
+            if (
+                AstUtil.typeIs(ast, LocalTokenType.METHOD_DEF)
+                && AstUtil.typeIs(child, LocalTokenType.PARAMETERS)
+            ) continue;
+
+            if (AstUtil.typeIs(child, LocalTokenType.RCURLY)) continue;
+
+            TextBlock tb = this.cppComments.get(lineNo);
+            if (tb == null /*|| tb.getStartColNo() == 1*/) continue;
 
             if (commentCoordinates.containsKey(lineNo)) continue;
 
             commentCoordinates.put(lineNo, tb.getStartColNo());
-            prevLineNo = lineNo;
         }
+
+        // Verify that these C++-style comments are properly aligned.
         this.analyze(commentCoordinates);
     }
 
@@ -320,8 +327,7 @@ class CppCommentAlignment extends AbstractFormatCheck {
     }
 
     /**
-     * Returns the children of the given node, but with somtimes flattened, e.g. "(a + b) + (c + d)" is
-     * "a + b + c + d".
+     * Returns the children of the given node, but sometimes flattened, e.g. "(a + b) + (c + d)" is "a + b + c + d".
      */
     private List<DetailAST>
     getChildren(DetailAST ast) {
@@ -340,6 +346,15 @@ class CppCommentAlignment extends AbstractFormatCheck {
     getChildren2(DetailAST ast, List<DetailAST> result) {
 
         for (DetailAST child = ast.getFirstChild(); child != null; child = child.getNextSibling()) {
+
+            if (LocalTokenType.localize(child.getType()) == LocalTokenType.LPAREN) {
+                result.add(child);
+                for (
+                    child = child.getNextSibling();
+                    LocalTokenType.localize(child.getType()) != LocalTokenType.RPAREN;
+                    child = child.getNextSibling()
+                );
+            }
 
             if (child.getText().equals(ast.getText())) {
                 this.getChildren2(child, result);
