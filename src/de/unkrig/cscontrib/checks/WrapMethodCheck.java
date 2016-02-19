@@ -182,6 +182,7 @@ class WrapMethodCheck extends AbstractWrapCheck {
             // SUPPRESS CHECKSTYLE WrapMethod:6
             this.checkChildren(
                 ast,
+                FORK4,
                 FORK1, MAY_INDENT, EXPR, FORK4, BRANCH2,
                 LABEL1, MAY_INDENT, LAMBDA, FORK4,
                 LABEL2, COMMA, FORK3, MAY_INDENT, EXPR, FORK2, END,
