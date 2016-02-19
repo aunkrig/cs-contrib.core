@@ -86,10 +86,11 @@ class WrapSwitchBlockStmtGroupCheck extends AbstractWrapCheck {
     visitToken(DetailAST ast) {
         assert ast != null;
 
+        if (ast.getParent().getType() != CASE_GROUP.delocalize()) return;
+
         // Single-line case group?
         if (
-            ast.getParent().getType() == CASE_GROUP.delocalize()
-            && this.allowOneLineSwitchBlockStmtGroup
+            this.allowOneLineSwitchBlockStmtGroup
             && AbstractWrapCheck.isSingleLine(ast)
             && ast.getParent().getLineNo() == ast.getLineNo()
         ) return;
