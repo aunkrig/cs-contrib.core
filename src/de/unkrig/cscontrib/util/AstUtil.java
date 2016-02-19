@@ -449,10 +449,19 @@ class AstUtil {
             return parentType == LocalTokenType.CLASS_DEF ? CLASS__CLASS_DECL : CLASS__CLASS_LITERAL;
 
         case LITERAL_DEFAULT:
-            return (
-                parentType == LocalTokenType.ANNOTATION_MEMBER_VALUE_PAIR
-                || parentType == LocalTokenType.ANNOTATION_FIELD_DEF
-            ) ? DEFAULT__ANNO_ELEM : DEFAULT__SWITCH;
+            assert parentType != null;
+            switch (parentType) {
+
+            case ANNOTATION_MEMBER_VALUE_PAIR:
+            case ANNOTATION_FIELD_DEF:
+                return DEFAULT__ANNO_ELEM;
+
+            case MODIFIERS:
+                return DEFAULT__MOD;
+
+            default:
+                return DEFAULT__SWITCH;
+            }
 
         case LITERAL_STATIC:
             return parentType == LocalTokenType.STATIC_IMPORT ? STATIC__STATIC_IMPORT : STATIC__MOD;
