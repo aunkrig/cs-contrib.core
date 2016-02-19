@@ -312,6 +312,15 @@ enum JavaElement {
     DEFAULT__SWITCH,
 
     /**
+     * The "{@code default}" modifier in an interface method declaration.
+     * <dl>
+     *   <dt>Example:</dt>
+     *   <dd><tt>interface Foo { <font color="red">default</font> void meth() {} }</tt></dd>
+     * </dl>
+     */
+    DEFAULT__MOD,
+
+    /**
      * The division operator "{@code /}" in an arithmetic expression.
      * <dl>
      *   <dt>Example:</dt>
