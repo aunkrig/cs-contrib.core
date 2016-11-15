@@ -55,4 +55,43 @@
             </property-metadata>
         </rule-metadata>
     </rule-group-metadata>
+
+    <!-- SuppressionRegex -->
+
+    <rule-group-metadata name="%Filters.group" priority="999">
+        <rule-metadata
+            internal-name="de.unkrig.cscontrib.filters.SuppressionRegex"
+            parent="Checker"
+            hasSeverity="false"
+            name="%SuppressionRegex.name"
+        >
+            <alternative-name internal-name="de.unkrig.cscontrib.filters.SuppressionRegex" />
+            <description>%SuppressionRegex.desc</description>
+
+            <property-metadata
+                name="lineRegex"
+                datatype="Regex"
+            >
+                <description>%SuppressionRegex.lineRegex</description>
+            </property-metadata>
+            <property-metadata
+                name="checkNameFormat"
+                datatype="Regex"
+            >
+                <description>%SuppressionRegex.checkNameFormat</description>
+            </property-metadata>
+            <property-metadata
+                name="messageFormat"
+                datatype="Regex"
+            >
+                <description>%SuppressionRegex.messageFormat</description>
+            </property-metadata>
+            <property-metadata
+                name="moduleIdFormat"
+                datatype="Regex"
+            >
+                <description>%SuppressionRegex.moduleIdFormat</description>
+            </property-metadata>
+        </rule-metadata>
+    </rule-group-metadata>
 </checkstyle-metadata>
