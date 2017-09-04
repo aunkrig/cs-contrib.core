@@ -33,12 +33,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.beanutils.ConversionException;
-
 import com.google.common.collect.ImmutableMap;
+import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
-import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
@@ -69,15 +67,12 @@ import de.unkrig.csdoclet.annotation.Rule;
 )
 @NotNullByDefault(false)
 public
-class CppCommentAlignment extends AbstractFormatCheck {
+class CppCommentAlignment extends AbstractCheck {
 
     @Message("C++ comment must appear on column {0}, not {1}")
     private static final String MESSAGE_KEY_MISALIGNED = "CppCommentAlignment.misaligned";
 
     private ImmutableMap<Integer /*lineNumber*/, TextBlock> cppComments;
-
-    public
-    CppCommentAlignment() throws ConversionException { super("^[\\s\\}\\);]*$"); }
 
     @Override public int[]
     getDefaultTokens() {

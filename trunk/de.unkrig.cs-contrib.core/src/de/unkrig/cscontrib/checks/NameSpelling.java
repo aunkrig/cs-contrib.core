@@ -31,12 +31,14 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.beanutils.ConversionException;
 
+import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FullIdent;
-import com.puppycrawl.tools.checkstyle.checks.AbstractFormatCheck;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
@@ -90,16 +92,13 @@ import de.unkrig.csdoclet.annotation.SingleSelectRuleProperty;
     parent    = "TreeWalker"
 )
 @NotNullByDefault(false) public
-class NameSpelling extends AbstractFormatCheck {
+class NameSpelling extends AbstractCheck {
 
     @Message("{0} ''{1}'' does not comply with ''{2}''")
     private static final String MESSAGE_KEY_DOES_NOT_COMPLY = "NameSpelling.doesNotComply";
 
     @Message("{0} ''{1}'' must not match ''{2}''")
     private static final String MESSAGE_KEY_MUST_NOT_MATCH = "NameSpelling.mustNotMatch";
-
-    public
-    NameSpelling() { super(""); }
 
     /**
      * All elements that can be declared in the JAVA programming language.
@@ -223,9 +222,16 @@ class NameSpelling extends AbstractFormatCheck {
     /**
      * The pattern to match the name against.
      */
-    @RegexRuleProperty
-    public void
-    setFormat(int x) {}
+    @RegexRuleProperty public void
+    setFormat(String format) {
+
+        try {
+            this.formatPattern = Pattern.compile(format);
+        } catch (PatternSyntaxException ex) {
+            throw new ConversionException("unable to parse " + format, ex);
+        }
+    }
+    private Pattern formatPattern = Pattern.compile("");
 
     // END CONFIGURATION SETTERS
 
@@ -381,27 +387,27 @@ class NameSpelling extends AbstractFormatCheck {
             switch (this.option) {
 
             case REQUIRE:
-                if (!this.getRegexp().matcher(fullName.getText()).find()) {
+                if (!this.formatPattern.matcher(fullName.getText()).find()) {
                     this.log(
                         fullName.getLineNo(),
                         fullName.getColumnNo(),
                         NameSpelling.MESSAGE_KEY_DOES_NOT_COMPLY,
                         element.toString(),
                         fullName.getText(),
-                        this.getFormat()
+                        this.formatPattern.toString()
                     );
                 }
                 break;
 
             case FORBID:
-                if (this.getRegexp().matcher(fullName.getText()).find()) {
+                if (this.formatPattern.matcher(fullName.getText()).find()) {
                     this.log(
                         fullName.getLineNo(),
                         fullName.getColumnNo(),
                         NameSpelling.MESSAGE_KEY_MUST_NOT_MATCH,
                         element.toString(),
                         fullName.getText(),
-                        this.getFormat()
+                        this.formatPattern.toString()
                     );
                 }
                 break;
