@@ -28,6 +28,7 @@ package de.unkrig.cscontrib.checks;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
+import com.puppycrawl.tools.checkstyle.utils.TokenUtils;
 
 import de.unkrig.commons.nullanalysis.Nullable;
 
@@ -53,7 +54,7 @@ class AstDumper {
     private static void
     dumpSiblings(String prefix, @Nullable DetailAST sibling, StringBuilder sb) {
         for (; sibling != null; sibling = sibling.getNextSibling()) {
-            sb.append(prefix).append(sibling).append(TokenTypes.getTokenName(sibling.getType())).append('\n');
+            sb.append(prefix).append(sibling).append(TokenUtils.getTokenName(sibling.getType())).append('\n');
             AstDumper.dumpSiblings(prefix + "  ", sibling.getFirstChild(), sb);
         }
     }

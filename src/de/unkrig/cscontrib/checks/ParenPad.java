@@ -26,6 +26,7 @@
 
 package de.unkrig.cscontrib.checks;
 
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.ConversionException;
@@ -77,13 +78,23 @@ class ParenPad extends ParenPadCheck {
         + ""       // '(' + line-break
     );
 
+    private PadOption option;
 
     /**
      * Whether space is required or forbidden.
      */
     @SingleSelectRuleProperty(optionProvider = PadOption.class, defaultValue = "nospace")
     @Override public void
-    setOption(String option) throws ConversionException { super.setOption(option); }
+    setOption(String option) throws ConversionException {
+
+        try {
+          this.option = PadOption.valueOf(option.trim().toUpperCase(Locale.ENGLISH));
+        } catch (IllegalArgumentException iae) {
+          throw new ConversionException("unable to parse " + option, iae);
+        }
+
+        super.setOption(option);
+    }
 
     @Override protected void
     processLeft(DetailAST ast) {
@@ -92,12 +103,12 @@ class ParenPad extends ParenPadCheck {
 
         String rest = line.substring(after);
         if (
-            this.getAbstractOption() == PadOption.NOSPACE
+            this.option == PadOption.NOSPACE
             && !ParenPad.NOSPACE_PATTERN.matcher(rest).matches()
         ) {
             this.log(ast.getLineNo(), after, ParenPad.MESSAGE_KEY_FOLLOWED_BY_WHITESPACE, "(");
         } else if (
-            this.getAbstractOption() == PadOption.SPACE
+            this.option == PadOption.SPACE
             && !ParenPad.SPACE_PATTERN.matcher(rest).matches()
         ) {
             this.log(ast.getLineNo(), after, ParenPad.MESSAGE_KEY_NOT_FOLLOWED_BY_WHITESPACE, "(");
