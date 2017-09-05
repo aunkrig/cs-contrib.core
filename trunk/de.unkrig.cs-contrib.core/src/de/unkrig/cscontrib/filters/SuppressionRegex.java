@@ -30,8 +30,6 @@ import java.lang.ref.WeakReference;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.beanutils.ConversionException;
-
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
@@ -83,11 +81,11 @@ class SuppressionRegex extends AutomaticBean implements Filter {
      */
     @RegexRuleProperty
     public void
-    setLineRegex(String lineRegex) throws ConversionException {
+    setLineRegex(String lineRegex) {
         try {
             this.lineRegex = Pattern.compile(lineRegex);
         } catch (final PatternSyntaxException e) {
-            throw new ConversionException("unable to parse " + lineRegex, e);
+            throw new IllegalArgumentException("unable to parse " + lineRegex, e);
         }
     }
 
@@ -96,12 +94,12 @@ class SuppressionRegex extends AutomaticBean implements Filter {
      */
     @RegexRuleProperty()
     public void
-    setCheckNameFormat(String checkNameFormat) throws ConversionException {
+    setCheckNameFormat(String checkNameFormat) {
 
         try {
             this.checkNameRegex = Pattern.compile(checkNameFormat);
         } catch (final PatternSyntaxException e) {
-            throw new ConversionException("unable to parse " + checkNameFormat, e);
+            throw new IllegalArgumentException("unable to parse " + checkNameFormat, e);
         }
     }
 
@@ -110,12 +108,12 @@ class SuppressionRegex extends AutomaticBean implements Filter {
      */
     @RegexRuleProperty()
     public void
-    setMessageFormat(String messageFormat) throws ConversionException {
+    setMessageFormat(String messageFormat) {
 
         try {
             this.messageRegex = Pattern.compile(messageFormat);
         } catch (final PatternSyntaxException e) {
-            throw new ConversionException("unable to parse " + messageFormat, e);
+            throw new IllegalArgumentException("unable to parse " + messageFormat, e);
         }
     }
 
@@ -124,11 +122,11 @@ class SuppressionRegex extends AutomaticBean implements Filter {
      */
     @RegexRuleProperty()
     public void
-    setModuleIdFormat(String moduleIdFormat) throws ConversionException {
+    setModuleIdFormat(String moduleIdFormat) {
         try {
             this.moduleIdRegex = Pattern.compile(moduleIdFormat);
         } catch (final PatternSyntaxException e) {
-            throw new ConversionException("unable to parse " + moduleIdFormat, e);
+            throw new IllegalArgumentException("unable to parse " + moduleIdFormat, e);
         }
     }
 

@@ -34,8 +34,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.beanutils.ConversionException;
-
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FullIdent;
@@ -209,11 +207,11 @@ class NameSpelling extends AbstractCheck {
      */
     @SingleSelectRuleProperty(optionProvider = Options.class, defaultValue = NameSpelling.DEFAULT_OPTION)
     public final void
-    setOption(String option) throws ConversionException {
+    setOption(String option) {
         try {
             this.option = Enum.valueOf(Options.class, option.trim().toUpperCase());
         } catch (IllegalArgumentException iae) {
-            throw new ConversionException(option, iae);
+            throw new IllegalArgumentException(option, iae);
         }
     }
     private Options              option         = Options.valueOf(NameSpelling.DEFAULT_OPTION.toUpperCase());
@@ -228,7 +226,7 @@ class NameSpelling extends AbstractCheck {
         try {
             this.formatPattern = Pattern.compile(format);
         } catch (PatternSyntaxException ex) {
-            throw new ConversionException("unable to parse " + format, ex);
+            throw new IllegalArgumentException("unable to parse " + format, ex);
         }
     }
     private Pattern formatPattern = Pattern.compile("");

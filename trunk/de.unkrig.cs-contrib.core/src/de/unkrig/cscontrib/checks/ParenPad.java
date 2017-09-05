@@ -29,8 +29,6 @@ package de.unkrig.cscontrib.checks;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import org.apache.commons.beanutils.ConversionException;
-
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.ParenPadCheck;
@@ -85,12 +83,12 @@ class ParenPad extends ParenPadCheck {
      */
     @SingleSelectRuleProperty(optionProvider = PadOption.class, defaultValue = "nospace")
     @Override public void
-    setOption(String option) throws ConversionException {
+    setOption(String option) {
 
         try {
           this.option = PadOption.valueOf(option.trim().toUpperCase(Locale.ENGLISH));
         } catch (IllegalArgumentException iae) {
-          throw new ConversionException("unable to parse " + option, iae);
+          throw new IllegalArgumentException("unable to parse " + option, iae);
         }
 
         super.setOption(option);
