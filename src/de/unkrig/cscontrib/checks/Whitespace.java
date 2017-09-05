@@ -29,8 +29,6 @@ package de.unkrig.cscontrib.checks;
 import java.util.EnumSet;
 import java.util.regex.Pattern;
 
-import org.apache.commons.beanutils.ConversionException;
-
 import com.puppycrawl.tools.checkstyle.api.Check;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
@@ -145,7 +143,7 @@ class Whitespace extends Check {
         try {
             return Enum.valueOf(enumType, s.trim().toUpperCase());
         } catch (IllegalArgumentException iae) {
-            throw new ConversionException("Unable to parse " + s, iae);
+            throw new IllegalArgumentException("Unable to parse " + s, iae);
         }
     }
 

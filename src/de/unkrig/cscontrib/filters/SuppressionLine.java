@@ -33,8 +33,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.beanutils.ConversionException;
-
 import com.google.common.collect.Lists;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
@@ -95,14 +93,12 @@ class SuppressionLine extends AutomaticBean implements Filter {
         /**
          * Constructs a tag.
          *
-         * @param lineNo               the line number.
-         * @param text                 the text of the suppression.
-         * @param on                   <code>true</code> if the tag turns checkstyle reporting.
-         * @throws ConversionException if unable to parse {@code text}.
-         * on.
+         * @param lineNo The line number
+         * @param text   The text of the suppression
+         * @param on     <code>true</code> if the tag turns checkstyle reporting
          */
         public
-        Tag(int lineNo, String text, boolean on) throws ConversionException {
+        Tag(int lineNo, String text, boolean on) {
             this.lineNo = lineNo;
             this.text   = text;
             this.on     = on;
@@ -127,7 +123,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
                     );
                 }
             } catch (final PatternSyntaxException e) {
-                throw new ConversionException("unable to parse expanded line " + e.getPattern(), e);
+                throw new IllegalArgumentException("unable to parse expanded line " + e.getPattern(), e);
             }
         }
 
@@ -276,11 +272,11 @@ class SuppressionLine extends AutomaticBean implements Filter {
      */
     @RegexRuleProperty(overrideDefaultValue = "CHECKSTYLE (.+):OFF")
     public void
-    setOffFormat(String offFormat) throws ConversionException {
+    setOffFormat(String offFormat) {
         try {
             this.offRegex = Pattern.compile(offFormat);
         } catch (final PatternSyntaxException e) {
-            throw new ConversionException("unable to parse " + offFormat, e);
+            throw new IllegalArgumentException("unable to parse " + offFormat, e);
         }
     }
 
@@ -289,11 +285,11 @@ class SuppressionLine extends AutomaticBean implements Filter {
      */
     @RegexRuleProperty(overrideDefaultValue = "CHECKSTYLE (.+):ON")
     public void
-    setOnFormat(String onFormat) throws ConversionException {
+    setOnFormat(String onFormat) {
         try {
             this.onRegex = Pattern.compile(onFormat);
         } catch (final PatternSyntaxException e) {
-            throw new ConversionException("unable to parse " + onFormat, e);
+            throw new IllegalArgumentException("unable to parse " + onFormat, e);
         }
     }
 
@@ -302,12 +298,12 @@ class SuppressionLine extends AutomaticBean implements Filter {
      */
     @RegexRuleProperty(overrideDefaultValue = "$1")
     public void
-    setCheckNameFormat(String checkNameFormat) throws ConversionException {
+    setCheckNameFormat(String checkNameFormat) {
 
         try {
             Pattern.compile(checkNameFormat);
         } catch (final PatternSyntaxException e) {
-            throw new ConversionException("unable to parse " + checkNameFormat, e);
+            throw new IllegalArgumentException("unable to parse " + checkNameFormat, e);
         }
 
         this.checkNameFormat = checkNameFormat;
@@ -318,12 +314,12 @@ class SuppressionLine extends AutomaticBean implements Filter {
      */
     @RegexRuleProperty(overrideDefaultValue = "$1")
     public void
-    setMessageFormat(String messageFormat) throws ConversionException {
+    setMessageFormat(String messageFormat) {
 
         try {
             Pattern.compile(messageFormat);
         } catch (final PatternSyntaxException e) {
-            throw new ConversionException("unable to parse " + messageFormat, e);
+            throw new IllegalArgumentException("unable to parse " + messageFormat, e);
         }
 
         this.messageFormat = messageFormat;
@@ -334,11 +330,11 @@ class SuppressionLine extends AutomaticBean implements Filter {
      */
     @RegexRuleProperty(overrideDefaultValue = "$1")
     public void
-    setModuleIdFormat(String moduleIdFormat) throws ConversionException {
+    setModuleIdFormat(String moduleIdFormat) {
         try {
             Pattern.compile(moduleIdFormat);
         } catch (final PatternSyntaxException e) {
-            throw new ConversionException("unable to parse " + moduleIdFormat, e);
+            throw new IllegalArgumentException("unable to parse " + moduleIdFormat, e);
         }
         this.moduleIdFormat = moduleIdFormat;
     }
