@@ -362,7 +362,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
 
         // Lazy update. If the first event for the current file, update file
         // contents and tag suppressions
-        final FileContents currentContents = FileContentsHolder.getContents();
+        final FileContents currentContents = FileContentsHolder.getCurrentFileContents();
         if (currentContents == null) {
             // we have no contents, so we can not filter.
             // TODO: perhaps we should notify user somehow?
