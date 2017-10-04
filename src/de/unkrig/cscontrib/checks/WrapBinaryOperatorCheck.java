@@ -101,10 +101,15 @@ class WrapBinaryOperatorCheck extends AbstractWrapCheck {
     // ============================================= END CONFIGURATION =============================================
 
     @Override public int[]
-    getDefaultTokens() {
-
+    getAcceptableTokens() {
         return LocalTokenType.delocalize(new LocalTokenType[] { LocalTokenType.EXPR });
     }
+
+    @Override public int[]
+	getDefaultTokens() { return this.getAcceptableTokens(); }
+
+	@Override public int[]
+	getRequiredTokens() { return this.getAcceptableTokens(); }
 
     @Override public void
     visitToken(DetailAST ast) {
@@ -152,7 +157,7 @@ class WrapBinaryOperatorCheck extends AbstractWrapCheck {
 
             default:
                 assert false : (
-                    this.getFileContents().getFilename()
+                    this.getFileContents().getFileName()
                     + ":"
                     + ast.getLineNo()
                     + ": EXPR has unexpected parent "
@@ -284,7 +289,7 @@ class WrapBinaryOperatorCheck extends AbstractWrapCheck {
                     c = c.getNextSibling();
                 }
                 assert c != null : (
-                    this.getFileContents().getFilename()
+                    this.getFileContents().getFileName()
                     + ":"
                     + expression.getLineNo()
                     + ": Second operand for '"
@@ -371,7 +376,7 @@ class WrapBinaryOperatorCheck extends AbstractWrapCheck {
 
                 c = this.checkParenthesizedExpression(c, inline);
                 assert c == null : (
-                    this.getFileContents().getFilename()
+                    this.getFileContents().getFileName()
                     + ":"
                     + expression.getLineNo()
                     + ": Unexpected third operand "

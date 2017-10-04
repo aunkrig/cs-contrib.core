@@ -26,7 +26,7 @@
 
 package de.unkrig.cscontrib.checks;
 
-import com.puppycrawl.tools.checkstyle.api.Check;
+import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
@@ -51,16 +51,22 @@ import de.unkrig.csdoclet.annotation.Rule;
     quickfixes = { de.unkrig.cscontrib.ui.quickfixes.ZeroParameterSuperconstructorInvocation.class }
 )
 @NotNullByDefault(false) public
-class ZeroParameterSuperconstructorInvocation extends Check {
+class ZeroParameterSuperconstructorInvocation extends AbstractCheck {
 
     @Message("Redundant invocation of zero-parameter superconstructor")
     private static final String
     MESSAGE_KEY_INVOCATION = "ZeroParameterSuperconstructorInvocation.invocation";
 
     @Override public int[]
-    getDefaultTokens() { return new int[] { LocalTokenType.CTOR_DEF.delocalize() }; }
+    getAcceptableTokens() { return new int[] { LocalTokenType.CTOR_DEF.delocalize() }; }
 
-    @Override public void
+    @Override public int[]
+	getDefaultTokens() { return this.getAcceptableTokens(); }
+
+	@Override public int[]
+	getRequiredTokens() { return this.getAcceptableTokens(); }
+
+	@Override public void
     visitToken(DetailAST ast) {
         assert ast != null;
 

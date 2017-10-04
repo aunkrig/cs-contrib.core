@@ -26,7 +26,7 @@
 
 package de.unkrig.cscontrib.checks;
 
-import com.puppycrawl.tools.checkstyle.api.Check;
+import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
@@ -77,7 +77,7 @@ import de.unkrig.csdoclet.annotation.Rule;
 @Rule(group = "%Whitespace.group", groupName = "Whitespace", name = "de.unkrig: Alignment", parent = "TreeWalker")
 @NotNullByDefault(false)
 public
-class Alignment extends Check {
+class Alignment extends AbstractCheck {
 
     @Message("''{0}'' should be aligned with ''{1}'' in line {2,number,#}")
     private static final String MESSAGE_KEY_MISALIGNED = "Alignment.misaligned";
@@ -202,7 +202,7 @@ class Alignment extends Check {
     // END CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:ON
 
     @Override public int[]
-    getDefaultTokens() {
+    getAcceptableTokens() {
         return new int[] {
             LocalTokenType.CASE_GROUP.delocalize(),
             LocalTokenType.CTOR_DEF.delocalize(),
@@ -213,7 +213,13 @@ class Alignment extends Check {
         };
     }
 
-    private DetailAST previousFieldDeclaration;
+    @Override public int[]
+	getDefaultTokens() { return this.getAcceptableTokens(); }
+
+	@Override public int[]
+	getRequiredTokens() { return this.getAcceptableTokens(); }
+
+	private DetailAST previousFieldDeclaration;
     private DetailAST previousParameterDeclaration;
     private DetailAST previousLocalVariableDeclaration;
     private DetailAST previousMethodDeclaration;
