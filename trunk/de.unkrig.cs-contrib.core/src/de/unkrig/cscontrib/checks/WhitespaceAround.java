@@ -115,7 +115,7 @@ class WhitespaceAround extends WhitespaceAroundCheck {
      * Allow empty catch blocks.
      */
     @BooleanRuleProperty(defaultValue = false)
-    public void
+    @Override public void
     setAllowEmptyCatches(boolean value) { this.allowEmptyCatches = value; }
     private boolean allowEmptyCatches;
 

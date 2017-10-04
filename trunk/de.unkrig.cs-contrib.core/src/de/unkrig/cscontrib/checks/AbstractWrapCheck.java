@@ -35,7 +35,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.puppycrawl.tools.checkstyle.api.Check;
+import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
@@ -47,7 +47,7 @@ import de.unkrig.csdoclet.annotation.Message;
  * Abstract base class for the "{@code Wrap...Check}" family of checks.
  */
 @NotNullByDefault(false) public abstract
-class AbstractWrapCheck extends Check {
+class AbstractWrapCheck extends AbstractCheck {
 
     /**
      * Message key as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.

@@ -149,11 +149,17 @@ class WrapTryCheck extends AbstractWrapCheck {
     // ============================================= END CONFIGURATION =============================================
 
     @Override public int[]
-    getDefaultTokens() {
+    getAcceptableTokens() {
         return LocalTokenType.delocalize(
             new LocalTokenType[] { LocalTokenType.LITERAL_TRY, LocalTokenType.RESOURCE_SPECIFICATION }
         );
     }
+
+    @Override public int[]
+	getDefaultTokens() { return this.getAcceptableTokens(); }
+
+	@Override public int[]
+	getRequiredTokens() { return this.getAcceptableTokens(); }
 
     // Disable "WrapMethod" because we want multiple arguments per line in the "checkChildren()" calls:
     // CHECKSTYLE WrapMethod:OFF

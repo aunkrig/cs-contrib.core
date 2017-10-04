@@ -29,7 +29,7 @@ package de.unkrig.cscontrib.checks;
 import java.util.EnumSet;
 import java.util.regex.Pattern;
 
-import com.puppycrawl.tools.checkstyle.api.Check;
+import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
@@ -67,7 +67,7 @@ import de.unkrig.csdoclet.annotation.Rule;
  */
 @Rule(group = "%Whitespace.group", groupName = "Whitespace", name = "de.unkrig: Whitespace", parent = "TreeWalker")
 @NotNullByDefault(false) public
-class Whitespace extends Check {
+class Whitespace extends AbstractCheck {
 
     @Message("''{0}'' is followed by whitespace (option ''{1}'')")
     private static final String MESSAGE_KEY_FOLLOWED = "Whitespace.followed";
@@ -229,7 +229,7 @@ class Whitespace extends Check {
     private static final Pattern LINE_SUFFIX = Pattern.compile("\\s*(?://.*)?");
 
     @Override public int[]
-    getDefaultTokens() {
+    getAcceptableTokens() {
         return LocalTokenType.delocalize(new LocalTokenType[] {
             LocalTokenType.ABSTRACT,
             LocalTokenType.ANNOTATION,
@@ -395,4 +395,10 @@ class Whitespace extends Check {
             LocalTokenType.WILDCARD_TYPE,
         });
     }
+
+    @Override public int[]
+	getDefaultTokens() { return this.getAcceptableTokens(); }
+
+	@Override public int[]
+	getRequiredTokens() { return this.getAcceptableTokens(); }
 }

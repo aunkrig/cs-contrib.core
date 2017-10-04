@@ -165,13 +165,19 @@ class WrapAnnotationCheck extends AbstractWrapCheck {
     // ============================================= END CONFIGURATION =============================================
 
     @Override public int[]
-    getDefaultTokens() {
+    getAcceptableTokens() {
         return LocalTokenType.delocalize(new LocalTokenType[] {
             LocalTokenType.ANNOTATION_DEF,
             LocalTokenType.ANNOTATION,
             LocalTokenType.ANNOTATION_MEMBER_VALUE_PAIR,
         });
     }
+
+    @Override public int[]
+	getDefaultTokens() { return this.getAcceptableTokens(); }
+
+	@Override public int[]
+	getRequiredTokens() { return this.getAcceptableTokens(); }
 
     @Override public void
     visitToken(DetailAST ast) {

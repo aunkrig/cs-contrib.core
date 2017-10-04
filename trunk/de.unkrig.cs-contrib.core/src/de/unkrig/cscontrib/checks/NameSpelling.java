@@ -234,7 +234,7 @@ class NameSpelling extends AbstractCheck {
     // END CONFIGURATION SETTERS
 
     @Override public int[]
-    getDefaultTokens() {
+    getAcceptableTokens() {
 
         // Calculate the minimal set of tokens required to perform the check.
         List<LocalTokenType> tokens = new ArrayList<LocalTokenType>();
@@ -265,6 +265,12 @@ class NameSpelling extends AbstractCheck {
         assert tokensArray != null;
         return LocalTokenType.delocalize(tokensArray);
     }
+
+    @Override public int[]
+	getDefaultTokens() { return this.getAcceptableTokens(); }
+
+	@Override public int[]
+	getRequiredTokens() { return this.getAcceptableTokens(); }
 
     @Override public void
     visitToken(DetailAST ast) {
@@ -412,7 +418,7 @@ class NameSpelling extends AbstractCheck {
             }
         } catch (RuntimeException rte) {
             throw new RuntimeException(
-                this.getFileContents().getFilename() + ":" + ast.getLineNo() + "x" + ast.getColumnNo(),
+                this.getFileContents().getFileName() + ":" + ast.getLineNo() + "x" + ast.getColumnNo(),
                 rte
             );
         }

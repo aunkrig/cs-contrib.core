@@ -75,7 +75,7 @@ class CppCommentAlignment extends AbstractCheck {
     private ImmutableMap<Integer /*lineNumber*/, TextBlock> cppComments;
 
     @Override public int[]
-    getDefaultTokens() {
+    getAcceptableTokens() {
 
         return LocalTokenType.delocalize(new LocalTokenType[] {
 
@@ -249,9 +249,15 @@ class CppCommentAlignment extends AbstractCheck {
         });
     }
 
+    @Override public int[]
+	getDefaultTokens() { return this.getAcceptableTokens(); }
+
+	@Override public int[]
+	getRequiredTokens() { return this.getAcceptableTokens(); }
+
     @Override public void
     beginTree(DetailAST ast) {
-        this.cppComments = this.getFileContents().getCppComments();
+        this.cppComments = this.getFileContents().getSingleLineComments();
     }
 
     @Override public void

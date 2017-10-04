@@ -125,9 +125,15 @@ class WrapInterfaceCheck extends AbstractWrapCheck {
     // ============================================= END CONFIGURATION =============================================
 
     @Override public int[]
-    getDefaultTokens() {
+    getAcceptableTokens() {
         return LocalTokenType.delocalize(new LocalTokenType[] { INTERFACE_DEF });
     }
+
+    @Override public int[]
+	getDefaultTokens() { return this.getAcceptableTokens(); }
+
+	@Override public int[]
+	getRequiredTokens() { return this.getAcceptableTokens(); }
 
     @Override public void
     visitToken(DetailAST ast) {

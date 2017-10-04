@@ -26,7 +26,7 @@
 
 package de.unkrig.cscontrib.checks;
 
-import com.puppycrawl.tools.checkstyle.api.Check;
+import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
@@ -48,14 +48,14 @@ import de.unkrig.csdoclet.annotation.Rule;
     parent     = "TreeWalker",
     quickfixes = { de.unkrig.cscontrib.ui.quickfixes.InnerAssignment.class }
 ) @NotNullByDefault(false) public
-class InnerAssignment extends Check {
+class InnerAssignment extends AbstractCheck {
 
     @Message("Assignments in expressions must be parenthesized")
     private static final String
     MESSAGE_KEY_MUST_PARENTHESIZE = "InnerAssignment.mustParenthesize";
 
     @Override public int[]
-    getDefaultTokens() {
+    getAcceptableTokens() {
         return LocalTokenType.delocalize(new LocalTokenType[] {
             LocalTokenType.ASSIGN,       // "="
             LocalTokenType.DIV_ASSIGN,   // "/="
@@ -71,6 +71,12 @@ class InnerAssignment extends Check {
             LocalTokenType.BAND_ASSIGN,  // "&="
         });
     }
+
+    @Override public int[]
+	getDefaultTokens() { return this.getAcceptableTokens(); }
+
+	@Override public int[]
+	getRequiredTokens() { return this.getAcceptableTokens(); }
 
     @Override public void
     visitToken(DetailAST ast) {
