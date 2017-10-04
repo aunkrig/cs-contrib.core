@@ -1,6 +1,9 @@
 <project>
 
-	<property name="mvn.repo" value="C:\Users\Arno\.m2\repository" />
+<!--
+	<echoproperties></echoproperties>
+	<property name="maven.repo" value="C:\Users\Arno\.m2\repository" />
+-->
 	<property name="v" value="1.2.12-SNAPSHOT" />
 	
 	<!--
@@ -27,39 +30,44 @@
 
 		<echo message="*** Generating 'de.unkrig.commons.nullanalysis.jar'..." />
 		<copy
-			file="${mvn.repo}/de/unkrig/commons/commons-nullanalysis/${v}/commons-nullanalysis-${v}.jar"
+			file="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${v}/commons-nullanalysis-${v}.jar"
 			tofile="libs/de.unkrig.commons.nullanalysis.jar"
 		/>
 
 		<echo message="*** Generating CS metadata from source code..." />
+<!--
 		<eclipse.convertPath resourcePath="no-template-core" property="no-template-core" />
 		<path id="cs.doclet.path">
 
 			<pathelement location="../de.unkrig.doclet.cs/bin"            />
 			<pathelement location="../de.unkrig.doclet.cs.annotation/bin" />
-			<pathelement location="${mvn.repo}/de/unkrig/commons/commons-doclet/${v}/commons-doclet-${v}.jar" />
-			<pathelement location="${mvn.repo}/de/unkrig/commons/commons-lang/${v}/commons-lang-${v}.jar"   />
-			<pathelement location="${mvn.repo}/de/unkrig/commons/commons-text/${v}/commons-text-${v}.jar"   />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-doclet/${v}/commons-doclet-${v}.jar" />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-lang/${v}/commons-lang-${v}.jar"   />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-text/${v}/commons-text-${v}.jar"   />
 			<pathelement location="${no-template-core}/target/classes" />
 
-			<!-- Unclear why this is needed: -->
+			<!- - Unclear why this is needed: - ->
 			<dirset  dir="." includes="bin" />
-
-			<!-- Iff rules use 'option providers': -->
-			<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
-		</path>
-<!--
-		<path id="cs.doclet.path">
-
-			<fileset file="../de.unkrig.cs-contrib_dist/lib/de.unkrig.doclet.cs.jar" />
 
 			<!- - Iff rules use 'option providers': - ->
 			<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
-
-			<!- - Iff there are quickfixes: - ->
-			<dirset  dir="."                       includes="bin"                              />
 		</path>
 -->
+		<path id="cs.doclet.path">
+
+			<fileset file="../de.unkrig.cs-contrib_dist/lib/de.unkrig.doclet.cs.jar" />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-doclet/${v}/commons-doclet-${v}.jar" />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-lang/${v}/commons-lang-${v}.jar"     />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-text/${v}/commons-text-${v}.jar"   />
+			<pathelement location="${maven.repo}/de/unkrig/no-template-core/1.0.4/no-template-core-1.0.4.jar"   />
+			<pathelement location="libs/de.unkrig.doclet.cs.annotation.jar" />
+
+			<!-- Iff rules use 'option providers': -->
+			<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
+
+			<!-- Iff there are quickfixes: -->
+			<dirset  dir="."                       includes="bin"                              />
+		</path>
 
 		<javadoc docletpathref="cs.doclet.path" doclet="de.unkrig.doclet.cs.CsDoclet">
 
@@ -76,7 +84,10 @@
 			<classpath>
 
 				<!-- Classes required by the rules: -->
+<!--
 				<dirset  dir="../commons-nullanalysis" includes="target/classes" />
+-->
+				<pathelement location="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${v}/commons-nullanalysis-${v}.jar" />
 
 				<!-- Iff rules use 'option providers': -->
 				<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
