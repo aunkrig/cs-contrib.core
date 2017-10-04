@@ -156,10 +156,10 @@ class WrapTryCheck extends AbstractWrapCheck {
     }
 
     @Override public int[]
-	getDefaultTokens() { return this.getAcceptableTokens(); }
+    getDefaultTokens() { return this.getAcceptableTokens(); }
 
-	@Override public int[]
-	getRequiredTokens() { return this.getAcceptableTokens(); }
+    @Override public int[]
+    getRequiredTokens() { return this.getAcceptableTokens(); }
 
     // Disable "WrapMethod" because we want multiple arguments per line in the "checkChildren()" calls:
     // CHECKSTYLE WrapMethod:OFF
@@ -174,6 +174,7 @@ class WrapTryCheck extends AbstractWrapCheck {
         //   v
         //  [ RESOURCE_SPECIFICATION -> ] SLIST -> { LITERAL_CATCH -> } [ LITERAL_FINALLY -> ] END
         case LITERAL_TRY:
+            // SUPPRESS CHECKSTYLE WrapMethod:8
             this.checkChildren(
                 ast,
                 FORK1,
@@ -188,7 +189,7 @@ class WrapTryCheck extends AbstractWrapCheck {
         case RESOURCE_SPECIFICATION:
             this.checkChildren(
                 ast,
-                LPAREN, RESOURCES, RPAREN,
+                LPAREN, RESOURCES, RPAREN, // SUPPRESS CHECKSTYLE WrapMethod
                 END
             );
             break;

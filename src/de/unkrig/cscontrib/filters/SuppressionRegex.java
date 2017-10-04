@@ -92,7 +92,7 @@ class SuppressionRegex extends AutomaticBean implements Filter {
     /**
      * Check name pattern to suppress.
      */
-    @RegexRuleProperty()
+    @RegexRuleProperty
     public void
     setCheckNameFormat(String checkNameFormat) {
 
@@ -106,7 +106,7 @@ class SuppressionRegex extends AutomaticBean implements Filter {
     /**
      * Message pattern to suppress.
      */
-    @RegexRuleProperty()
+    @RegexRuleProperty
     public void
     setMessageFormat(String messageFormat) {
 
@@ -120,7 +120,7 @@ class SuppressionRegex extends AutomaticBean implements Filter {
     /**
      * Module ID pattern to suppress.
      */
-    @RegexRuleProperty()
+    @RegexRuleProperty
     public void
     setModuleIdFormat(String moduleIdFormat) {
         try {

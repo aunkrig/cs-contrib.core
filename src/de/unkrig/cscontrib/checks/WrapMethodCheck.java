@@ -146,10 +146,10 @@ class WrapMethodCheck extends AbstractWrapCheck {
     }
 
     @Override public int[]
-	getDefaultTokens() { return this.getAcceptableTokens(); }
+    getDefaultTokens() { return this.getAcceptableTokens(); }
 
-	@Override public int[]
-	getRequiredTokens() { return this.getAcceptableTokens(); }
+    @Override public int[]
+    getRequiredTokens() { return this.getAcceptableTokens(); }
 
     @Override public void
     visitToken(DetailAST ast) {
@@ -185,7 +185,7 @@ class WrapMethodCheck extends AbstractWrapCheck {
 
         case ELIST:
 
-            // SUPPRESS CHECKSTYLE WrapMethod:6
+            // SUPPRESS CHECKSTYLE WrapMethod:8
             this.checkChildren(
                 ast,
                 FORK4,
