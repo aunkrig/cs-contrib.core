@@ -61,12 +61,12 @@ class ZeroParameterSuperconstructorInvocation extends AbstractCheck {
     getAcceptableTokens() { return new int[] { LocalTokenType.CTOR_DEF.delocalize() }; }
 
     @Override public int[]
-	getDefaultTokens() { return this.getAcceptableTokens(); }
+    getDefaultTokens() { return this.getAcceptableTokens(); }
 
-	@Override public int[]
-	getRequiredTokens() { return this.getAcceptableTokens(); }
+    @Override public int[]
+    getRequiredTokens() { return this.getAcceptableTokens(); }
 
-	@Override public void
+    @Override public void
     visitToken(DetailAST ast) {
         assert ast != null;
 

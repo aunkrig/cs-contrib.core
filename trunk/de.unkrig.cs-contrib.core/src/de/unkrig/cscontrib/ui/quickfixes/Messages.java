@@ -43,8 +43,7 @@ class Messages extends NLS {
         NLS.initializeMessages(Messages.BUNDLE_NAME, Messages.class);
     }
 
-    // CHECKSTYLE StaticVariableNameCheck:OFF
-    // CHECKSTYLE VariableCheck:OFF
+    // SUPPRESS CHECKSTYLE JavadocVariable|StaticVariableName:12
     public static String InnerAssignmentQuickfix_description;
     public static String InnerAssignmentQuickfix_label;
 
@@ -57,6 +56,4 @@ class Messages extends NLS {
 
     public static String ZeroParameterSuperconstructorInvocation_description;
     public static String ZeroParameterSuperconstructorInvocation_label;
-    // CHECKSTYLE StaticVariableNameCheck:ON
-    // CHECKSTYLE VariableCheck:ON
 }

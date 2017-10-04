@@ -43,6 +43,7 @@ enum LocalTokenType {
 
     // The following tokens exist in CHECKSTYLE versions 5.6 ... 5.8 and 6.0 ... 6.1.:
 
+    // SUPPRESS CHECKSTYLE JavadocVariable:179
     ABSTRACT,
     ANNOTATION,
     ANNOTATIONS,
@@ -226,7 +227,6 @@ enum LocalTokenType {
 
     // CHECKSTYLE JavadocVariable:ON
 
-    private
     LocalTokenType() {
 
         String name = this.name();

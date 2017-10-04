@@ -214,12 +214,12 @@ class Alignment extends AbstractCheck {
     }
 
     @Override public int[]
-	getDefaultTokens() { return this.getAcceptableTokens(); }
+    getDefaultTokens() { return this.getAcceptableTokens(); }
 
-	@Override public int[]
-	getRequiredTokens() { return this.getAcceptableTokens(); }
+    @Override public int[]
+    getRequiredTokens() { return this.getAcceptableTokens(); }
 
-	private DetailAST previousFieldDeclaration;
+    private DetailAST previousFieldDeclaration;
     private DetailAST previousParameterDeclaration;
     private DetailAST previousLocalVariableDeclaration;
     private DetailAST previousMethodDeclaration;

@@ -104,7 +104,7 @@ class NameSpelling extends AbstractCheck {
     public
     enum Elements {
 
-        // CHECKSTYLE VariableCheck:OFF
+        // SUPPRESS CHECKSTYLE JavadocVariable:15
         ANNOTATION("Annotation"),
         ANNOTATION_FIELD("Annotation field"),
         CATCH_PARAMETER("Catch parameter"),
@@ -120,11 +120,9 @@ class NameSpelling extends AbstractCheck {
         METHOD("Method"),
         PACKAGE("Package"),
         TYPE_PARAMETER("Type parameter");
-        // CHECKSTYLE VariableCheck:ON
 
         private final String name;
 
-        private
         Elements(String name) { this.name = name; }
 
         @Override public String
@@ -267,10 +265,10 @@ class NameSpelling extends AbstractCheck {
     }
 
     @Override public int[]
-	getDefaultTokens() { return this.getAcceptableTokens(); }
+    getDefaultTokens() { return this.getAcceptableTokens(); }
 
-	@Override public int[]
-	getRequiredTokens() { return this.getAcceptableTokens(); }
+    @Override public int[]
+    getRequiredTokens() { return this.getAcceptableTokens(); }
 
     @Override public void
     visitToken(DetailAST ast) {

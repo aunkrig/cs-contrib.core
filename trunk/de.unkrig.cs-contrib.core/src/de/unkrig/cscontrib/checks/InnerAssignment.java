@@ -73,10 +73,10 @@ class InnerAssignment extends AbstractCheck {
     }
 
     @Override public int[]
-	getDefaultTokens() { return this.getAcceptableTokens(); }
+    getDefaultTokens() { return this.getAcceptableTokens(); }
 
-	@Override public int[]
-	getRequiredTokens() { return this.getAcceptableTokens(); }
+    @Override public int[]
+    getRequiredTokens() { return this.getAcceptableTokens(); }
 
     @Override public void
     visitToken(DetailAST ast) {
