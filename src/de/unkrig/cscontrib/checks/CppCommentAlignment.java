@@ -49,7 +49,7 @@ import de.unkrig.csdoclet.annotation.Rule;
  * <p>
  * C++-style comments must appear on the same column iff
  * <ul>
- *   <li>They appear in immediately consecutive lines, and
+ *   <li>They appear in immediately consecutive lines (only for statement lists and SWITCH statements), and
  *   <li>All of these lines are of the same 'kind' (see below)
  * </ul>
  * Each line of code relates to one of the following 'kinds':
