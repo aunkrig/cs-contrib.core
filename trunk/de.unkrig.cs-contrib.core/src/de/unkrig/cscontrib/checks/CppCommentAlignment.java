@@ -272,12 +272,31 @@ class CppCommentAlignment extends AbstractCheck {
         Map<Integer /*lineNo*/, Integer /*colNo*/> commentCoordinates = new HashMap<Integer, Integer>();
 
         // Collect all C++-style comments that appear right from all children.
+        int prevLineNo = Integer.MAX_VALUE; // SUPPRESS CHECKSTYLE UsageDistance
         for (DetailAST child : children) {
 
             final int lineNo = child.getLineNo();
 
             // Special case "CASE_GROUP { 'case' 'case' SLIST }".
             if (AstUtil.typeIs(child, LocalTokenType.SLIST)) continue;
+
+            // For statement lists and SWITCH statements...
+            if (
+                AstUtil.typeIs(ast, LocalTokenType.LITERAL_SWITCH)
+                || AstUtil.typeIs(ast, LocalTokenType.SLIST)
+            ) {
+
+                // ... tolerate different alignments if lines are not consecutive.
+                TextBlock tb = this.cppComments.get(lineNo);
+                if (tb == null || tb.getStartColNo() == 1) continue;
+
+                if (tb.getStartLineNo() - 1 > prevLineNo) {
+                    this.analyze(commentCoordinates);
+                    commentCoordinates.clear();
+                    prevLineNo = Integer.MAX_VALUE;
+                    continue;
+                }
+            }
 
             // Do not regard the '{' as a child of an OBJBLOCK.
             if (AstUtil.typeIs(ast, LocalTokenType.OBJBLOCK) && AstUtil.typeIs(child, LocalTokenType.LCURLY)) continue;
@@ -296,6 +315,7 @@ class CppCommentAlignment extends AbstractCheck {
             if (commentCoordinates.containsKey(lineNo)) continue;
 
             commentCoordinates.put(lineNo, tb.getStartColNo());
+            prevLineNo = lineNo;
         }
 
         // Verify that these C++-style comments are properly aligned.
