@@ -4,6 +4,8 @@
 	<echoproperties></echoproperties>
 	<property name="maven.repo" value="C:\Users\Arno\.m2\repository" />
 -->
+	<property file="local_build.properties" />
+	<property file="build.properties" />
 	<property name="v" value="1.2.12-SNAPSHOT" />
 	
 	<!--
