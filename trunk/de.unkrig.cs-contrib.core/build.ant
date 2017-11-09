@@ -24,16 +24,20 @@
 			The only way to get classes from other (non-plug-in) projects into the plug-in appears to be to put JAR
 			files on the 'Runtime Classpath' ("plugin.xml", tab "Runtime", Section "Classpath").
 		-->
-		<echo message="*** Generating 'de.unkrig.doclet.cs.annotation.jar'..." />
+		<property name="de.unkrig.doclet.cs.annotation.jar" value="libs/de.unkrig.doclet.cs.annotation.jar" />
+		<echo message="*** Generating '${de.unkrig.doclet.cs.annotation.jar}'..." />
+		<delete dir="libs" />
 		<mkdir dir="libs" />
-		<jar jarfile="libs/de.unkrig.doclet.cs.annotation.jar">
-			<fileset dir="../de.unkrig.doclet.cs.annotation/bin" />
-		</jar>
+		<copy
+			file="../de.unkrig.doclet.cs_dist//mirror/download/1.0.0.v20170902-2120/de.unkrig.doclet.cs.annotation.jar"
+			tofile="${de.unkrig.doclet.cs.annotation.jar}"
+		/>
 
-		<echo message="*** Generating 'de.unkrig.commons.nullanalysis.jar'..." />
+		<property name="commons-nullanalysis.jar" value="libs/commons-nullanalysis.jar" />
+		<echo message="*** Generating '${commons-nullanalysis.jar}'..." />
 		<copy
 			file="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${v}/commons-nullanalysis-${v}.jar"
-			tofile="libs/de.unkrig.commons.nullanalysis.jar"
+			tofile="${commons-nullanalysis.jar}"
 		/>
 
 		<echo message="*** Generating CS metadata from source code..." />
