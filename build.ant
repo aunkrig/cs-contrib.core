@@ -1,12 +1,9 @@
 <project>
 
-<!--
-	<echoproperties></echoproperties>
-	<property name="maven.repo" value="C:\Users\Arno\.m2\repository" />
--->
 	<property file="local_build.properties" />
 	<property file="build.properties" />
-	<property name="v" value="1.2.12-SNAPSHOT" />
+	<property name="ducv" value="1.2.12-SNAPSHOT" />
+	<property name="dudcv" value="1.0.1" />
 	
 	<!--
 		This target is intended to be executed manually on-demoand; it is not part of the build process! Thus, the
@@ -24,19 +21,20 @@
 			The only way to get classes from other (non-plug-in) projects into the plug-in appears to be to put JAR
 			files on the 'Runtime Classpath' ("plugin.xml", tab "Runtime", Section "Classpath").
 		-->
-		<property name="de.unkrig.doclet.cs.annotation.jar" value="libs/de.unkrig.doclet.cs.annotation.jar" />
-		<echo message="*** Generating '${de.unkrig.doclet.cs.annotation.jar}'..." />
 		<delete dir="libs" />
 		<mkdir dir="libs" />
+
+		<property name="de.unkrig.doclet.cs.annotation.jar" value="libs/de.unkrig.doclet.cs.annotation.jar" />
+		<echo message="*** Generating '${de.unkrig.doclet.cs.annotation.jar}'..." />
 		<copy
-			file="../de.unkrig.doclet.cs_dist//mirror/download/1.0.0.v20170902-2120/de.unkrig.doclet.cs.annotation.jar"
+			file="${maven.repo}/de/unkrig/doclet-cs-annotation/${dudcv}/doclet-cs-annotation-${dudcv}.jar"
 			tofile="${de.unkrig.doclet.cs.annotation.jar}"
 		/>
 
 		<property name="commons-nullanalysis.jar" value="libs/commons-nullanalysis.jar" />
 		<echo message="*** Generating '${commons-nullanalysis.jar}'..." />
 		<copy
-			file="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${v}/commons-nullanalysis-${v}.jar"
+			file="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${ducv}/commons-nullanalysis-${ducv}.jar"
 			tofile="${commons-nullanalysis.jar}"
 		/>
 
@@ -47,32 +45,20 @@
 
 			<pathelement location="../de.unkrig.doclet.cs/bin"            />
 			<pathelement location="../de.unkrig.doclet.cs.annotation/bin" />
-			<pathelement location="${maven.repo}/de/unkrig/commons/commons-doclet/${v}/commons-doclet-${v}.jar" />
-			<pathelement location="${maven.repo}/de/unkrig/commons/commons-lang/${v}/commons-lang-${v}.jar"   />
-			<pathelement location="${maven.repo}/de/unkrig/commons/commons-text/${v}/commons-text-${v}.jar"   />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-doclet/${ducv}/commons-doclet-${ducv}.jar" />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-lang/${ducv}/commons-lang-${ducv}.jar"     />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-text/${ducv}/commons-text-${ducv}.jar"     />
 			<pathelement location="${no-template-core}/target/classes" />
 
 			<!- - Unclear why this is needed: - ->
 			<dirset  dir="." includes="bin" />
 
 			<!- - Iff rules use 'option providers': - ->
-			<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
+			<fileset file="${maven.repo}/com/puppycrawl/tools/checkstyle/8.0/checkstyle-8.0.jar" />
 		</path>
 -->
 		<path id="cs.doclet.path">
-
-			<fileset file="../de.unkrig.cs-contrib_dist/lib/de.unkrig.doclet.cs.jar" />
-			<pathelement location="${maven.repo}/de/unkrig/commons/commons-doclet/${v}/commons-doclet-${v}.jar" />
-			<pathelement location="${maven.repo}/de/unkrig/commons/commons-lang/${v}/commons-lang-${v}.jar"     />
-			<pathelement location="${maven.repo}/de/unkrig/commons/commons-text/${v}/commons-text-${v}.jar"   />
-			<pathelement location="${maven.repo}/de/unkrig/no-template-core/1.0.4/no-template-core-1.0.4.jar"   />
-			<pathelement location="libs/de.unkrig.doclet.cs.annotation.jar" />
-
-			<!-- Iff rules use 'option providers': -->
-			<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
-
-			<!-- Iff there are quickfixes: -->
-			<dirset  dir="."                       includes="bin"                              />
+			<fileset file="${maven.repo}/de/unkrig/doclet-cs/${dudcv}/doclet-cs-${dudcv}-jar-with-dependencies.jar" />
 		</path>
 
 		<javadoc docletpathref="cs.doclet.path" doclet="de.unkrig.doclet.cs.CsDoclet">
@@ -90,13 +76,11 @@
 			<classpath>
 
 				<!-- Classes required by the rules: -->
-<!--
-				<dirset  dir="../commons-nullanalysis" includes="target/classes" />
--->
-				<pathelement location="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${v}/commons-nullanalysis-${v}.jar" />
+				<pathelement location="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${ducv}/commons-nullanalysis-${ducv}.jar" />
 
 				<!-- Iff rules use 'option providers': -->
-				<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.checkstyle_*/checkstyle-*-all.jar" />
+				<fileset file="${maven.repo}/com/puppycrawl/tools/checkstyle/8.0/checkstyle-8.0.jar" />
+				<fileset file="${maven.repo}/com/google/guava/guava/22.0/guava-22.0.jar"             />
 				<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.core_*.jar" />
 
 				<!-- Iff there are quickfixes: -->
@@ -115,7 +99,7 @@
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.ui.workbench_*.jar"           />
 
 				<!-- The annotations for the CS doclet. -->
-				<fileset file="../de.unkrig.cs-contrib_dist/lib/de.unkrig.doclet.cs.annotation.jar" />
+				<fileset file="${maven.repo}/de/unkrig/doclet-cs-annotation/${dudcv}/doclet-cs-annotation-${dudcv}.jar" />
 			</classpath>
 		</javadoc>
 	</target>
