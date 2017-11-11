@@ -2,8 +2,9 @@
 
 	<property file="local_build.properties" />
 	<property file="build.properties" />
-	<property name="ducv" value="1.2.12-SNAPSHOT" />
-	<property name="dudcv" value="1.0.1" />
+
+	<property name="commons.version"   value="1.2.12-SNAPSHOT" />
+	<property name="doclet-cs.version" value="1.0.2-SNAPSHOT" />
 	
 	<!--
 		This target is intended to be executed manually on-demoand; it is not part of the build process! Thus, the
@@ -27,14 +28,14 @@
 		<property name="de.unkrig.doclet.cs.annotation.jar" value="libs/de.unkrig.doclet.cs.annotation.jar" />
 		<echo message="*** Generating '${de.unkrig.doclet.cs.annotation.jar}'..." />
 		<copy
-			file="${maven.repo}/de/unkrig/doclet-cs-annotation/${dudcv}/doclet-cs-annotation-${dudcv}.jar"
+			file="${maven.repo}/de/unkrig/doclet-cs-annotation/${doclet-cs.version}/doclet-cs-annotation-${doclet-cs.version}.jar"
 			tofile="${de.unkrig.doclet.cs.annotation.jar}"
 		/>
 
 		<property name="commons-nullanalysis.jar" value="libs/commons-nullanalysis.jar" />
 		<echo message="*** Generating '${commons-nullanalysis.jar}'..." />
 		<copy
-			file="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${ducv}/commons-nullanalysis-${ducv}.jar"
+			file="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${commons.version}/commons-nullanalysis-${commons.version}.jar"
 			tofile="${commons-nullanalysis.jar}"
 		/>
 
@@ -45,9 +46,9 @@
 
 			<pathelement location="../de.unkrig.doclet.cs/bin"            />
 			<pathelement location="../de.unkrig.doclet.cs.annotation/bin" />
-			<pathelement location="${maven.repo}/de/unkrig/commons/commons-doclet/${ducv}/commons-doclet-${ducv}.jar" />
-			<pathelement location="${maven.repo}/de/unkrig/commons/commons-lang/${ducv}/commons-lang-${ducv}.jar"     />
-			<pathelement location="${maven.repo}/de/unkrig/commons/commons-text/${ducv}/commons-text-${ducv}.jar"     />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-doclet/${commons.version}/commons-doclet-${commons.version}.jar" />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-lang/${commons.version}/commons-lang-${commons.version}.jar"     />
+			<pathelement location="${maven.repo}/de/unkrig/commons/commons-text/${commons.version}/commons-text-${commons.version}.jar"     />
 			<pathelement location="${no-template-core}/target/classes" />
 
 			<!- - Unclear why this is needed: - ->
@@ -58,7 +59,7 @@
 		</path>
 -->
 		<path id="cs.doclet.path">
-			<fileset file="${maven.repo}/de/unkrig/doclet-cs/${dudcv}/doclet-cs-${dudcv}-jar-with-dependencies.jar" />
+			<fileset file="${maven.repo}/de/unkrig/doclet-cs/${doclet-cs.version}/doclet-cs-${doclet-cs.version}-jar-with-dependencies.jar" />
 		</path>
 
 		<javadoc docletpathref="cs.doclet.path" doclet="de.unkrig.doclet.cs.CsDoclet">
@@ -76,7 +77,7 @@
 			<classpath>
 
 				<!-- Classes required by the rules: -->
-				<pathelement location="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${ducv}/commons-nullanalysis-${ducv}.jar" />
+				<pathelement location="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${commons.version}/commons-nullanalysis-${commons.version}.jar" />
 
 				<!-- Iff rules use 'option providers': -->
 				<fileset file="${maven.repo}/com/puppycrawl/tools/checkstyle/8.0/checkstyle-8.0.jar" />
@@ -99,7 +100,7 @@
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.ui.workbench_*.jar"           />
 
 				<!-- The annotations for the CS doclet. -->
-				<fileset file="${maven.repo}/de/unkrig/doclet-cs-annotation/${dudcv}/doclet-cs-annotation-${dudcv}.jar" />
+				<fileset file="${maven.repo}/de/unkrig/doclet-cs-annotation/${doclet-cs.version}/doclet-cs-annotation-${doclet-cs.version}.jar" />
 			</classpath>
 		</javadoc>
 	</target>
