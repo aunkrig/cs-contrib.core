@@ -24,6 +24,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// Disable "WrapMethod" because we want multiple arguments per line in the "checkChildren()" calls:
+// SUPPRESS CHECKSTYLE WrapMethod:9999
+
 package de.unkrig.cscontrib.checks;
 
 import static de.unkrig.cscontrib.LocalTokenType.LITERAL_CATCH;
@@ -160,9 +163,6 @@ class WrapTryCheck extends AbstractWrapCheck {
 
     @Override public int[]
     getRequiredTokens() { return this.getAcceptableTokens(); }
-
-    // Disable "WrapMethod" because we want multiple arguments per line in the "checkChildren()" calls:
-    // CHECKSTYLE WrapMethod:OFF
 
     @Override public void
     visitToken(DetailAST ast) {

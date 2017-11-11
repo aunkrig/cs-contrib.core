@@ -224,10 +224,7 @@ class AbstractDocumentResolution extends WorkbenchMarkerResolution implements IC
     private static MarkerAnnotation
     getMarkerAnnotation(@NotNull IAnnotationModel annotationModel, @NotNull IMarker marker) {
 
-        for (
-            @SuppressWarnings("unchecked") Iterator<Annotation> it = annotationModel.getAnnotationIterator();
-            it.hasNext();
-        ) {
+        for (Iterator<Annotation> it = annotationModel.getAnnotationIterator(); it.hasNext();) {
             Annotation annotation = it.next();
 
             if (annotation instanceof MarkerAnnotation) {

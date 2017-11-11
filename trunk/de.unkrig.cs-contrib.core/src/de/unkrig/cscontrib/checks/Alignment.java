@@ -82,7 +82,7 @@ class Alignment extends AbstractCheck {
     @Message("''{0}'' should be aligned with ''{1}'' in line {2,number,#}")
     private static final String MESSAGE_KEY_MISALIGNED = "Alignment.misaligned";
 
-    // CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:OFF
+    // CONFIGURATION SETTERS
 
     /**
      * Check alignment of first name in field declarations.
@@ -199,7 +199,7 @@ class Alignment extends AbstractCheck {
     private boolean              applyToMethodBody            = Alignment.DEFAULT_APPLY_TO_METHOD_BODY;
     private static final boolean DEFAULT_APPLY_TO_METHOD_BODY = true;
 
-    // END CONFIGURATION SETTERS -- CHECKSTYLE MethodCheck:ON
+    // END CONFIGURATION SETTERS
 
     @Override public int[]
     getAcceptableTokens() {
