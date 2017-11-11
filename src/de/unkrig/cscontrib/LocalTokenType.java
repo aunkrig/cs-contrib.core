@@ -39,7 +39,6 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  */
 public
 enum LocalTokenType {
-    // CHECKSTYLE JavadocVariable:OFF
 
     // The following tokens exist in CHECKSTYLE versions 5.6 ... 5.8 and 6.0 ... 6.1.:
 
@@ -224,8 +223,6 @@ enum LocalTokenType {
     // All other CS tokens map to THIS LocalTokenType.
     UNKNOWN_TOKEN
     ;
-
-    // CHECKSTYLE JavadocVariable:ON
 
     LocalTokenType() {
 
