@@ -30,11 +30,10 @@ import java.lang.ref.WeakReference;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import com.puppycrawl.tools.checkstyle.api.AuditEvent;
+import com.puppycrawl.tools.checkstyle.TreeWalkerAuditEvent;
+import com.puppycrawl.tools.checkstyle.TreeWalkerFilter;
 import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
-import com.puppycrawl.tools.checkstyle.api.Filter;
-import com.puppycrawl.tools.checkstyle.checks.FileContentsHolder;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.csdoclet.annotation.RegexRuleProperty;
@@ -51,7 +50,7 @@ import de.unkrig.csdoclet.annotation.Rule;
     hasSeverity = false
 )
 @NotNullByDefault(false) public
-class SuppressionRegex extends AutomaticBean implements Filter {
+class SuppressionRegex extends AutomaticBean implements TreeWalkerFilter {
 
     private Pattern lineRegex;
 
@@ -147,13 +146,13 @@ class SuppressionRegex extends AutomaticBean implements Filter {
     }
 
     @Override public boolean
-    accept(AuditEvent event) {
+    accept(TreeWalkerAuditEvent event) {
 
         if (event.getLocalizedMessage() == null) return true;        // A special event.
 
         // Lazy update. If the first event for the current file, update file
         // contents and tag suppressions
-        final FileContents currentContents = FileContentsHolder.getCurrentFileContents();
+      final FileContents currentContents = event.getFileContents();
         if (currentContents == null) {
             // we have no contents, so we can not filter.
             // TODO: perhaps we should notify user somehow?

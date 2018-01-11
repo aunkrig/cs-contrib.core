@@ -34,11 +34,11 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import com.google.common.collect.Lists;
+import com.puppycrawl.tools.checkstyle.TreeWalkerAuditEvent;
+import com.puppycrawl.tools.checkstyle.TreeWalkerFilter;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
-import com.puppycrawl.tools.checkstyle.api.Filter;
-import com.puppycrawl.tools.checkstyle.checks.FileContentsHolder;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.csdoclet.annotation.RegexRuleProperty;
@@ -63,7 +63,7 @@ import de.unkrig.csdoclet.annotation.Rule;
     hasSeverity = false
 )
 @NotNullByDefault(false) public
-class SuppressionLine extends AutomaticBean implements Filter {
+class SuppressionLine extends AutomaticBean implements TreeWalkerFilter {
 
     /**
      * A Tag holds a magic line and its location, and determines whether the suppression turns CHECKSTYLE reporting on
@@ -162,7 +162,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
          * @return      Whether the source of the {@code event} matches this tag
          */
         private boolean
-        isMatch(AuditEvent event) {
+        isMatch(TreeWalkerAuditEvent event) {
 
             // Match event's 'source name' against 'checkNameRegex'.
             if (
@@ -218,7 +218,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
      * ill-formed format appears in the exception message.
      */
     private static String
-    getEventMessage(AuditEvent event) {
+    getEventMessage(TreeWalkerAuditEvent event) {
         try {
             return event.getMessage();
         } catch (RuntimeException e) {
@@ -356,13 +356,13 @@ class SuppressionLine extends AutomaticBean implements Filter {
     }
 
     @Override public boolean
-    accept(AuditEvent event) {
+    accept(TreeWalkerAuditEvent event) {
 
         if (event.getLocalizedMessage() == null) return true;        // A special event.
 
         // Lazy update. If the first event for the current file, update file
         // contents and tag suppressions
-        final FileContents currentContents = FileContentsHolder.getCurrentFileContents();
+        final FileContents currentContents = event.getFileContents();
         if (currentContents == null) {
             // we have no contents, so we can not filter.
             // TODO: perhaps we should notify user somehow?
@@ -386,7 +386,7 @@ class SuppressionLine extends AutomaticBean implements Filter {
      * @return      The {@code Tag} nearest {@code event}.
      */
     private Tag
-    findNearestMatch(AuditEvent event) {
+    findNearestMatch(TreeWalkerAuditEvent event) {
         Tag result = null;
         // TODO: try binary search if sequential search becomes a performance
         // problem.

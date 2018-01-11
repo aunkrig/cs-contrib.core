@@ -13,9 +13,11 @@
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry containerPath=&quot;org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6&quot; path=&quot;1&quot; type=&quot;4&quot;/&gt;&#13;&#10;"/>
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry containerPath=&quot;JDK_1.6/lib/tools.jar&quot; path=&quot;3&quot; type=&quot;3&quot;/&gt;&#13;&#10;"/>
 </listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.sun.tools.javadoc.Main"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-sourcepath src&#13;&#10;-classpath ../net.sf.checkstyle-6.1/checkstyle-6.1/checkstyle-6.1-all.jar;C:/eclipse/eclipse-java-luna-SR1-win32-x86_64/plugins/net.sf.eclipsecs.core_6.1.0.201411141422&#13;&#10;-doclet de.unkrig.doclet.cs.CsDoclet&#13;&#10;-docletpath ../de.unkrig.doclet.cs/bin&#13;&#10;-checkstyle-metadata.properties-dir src&#13;&#10;-checkstyle-metadata.xml-dir src&#13;&#10;-mediawiki-dir mediawiki&#13;&#10;foo"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="foo"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 </launchConfiguration>
