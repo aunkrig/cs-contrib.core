@@ -444,4 +444,7 @@ class SuppressionLine extends AutomaticBean implements TreeWalkerFilter {
         final Tag tag = new Tag(line, text, on);
         this.magicLines.add(tag);
     }
+
+    @Override protected void
+    finishLocalSetup() {}
 }

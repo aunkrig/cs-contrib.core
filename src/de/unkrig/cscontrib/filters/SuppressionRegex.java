@@ -183,4 +183,7 @@ class SuppressionRegex extends AutomaticBean implements TreeWalkerFilter {
 
         return true;
     }
+
+    @Override protected void
+    finishLocalSetup() {}
 }
