@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.common.collect.ImmutableMap;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
@@ -72,7 +71,7 @@ class CppCommentAlignment extends AbstractCheck {
     @Message("C++ comment must appear on column {0}, not {1}")
     private static final String MESSAGE_KEY_MISALIGNED = "CppCommentAlignment.misaligned";
 
-    private ImmutableMap<Integer /*lineNumber*/, TextBlock> cppComments;
+    private Map<Integer /*lineNumber*/, TextBlock> cppComments;
 
     @Override public int[]
     getAcceptableTokens() {
