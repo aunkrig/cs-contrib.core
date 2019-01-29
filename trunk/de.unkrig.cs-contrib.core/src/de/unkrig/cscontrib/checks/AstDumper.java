@@ -27,9 +27,9 @@
 package de.unkrig.cscontrib.checks;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
-import com.puppycrawl.tools.checkstyle.utils.TokenUtil; // Before CS 8.12: "TokenUtils"
 
 import de.unkrig.commons.nullanalysis.Nullable;
+import de.unkrig.cscontrib.LocalTokenType;
 
 /**
  * A helper with a zero-cost constructor for dumping an AST.
@@ -53,7 +53,8 @@ class AstDumper {
     private static void
     dumpSiblings(String prefix, @Nullable DetailAST sibling, StringBuilder sb) {
         for (; sibling != null; sibling = sibling.getNextSibling()) {
-            sb.append(prefix).append(sibling).append(TokenUtil.getTokenName(sibling.getType())).append('\n');
+            String tokenName = LocalTokenType.localize(sibling.getType()).toString();
+            sb.append(prefix).append(sibling).append(tokenName).append('\n');
             AstDumper.dumpSiblings(prefix + "  ", sibling.getFirstChild(), sb);
         }
     }
