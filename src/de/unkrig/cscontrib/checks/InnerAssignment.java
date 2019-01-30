@@ -38,7 +38,7 @@ import de.unkrig.csdoclet.annotation.Rule;
 /**
  * Assignments in expressions must be parenthesized, like "a = (b = c)" or "while ((a = b))".
  * <p>
- *   An enhanced version of 'InnerAssignment': It comes with a quickfix for ECLIPSE-CS.
+ *   An enhanced version of "InnerAssignment": It comes with a quickfix for ECLIPSE-CS.
  * </p>
  */
 @Rule(

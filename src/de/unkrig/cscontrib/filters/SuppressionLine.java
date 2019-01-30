@@ -50,9 +50,9 @@ import de.unkrig.csdoclet.annotation.Rule;
  *   After the "off" magic line, events do not show if at least one of the following conditions is true:
  * </p>
  * <ul>
- *   <li>The 'checkNameFormat' (if set) is found in the check name (e.g. 'de.unkrig.cscontrib.checks.Alignment')
- *   <li>The 'messageFormat' (if set) is found in the event message
- *   <li>The 'moduleIdFormat' (if set) is found in the ID of the module that generated the event
+ *   <li>The "checkNameFormat" (if set) is found in the check name (e.g. "de.unkrig.cscontrib.checks.Alignment")
+ *   <li>The "messageFormat" (if set) is found in the event message
+ *   <li>The "moduleIdFormat" (if set) is found in the ID of the module that generated the event
  * </ul>
  */
 @Rule(

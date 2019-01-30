@@ -52,7 +52,7 @@ import de.unkrig.csdoclet.annotation.Rule;
  * public void func() {
  *     new Object() {
  *         // ...
- *     }.hashCode();             // No space between '}' and '.' -- always allowed
+ *     }.hashCode();             // No space between "}" and "." -- always allowed
  *     try {
  *         // ...
  *     } catch {}                // empty catch block
