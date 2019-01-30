@@ -49,12 +49,12 @@ import de.unkrig.csdoclet.annotation.Rule;
  * C++-style comments must appear on the same column iff
  * <ul>
  *   <li>They appear in immediately consecutive lines (only for statement lists and SWITCH statements), and
- *   <li>All of these lines are of the same 'kind' (see below)
+ *   <li>All of these lines are of the same "kind" (see below)
  * </ul>
- * Each line of code relates to one of the following 'kinds':
+ * Each line of code relates to one of the following "kinds":
  * <ul>
  *   <li>A line which contains only a C++-style comment
- *   <li>A line which contains only a switch label ('{@code case x:}' or '{@code default:}') and a C++-style comment
+ *   <li>A line which contains only a switch label ("{@code case x:}" or "{@code default:}") and a C++-style comment
  *   <li>Any other line
  * </ul>
  */

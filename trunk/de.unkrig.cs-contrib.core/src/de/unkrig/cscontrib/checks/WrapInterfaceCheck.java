@@ -53,7 +53,11 @@ import de.unkrig.csdoclet.annotation.SingleSelectRuleProperty;
 
 /**
  * Verifies that interface declarations are uniformly wrapped and indented.
- */
+  * <p>
+ *   The phrase "wrap before X" means that a line break and spaces appear right before "X", such that "X" is vertically
+ *   aligned with the first token in the immediately preceding line.
+ * </p>
+*/
 @Rule(
     group      = "%Whitespace.group",
     groupName  = "Whitespace",
