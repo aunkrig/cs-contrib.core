@@ -407,17 +407,16 @@ class Alignment extends AbstractCheck {
         // Check vertical alignment of initializers.
         if (this.applyToMethodBody) {
 
+            DetailAST previousBody = previousDefinition.findFirstToken(LocalTokenType.SLIST.delocalize());
+            DetailAST currentBody  = currentDefinition.findFirstToken(LocalTokenType.SLIST.delocalize());
+
             // Check alignment of opening brace.
-            this.checkTokenAlignment(
-                previousDefinition.findFirstToken(LocalTokenType.SLIST.delocalize()),
-                currentDefinition.findFirstToken(LocalTokenType.SLIST.delocalize())
-            );
+            this.checkTokenAlignment(previousBody, currentBody);
 
             // Check alignment of closing brace.
-            this.checkTokenAlignment(
-                previousDefinition.findFirstToken(LocalTokenType.SLIST.delocalize()).getLastChild(),
-                currentDefinition.findFirstToken(LocalTokenType.SLIST.delocalize()).getLastChild()
-            );
+            if (previousBody != null && currentBody != null) {
+                this.checkTokenAlignment(previousBody.getLastChild(), currentBody.getLastChild());
+            }
         }
     }
 

@@ -35,6 +35,7 @@ import java.util.Map.Entry;
 
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
+import com.puppycrawl.tools.checkstyle.api.FileContents;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
@@ -256,7 +257,28 @@ class CppCommentAlignment extends AbstractCheck {
 
     @Override public void
     beginTree(DetailAST ast) {
-        this.cppComments = this.getFileContents().getSingleLineComments();
+        this.cppComments = CppCommentAlignment.getSingleLineComments(this.getFileContents());
+    }
+
+    @SuppressWarnings("unchecked") private static Map<Integer, TextBlock>
+    getSingleLineComments(FileContents fileContents) {
+
+        // The signature of "FileContents.getSingleLineComments()" keeps changing across CS versions:
+        // 8.0.0  public com.google.common.collect.ImmutableMap<Integer, TextBlock> getSingleLineComments()
+        // 8.5.1  public com.google.common.collect.ImmutableMap<Integer, TextBlock> getSingleLineComments()
+        // 8.12.0 public                          java.util.Map<Integer, TextBlock> getSingleLineComments()
+        // So...:
+//      return fileContents.getSingleLineComments();
+        try {
+            return (Map<Integer, TextBlock>) (
+                fileContents
+                .getClass()
+                .getDeclaredMethod("getSingleLineComments")
+                .invoke(fileContents)
+            );
+        } catch (Exception e) {
+            throw new AssertionError(e);
+        }
     }
 
     @Override public void
