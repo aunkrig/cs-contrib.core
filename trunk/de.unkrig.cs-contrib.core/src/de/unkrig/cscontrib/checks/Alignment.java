@@ -70,8 +70,8 @@ import de.unkrig.csdoclet.annotation.Rule;
  *     public static void <font color="red">meth2</font>() {}
  *     public void        <font color="red">meth33</font>() {} // Aligned method names
  *
- *     public static void meth4()  <font color="red">{}</font>
- *     public void meth5()         <font color="red">{}</font> // Aligned method bodies
+ *     public void meth4() <font color="red">{</font> a();   <font color="red">}</font>
+ *     public void meth5() <font color="red">{</font> foo(); <font color="red">}</font> // Aligned method bodies
  * }</pre>
  */
 @Rule(group = "%Whitespace.group", groupName = "Whitespace", name = "de.unkrig: Alignment", parent = "TreeWalker")
@@ -187,7 +187,7 @@ class Alignment extends AbstractCheck {
     private static final boolean DEFAULT_APPLY_TO_METHOD_NAME = true;
 
     /**
-     * Check alignment of "<code>{</code>" in method (and constructor) declarations.
+     * Check alignment of "<code>{</code>" and "<code>}</code>" in method (and constructor) declarations.
      */
     @BooleanRuleProperty(
         name         = "applyToMethodBody",
@@ -390,6 +390,10 @@ class Alignment extends AbstractCheck {
      */
     private void
     checkMethodDefinitionAlignment(DetailAST previousDefinition, DetailAST currentDefinition) {
+
+        @SuppressWarnings("unused") AstDumper pdad = new AstDumper(previousDefinition);
+        @SuppressWarnings("unused") AstDumper cdad = new AstDumper(currentDefinition);
+
         if (previousDefinition == null) return;
 
         // Check vertical alignment of names.
@@ -402,9 +406,17 @@ class Alignment extends AbstractCheck {
 
         // Check vertical alignment of initializers.
         if (this.applyToMethodBody) {
+
+            // Check alignment of opening brace.
             this.checkTokenAlignment(
                 previousDefinition.findFirstToken(LocalTokenType.SLIST.delocalize()),
                 currentDefinition.findFirstToken(LocalTokenType.SLIST.delocalize())
+            );
+
+            // Check alignment of closing brace.
+            this.checkTokenAlignment(
+                previousDefinition.findFirstToken(LocalTokenType.SLIST.delocalize()).getLastChild(),
+                currentDefinition.findFirstToken(LocalTokenType.SLIST.delocalize()).getLastChild()
             );
         }
     }
