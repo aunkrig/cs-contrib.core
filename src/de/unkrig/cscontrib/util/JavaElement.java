@@ -1087,6 +1087,19 @@ enum JavaElement {
     LONG_LITERAL,
 
     /**
+     * The {@code ::} operator in a method reference.
+     * <dl>
+     *   <dt>Example:</dt>
+     *   <dd><tt>System.out<font color="red">::</font>println</tt></dd>
+     *   <dd><tt>String<font color="red">::</font>length</tt></dd>
+     *   <dd><tt>super<font color="red">::</font>toString</tt></dd>
+     *   <dd><tt>ArrayList<String><font color="red">::</font>new</tt></dd>
+     *   <dd><tt>int[]<font color="red">::</font>new</tt></dd>
+     * </dl>
+     */
+    METH_REF,
+
+    /**
      * TODO.
      * <dl>
      *   <dt>Example:</dt>
@@ -1305,13 +1318,24 @@ enum JavaElement {
     NATIVE,
 
     /**
-     * TODO.
+     * The {@code new} keyword in a class instance or array creation expression.
      * <dl>
      *   <dt>Example:</dt>
-     *   <dd><tt><font color="red">new</font></tt></dd>
+     *   <dd><tt><font color="red">new</font> ArrayList()</tt></dd>
+     *   <dd><tt><font color="red">new</font> int[3]</tt></dd>
      * </dl>
      */
     NEW,
+
+    /**
+     * The {@code new} keyword in a method reference.
+     * <dl>
+     *   <dt>Example:</dt>
+     *   <dd><tt>ArrayList::<font color="red">new</font></tt></dd>
+     *   <dd><tt>int[]::<font color="red">new</font></tt></dd>
+     * </dl>
+     */
+    NEW__METH_REF,
 
     /**
      * TODO.

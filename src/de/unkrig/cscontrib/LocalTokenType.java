@@ -206,10 +206,10 @@ enum LocalTokenType {
     VARIABLE_DEF,
     WILDCARD_TYPE,
 
-    // These three token types were added in CheckStyle version 5.9:
-    //   METHOD_REF
-    //   DOUBLE_COLON
-    //   LAMBDA
+    // These three token types were added in CheckStyle version 5.9 (Java 8):
+    METHOD_REF,
+    DOUBLE_COLON,
+    LAMBDA,
 
     // These three token types were added in CheckStyle version 6.0:
     //   SINGLE_LINE_COMMENT
@@ -218,7 +218,6 @@ enum LocalTokenType {
     //   COMMENT_CONTENT
 
     // These token types were added in CheckStyle version ???:
-    LAMBDA,
 
     // All other CS tokens map to THIS LocalTokenType.
     UNKNOWN_TOKEN

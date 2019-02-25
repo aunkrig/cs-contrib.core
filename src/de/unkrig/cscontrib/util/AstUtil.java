@@ -185,7 +185,6 @@ class AstUtil {
         case LITERAL_INTERFACE:  return INTERFACE;
         case LITERAL_LONG:       return LONG;
         case LITERAL_NATIVE:     return NATIVE;
-        case LITERAL_NEW:        return NEW;
         case LITERAL_NULL:       return NULL;
         case LITERAL_PRIVATE:    return PRIVATE;
         case LITERAL_PROTECTED:  return PROTECTED;
@@ -206,6 +205,7 @@ class AstUtil {
         case LOR:                return CONDITIONAL_OR;
         case LT:                 return LESS;
         case METHOD_CALL:        return L_PAREN__METH_INVOCATION;
+        case METHOD_REF:         return METH_REF;
         case MINUS:              return MINUS__ADDITIVE;
         case MINUS_ASSIGN:       return MINUS_ASSIGN;
         case MOD:                return MODULO;
@@ -462,6 +462,9 @@ class AstUtil {
             default:
                 return DEFAULT__SWITCH;
             }
+
+        case LITERAL_NEW:
+            return parentType == LocalTokenType.METHOD_REF ? NEW__METH_REF : NEW;
 
         case LITERAL_STATIC:
             return parentType == LocalTokenType.STATIC_IMPORT ? STATIC__STATIC_IMPORT : STATIC__MOD;
