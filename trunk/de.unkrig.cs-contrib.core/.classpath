@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="libs/de.unkrig.doclet.cs.annotation.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/commons-nullanalysis.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/doclet-cs-annotation-1.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/commons-nullanalysis-1.2.14.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins">
 		<accessrules>
 			<accessrule kind="accessible" pattern="org/apache/commons/beanutils/ConversionException"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="var" path="M2_REPO/de/unkrig/commons/commons-nullanalysis/1.2.12-SNAPSHOT/commons-nullanalysis-1.2.12-SNAPSHOT-javadoc.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/de.unkrig.doclet.cs.annotation"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
