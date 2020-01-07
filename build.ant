@@ -3,9 +3,6 @@
 	<property file="local_build.properties" />
 	<property file="build.properties" />
 
-	<property name="commons.version"   value="1.2.12-SNAPSHOT" />
-	<property name="doclet-cs.version" value="1.0.2-SNAPSHOT" />
-	
 	<!--
 		This target is intended to be executed manually on-demoand; it is not part of the build process! Thus, the
 		generated files are under SVN version control.
@@ -22,6 +19,7 @@
 			The only way to get classes from other (non-plug-in) projects into the plug-in appears to be to put JAR
 			files on the 'Runtime Classpath' ("plugin.xml", tab "Runtime", Section "Classpath").
 		-->
+<!--
 		<delete dir="libs" />
 		<mkdir dir="libs" />
 
@@ -38,6 +36,7 @@
 			file="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${commons.version}/commons-nullanalysis-${commons.version}.jar"
 			tofile="${commons-nullanalysis.jar}"
 		/>
+-->
 
 		<echo message="*** Generating CS metadata from source code..." />
 <!--
@@ -58,8 +57,13 @@
 			<fileset file="${maven.repo}/com/puppycrawl/tools/checkstyle/8.0/checkstyle-8.0.jar" />
 		</path>
 -->
+<!--
 		<path id="cs.doclet.path">
 			<fileset file="${maven.repo}/de/unkrig/doclet-cs/${doclet-cs.version}/doclet-cs-${doclet-cs.version}-jar-with-dependencies.jar" />
+		</path>
+-->
+		<path id="cs.doclet.path">
+			<fileset file="local_libs/doclet-cs-1.0.2-SNAPSHOT-jar-with-dependencies.jar" />
 		</path>
 
 		<javadoc docletpathref="cs.doclet.path" doclet="de.unkrig.doclet.cs.CsDoclet">
@@ -77,11 +81,11 @@
 			<classpath>
 
 				<!-- Classes required by the rules: -->
-				<pathelement location="${maven.repo}/de/unkrig/commons/commons-nullanalysis/${commons.version}/commons-nullanalysis-${commons.version}.jar" />
+				<pathelement location="libs/commons-nullanalysis-1.2.14.jar" />
 
 				<!-- Iff rules use 'option providers': -->
-				<fileset file="${maven.repo}/com/puppycrawl/tools/checkstyle/8.5/checkstyle-8.5.jar" />
-				<fileset file="${maven.repo}/com/google/guava/guava/22.0/guava-22.0.jar"             />
+				<fileset file="local_libs/checkstyle-8.12.jar" />
+				<fileset file="local_libs/guava-22.0.jar"             />
 				<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.core_*.jar" />
 
 				<!-- Iff there are quickfixes: -->
@@ -100,7 +104,7 @@
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.ui.workbench_*.jar"           />
 
 				<!-- The annotations for the CS doclet. -->
-				<fileset file="${maven.repo}/de/unkrig/doclet-cs-annotation/${doclet-cs.version}/doclet-cs-annotation-${doclet-cs.version}.jar" />
+				<fileset file="libs/doclet-cs-annotation-1.0.1.jar" />
 			</classpath>
 		</javadoc>
 	</target>
