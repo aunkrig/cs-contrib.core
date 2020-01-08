@@ -26,14 +26,20 @@
 
 package de.unkrig.cscontrib.filters;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import com.puppycrawl.tools.checkstyle.TreeWalkerAuditEvent;
 import com.puppycrawl.tools.checkstyle.TreeWalkerFilter;
+import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
+import com.puppycrawl.tools.checkstyle.api.FileText;
+import com.puppycrawl.tools.checkstyle.api.Filter;
 
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.csdoclet.annotation.RegexRuleProperty;
@@ -50,7 +56,7 @@ import de.unkrig.csdoclet.annotation.Rule;
     hasSeverity = false
 )
 @NotNullByDefault(false) public
-class SuppressionRegex extends AutomaticBean implements TreeWalkerFilter {
+class SuppressionRegex extends AutomaticBean implements Filter {
 
     private Pattern lineRegex;
 
@@ -68,7 +74,7 @@ class SuppressionRegex extends AutomaticBean implements TreeWalkerFilter {
      * FileContents can be reclaimed as soon as the strong references in TreeWalker and FileContentsHolder are
      * reassigned to the next FileContents, at which time filtering for the current FileContents is finished.
      */
-    private WeakReference<FileContents> fileContentsReference = new WeakReference<FileContents>(null);
+    private WeakReference<FileText> fileContentsReference = new WeakReference<FileText>(null);
 
     public
     SuppressionRegex() {}
@@ -132,7 +138,7 @@ class SuppressionRegex extends AutomaticBean implements TreeWalkerFilter {
     // END CONFIGURATION SETTERS
 
     /** @return the FileContents for this filter. */
-    public FileContents
+    public FileText
     getFileContents() { return this.fileContentsReference.get(); }
 
     /**
@@ -141,18 +147,40 @@ class SuppressionRegex extends AutomaticBean implements TreeWalkerFilter {
      * @param fileContents the FileContents for this filter.
      */
     public void
-    setFileContents(FileContents fileContents) {
-        this.fileContentsReference = new WeakReference<FileContents>(fileContents);
+    setFileContents(FileText fileContents) {
+        this.fileContentsReference = new WeakReference<FileText>(fileContents);
+    }
+
+    private static FileText getFileText(String fileName) {
+       File file = new File(fileName);
+       FileText result = null;
+
+
+       if (!file.isDirectory()) {
+          try {
+             result = new FileText(file, StandardCharsets.UTF_8.name());
+
+          } catch (IOException var4) {
+             throw new IllegalStateException("Cannot read source file: " + fileName, var4);
+          }
+       }
+
+       return result;
     }
 
     @Override public boolean
-    accept(TreeWalkerAuditEvent event) {
+    accept(AuditEvent event) {
+
+//	@Override public boolean
+//    accept(TreeWalkerAuditEvent event) {
 
         if (event.getLocalizedMessage() == null) return true;        // A special event.
 
         // Lazy update. If the first event for the current file, update file
         // contents and tag suppressions
-      final FileContents currentContents = event.getFileContents();
+//      final FileContents currentContents = event.getFileContents();
+        FileText currentContents = SuppressionRegex.getFileText(event.getFileName());
+
         if (currentContents == null) {
             // we have no contents, so we can not filter.
             // TODO: perhaps we should notify user somehow?
@@ -162,7 +190,7 @@ class SuppressionRegex extends AutomaticBean implements TreeWalkerFilter {
             this.setFileContents(currentContents);
         }
 
-        String line = currentContents.getLine(event.getLine() - 1);
+        String line = currentContents.get(event.getLine() - 1);
         if (this.lineRegex.matcher(line).find()) {
 
             if (
