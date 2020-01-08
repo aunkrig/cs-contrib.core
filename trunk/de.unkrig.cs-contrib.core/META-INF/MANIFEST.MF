@@ -25,5 +25,5 @@ Bundle-ActivationPolicy: lazy
 Eclipse-RegisterBuddy: net.sf.eclipsecs.core,
  net.sf.eclipsecs.ui
 Bundle-ClassPath: .,
- libs/commons-nullanalysis.jar,
- libs/de.unkrig.doclet.cs.annotation.jar
+ libs/doclet-cs-annotation-1.0.1.jar,
+ libs/commons-nullanalysis-1.2.14.jar
