@@ -473,7 +473,7 @@ class AstUtil {
             return parentType == LocalTokenType.SLIST ? SYNCHRONIZED__SYNCHRONIZED : SYNCHRONIZED__MOD;
 
         case STATIC_INIT:
-            ast.setText("static");
+//            ast.setText("static");
             return STATIC__STATIC_INIT;
 
         case LPAREN:
