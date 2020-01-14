@@ -38,6 +38,7 @@ import java.util.Set;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 
+import de.unkrig.commons.lang.AssertionUtil;
 import de.unkrig.commons.nullanalysis.NotNullByDefault;
 import de.unkrig.cscontrib.LocalTokenType;
 import de.unkrig.csdoclet.annotation.IntegerRuleProperty;
@@ -48,6 +49,8 @@ import de.unkrig.csdoclet.annotation.Message;
  */
 @NotNullByDefault(false) public abstract
 class AbstractWrapCheck extends AbstractCheck {
+
+    static { AssertionUtil.enableAssertionsForThisClass(); }
 
     /**
      * Message key as it appears in 'src/de/unkrig/cscontrib/checks/checkstyle-metadata.xml'.
