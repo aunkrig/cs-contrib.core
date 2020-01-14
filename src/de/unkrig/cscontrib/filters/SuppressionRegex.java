@@ -29,15 +29,11 @@ package de.unkrig.cscontrib.filters;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import com.puppycrawl.tools.checkstyle.TreeWalkerAuditEvent;
-import com.puppycrawl.tools.checkstyle.TreeWalkerFilter;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
-import com.puppycrawl.tools.checkstyle.api.FileContents;
 import com.puppycrawl.tools.checkstyle.api.FileText;
 import com.puppycrawl.tools.checkstyle.api.Filter;
 
@@ -60,7 +56,7 @@ class SuppressionRegex extends AutomaticBean implements Filter {
 
     private Pattern lineRegex;
 
-    /** The pattern agains which the check name is matched. */
+    /** The pattern against which the check name is matched. */
     private Pattern checkNameRegex;
 
     /** The message format to suppress. */
@@ -151,34 +147,26 @@ class SuppressionRegex extends AutomaticBean implements Filter {
         this.fileContentsReference = new WeakReference<FileText>(fileContents);
     }
 
-    private static FileText getFileText(String fileName) {
+    private static FileText
+    getFileText(String fileName) {
+
        File file = new File(fileName);
-       FileText result = null;
+       if (file.isDirectory()) return null;
 
-
-       if (!file.isDirectory()) {
-          try {
-             result = new FileText(file, StandardCharsets.UTF_8.name());
-
-          } catch (IOException var4) {
-             throw new IllegalStateException("Cannot read source file: " + fileName, var4);
-          }
-       }
-
-       return result;
+      try {
+         return new FileText(file, "UTF-8");
+      } catch (IOException var4) {
+         throw new IllegalStateException("Cannot read source file: " + fileName, var4);
+      }
     }
 
     @Override public boolean
     accept(AuditEvent event) {
 
-//	@Override public boolean
-//    accept(TreeWalkerAuditEvent event) {
-
         if (event.getLocalizedMessage() == null) return true;        // A special event.
 
         // Lazy update. If the first event for the current file, update file
         // contents and tag suppressions
-//      final FileContents currentContents = event.getFileContents();
         FileText currentContents = SuppressionRegex.getFileText(event.getFileName());
 
         if (currentContents == null) {
