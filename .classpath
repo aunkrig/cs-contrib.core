@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="libs/cs-contrib-1.0.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/doclet-cs-annotation-1.0.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/commons-nullanalysis-1.2.14.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins">
