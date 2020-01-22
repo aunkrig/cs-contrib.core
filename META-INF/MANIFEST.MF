@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: cs-contrib Core
 Bundle-SymbolicName: de.unkrig.cs-contrib.core;singleton:=true
-Bundle-Version: 1.2.21.qualifier
+Bundle-Version: 1.2.22.qualifier
 Bundle-Activator: de.unkrig.cscontrib.Activator
 Bundle-Vendor: Arno Unkrig
 Require-Bundle: net.sf.eclipsecs.checkstyle;bundle-version="8.0.0",
@@ -25,6 +25,6 @@ Bundle-ActivationPolicy: lazy
 Eclipse-RegisterBuddy: net.sf.eclipsecs.core,
  net.sf.eclipsecs.ui
 Bundle-ClassPath: .,
- libs/doclet-cs-annotation-1.0.1.jar,
+ libs/doclet-cs-annotation-1.1.0.jar,
  libs/commons-nullanalysis-1.2.14.jar,
  libs/cs-contrib-1.0.1.jar
