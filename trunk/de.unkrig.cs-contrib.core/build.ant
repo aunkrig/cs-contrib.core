@@ -42,7 +42,7 @@
 				<pathelement location="libs/commons-nullanalysis-1.2.14.jar" />
 
 				<!-- Iff rules use 'option providers': -->
-				<fileset file="local_libs/checkstyle-8.19.jar" />
+				<fileset file="local_libs/checkstyle-8.21.jar" />
 				<fileset file="local_libs/guava-22.0.jar"             />
 				<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.core_*.jar" />
 
