@@ -27,4 +27,4 @@ Eclipse-RegisterBuddy: net.sf.eclipsecs.core,
 Bundle-ClassPath: .,
  libs/doclet-cs-annotation-1.1.0.jar,
  libs/commons-nullanalysis-1.2.14.jar,
- libs/cs-contrib-1.0.3.jar
+ libs/cs-contrib-1.0.4.jar
