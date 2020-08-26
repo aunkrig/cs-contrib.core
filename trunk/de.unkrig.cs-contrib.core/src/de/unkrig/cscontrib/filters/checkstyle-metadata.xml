@@ -92,6 +92,12 @@
             >
                 <description>%SuppressionRegex.moduleIdFormat</description>
             </property-metadata>
+            <property-metadata
+                name="influence"
+                datatype="String"
+            >
+                <description>%SuppressionRegex.influence</description>
+            </property-metadata>
         </rule-metadata>
     </rule-group-metadata>
 </checkstyle-metadata>
