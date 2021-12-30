@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: cs-contrib Core
 Bundle-SymbolicName: de.unkrig.cs-contrib.core;singleton:=true
-Bundle-Version: 1.2.24.qualifier
+Bundle-Version: 1.2.25.qualifier
 Bundle-Activator: de.unkrig.cscontrib.Activator
 Bundle-Vendor: Arno Unkrig
 Require-Bundle: net.sf.eclipsecs.checkstyle;bundle-version="8.0.0",
