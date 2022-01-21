@@ -4,23 +4,22 @@
 	<property file="build.properties" />
 
 	<!--
-		This target is intended to be executed manually on-demoand; it is not part of the build process! Thus, the
-		generated files are under SVN version control.
+		This target is intended to be executed manually on-demand; it is not part of the build process! Thus, the
+		generated files are under version control.
 		
 		Runs the 'CS doclet' to produce
 			src/de/unkrig/cscontrib/{checks filters}/checkstyle.properties
 			src/de/unkrig/cscontrib/{checks filters}/checkstyle.xml
-		//	src/de/unkrig/cscontrib/{checks filters}/messages.properties
 		.
 	-->
 	<target name="generate">
 
-		<echo message="*** Generating CS metadata from source code..." />
-		<path id="cs.doclet.path">
-			<fileset file="libs/doclet-cs-1.1.0-jar-with-dependencies.jar" />
-		</path>
+		<echo message="*** Generating ECLIPSE-CS metadata from source code..." />
 
-		<javadoc docletpathref="cs.doclet.path" doclet="de.unkrig.doclet.cs.CsDoclet">
+		<javadoc
+			doclet="de.unkrig.doclet.cs.CsDoclet"
+			docletpath="libs/doclet-cs-1.1.1-SNAPSHOT-jar-with-dependencies.jar"
+		>
 
 			<!-- The 'CheckStyle packages' which contain the rules (checks, filters) to process: -->
 			<sourcepath>
@@ -32,9 +31,8 @@
 			<package name="de.unkrig.cscontrib.ui.quickfixes" />
 
 			<!-- Where to create the generated artifacts: -->
-			<arg value="-checkstyle-metadata.properties-dir" /><arg file="src"       />
-			<arg value="-checkstyle-metadata.xml-dir"        /><arg file="src"       />
-			<arg value="-messages.properties-dir"            /><arg file="src"       />
+			<arg value="-checkstyle-metadata.properties-dir" /><arg file="src" />
+			<arg value="-checkstyle-metadata.xml-dir"        /><arg file="src" />
 
 			<classpath>
 
@@ -42,27 +40,26 @@
 				<pathelement location="libs/commons-nullanalysis-1.2.14.jar" />
 
 				<!-- Iff rules use 'option providers': -->
-				<fileset file="local_libs/checkstyle-8.21.jar" />
-				<fileset file="local_libs/guava-22.0.jar"             />
-				<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.core_*.jar" />
+				<pathelement location="local_libs/checkstyle-8.21.jar" />
 
 				<!-- Iff there are quickfixes: -->
+				<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.core_*.jar" />
 				<fileset dir="${osgi.syspath}" includes="net.sf.eclipsecs.ui_*.jar"                />
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.core.filebuffers_*.jar"       />
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.core.resources_*.jar"         />
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.core.runtime_*.jar"           />
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.equinox.common_*.jar"         />
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.jface_*.jar"                  />
-				<fileset dir="${osgi.syspath}" includes="org.eclipse.jdt.core_*.jar"               />
-				<fileset dir="${osgi.syspath}" includes="org.eclipse.osgi_*.jar"                   />
-				<fileset dir="${osgi.syspath}" includes="org.eclipse.swt.win32.win32.x86_64_*.jar" />
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.text_*.jar"                   />
+				<fileset dir="${osgi.syspath}" includes="org.eclipse.swt.win32.win32.x86_64_*.jar" />
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.ui.editors_*.jar"             />
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.ui.ide_*.jar"                 />
+				<fileset dir="${osgi.syspath}" includes="org.eclipse.jdt.core_*.jar"               />
+				<fileset dir="${osgi.syspath}" includes="org.eclipse.osgi_*.jar"                   />
 				<fileset dir="${osgi.syspath}" includes="org.eclipse.ui.workbench_*.jar"           />
 
 				<!-- The annotations for the CS doclet. -->
-				<fileset file="libs/doclet-cs-annotation-1.1.0.jar" />
+				<pathelement location="libs/doclet-cs-annotation-1.1.1-SNAPSHOT.jar" />
 			</classpath>
 		</javadoc>
 	</target>
